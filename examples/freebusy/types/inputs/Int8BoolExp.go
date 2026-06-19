@@ -2,19 +2,23 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generate-ql/runtime/go/graphql"
+)
+
 // Int8BoolExp is the Int8BoolExp input type.
 type Int8BoolExp struct {
-	And    []Int8BoolExp `json:"_and,omitempty"`
-	Eq     *int64        `json:"_eq,omitempty"`
-	Gt     *int64        `json:"_gt,omitempty"`
-	Gte    *int64        `json:"_gte,omitempty"`
-	In     []int64       `json:"_in,omitempty"`
-	IsNull *bool         `json:"_is_null,omitempty"`
-	Lt     *int64        `json:"_lt,omitempty"`
-	Lte    *int64        `json:"_lte,omitempty"`
-	Neq    *int64        `json:"_neq,omitempty"`
-	Not    *Int8BoolExp  `json:"_not,omitempty"`
-	Or     []Int8BoolExp `json:"_or,omitempty"`
+	And    []Int8BoolExp   `json:"_and,omitempty"`
+	Eq     *graphql.Int64  `json:"_eq,omitempty"`
+	Gt     *graphql.Int64  `json:"_gt,omitempty"`
+	Gte    *graphql.Int64  `json:"_gte,omitempty"`
+	In     []graphql.Int64 `json:"_in,omitempty"`
+	IsNull *bool           `json:"_is_null,omitempty"`
+	Lt     *graphql.Int64  `json:"_lt,omitempty"`
+	Lte    *graphql.Int64  `json:"_lte,omitempty"`
+	Neq    *graphql.Int64  `json:"_neq,omitempty"`
+	Not    *Int8BoolExp    `json:"_not,omitempty"`
+	Or     []Int8BoolExp   `json:"_or,omitempty"`
 }
 
 func (*Int8BoolExp) GetGraphQLType() string { return "Int8BoolExp" }

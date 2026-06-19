@@ -13,34 +13,39 @@ type queryHandler struct {
 }
 
 func (h *queryHandler) List(ctx context.Context, params ListParams) ([]schema.ScheduleStayConstraints, error) {
-	var q struct {
-		ScheduleStayConstraints []schema.ScheduleStayConstraints `graphql:"scheduleStayConstraints(limit: $limit, offset: $offset, order_by: $order_by, where: $where)"`
+	var out []schema.ScheduleStayConstraints
+	args := map[string]any{}
+	if params.Limit != nil {
+		args["limit"] = params.Limit
 	}
-	res := <-h.gql.Query(&q, map[string]any{
-		"limit":    params.Limit,
-		"offset":   params.Offset,
-		"order_by": params.OrderBy,
-		"where":    params.Where,
-	})
-	return q.ScheduleStayConstraints, res.Error
+	if params.Offset != nil {
+		args["offset"] = params.Offset
+	}
+	if params.OrderBy != nil {
+		args["order_by"] = params.OrderBy
+	}
+	if params.Where != nil {
+		args["where"] = params.Where
+	}
+	res := <-h.gql.QueryFields("scheduleStayConstraints", &out, args)
+	return out, res.Error
 }
 
 func (h *queryHandler) Aggregate(ctx context.Context, params AggregateParams) (*schema.ScheduleStayConstraintsAggExp, error) {
-	var q struct {
-		ScheduleStayConstraintsAggregate *schema.ScheduleStayConstraintsAggExp `graphql:"scheduleStayConstraintsAggregate(filter_input: $filter_input)"`
+	var out *schema.ScheduleStayConstraintsAggExp
+	args := map[string]any{}
+	if params.FilterInput != nil {
+		args["filter_input"] = params.FilterInput
 	}
-	res := <-h.gql.Query(&q, map[string]any{
-		"filter_input": params.FilterInput,
-	})
-	return q.ScheduleStayConstraintsAggregate, res.Error
+	res := <-h.gql.QueryFields("scheduleStayConstraintsAggregate", &out, args)
+	return out, res.Error
 }
 
 func (h *queryHandler) ById(ctx context.Context, id string) (*schema.ScheduleStayConstraints, error) {
-	var q struct {
-		ScheduleStayConstraintsById *schema.ScheduleStayConstraints `graphql:"scheduleStayConstraintsById(id: $id)"`
-	}
-	res := <-h.gql.Query(&q, map[string]any{
+	var out *schema.ScheduleStayConstraints
+	args := map[string]any{
 		"id": id,
-	})
-	return q.ScheduleStayConstraintsById, res.Error
+	}
+	res := <-h.gql.QueryFields("scheduleStayConstraintsById", &out, args)
+	return out, res.Error
 }

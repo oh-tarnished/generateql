@@ -4,6 +4,7 @@ package schema
 
 import (
 	"encoding/json"
+	"github.com/oh-tarnished/generate-ql/runtime/go/graphql"
 )
 
 // OrganisationResource is the OrganisationResource model.
@@ -21,10 +22,10 @@ type OrganisationResource struct {
 		UserId         string  `graphql:"userId"`
 	} `graphql:"identityMembershipSummaries"`
 	IdentityMembershipSummariesAggregate struct {
-		Count int64 `graphql:"_count"`
+		Count graphql.Int64 `graphql:"_count"`
 	} `graphql:"identityMembershipSummariesAggregate"`
-	MemberCount         *int64 `graphql:"memberCount"`
-	Name                string `graphql:"name"`
+	MemberCount         *graphql.Int64 `graphql:"memberCount"`
+	Name                string         `graphql:"name"`
 	OrganisationMembers []struct {
 		CreateTime     string  `graphql:"createTime"`
 		DisplayName    *string `graphql:"displayName"`
@@ -40,7 +41,7 @@ type OrganisationResource struct {
 		User           *string `graphql:"user"`
 	} `graphql:"organisationMembers"`
 	OrganisationMembersAggregate struct {
-		Count int64 `graphql:"_count"`
+		Count graphql.Int64 `graphql:"_count"`
 	} `graphql:"organisationMembersAggregate"`
 	Settings   *json.RawMessage `graphql:"settings"`
 	Slug       *string          `graphql:"slug"`

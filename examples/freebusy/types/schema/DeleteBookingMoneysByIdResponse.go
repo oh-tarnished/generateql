@@ -2,13 +2,17 @@
 
 package schema
 
+import (
+	"github.com/oh-tarnished/generate-ql/runtime/go/graphql"
+)
+
 // DeleteBookingMoneysByIdResponse is the DeleteBookingMoneysByIdResponse model.
 type DeleteBookingMoneysByIdResponse struct {
 	AffectedRows int32 `graphql:"affectedRows"`
 	Returning    []struct {
-		CurrencyCode *string `graphql:"currencyCode"`
-		Id           string  `graphql:"id"`
-		Nanos        *int32  `graphql:"nanos"`
-		Units        *int64  `graphql:"units"`
+		CurrencyCode *string        `graphql:"currencyCode"`
+		Id           string         `graphql:"id"`
+		Nanos        *int32         `graphql:"nanos"`
+		Units        *graphql.Int64 `graphql:"units"`
 	} `graphql:"returning"`
 }

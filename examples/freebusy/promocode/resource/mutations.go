@@ -14,36 +14,41 @@ type mutationHandler struct {
 }
 
 func (h *mutationHandler) DeleteById(ctx context.Context, keyId string, params DeleteByIdParams) (schema.DeletePromocodeResourceByIdResponse, error) {
-	var q struct {
-		DeletePromocodeResourceById schema.DeletePromocodeResourceByIdResponse `graphql:"deletePromocodeResourceById(keyId: $keyId, preCheck: $preCheck)"`
+	var out schema.DeletePromocodeResourceByIdResponse
+	args := map[string]any{
+		"keyId": keyId,
 	}
-	res := <-h.gql.Mutation(&q, map[string]any{
-		"keyId":    keyId,
-		"preCheck": params.PreCheck,
-	})
-	return q.DeletePromocodeResourceById, res.Error
+	if params.PreCheck != nil {
+		args["preCheck"] = params.PreCheck
+	}
+	res := <-h.gql.MutateFields("deletePromocodeResourceById", &out, args)
+	return out, res.Error
 }
 
 func (h *mutationHandler) Insert(ctx context.Context, objects []inputs.InsertPromocodeResourceObjectInput, params InsertParams) (schema.InsertPromocodeResourceResponse, error) {
-	var q struct {
-		InsertPromocodeResource schema.InsertPromocodeResourceResponse `graphql:"insertPromocodeResource(objects: $objects, postCheck: $postCheck)"`
+	var out schema.InsertPromocodeResourceResponse
+	args := map[string]any{
+		"objects": objects,
 	}
-	res := <-h.gql.Mutation(&q, map[string]any{
-		"objects":   objects,
-		"postCheck": params.PostCheck,
-	})
-	return q.InsertPromocodeResource, res.Error
+	if params.PostCheck != nil {
+		args["postCheck"] = params.PostCheck
+	}
+	res := <-h.gql.MutateFields("insertPromocodeResource", &out, args)
+	return out, res.Error
 }
 
 func (h *mutationHandler) UpdateById(ctx context.Context, keyId string, updateColumns inputs.UpdatePromocodeResourceByIdUpdateColumnsInput, params UpdateByIdParams) (schema.UpdatePromocodeResourceByIdResponse, error) {
-	var q struct {
-		UpdatePromocodeResourceById schema.UpdatePromocodeResourceByIdResponse `graphql:"updatePromocodeResourceById(keyId: $keyId, postCheck: $postCheck, preCheck: $preCheck, updateColumns: $updateColumns)"`
-	}
-	res := <-h.gql.Mutation(&q, map[string]any{
+	var out schema.UpdatePromocodeResourceByIdResponse
+	args := map[string]any{
 		"keyId":         keyId,
-		"postCheck":     params.PostCheck,
-		"preCheck":      params.PreCheck,
 		"updateColumns": updateColumns,
-	})
-	return q.UpdatePromocodeResourceById, res.Error
+	}
+	if params.PostCheck != nil {
+		args["postCheck"] = params.PostCheck
+	}
+	if params.PreCheck != nil {
+		args["preCheck"] = params.PreCheck
+	}
+	res := <-h.gql.MutateFields("updatePromocodeResourceById", &out, args)
+	return out, res.Error
 }

@@ -14,36 +14,41 @@ type mutationHandler struct {
 }
 
 func (h *mutationHandler) DeleteById(ctx context.Context, keyId string, params DeleteByIdParams) (schema.DeleteOrganisationMembersByIdResponse, error) {
-	var q struct {
-		DeleteOrganisationMembersById schema.DeleteOrganisationMembersByIdResponse `graphql:"deleteOrganisationMembersById(keyId: $keyId, preCheck: $preCheck)"`
+	var out schema.DeleteOrganisationMembersByIdResponse
+	args := map[string]any{
+		"keyId": keyId,
 	}
-	res := <-h.gql.Mutation(&q, map[string]any{
-		"keyId":    keyId,
-		"preCheck": params.PreCheck,
-	})
-	return q.DeleteOrganisationMembersById, res.Error
+	if params.PreCheck != nil {
+		args["preCheck"] = params.PreCheck
+	}
+	res := <-h.gql.MutateFields("deleteOrganisationMembersById", &out, args)
+	return out, res.Error
 }
 
 func (h *mutationHandler) Insert(ctx context.Context, objects []inputs.InsertOrganisationMembersObjectInput, params InsertParams) (schema.InsertOrganisationMembersResponse, error) {
-	var q struct {
-		InsertOrganisationMembers schema.InsertOrganisationMembersResponse `graphql:"insertOrganisationMembers(objects: $objects, postCheck: $postCheck)"`
+	var out schema.InsertOrganisationMembersResponse
+	args := map[string]any{
+		"objects": objects,
 	}
-	res := <-h.gql.Mutation(&q, map[string]any{
-		"objects":   objects,
-		"postCheck": params.PostCheck,
-	})
-	return q.InsertOrganisationMembers, res.Error
+	if params.PostCheck != nil {
+		args["postCheck"] = params.PostCheck
+	}
+	res := <-h.gql.MutateFields("insertOrganisationMembers", &out, args)
+	return out, res.Error
 }
 
 func (h *mutationHandler) UpdateById(ctx context.Context, keyId string, updateColumns inputs.UpdateOrganisationMembersByIdUpdateColumnsInput, params UpdateByIdParams) (schema.UpdateOrganisationMembersByIdResponse, error) {
-	var q struct {
-		UpdateOrganisationMembersById schema.UpdateOrganisationMembersByIdResponse `graphql:"updateOrganisationMembersById(keyId: $keyId, postCheck: $postCheck, preCheck: $preCheck, updateColumns: $updateColumns)"`
-	}
-	res := <-h.gql.Mutation(&q, map[string]any{
+	var out schema.UpdateOrganisationMembersByIdResponse
+	args := map[string]any{
 		"keyId":         keyId,
-		"postCheck":     params.PostCheck,
-		"preCheck":      params.PreCheck,
 		"updateColumns": updateColumns,
-	})
-	return q.UpdateOrganisationMembersById, res.Error
+	}
+	if params.PostCheck != nil {
+		args["postCheck"] = params.PostCheck
+	}
+	if params.PreCheck != nil {
+		args["preCheck"] = params.PreCheck
+	}
+	res := <-h.gql.MutateFields("updateOrganisationMembersById", &out, args)
+	return out, res.Error
 }

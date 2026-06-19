@@ -13,34 +13,39 @@ type queryHandler struct {
 }
 
 func (h *queryHandler) List(ctx context.Context, params ListParams) ([]schema.ResourceRateOverrides, error) {
-	var q struct {
-		ResourceRateOverrides []schema.ResourceRateOverrides `graphql:"resourceRateOverrides(limit: $limit, offset: $offset, order_by: $order_by, where: $where)"`
+	var out []schema.ResourceRateOverrides
+	args := map[string]any{}
+	if params.Limit != nil {
+		args["limit"] = params.Limit
 	}
-	res := <-h.gql.Query(&q, map[string]any{
-		"limit":    params.Limit,
-		"offset":   params.Offset,
-		"order_by": params.OrderBy,
-		"where":    params.Where,
-	})
-	return q.ResourceRateOverrides, res.Error
+	if params.Offset != nil {
+		args["offset"] = params.Offset
+	}
+	if params.OrderBy != nil {
+		args["order_by"] = params.OrderBy
+	}
+	if params.Where != nil {
+		args["where"] = params.Where
+	}
+	res := <-h.gql.QueryFields("resourceRateOverrides", &out, args)
+	return out, res.Error
 }
 
 func (h *queryHandler) Aggregate(ctx context.Context, params AggregateParams) (*schema.ResourceRateOverridesAggExp, error) {
-	var q struct {
-		ResourceRateOverridesAggregate *schema.ResourceRateOverridesAggExp `graphql:"resourceRateOverridesAggregate(filter_input: $filter_input)"`
+	var out *schema.ResourceRateOverridesAggExp
+	args := map[string]any{}
+	if params.FilterInput != nil {
+		args["filter_input"] = params.FilterInput
 	}
-	res := <-h.gql.Query(&q, map[string]any{
-		"filter_input": params.FilterInput,
-	})
-	return q.ResourceRateOverridesAggregate, res.Error
+	res := <-h.gql.QueryFields("resourceRateOverridesAggregate", &out, args)
+	return out, res.Error
 }
 
 func (h *queryHandler) ById(ctx context.Context, id string) (*schema.ResourceRateOverrides, error) {
-	var q struct {
-		ResourceRateOverridesById *schema.ResourceRateOverrides `graphql:"resourceRateOverridesById(id: $id)"`
-	}
-	res := <-h.gql.Query(&q, map[string]any{
+	var out *schema.ResourceRateOverrides
+	args := map[string]any{
 		"id": id,
-	})
-	return q.ResourceRateOverridesById, res.Error
+	}
+	res := <-h.gql.QueryFields("resourceRateOverridesById", &out, args)
+	return out, res.Error
 }

@@ -46,7 +46,7 @@ func main() {
 			Id:           orgID,
 			BillingEmail: graphql.String("bobthebuilder@construction.com"),
 			DisplayName:  "BoB the Builder",
-			MemberCount:  graphql.Int64(2),
+			MemberCount:  graphql.Ptr(graphql.Int64(2)),
 			Name:         "organisations/" + orgID,
 			UpdateTime:   time.Now().UTC().Format(time.RFC3339),
 		},

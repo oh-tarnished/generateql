@@ -2,9 +2,13 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generate-ql/runtime/go/graphql"
+)
+
 // UpdateColumnPromocodeResourceMaxRedemptionsInput is the UpdateColumnPromocodeResourceMaxRedemptionsInput input type.
 type UpdateColumnPromocodeResourceMaxRedemptionsInput struct {
-	Set *int64 `json:"set,omitempty"`
+	Set *graphql.Int64 `json:"set,omitempty"`
 }
 
 func (*UpdateColumnPromocodeResourceMaxRedemptionsInput) GetGraphQLType() string {

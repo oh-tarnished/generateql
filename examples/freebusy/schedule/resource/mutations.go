@@ -14,36 +14,41 @@ type mutationHandler struct {
 }
 
 func (h *mutationHandler) DeleteById(ctx context.Context, keyId string, params DeleteByIdParams) (schema.DeleteScheduleResourceByIdResponse, error) {
-	var q struct {
-		DeleteScheduleResourceById schema.DeleteScheduleResourceByIdResponse `graphql:"deleteScheduleResourceById(keyId: $keyId, preCheck: $preCheck)"`
+	var out schema.DeleteScheduleResourceByIdResponse
+	args := map[string]any{
+		"keyId": keyId,
 	}
-	res := <-h.gql.Mutation(&q, map[string]any{
-		"keyId":    keyId,
-		"preCheck": params.PreCheck,
-	})
-	return q.DeleteScheduleResourceById, res.Error
+	if params.PreCheck != nil {
+		args["preCheck"] = params.PreCheck
+	}
+	res := <-h.gql.MutateFields("deleteScheduleResourceById", &out, args)
+	return out, res.Error
 }
 
 func (h *mutationHandler) Insert(ctx context.Context, objects []inputs.InsertScheduleResourceObjectInput, params InsertParams) (schema.InsertScheduleResourceResponse, error) {
-	var q struct {
-		InsertScheduleResource schema.InsertScheduleResourceResponse `graphql:"insertScheduleResource(objects: $objects, postCheck: $postCheck)"`
+	var out schema.InsertScheduleResourceResponse
+	args := map[string]any{
+		"objects": objects,
 	}
-	res := <-h.gql.Mutation(&q, map[string]any{
-		"objects":   objects,
-		"postCheck": params.PostCheck,
-	})
-	return q.InsertScheduleResource, res.Error
+	if params.PostCheck != nil {
+		args["postCheck"] = params.PostCheck
+	}
+	res := <-h.gql.MutateFields("insertScheduleResource", &out, args)
+	return out, res.Error
 }
 
 func (h *mutationHandler) UpdateById(ctx context.Context, keyId string, updateColumns inputs.UpdateScheduleResourceByIdUpdateColumnsInput, params UpdateByIdParams) (schema.UpdateScheduleResourceByIdResponse, error) {
-	var q struct {
-		UpdateScheduleResourceById schema.UpdateScheduleResourceByIdResponse `graphql:"updateScheduleResourceById(keyId: $keyId, postCheck: $postCheck, preCheck: $preCheck, updateColumns: $updateColumns)"`
-	}
-	res := <-h.gql.Mutation(&q, map[string]any{
+	var out schema.UpdateScheduleResourceByIdResponse
+	args := map[string]any{
 		"keyId":         keyId,
-		"postCheck":     params.PostCheck,
-		"preCheck":      params.PreCheck,
 		"updateColumns": updateColumns,
-	})
-	return q.UpdateScheduleResourceById, res.Error
+	}
+	if params.PostCheck != nil {
+		args["postCheck"] = params.PostCheck
+	}
+	if params.PreCheck != nil {
+		args["preCheck"] = params.PreCheck
+	}
+	res := <-h.gql.MutateFields("updateScheduleResourceById", &out, args)
+	return out, res.Error
 }

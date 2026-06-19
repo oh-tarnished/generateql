@@ -2,81 +2,85 @@
 
 package schema
 
+import (
+	"github.com/oh-tarnished/generate-ql/runtime/go/graphql"
+)
+
 // ScheduleStayConstraintsAggExp is the ScheduleStayConstraintsAggExp model.
 type ScheduleStayConstraintsAggExp struct {
-	Count          int64 `graphql:"_count"`
+	Count          graphql.Int64 `graphql:"_count"`
 	AdvanceMaxDays struct {
-		Count         int64   `graphql:"_count"`
-		CountDistinct int64   `graphql:"_count_distinct"`
-		Avg           *string `graphql:"avg"`
-		BitAnd        *int32  `graphql:"bit_and"`
-		BitOr         *int32  `graphql:"bit_or"`
-		BitXor        *int32  `graphql:"bit_xor"`
-		Max           *int32  `graphql:"max"`
-		Min           *int32  `graphql:"min"`
-		Stddev        *string `graphql:"stddev"`
-		StddevPop     *string `graphql:"stddev_pop"`
-		StddevSamp    *string `graphql:"stddev_samp"`
-		Sum           *int64  `graphql:"sum"`
-		VarPop        *string `graphql:"var_pop"`
-		VarSamp       *string `graphql:"var_samp"`
-		Variance      *string `graphql:"variance"`
+		Count         graphql.Int64  `graphql:"_count"`
+		CountDistinct graphql.Int64  `graphql:"_count_distinct"`
+		Avg           *string        `graphql:"avg"`
+		BitAnd        *int32         `graphql:"bit_and"`
+		BitOr         *int32         `graphql:"bit_or"`
+		BitXor        *int32         `graphql:"bit_xor"`
+		Max           *int32         `graphql:"max"`
+		Min           *int32         `graphql:"min"`
+		Stddev        *string        `graphql:"stddev"`
+		StddevPop     *string        `graphql:"stddev_pop"`
+		StddevSamp    *string        `graphql:"stddev_samp"`
+		Sum           *graphql.Int64 `graphql:"sum"`
+		VarPop        *string        `graphql:"var_pop"`
+		VarSamp       *string        `graphql:"var_samp"`
+		Variance      *string        `graphql:"variance"`
 	} `graphql:"advanceMaxDays"`
 	AdvanceMinDays struct {
-		Count         int64   `graphql:"_count"`
-		CountDistinct int64   `graphql:"_count_distinct"`
-		Avg           *string `graphql:"avg"`
-		BitAnd        *int32  `graphql:"bit_and"`
-		BitOr         *int32  `graphql:"bit_or"`
-		BitXor        *int32  `graphql:"bit_xor"`
-		Max           *int32  `graphql:"max"`
-		Min           *int32  `graphql:"min"`
-		Stddev        *string `graphql:"stddev"`
-		StddevPop     *string `graphql:"stddev_pop"`
-		StddevSamp    *string `graphql:"stddev_samp"`
-		Sum           *int64  `graphql:"sum"`
-		VarPop        *string `graphql:"var_pop"`
-		VarSamp       *string `graphql:"var_samp"`
-		Variance      *string `graphql:"variance"`
+		Count         graphql.Int64  `graphql:"_count"`
+		CountDistinct graphql.Int64  `graphql:"_count_distinct"`
+		Avg           *string        `graphql:"avg"`
+		BitAnd        *int32         `graphql:"bit_and"`
+		BitOr         *int32         `graphql:"bit_or"`
+		BitXor        *int32         `graphql:"bit_xor"`
+		Max           *int32         `graphql:"max"`
+		Min           *int32         `graphql:"min"`
+		Stddev        *string        `graphql:"stddev"`
+		StddevPop     *string        `graphql:"stddev_pop"`
+		StddevSamp    *string        `graphql:"stddev_samp"`
+		Sum           *graphql.Int64 `graphql:"sum"`
+		VarPop        *string        `graphql:"var_pop"`
+		VarSamp       *string        `graphql:"var_samp"`
+		Variance      *string        `graphql:"variance"`
 	} `graphql:"advanceMinDays"`
 	Id struct {
-		Count         int64   `graphql:"_count"`
-		CountDistinct int64   `graphql:"_count_distinct"`
-		Max           *string `graphql:"max"`
-		Min           *string `graphql:"min"`
+		Count         graphql.Int64 `graphql:"_count"`
+		CountDistinct graphql.Int64 `graphql:"_count_distinct"`
+		Max           *string       `graphql:"max"`
+		Min           *string       `graphql:"min"`
 	} `graphql:"id"`
 	MaxNights struct {
-		Count         int64   `graphql:"_count"`
-		CountDistinct int64   `graphql:"_count_distinct"`
-		Avg           *string `graphql:"avg"`
-		BitAnd        *int32  `graphql:"bit_and"`
-		BitOr         *int32  `graphql:"bit_or"`
-		BitXor        *int32  `graphql:"bit_xor"`
-		Max           *int32  `graphql:"max"`
-		Min           *int32  `graphql:"min"`
-		Stddev        *string `graphql:"stddev"`
-		StddevPop     *string `graphql:"stddev_pop"`
-		StddevSamp    *string `graphql:"stddev_samp"`
-		Sum           *int64  `graphql:"sum"`
-		VarPop        *string `graphql:"var_pop"`
-		VarSamp       *string `graphql:"var_samp"`
-		Variance      *string `graphql:"variance"`
+		Count         graphql.Int64  `graphql:"_count"`
+		CountDistinct graphql.Int64  `graphql:"_count_distinct"`
+		Avg           *string        `graphql:"avg"`
+		BitAnd        *int32         `graphql:"bit_and"`
+		BitOr         *int32         `graphql:"bit_or"`
+		BitXor        *int32         `graphql:"bit_xor"`
+		Max           *int32         `graphql:"max"`
+		Min           *int32         `graphql:"min"`
+		Stddev        *string        `graphql:"stddev"`
+		StddevPop     *string        `graphql:"stddev_pop"`
+		StddevSamp    *string        `graphql:"stddev_samp"`
+		Sum           *graphql.Int64 `graphql:"sum"`
+		VarPop        *string        `graphql:"var_pop"`
+		VarSamp       *string        `graphql:"var_samp"`
+		Variance      *string        `graphql:"variance"`
 	} `graphql:"maxNights"`
 	MinNights struct {
-		Count         int64   `graphql:"_count"`
-		CountDistinct int64   `graphql:"_count_distinct"`
-		Avg           *string `graphql:"avg"`
-		BitAnd        *int32  `graphql:"bit_and"`
-		BitOr         *int32  `graphql:"bit_or"`
-		BitXor        *int32  `graphql:"bit_xor"`
-		Max           *int32  `graphql:"max"`
-		Min           *int32  `graphql:"min"`
-		Stddev        *string `graphql:"stddev"`
-		StddevPop     *string `graphql:"stddev_pop"`
-		StddevSamp    *string `graphql:"stddev_samp"`
-		Sum           *int64  `graphql:"sum"`
-		VarPop        *string `graphql:"var_pop"`
-		VarSamp       *string `graphql:"var_samp"`
-		Variance      *string `graphql:"variance"`
+		Count         graphql.Int64  `graphql:"_count"`
+		CountDistinct graphql.Int64  `graphql:"_count_distinct"`
+		Avg           *string        `graphql:"avg"`
+		BitAnd        *int32         `graphql:"bit_and"`
+		BitOr         *int32         `graphql:"bit_or"`
+		BitXor        *int32         `graphql:"bit_xor"`
+		Max           *int32         `graphql:"max"`
+		Min           *int32         `graphql:"min"`
+		Stddev        *string        `graphql:"stddev"`
+		StddevPop     *string        `graphql:"stddev_pop"`
+		StddevSamp    *string        `graphql:"stddev_samp"`
+		Sum           *graphql.Int64 `graphql:"sum"`
+		VarPop        *string        `graphql:"var_pop"`
+		VarSamp       *string        `graphql:"var_samp"`
+		Variance      *string        `graphql:"variance"`
 	} `graphql:"minNights"`
 }

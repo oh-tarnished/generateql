@@ -2,8 +2,12 @@
 
 package schema
 
+import (
+	"github.com/oh-tarnished/generate-ql/runtime/go/graphql"
+)
+
 // JsonbAggExp is the JsonbAggExp model.
 type JsonbAggExp struct {
-	Count         int64 `graphql:"_count"`
-	CountDistinct int64 `graphql:"_count_distinct"`
+	Count         graphql.Int64 `graphql:"_count"`
+	CountDistinct graphql.Int64 `graphql:"_count_distinct"`
 }

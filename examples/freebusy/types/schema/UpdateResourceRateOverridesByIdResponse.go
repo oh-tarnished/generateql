@@ -6,10 +6,10 @@ package schema
 type UpdateResourceRateOverridesByIdResponse struct {
 	AffectedRows int32 `graphql:"affectedRows"`
 	Returning    []struct {
-		DateRangeId *string  `graphql:"dateRangeId"`
-		Id          string   `graphql:"id"`
-		OfferingId  string   `graphql:"offeringId"`
-		PriceId     string   `graphql:"priceId"`
-		Weekdays    []string `graphql:"weekdays"`
+		DateRangeId *string   `graphql:"dateRangeId"`
+		Id          string    `graphql:"id"`
+		OfferingId  string    `graphql:"offeringId"`
+		PriceId     string    `graphql:"priceId"`
+		Weekdays    []*string `graphql:"weekdays"`
 	} `graphql:"returning"`
 }

@@ -4,6 +4,7 @@ package schema
 
 import (
 	"encoding/json"
+	"github.com/oh-tarnished/generate-ql/runtime/go/graphql"
 )
 
 // BookingResource is the BookingResource model.
@@ -17,28 +18,28 @@ type BookingResource struct {
 		PhoneNumber *string `graphql:"phoneNumber"`
 	} `graphql:"bookingContact"`
 	BookingMoney struct {
-		CurrencyCode *string `graphql:"currencyCode"`
-		Id           string  `graphql:"id"`
-		Nanos        *int32  `graphql:"nanos"`
-		Units        *int64  `graphql:"units"`
+		CurrencyCode *string        `graphql:"currencyCode"`
+		Id           string         `graphql:"id"`
+		Nanos        *int32         `graphql:"nanos"`
+		Units        *graphql.Int64 `graphql:"units"`
 	} `graphql:"bookingMoney"`
 	BookingMoneyByPriceId struct {
-		CurrencyCode *string `graphql:"currencyCode"`
-		Id           string  `graphql:"id"`
-		Nanos        *int32  `graphql:"nanos"`
-		Units        *int64  `graphql:"units"`
+		CurrencyCode *string        `graphql:"currencyCode"`
+		Id           string         `graphql:"id"`
+		Nanos        *int32         `graphql:"nanos"`
+		Units        *graphql.Int64 `graphql:"units"`
 	} `graphql:"bookingMoneyByPriceId"`
 	BookingMoneyByRefundAmountId struct {
-		CurrencyCode *string `graphql:"currencyCode"`
-		Id           string  `graphql:"id"`
-		Nanos        *int32  `graphql:"nanos"`
-		Units        *int64  `graphql:"units"`
+		CurrencyCode *string        `graphql:"currencyCode"`
+		Id           string         `graphql:"id"`
+		Nanos        *int32         `graphql:"nanos"`
+		Units        *graphql.Int64 `graphql:"units"`
 	} `graphql:"bookingMoneyByRefundAmountId"`
 	BookingMoneyByTotalId struct {
-		CurrencyCode *string `graphql:"currencyCode"`
-		Id           string  `graphql:"id"`
-		Nanos        *int32  `graphql:"nanos"`
-		Units        *int64  `graphql:"units"`
+		CurrencyCode *string        `graphql:"currencyCode"`
+		Id           string         `graphql:"id"`
+		Nanos        *int32         `graphql:"nanos"`
+		Units        *graphql.Int64 `graphql:"units"`
 	} `graphql:"bookingMoneyByTotalId"`
 	BookingPriceComponents []struct {
 		AmountId    *string `graphql:"amountId"`
@@ -49,7 +50,7 @@ type BookingResource struct {
 		Type        *string `graphql:"type"`
 	} `graphql:"bookingPriceComponents"`
 	BookingPriceComponentsAggregate struct {
-		Count int64 `graphql:"_count"`
+		Count graphql.Int64 `graphql:"_count"`
 	} `graphql:"bookingPriceComponentsAggregate"`
 	BookingTimeWindow struct {
 		EndTime   string `graphql:"endTime"`
@@ -85,25 +86,25 @@ type BookingResource struct {
 	PriceId           *string `graphql:"priceId"`
 	PromoCode         *string `graphql:"promoCode"`
 	PromocodeResource struct {
-		AmountOffId      *string `graphql:"amountOffId"`
-		Code             string  `graphql:"code"`
-		CreateTime       string  `graphql:"createTime"`
-		Description      *string `graphql:"description"`
-		Disabled         *bool   `graphql:"disabled"`
-		DiscountType     string  `graphql:"discountType"`
-		DisplayName      *string `graphql:"displayName"`
-		Etag             *string `graphql:"etag"`
-		Id               string  `graphql:"id"`
-		MaxRedemptions   *int64  `graphql:"maxRedemptions"`
-		MinSubtotalId    *string `graphql:"minSubtotalId"`
-		Name             string  `graphql:"name"`
-		PerCustomerLimit *int32  `graphql:"perCustomerLimit"`
-		PercentOff       *int32  `graphql:"percentOff"`
-		RedeemEndTime    *string `graphql:"redeemEndTime"`
-		RedeemStartTime  *string `graphql:"redeemStartTime"`
-		RedemptionCount  *int64  `graphql:"redemptionCount"`
-		State            *string `graphql:"state"`
-		UpdateTime       string  `graphql:"updateTime"`
+		AmountOffId      *string        `graphql:"amountOffId"`
+		Code             string         `graphql:"code"`
+		CreateTime       string         `graphql:"createTime"`
+		Description      *string        `graphql:"description"`
+		Disabled         *bool          `graphql:"disabled"`
+		DiscountType     string         `graphql:"discountType"`
+		DisplayName      *string        `graphql:"displayName"`
+		Etag             *string        `graphql:"etag"`
+		Id               string         `graphql:"id"`
+		MaxRedemptions   *graphql.Int64 `graphql:"maxRedemptions"`
+		MinSubtotalId    *string        `graphql:"minSubtotalId"`
+		Name             string         `graphql:"name"`
+		PerCustomerLimit *int32         `graphql:"perCustomerLimit"`
+		PercentOff       *int32         `graphql:"percentOff"`
+		RedeemEndTime    *string        `graphql:"redeemEndTime"`
+		RedeemStartTime  *string        `graphql:"redeemStartTime"`
+		RedemptionCount  *graphql.Int64 `graphql:"redemptionCount"`
+		State            *string        `graphql:"state"`
+		UpdateTime       string         `graphql:"updateTime"`
 	} `graphql:"promocodeResource"`
 	RefundAmountId *string `graphql:"refundAmountId"`
 	RefundPercent  *int32  `graphql:"refundPercent"`
@@ -119,7 +120,7 @@ type BookingResource struct {
 		Id          string           `graphql:"id"`
 		Name        string           `graphql:"name"`
 		State       *string          `graphql:"state"`
-		Tags        []string         `graphql:"tags"`
+		Tags        []*string        `graphql:"tags"`
 		TimeZone    string           `graphql:"timeZone"`
 		Type        string           `graphql:"type"`
 		UpdateTime  string           `graphql:"updateTime"`

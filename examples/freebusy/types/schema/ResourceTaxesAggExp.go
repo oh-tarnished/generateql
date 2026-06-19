@@ -2,45 +2,49 @@
 
 package schema
 
+import (
+	"github.com/oh-tarnished/generate-ql/runtime/go/graphql"
+)
+
 // ResourceTaxesAggExp is the ResourceTaxesAggExp model.
 type ResourceTaxesAggExp struct {
-	Count int64 `graphql:"_count"`
+	Count graphql.Int64 `graphql:"_count"`
 	Code  struct {
-		Count         int64   `graphql:"_count"`
-		CountDistinct int64   `graphql:"_count_distinct"`
-		Max           *string `graphql:"max"`
-		Min           *string `graphql:"min"`
+		Count         graphql.Int64 `graphql:"_count"`
+		CountDistinct graphql.Int64 `graphql:"_count_distinct"`
+		Max           *string       `graphql:"max"`
+		Min           *string       `graphql:"min"`
 	} `graphql:"code"`
 	DisplayName struct {
-		Count         int64   `graphql:"_count"`
-		CountDistinct int64   `graphql:"_count_distinct"`
-		Max           *string `graphql:"max"`
-		Min           *string `graphql:"min"`
+		Count         graphql.Int64 `graphql:"_count"`
+		CountDistinct graphql.Int64 `graphql:"_count_distinct"`
+		Max           *string       `graphql:"max"`
+		Min           *string       `graphql:"min"`
 	} `graphql:"displayName"`
 	Id struct {
-		Count         int64   `graphql:"_count"`
-		CountDistinct int64   `graphql:"_count_distinct"`
-		Max           *string `graphql:"max"`
-		Min           *string `graphql:"min"`
+		Count         graphql.Int64 `graphql:"_count"`
+		CountDistinct graphql.Int64 `graphql:"_count_distinct"`
+		Max           *string       `graphql:"max"`
+		Min           *string       `graphql:"min"`
 	} `graphql:"id"`
 	OfferingId struct {
-		Count         int64   `graphql:"_count"`
-		CountDistinct int64   `graphql:"_count_distinct"`
-		Max           *string `graphql:"max"`
-		Min           *string `graphql:"min"`
+		Count         graphql.Int64 `graphql:"_count"`
+		CountDistinct graphql.Int64 `graphql:"_count_distinct"`
+		Max           *string       `graphql:"max"`
+		Min           *string       `graphql:"min"`
 	} `graphql:"offeringId"`
 	Percent struct {
-		Count         int64    `graphql:"_count"`
-		CountDistinct int64    `graphql:"_count_distinct"`
-		Avg           *float64 `graphql:"avg"`
-		Max           *float64 `graphql:"max"`
-		Min           *float64 `graphql:"min"`
-		Stddev        *float64 `graphql:"stddev"`
-		StddevPop     *float64 `graphql:"stddev_pop"`
-		StddevSamp    *float64 `graphql:"stddev_samp"`
-		Sum           *float64 `graphql:"sum"`
-		VarPop        *float64 `graphql:"var_pop"`
-		VarSamp       *float64 `graphql:"var_samp"`
-		Variance      *float64 `graphql:"variance"`
+		Count         graphql.Int64 `graphql:"_count"`
+		CountDistinct graphql.Int64 `graphql:"_count_distinct"`
+		Avg           *float64      `graphql:"avg"`
+		Max           *float64      `graphql:"max"`
+		Min           *float64      `graphql:"min"`
+		Stddev        *float64      `graphql:"stddev"`
+		StddevPop     *float64      `graphql:"stddev_pop"`
+		StddevSamp    *float64      `graphql:"stddev_samp"`
+		Sum           *float64      `graphql:"sum"`
+		VarPop        *float64      `graphql:"var_pop"`
+		VarSamp       *float64      `graphql:"var_samp"`
+		Variance      *float64      `graphql:"variance"`
 	} `graphql:"percent"`
 }

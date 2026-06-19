@@ -4,15 +4,16 @@ package schema
 
 import (
 	"encoding/json"
+	"github.com/oh-tarnished/generate-ql/runtime/go/graphql"
 )
 
 // ResourceOfferings is the ResourceOfferings model.
 type ResourceOfferings struct {
 	BookingMoney struct {
-		CurrencyCode *string `graphql:"currencyCode"`
-		Id           string  `graphql:"id"`
-		Nanos        *int32  `graphql:"nanos"`
-		Units        *int64  `graphql:"units"`
+		CurrencyCode *string        `graphql:"currencyCode"`
+		Id           string         `graphql:"id"`
+		Nanos        *int32         `graphql:"nanos"`
+		Units        *graphql.Int64 `graphql:"units"`
 	} `graphql:"bookingMoney"`
 	BookingResources []struct {
 		AssignedUnit   *string          `graphql:"assignedUnit"`
@@ -43,7 +44,7 @@ type ResourceOfferings struct {
 		WindowId       string           `graphql:"windowId"`
 	} `graphql:"bookingResources"`
 	BookingResourcesAggregate struct {
-		Count int64 `graphql:"_count"`
+		Count graphql.Int64 `graphql:"_count"`
 	} `graphql:"bookingResourcesAggregate"`
 	CreateTime                   string  `graphql:"createTime"`
 	Description                  *string `graphql:"description"`
@@ -60,7 +61,7 @@ type ResourceOfferings struct {
 		PromoCodeId string `graphql:"promoCodeId"`
 	} `graphql:"promocodeApplicableOfferings"`
 	PromocodeApplicableOfferingsAggregate struct {
-		Count int64 `graphql:"_count"`
+		Count graphql.Int64 `graphql:"_count"`
 	} `graphql:"promocodeApplicableOfferingsAggregate"`
 	ResourceEntity struct {
 		Attributes  *json.RawMessage `graphql:"attributes"`
@@ -73,7 +74,7 @@ type ResourceOfferings struct {
 		Id          string           `graphql:"id"`
 		Name        string           `graphql:"name"`
 		State       *string          `graphql:"state"`
-		Tags        []string         `graphql:"tags"`
+		Tags        []*string        `graphql:"tags"`
 		TimeZone    string           `graphql:"timeZone"`
 		Type        string           `graphql:"type"`
 		UpdateTime  string           `graphql:"updateTime"`
@@ -89,7 +90,7 @@ type ResourceOfferings struct {
 		Taxable     *bool   `graphql:"taxable"`
 	} `graphql:"resourceFees"`
 	ResourceFeesAggregate struct {
-		Count int64 `graphql:"_count"`
+		Count graphql.Int64 `graphql:"_count"`
 	} `graphql:"resourceFeesAggregate"`
 	ResourceId           string `graphql:"resourceId"`
 	ResourceLosDiscounts []struct {
@@ -100,7 +101,7 @@ type ResourceOfferings struct {
 		PercentOff  *int32  `graphql:"percentOff"`
 	} `graphql:"resourceLosDiscounts"`
 	ResourceLosDiscountsAggregate struct {
-		Count int64 `graphql:"_count"`
+		Count graphql.Int64 `graphql:"_count"`
 	} `graphql:"resourceLosDiscountsAggregate"`
 	ResourceOfferingsLinks []struct {
 		Id         string `graphql:"id"`
@@ -108,17 +109,17 @@ type ResourceOfferings struct {
 		ResourceId string `graphql:"resourceId"`
 	} `graphql:"resourceOfferingsLinks"`
 	ResourceOfferingsLinksAggregate struct {
-		Count int64 `graphql:"_count"`
+		Count graphql.Int64 `graphql:"_count"`
 	} `graphql:"resourceOfferingsLinksAggregate"`
 	ResourceRateOverrides []struct {
-		DateRangeId *string  `graphql:"dateRangeId"`
-		Id          string   `graphql:"id"`
-		OfferingId  string   `graphql:"offeringId"`
-		PriceId     string   `graphql:"priceId"`
-		Weekdays    []string `graphql:"weekdays"`
+		DateRangeId *string   `graphql:"dateRangeId"`
+		Id          string    `graphql:"id"`
+		OfferingId  string    `graphql:"offeringId"`
+		PriceId     string    `graphql:"priceId"`
+		Weekdays    []*string `graphql:"weekdays"`
 	} `graphql:"resourceRateOverrides"`
 	ResourceRateOverridesAggregate struct {
-		Count int64 `graphql:"_count"`
+		Count graphql.Int64 `graphql:"_count"`
 	} `graphql:"resourceRateOverridesAggregate"`
 	ResourceTaxes []struct {
 		Code        string  `graphql:"code"`
@@ -128,7 +129,7 @@ type ResourceOfferings struct {
 		Percent     float64 `graphql:"percent"`
 	} `graphql:"resourceTaxes"`
 	ResourceTaxesAggregate struct {
-		Count int64 `graphql:"_count"`
+		Count graphql.Int64 `graphql:"_count"`
 	} `graphql:"resourceTaxesAggregate"`
 	State      *string `graphql:"state"`
 	UpdateTime string  `graphql:"updateTime"`

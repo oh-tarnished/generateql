@@ -18,7 +18,7 @@ type InsertResourceEntityObjectInput struct {
 	Id          string           `json:"id,omitempty"`
 	Name        string           `json:"name,omitempty"`
 	State       *string          `json:"state,omitempty"`
-	Tags        []string         `json:"tags,omitempty"`
+	Tags        []*string        `json:"tags,omitempty"`
 	TimeZone    string           `json:"timeZone,omitempty"`
 	Type        *string          `json:"type,omitempty"`
 	UpdateTime  string           `json:"updateTime,omitempty"`

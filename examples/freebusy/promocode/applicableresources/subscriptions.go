@@ -13,31 +13,36 @@ type subscriptionHandler struct {
 }
 
 func (h *subscriptionHandler) OnList(ctx context.Context, params OnListParams) (*runtime.Subscription, error) {
-	var q struct {
-		PromocodeApplicableResources []schema.PromocodeApplicableResources `graphql:"promocodeApplicableResources(limit: $limit, offset: $offset, order_by: $order_by, where: $where)"`
+	var out []schema.PromocodeApplicableResources
+	args := map[string]any{}
+	if params.Limit != nil {
+		args["limit"] = params.Limit
 	}
-	return h.gql.Subscribe(&q, map[string]any{
-		"limit":    params.Limit,
-		"offset":   params.Offset,
-		"order_by": params.OrderBy,
-		"where":    params.Where,
-	})
+	if params.Offset != nil {
+		args["offset"] = params.Offset
+	}
+	if params.OrderBy != nil {
+		args["order_by"] = params.OrderBy
+	}
+	if params.Where != nil {
+		args["where"] = params.Where
+	}
+	return h.gql.SubscribeFields("promocodeApplicableResources", &out, args)
 }
 
 func (h *subscriptionHandler) OnAggregate(ctx context.Context, params OnAggregateParams) (*runtime.Subscription, error) {
-	var q struct {
-		PromocodeApplicableResourcesAggregate *schema.PromocodeApplicableResourcesAggExp `graphql:"promocodeApplicableResourcesAggregate(filter_input: $filter_input)"`
+	var out *schema.PromocodeApplicableResourcesAggExp
+	args := map[string]any{}
+	if params.FilterInput != nil {
+		args["filter_input"] = params.FilterInput
 	}
-	return h.gql.Subscribe(&q, map[string]any{
-		"filter_input": params.FilterInput,
-	})
+	return h.gql.SubscribeFields("promocodeApplicableResourcesAggregate", &out, args)
 }
 
 func (h *subscriptionHandler) OnById(ctx context.Context, id string) (*runtime.Subscription, error) {
-	var q struct {
-		PromocodeApplicableResourcesById *schema.PromocodeApplicableResources `graphql:"promocodeApplicableResourcesById(id: $id)"`
-	}
-	return h.gql.Subscribe(&q, map[string]any{
+	var out *schema.PromocodeApplicableResources
+	args := map[string]any{
 		"id": id,
-	})
+	}
+	return h.gql.SubscribeFields("promocodeApplicableResourcesById", &out, args)
 }

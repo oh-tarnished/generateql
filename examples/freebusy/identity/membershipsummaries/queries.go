@@ -13,34 +13,39 @@ type queryHandler struct {
 }
 
 func (h *queryHandler) List(ctx context.Context, params ListParams) ([]schema.IdentityMembershipSummaries, error) {
-	var q struct {
-		IdentityMembershipSummaries []schema.IdentityMembershipSummaries `graphql:"identityMembershipSummaries(limit: $limit, offset: $offset, order_by: $order_by, where: $where)"`
+	var out []schema.IdentityMembershipSummaries
+	args := map[string]any{}
+	if params.Limit != nil {
+		args["limit"] = params.Limit
 	}
-	res := <-h.gql.Query(&q, map[string]any{
-		"limit":    params.Limit,
-		"offset":   params.Offset,
-		"order_by": params.OrderBy,
-		"where":    params.Where,
-	})
-	return q.IdentityMembershipSummaries, res.Error
+	if params.Offset != nil {
+		args["offset"] = params.Offset
+	}
+	if params.OrderBy != nil {
+		args["order_by"] = params.OrderBy
+	}
+	if params.Where != nil {
+		args["where"] = params.Where
+	}
+	res := <-h.gql.QueryFields("identityMembershipSummaries", &out, args)
+	return out, res.Error
 }
 
 func (h *queryHandler) Aggregate(ctx context.Context, params AggregateParams) (*schema.IdentityMembershipSummariesAggExp, error) {
-	var q struct {
-		IdentityMembershipSummariesAggregate *schema.IdentityMembershipSummariesAggExp `graphql:"identityMembershipSummariesAggregate(filter_input: $filter_input)"`
+	var out *schema.IdentityMembershipSummariesAggExp
+	args := map[string]any{}
+	if params.FilterInput != nil {
+		args["filter_input"] = params.FilterInput
 	}
-	res := <-h.gql.Query(&q, map[string]any{
-		"filter_input": params.FilterInput,
-	})
-	return q.IdentityMembershipSummariesAggregate, res.Error
+	res := <-h.gql.QueryFields("identityMembershipSummariesAggregate", &out, args)
+	return out, res.Error
 }
 
 func (h *queryHandler) ById(ctx context.Context, id string) (*schema.IdentityMembershipSummaries, error) {
-	var q struct {
-		IdentityMembershipSummariesById *schema.IdentityMembershipSummaries `graphql:"identityMembershipSummariesById(id: $id)"`
-	}
-	res := <-h.gql.Query(&q, map[string]any{
+	var out *schema.IdentityMembershipSummaries
+	args := map[string]any{
 		"id": id,
-	})
-	return q.IdentityMembershipSummariesById, res.Error
+	}
+	res := <-h.gql.QueryFields("identityMembershipSummariesById", &out, args)
+	return out, res.Error
 }

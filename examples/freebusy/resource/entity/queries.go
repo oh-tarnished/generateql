@@ -13,34 +13,39 @@ type queryHandler struct {
 }
 
 func (h *queryHandler) List(ctx context.Context, params ListParams) ([]schema.ResourceEntity, error) {
-	var q struct {
-		ResourceEntity []schema.ResourceEntity `graphql:"resourceEntity(limit: $limit, offset: $offset, order_by: $order_by, where: $where)"`
+	var out []schema.ResourceEntity
+	args := map[string]any{}
+	if params.Limit != nil {
+		args["limit"] = params.Limit
 	}
-	res := <-h.gql.Query(&q, map[string]any{
-		"limit":    params.Limit,
-		"offset":   params.Offset,
-		"order_by": params.OrderBy,
-		"where":    params.Where,
-	})
-	return q.ResourceEntity, res.Error
+	if params.Offset != nil {
+		args["offset"] = params.Offset
+	}
+	if params.OrderBy != nil {
+		args["order_by"] = params.OrderBy
+	}
+	if params.Where != nil {
+		args["where"] = params.Where
+	}
+	res := <-h.gql.QueryFields("resourceEntity", &out, args)
+	return out, res.Error
 }
 
 func (h *queryHandler) Aggregate(ctx context.Context, params AggregateParams) (*schema.ResourceEntityAggExp, error) {
-	var q struct {
-		ResourceEntityAggregate *schema.ResourceEntityAggExp `graphql:"resourceEntityAggregate(filter_input: $filter_input)"`
+	var out *schema.ResourceEntityAggExp
+	args := map[string]any{}
+	if params.FilterInput != nil {
+		args["filter_input"] = params.FilterInput
 	}
-	res := <-h.gql.Query(&q, map[string]any{
-		"filter_input": params.FilterInput,
-	})
-	return q.ResourceEntityAggregate, res.Error
+	res := <-h.gql.QueryFields("resourceEntityAggregate", &out, args)
+	return out, res.Error
 }
 
 func (h *queryHandler) ById(ctx context.Context, id string) (*schema.ResourceEntity, error) {
-	var q struct {
-		ResourceEntityById *schema.ResourceEntity `graphql:"resourceEntityById(id: $id)"`
-	}
-	res := <-h.gql.Query(&q, map[string]any{
+	var out *schema.ResourceEntity
+	args := map[string]any{
 		"id": id,
-	})
-	return q.ResourceEntityById, res.Error
+	}
+	res := <-h.gql.QueryFields("resourceEntityById", &out, args)
+	return out, res.Error
 }

@@ -2,9 +2,13 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generate-ql/runtime/go/graphql"
+)
+
 // UpdateColumnBookingMoneysUnitsInput is the UpdateColumnBookingMoneysUnitsInput input type.
 type UpdateColumnBookingMoneysUnitsInput struct {
-	Set *int64 `json:"set,omitempty"`
+	Set *graphql.Int64 `json:"set,omitempty"`
 }
 
 func (*UpdateColumnBookingMoneysUnitsInput) GetGraphQLType() string {

@@ -13,34 +13,39 @@ type queryHandler struct {
 }
 
 func (h *queryHandler) List(ctx context.Context, params ListParams) ([]schema.ScheduleBufferSettings, error) {
-	var q struct {
-		ScheduleBufferSettings []schema.ScheduleBufferSettings `graphql:"scheduleBufferSettings(limit: $limit, offset: $offset, order_by: $order_by, where: $where)"`
+	var out []schema.ScheduleBufferSettings
+	args := map[string]any{}
+	if params.Limit != nil {
+		args["limit"] = params.Limit
 	}
-	res := <-h.gql.Query(&q, map[string]any{
-		"limit":    params.Limit,
-		"offset":   params.Offset,
-		"order_by": params.OrderBy,
-		"where":    params.Where,
-	})
-	return q.ScheduleBufferSettings, res.Error
+	if params.Offset != nil {
+		args["offset"] = params.Offset
+	}
+	if params.OrderBy != nil {
+		args["order_by"] = params.OrderBy
+	}
+	if params.Where != nil {
+		args["where"] = params.Where
+	}
+	res := <-h.gql.QueryFields("scheduleBufferSettings", &out, args)
+	return out, res.Error
 }
 
 func (h *queryHandler) Aggregate(ctx context.Context, params AggregateParams) (*schema.ScheduleBufferSettingsAggExp, error) {
-	var q struct {
-		ScheduleBufferSettingsAggregate *schema.ScheduleBufferSettingsAggExp `graphql:"scheduleBufferSettingsAggregate(filter_input: $filter_input)"`
+	var out *schema.ScheduleBufferSettingsAggExp
+	args := map[string]any{}
+	if params.FilterInput != nil {
+		args["filter_input"] = params.FilterInput
 	}
-	res := <-h.gql.Query(&q, map[string]any{
-		"filter_input": params.FilterInput,
-	})
-	return q.ScheduleBufferSettingsAggregate, res.Error
+	res := <-h.gql.QueryFields("scheduleBufferSettingsAggregate", &out, args)
+	return out, res.Error
 }
 
 func (h *queryHandler) ById(ctx context.Context, id string) (*schema.ScheduleBufferSettings, error) {
-	var q struct {
-		ScheduleBufferSettingsById *schema.ScheduleBufferSettings `graphql:"scheduleBufferSettingsById(id: $id)"`
-	}
-	res := <-h.gql.Query(&q, map[string]any{
+	var out *schema.ScheduleBufferSettings
+	args := map[string]any{
 		"id": id,
-	})
-	return q.ScheduleBufferSettingsById, res.Error
+	}
+	res := <-h.gql.QueryFields("scheduleBufferSettingsById", &out, args)
+	return out, res.Error
 }

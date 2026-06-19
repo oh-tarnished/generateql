@@ -4,6 +4,7 @@ package schema
 
 import (
 	"encoding/json"
+	"github.com/oh-tarnished/generate-ql/runtime/go/graphql"
 )
 
 // BookingTimeWindows is the BookingTimeWindows model.
@@ -37,7 +38,7 @@ type BookingTimeWindows struct {
 		WindowId       string           `graphql:"windowId"`
 	} `graphql:"bookingResources"`
 	BookingResourcesAggregate struct {
-		Count int64 `graphql:"_count"`
+		Count graphql.Int64 `graphql:"_count"`
 	} `graphql:"bookingResourcesAggregate"`
 	EndTime                        string `graphql:"endTime"`
 	Id                             string `graphql:"id"`
@@ -53,7 +54,7 @@ type BookingTimeWindows struct {
 		WindowId    *string `graphql:"windowId"`
 	} `graphql:"scheduleAvailabilityExceptions"`
 	ScheduleAvailabilityExceptionsAggregate struct {
-		Count int64 `graphql:"_count"`
+		Count graphql.Int64 `graphql:"_count"`
 	} `graphql:"scheduleAvailabilityExceptionsAggregate"`
 	StartTime string `graphql:"startTime"`
 }

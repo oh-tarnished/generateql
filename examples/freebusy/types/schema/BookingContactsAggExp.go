@@ -2,31 +2,35 @@
 
 package schema
 
+import (
+	"github.com/oh-tarnished/generate-ql/runtime/go/graphql"
+)
+
 // BookingContactsAggExp is the BookingContactsAggExp model.
 type BookingContactsAggExp struct {
-	Count       int64 `graphql:"_count"`
+	Count       graphql.Int64 `graphql:"_count"`
 	DisplayName struct {
-		Count         int64   `graphql:"_count"`
-		CountDistinct int64   `graphql:"_count_distinct"`
-		Max           *string `graphql:"max"`
-		Min           *string `graphql:"min"`
+		Count         graphql.Int64 `graphql:"_count"`
+		CountDistinct graphql.Int64 `graphql:"_count_distinct"`
+		Max           *string       `graphql:"max"`
+		Min           *string       `graphql:"min"`
 	} `graphql:"displayName"`
 	Email struct {
-		Count         int64   `graphql:"_count"`
-		CountDistinct int64   `graphql:"_count_distinct"`
-		Max           *string `graphql:"max"`
-		Min           *string `graphql:"min"`
+		Count         graphql.Int64 `graphql:"_count"`
+		CountDistinct graphql.Int64 `graphql:"_count_distinct"`
+		Max           *string       `graphql:"max"`
+		Min           *string       `graphql:"min"`
 	} `graphql:"email"`
 	Id struct {
-		Count         int64   `graphql:"_count"`
-		CountDistinct int64   `graphql:"_count_distinct"`
-		Max           *string `graphql:"max"`
-		Min           *string `graphql:"min"`
+		Count         graphql.Int64 `graphql:"_count"`
+		CountDistinct graphql.Int64 `graphql:"_count_distinct"`
+		Max           *string       `graphql:"max"`
+		Min           *string       `graphql:"min"`
 	} `graphql:"id"`
 	PhoneNumber struct {
-		Count         int64   `graphql:"_count"`
-		CountDistinct int64   `graphql:"_count_distinct"`
-		Max           *string `graphql:"max"`
-		Min           *string `graphql:"min"`
+		Count         graphql.Int64 `graphql:"_count"`
+		CountDistinct graphql.Int64 `graphql:"_count_distinct"`
+		Max           *string       `graphql:"max"`
+		Min           *string       `graphql:"min"`
 	} `graphql:"phoneNumber"`
 }

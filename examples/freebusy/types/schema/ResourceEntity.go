@@ -4,6 +4,7 @@ package schema
 
 import (
 	"encoding/json"
+	"github.com/oh-tarnished/generate-ql/runtime/go/graphql"
 )
 
 // ResourceEntity is the ResourceEntity model.
@@ -39,7 +40,7 @@ type ResourceEntity struct {
 		WindowId       string           `graphql:"windowId"`
 	} `graphql:"bookingResources"`
 	BookingResourcesAggregate struct {
-		Count int64 `graphql:"_count"`
+		Count graphql.Int64 `graphql:"_count"`
 	} `graphql:"bookingResourcesAggregate"`
 	Capacity                     *int32  `graphql:"capacity"`
 	CreateTime                   string  `graphql:"createTime"`
@@ -54,7 +55,7 @@ type ResourceEntity struct {
 		ResourceId  string `graphql:"resourceId"`
 	} `graphql:"promocodeApplicableResources"`
 	PromocodeApplicableResourcesAggregate struct {
-		Count int64 `graphql:"_count"`
+		Count graphql.Int64 `graphql:"_count"`
 	} `graphql:"promocodeApplicableResourcesAggregate"`
 	ResourceOfferings []struct {
 		CreateTime  string  `graphql:"createTime"`
@@ -71,7 +72,7 @@ type ResourceEntity struct {
 		UpdateTime  string  `graphql:"updateTime"`
 	} `graphql:"resourceOfferings"`
 	ResourceOfferingsAggregate struct {
-		Count int64 `graphql:"_count"`
+		Count graphql.Int64 `graphql:"_count"`
 	} `graphql:"resourceOfferingsAggregate"`
 	ResourceOfferingsLinks []struct {
 		Id         string `graphql:"id"`
@@ -79,7 +80,7 @@ type ResourceEntity struct {
 		ResourceId string `graphql:"resourceId"`
 	} `graphql:"resourceOfferingsLinks"`
 	ResourceOfferingsLinksAggregate struct {
-		Count int64 `graphql:"_count"`
+		Count graphql.Int64 `graphql:"_count"`
 	} `graphql:"resourceOfferingsLinksAggregate"`
 	ScheduleAvailabilityExceptions []struct {
 		CreateTime  string  `graphql:"createTime"`
@@ -93,11 +94,11 @@ type ResourceEntity struct {
 		WindowId    *string `graphql:"windowId"`
 	} `graphql:"scheduleAvailabilityExceptions"`
 	ScheduleAvailabilityExceptionsAggregate struct {
-		Count int64 `graphql:"_count"`
+		Count graphql.Int64 `graphql:"_count"`
 	} `graphql:"scheduleAvailabilityExceptionsAggregate"`
-	State      *string  `graphql:"state"`
-	Tags       []string `graphql:"tags"`
-	TimeZone   string   `graphql:"timeZone"`
-	Type       string   `graphql:"type"`
-	UpdateTime string   `graphql:"updateTime"`
+	State      *string   `graphql:"state"`
+	Tags       []*string `graphql:"tags"`
+	TimeZone   string    `graphql:"timeZone"`
+	Type       string    `graphql:"type"`
+	UpdateTime string    `graphql:"updateTime"`
 }

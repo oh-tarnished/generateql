@@ -4,6 +4,7 @@ package inputs
 
 import (
 	"encoding/json"
+	"github.com/oh-tarnished/generate-ql/runtime/go/graphql"
 )
 
 // InsertOrganisationResourceObjectInput is the InsertOrganisationResourceObjectInput input type.
@@ -13,7 +14,7 @@ type InsertOrganisationResourceObjectInput struct {
 	DisplayName  string           `json:"displayName,omitempty"`
 	Etag         *string          `json:"etag,omitempty"`
 	Id           string           `json:"id,omitempty"`
-	MemberCount  *int64           `json:"memberCount,omitempty"`
+	MemberCount  *graphql.Int64   `json:"memberCount,omitempty"`
 	Name         string           `json:"name,omitempty"`
 	Settings     *json.RawMessage `json:"settings,omitempty"`
 	Slug         *string          `json:"slug,omitempty"`

@@ -13,34 +13,39 @@ type queryHandler struct {
 }
 
 func (h *queryHandler) List(ctx context.Context, params ListParams) ([]schema.ScheduleRefundTiers, error) {
-	var q struct {
-		ScheduleRefundTiers []schema.ScheduleRefundTiers `graphql:"scheduleRefundTiers(limit: $limit, offset: $offset, order_by: $order_by, where: $where)"`
+	var out []schema.ScheduleRefundTiers
+	args := map[string]any{}
+	if params.Limit != nil {
+		args["limit"] = params.Limit
 	}
-	res := <-h.gql.Query(&q, map[string]any{
-		"limit":    params.Limit,
-		"offset":   params.Offset,
-		"order_by": params.OrderBy,
-		"where":    params.Where,
-	})
-	return q.ScheduleRefundTiers, res.Error
+	if params.Offset != nil {
+		args["offset"] = params.Offset
+	}
+	if params.OrderBy != nil {
+		args["order_by"] = params.OrderBy
+	}
+	if params.Where != nil {
+		args["where"] = params.Where
+	}
+	res := <-h.gql.QueryFields("scheduleRefundTiers", &out, args)
+	return out, res.Error
 }
 
 func (h *queryHandler) Aggregate(ctx context.Context, params AggregateParams) (*schema.ScheduleRefundTiersAggExp, error) {
-	var q struct {
-		ScheduleRefundTiersAggregate *schema.ScheduleRefundTiersAggExp `graphql:"scheduleRefundTiersAggregate(filter_input: $filter_input)"`
+	var out *schema.ScheduleRefundTiersAggExp
+	args := map[string]any{}
+	if params.FilterInput != nil {
+		args["filter_input"] = params.FilterInput
 	}
-	res := <-h.gql.Query(&q, map[string]any{
-		"filter_input": params.FilterInput,
-	})
-	return q.ScheduleRefundTiersAggregate, res.Error
+	res := <-h.gql.QueryFields("scheduleRefundTiersAggregate", &out, args)
+	return out, res.Error
 }
 
 func (h *queryHandler) ById(ctx context.Context, id string) (*schema.ScheduleRefundTiers, error) {
-	var q struct {
-		ScheduleRefundTiersById *schema.ScheduleRefundTiers `graphql:"scheduleRefundTiersById(id: $id)"`
-	}
-	res := <-h.gql.Query(&q, map[string]any{
+	var out *schema.ScheduleRefundTiers
+	args := map[string]any{
 		"id": id,
-	})
-	return q.ScheduleRefundTiersById, res.Error
+	}
+	res := <-h.gql.QueryFields("scheduleRefundTiersById", &out, args)
+	return out, res.Error
 }

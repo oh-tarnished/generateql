@@ -14,36 +14,41 @@ type mutationHandler struct {
 }
 
 func (h *mutationHandler) DeleteById(ctx context.Context, keyId string, params DeleteByIdParams) (schema.DeleteScheduleRecurringRulesByIdResponse, error) {
-	var q struct {
-		DeleteScheduleRecurringRulesById schema.DeleteScheduleRecurringRulesByIdResponse `graphql:"deleteScheduleRecurringRulesById(keyId: $keyId, preCheck: $preCheck)"`
+	var out schema.DeleteScheduleRecurringRulesByIdResponse
+	args := map[string]any{
+		"keyId": keyId,
 	}
-	res := <-h.gql.Mutation(&q, map[string]any{
-		"keyId":    keyId,
-		"preCheck": params.PreCheck,
-	})
-	return q.DeleteScheduleRecurringRulesById, res.Error
+	if params.PreCheck != nil {
+		args["preCheck"] = params.PreCheck
+	}
+	res := <-h.gql.MutateFields("deleteScheduleRecurringRulesById", &out, args)
+	return out, res.Error
 }
 
 func (h *mutationHandler) Insert(ctx context.Context, objects []inputs.InsertScheduleRecurringRulesObjectInput, params InsertParams) (schema.InsertScheduleRecurringRulesResponse, error) {
-	var q struct {
-		InsertScheduleRecurringRules schema.InsertScheduleRecurringRulesResponse `graphql:"insertScheduleRecurringRules(objects: $objects, postCheck: $postCheck)"`
+	var out schema.InsertScheduleRecurringRulesResponse
+	args := map[string]any{
+		"objects": objects,
 	}
-	res := <-h.gql.Mutation(&q, map[string]any{
-		"objects":   objects,
-		"postCheck": params.PostCheck,
-	})
-	return q.InsertScheduleRecurringRules, res.Error
+	if params.PostCheck != nil {
+		args["postCheck"] = params.PostCheck
+	}
+	res := <-h.gql.MutateFields("insertScheduleRecurringRules", &out, args)
+	return out, res.Error
 }
 
 func (h *mutationHandler) UpdateById(ctx context.Context, keyId string, updateColumns inputs.UpdateScheduleRecurringRulesByIdUpdateColumnsInput, params UpdateByIdParams) (schema.UpdateScheduleRecurringRulesByIdResponse, error) {
-	var q struct {
-		UpdateScheduleRecurringRulesById schema.UpdateScheduleRecurringRulesByIdResponse `graphql:"updateScheduleRecurringRulesById(keyId: $keyId, postCheck: $postCheck, preCheck: $preCheck, updateColumns: $updateColumns)"`
-	}
-	res := <-h.gql.Mutation(&q, map[string]any{
+	var out schema.UpdateScheduleRecurringRulesByIdResponse
+	args := map[string]any{
 		"keyId":         keyId,
-		"postCheck":     params.PostCheck,
-		"preCheck":      params.PreCheck,
 		"updateColumns": updateColumns,
-	})
-	return q.UpdateScheduleRecurringRulesById, res.Error
+	}
+	if params.PostCheck != nil {
+		args["postCheck"] = params.PostCheck
+	}
+	if params.PreCheck != nil {
+		args["preCheck"] = params.PreCheck
+	}
+	res := <-h.gql.MutateFields("updateScheduleRecurringRulesById", &out, args)
+	return out, res.Error
 }

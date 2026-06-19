@@ -4,13 +4,13 @@ package inputs
 
 // InsertScheduleStayConstraintsObjectInput is the InsertScheduleStayConstraintsObjectInput input type.
 type InsertScheduleStayConstraintsObjectInput struct {
-	AdvanceMaxDays   *int32   `json:"advanceMaxDays,omitempty"`
-	AdvanceMinDays   *int32   `json:"advanceMinDays,omitempty"`
-	CheckinWeekdays  []string `json:"checkinWeekdays,omitempty"`
-	CheckoutWeekdays []string `json:"checkoutWeekdays,omitempty"`
-	Id               string   `json:"id,omitempty"`
-	MaxNights        *int32   `json:"maxNights,omitempty"`
-	MinNights        *int32   `json:"minNights,omitempty"`
+	AdvanceMaxDays   *int32    `json:"advanceMaxDays,omitempty"`
+	AdvanceMinDays   *int32    `json:"advanceMinDays,omitempty"`
+	CheckinWeekdays  []*string `json:"checkinWeekdays,omitempty"`
+	CheckoutWeekdays []*string `json:"checkoutWeekdays,omitempty"`
+	Id               string    `json:"id,omitempty"`
+	MaxNights        *int32    `json:"maxNights,omitempty"`
+	MinNights        *int32    `json:"minNights,omitempty"`
 }
 
 func (*InsertScheduleStayConstraintsObjectInput) GetGraphQLType() string {

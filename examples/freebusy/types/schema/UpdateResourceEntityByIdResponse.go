@@ -20,7 +20,7 @@ type UpdateResourceEntityByIdResponse struct {
 		Id          string           `graphql:"id"`
 		Name        string           `graphql:"name"`
 		State       *string          `graphql:"state"`
-		Tags        []string         `graphql:"tags"`
+		Tags        []*string        `graphql:"tags"`
 		TimeZone    string           `graphql:"timeZone"`
 		Type        string           `graphql:"type"`
 		UpdateTime  string           `graphql:"updateTime"`

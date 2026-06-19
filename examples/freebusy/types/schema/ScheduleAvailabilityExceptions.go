@@ -4,6 +4,7 @@ package schema
 
 import (
 	"encoding/json"
+	"github.com/oh-tarnished/generate-ql/runtime/go/graphql"
 )
 
 // ScheduleAvailabilityExceptions is the ScheduleAvailabilityExceptions model.
@@ -30,7 +31,7 @@ type ScheduleAvailabilityExceptions struct {
 		Id          string           `graphql:"id"`
 		Name        string           `graphql:"name"`
 		State       *string          `graphql:"state"`
-		Tags        []string         `graphql:"tags"`
+		Tags        []*string        `graphql:"tags"`
 		TimeZone    string           `graphql:"timeZone"`
 		Type        string           `graphql:"type"`
 		UpdateTime  string           `graphql:"updateTime"`
@@ -47,7 +48,7 @@ type ScheduleAvailabilityExceptions struct {
 		ScheduleId              string `graphql:"scheduleId"`
 	} `graphql:"scheduleExceptions"`
 	ScheduleExceptionsAggregate struct {
-		Count int64 `graphql:"_count"`
+		Count graphql.Int64 `graphql:"_count"`
 	} `graphql:"scheduleExceptionsAggregate"`
 	SpanCase *string `graphql:"spanCase"`
 	WindowId *string `graphql:"windowId"`

@@ -13,34 +13,39 @@ type queryHandler struct {
 }
 
 func (h *queryHandler) List(ctx context.Context, params ListParams) ([]schema.BookingMoneys, error) {
-	var q struct {
-		BookingMoneys []schema.BookingMoneys `graphql:"bookingMoneys(limit: $limit, offset: $offset, order_by: $order_by, where: $where)"`
+	var out []schema.BookingMoneys
+	args := map[string]any{}
+	if params.Limit != nil {
+		args["limit"] = params.Limit
 	}
-	res := <-h.gql.Query(&q, map[string]any{
-		"limit":    params.Limit,
-		"offset":   params.Offset,
-		"order_by": params.OrderBy,
-		"where":    params.Where,
-	})
-	return q.BookingMoneys, res.Error
+	if params.Offset != nil {
+		args["offset"] = params.Offset
+	}
+	if params.OrderBy != nil {
+		args["order_by"] = params.OrderBy
+	}
+	if params.Where != nil {
+		args["where"] = params.Where
+	}
+	res := <-h.gql.QueryFields("bookingMoneys", &out, args)
+	return out, res.Error
 }
 
 func (h *queryHandler) Aggregate(ctx context.Context, params AggregateParams) (*schema.BookingMoneysAggExp, error) {
-	var q struct {
-		BookingMoneysAggregate *schema.BookingMoneysAggExp `graphql:"bookingMoneysAggregate(filter_input: $filter_input)"`
+	var out *schema.BookingMoneysAggExp
+	args := map[string]any{}
+	if params.FilterInput != nil {
+		args["filter_input"] = params.FilterInput
 	}
-	res := <-h.gql.Query(&q, map[string]any{
-		"filter_input": params.FilterInput,
-	})
-	return q.BookingMoneysAggregate, res.Error
+	res := <-h.gql.QueryFields("bookingMoneysAggregate", &out, args)
+	return out, res.Error
 }
 
 func (h *queryHandler) ById(ctx context.Context, id string) (*schema.BookingMoneys, error) {
-	var q struct {
-		BookingMoneysById *schema.BookingMoneys `graphql:"bookingMoneysById(id: $id)"`
-	}
-	res := <-h.gql.Query(&q, map[string]any{
+	var out *schema.BookingMoneys
+	args := map[string]any{
 		"id": id,
-	})
-	return q.BookingMoneysById, res.Error
+	}
+	res := <-h.gql.QueryFields("bookingMoneysById", &out, args)
+	return out, res.Error
 }

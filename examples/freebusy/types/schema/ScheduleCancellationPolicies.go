@@ -2,6 +2,10 @@
 
 package schema
 
+import (
+	"github.com/oh-tarnished/generate-ql/runtime/go/graphql"
+)
+
 // ScheduleCancellationPolicies is the ScheduleCancellationPolicies model.
 type ScheduleCancellationPolicies struct {
 	Id                  string `graphql:"id"`
@@ -12,7 +16,7 @@ type ScheduleCancellationPolicies struct {
 		RefundPercent        int32  `graphql:"refundPercent"`
 	} `graphql:"scheduleRefundTiers"`
 	ScheduleRefundTiersAggregate struct {
-		Count int64 `graphql:"_count"`
+		Count graphql.Int64 `graphql:"_count"`
 	} `graphql:"scheduleRefundTiersAggregate"`
 	ScheduleResources []struct {
 		BuffersId            *string `graphql:"buffersId"`
@@ -23,6 +27,6 @@ type ScheduleCancellationPolicies struct {
 		StayConstraintsId    *string `graphql:"stayConstraintsId"`
 	} `graphql:"scheduleResources"`
 	ScheduleResourcesAggregate struct {
-		Count int64 `graphql:"_count"`
+		Count graphql.Int64 `graphql:"_count"`
 	} `graphql:"scheduleResourcesAggregate"`
 }

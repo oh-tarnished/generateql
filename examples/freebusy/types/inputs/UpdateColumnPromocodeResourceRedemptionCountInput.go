@@ -2,9 +2,13 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generate-ql/runtime/go/graphql"
+)
+
 // UpdateColumnPromocodeResourceRedemptionCountInput is the UpdateColumnPromocodeResourceRedemptionCountInput input type.
 type UpdateColumnPromocodeResourceRedemptionCountInput struct {
-	Set *int64 `json:"set,omitempty"`
+	Set *graphql.Int64 `json:"set,omitempty"`
 }
 
 func (*UpdateColumnPromocodeResourceRedemptionCountInput) GetGraphQLType() string {

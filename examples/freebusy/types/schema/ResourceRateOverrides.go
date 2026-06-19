@@ -2,13 +2,17 @@
 
 package schema
 
+import (
+	"github.com/oh-tarnished/generate-ql/runtime/go/graphql"
+)
+
 // ResourceRateOverrides is the ResourceRateOverrides model.
 type ResourceRateOverrides struct {
 	BookingMoney struct {
-		CurrencyCode *string `graphql:"currencyCode"`
-		Id           string  `graphql:"id"`
-		Nanos        *int32  `graphql:"nanos"`
-		Units        *int64  `graphql:"units"`
+		CurrencyCode *string        `graphql:"currencyCode"`
+		Id           string         `graphql:"id"`
+		Nanos        *int32         `graphql:"nanos"`
+		Units        *graphql.Int64 `graphql:"units"`
 	} `graphql:"bookingMoney"`
 	DateRangeId      *string `graphql:"dateRangeId"`
 	Id               string  `graphql:"id"`
@@ -33,5 +37,5 @@ type ResourceRateOverrides struct {
 		Id        string `graphql:"id"`
 		StartDate string `graphql:"startDate"`
 	} `graphql:"scheduleDateRange"`
-	Weekdays []string `graphql:"weekdays"`
+	Weekdays []*string `graphql:"weekdays"`
 }

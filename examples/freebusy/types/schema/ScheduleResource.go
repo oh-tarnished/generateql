@@ -2,6 +2,10 @@
 
 package schema
 
+import (
+	"github.com/oh-tarnished/generate-ql/runtime/go/graphql"
+)
+
 // ScheduleResource is the ScheduleResource model.
 type ScheduleResource struct {
 	BuffersId             *string `graphql:"buffersId"`
@@ -26,7 +30,7 @@ type ScheduleResource struct {
 		ScheduleId              string `graphql:"scheduleId"`
 	} `graphql:"scheduleExceptions"`
 	ScheduleExceptionsAggregate struct {
-		Count int64 `graphql:"_count"`
+		Count graphql.Int64 `graphql:"_count"`
 	} `graphql:"scheduleExceptionsAggregate"`
 	ScheduleRecurringRules []struct {
 		Closes     *string `graphql:"closes"`
@@ -36,16 +40,16 @@ type ScheduleResource struct {
 		ScheduleId string  `graphql:"scheduleId"`
 	} `graphql:"scheduleRecurringRules"`
 	ScheduleRecurringRulesAggregate struct {
-		Count int64 `graphql:"_count"`
+		Count graphql.Int64 `graphql:"_count"`
 	} `graphql:"scheduleRecurringRulesAggregate"`
 	ScheduleStayConstraint struct {
-		AdvanceMaxDays   *int32   `graphql:"advanceMaxDays"`
-		AdvanceMinDays   *int32   `graphql:"advanceMinDays"`
-		CheckinWeekdays  []string `graphql:"checkinWeekdays"`
-		CheckoutWeekdays []string `graphql:"checkoutWeekdays"`
-		Id               string   `graphql:"id"`
-		MaxNights        *int32   `graphql:"maxNights"`
-		MinNights        *int32   `graphql:"minNights"`
+		AdvanceMaxDays   *int32    `graphql:"advanceMaxDays"`
+		AdvanceMinDays   *int32    `graphql:"advanceMinDays"`
+		CheckinWeekdays  []*string `graphql:"checkinWeekdays"`
+		CheckoutWeekdays []*string `graphql:"checkoutWeekdays"`
+		Id               string    `graphql:"id"`
+		MaxNights        *int32    `graphql:"maxNights"`
+		MinNights        *int32    `graphql:"minNights"`
 	} `graphql:"scheduleStayConstraint"`
 	StayConstraintsId *string `graphql:"stayConstraintsId"`
 }

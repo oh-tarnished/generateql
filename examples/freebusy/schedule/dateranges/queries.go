@@ -13,34 +13,39 @@ type queryHandler struct {
 }
 
 func (h *queryHandler) List(ctx context.Context, params ListParams) ([]schema.ScheduleDateRanges, error) {
-	var q struct {
-		ScheduleDateRanges []schema.ScheduleDateRanges `graphql:"scheduleDateRanges(limit: $limit, offset: $offset, order_by: $order_by, where: $where)"`
+	var out []schema.ScheduleDateRanges
+	args := map[string]any{}
+	if params.Limit != nil {
+		args["limit"] = params.Limit
 	}
-	res := <-h.gql.Query(&q, map[string]any{
-		"limit":    params.Limit,
-		"offset":   params.Offset,
-		"order_by": params.OrderBy,
-		"where":    params.Where,
-	})
-	return q.ScheduleDateRanges, res.Error
+	if params.Offset != nil {
+		args["offset"] = params.Offset
+	}
+	if params.OrderBy != nil {
+		args["order_by"] = params.OrderBy
+	}
+	if params.Where != nil {
+		args["where"] = params.Where
+	}
+	res := <-h.gql.QueryFields("scheduleDateRanges", &out, args)
+	return out, res.Error
 }
 
 func (h *queryHandler) Aggregate(ctx context.Context, params AggregateParams) (*schema.ScheduleDateRangesAggExp, error) {
-	var q struct {
-		ScheduleDateRangesAggregate *schema.ScheduleDateRangesAggExp `graphql:"scheduleDateRangesAggregate(filter_input: $filter_input)"`
+	var out *schema.ScheduleDateRangesAggExp
+	args := map[string]any{}
+	if params.FilterInput != nil {
+		args["filter_input"] = params.FilterInput
 	}
-	res := <-h.gql.Query(&q, map[string]any{
-		"filter_input": params.FilterInput,
-	})
-	return q.ScheduleDateRangesAggregate, res.Error
+	res := <-h.gql.QueryFields("scheduleDateRangesAggregate", &out, args)
+	return out, res.Error
 }
 
 func (h *queryHandler) ById(ctx context.Context, id string) (*schema.ScheduleDateRanges, error) {
-	var q struct {
-		ScheduleDateRangesById *schema.ScheduleDateRanges `graphql:"scheduleDateRangesById(id: $id)"`
-	}
-	res := <-h.gql.Query(&q, map[string]any{
+	var out *schema.ScheduleDateRanges
+	args := map[string]any{
 		"id": id,
-	})
-	return q.ScheduleDateRangesById, res.Error
+	}
+	res := <-h.gql.QueryFields("scheduleDateRangesById", &out, args)
+	return out, res.Error
 }

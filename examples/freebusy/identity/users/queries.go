@@ -13,34 +13,39 @@ type queryHandler struct {
 }
 
 func (h *queryHandler) List(ctx context.Context, params ListParams) ([]schema.IdentityUsers, error) {
-	var q struct {
-		IdentityUsers []schema.IdentityUsers `graphql:"identityUsers(limit: $limit, offset: $offset, order_by: $order_by, where: $where)"`
+	var out []schema.IdentityUsers
+	args := map[string]any{}
+	if params.Limit != nil {
+		args["limit"] = params.Limit
 	}
-	res := <-h.gql.Query(&q, map[string]any{
-		"limit":    params.Limit,
-		"offset":   params.Offset,
-		"order_by": params.OrderBy,
-		"where":    params.Where,
-	})
-	return q.IdentityUsers, res.Error
+	if params.Offset != nil {
+		args["offset"] = params.Offset
+	}
+	if params.OrderBy != nil {
+		args["order_by"] = params.OrderBy
+	}
+	if params.Where != nil {
+		args["where"] = params.Where
+	}
+	res := <-h.gql.QueryFields("identityUsers", &out, args)
+	return out, res.Error
 }
 
 func (h *queryHandler) Aggregate(ctx context.Context, params AggregateParams) (*schema.IdentityUsersAggExp, error) {
-	var q struct {
-		IdentityUsersAggregate *schema.IdentityUsersAggExp `graphql:"identityUsersAggregate(filter_input: $filter_input)"`
+	var out *schema.IdentityUsersAggExp
+	args := map[string]any{}
+	if params.FilterInput != nil {
+		args["filter_input"] = params.FilterInput
 	}
-	res := <-h.gql.Query(&q, map[string]any{
-		"filter_input": params.FilterInput,
-	})
-	return q.IdentityUsersAggregate, res.Error
+	res := <-h.gql.QueryFields("identityUsersAggregate", &out, args)
+	return out, res.Error
 }
 
 func (h *queryHandler) ById(ctx context.Context, id string) (*schema.IdentityUsers, error) {
-	var q struct {
-		IdentityUsersById *schema.IdentityUsers `graphql:"identityUsersById(id: $id)"`
-	}
-	res := <-h.gql.Query(&q, map[string]any{
+	var out *schema.IdentityUsers
+	args := map[string]any{
 		"id": id,
-	})
-	return q.IdentityUsersById, res.Error
+	}
+	res := <-h.gql.QueryFields("identityUsersById", &out, args)
+	return out, res.Error
 }

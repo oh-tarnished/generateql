@@ -2,14 +2,18 @@
 
 package schema
 
+import (
+	"github.com/oh-tarnished/generate-ql/runtime/go/graphql"
+)
+
 // ResourceLosDiscounts is the ResourceLosDiscounts model.
 type ResourceLosDiscounts struct {
 	AmountOffId  *string `graphql:"amountOffId"`
 	BookingMoney struct {
-		CurrencyCode *string `graphql:"currencyCode"`
-		Id           string  `graphql:"id"`
-		Nanos        *int32  `graphql:"nanos"`
-		Units        *int64  `graphql:"units"`
+		CurrencyCode *string        `graphql:"currencyCode"`
+		Id           string         `graphql:"id"`
+		Nanos        *int32         `graphql:"nanos"`
+		Units        *graphql.Int64 `graphql:"units"`
 	} `graphql:"bookingMoney"`
 	Id               string `graphql:"id"`
 	MinNights        int32  `graphql:"minNights"`

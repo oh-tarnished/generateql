@@ -14,36 +14,41 @@ type mutationHandler struct {
 }
 
 func (h *mutationHandler) DeleteById(ctx context.Context, keyId string, params DeleteByIdParams) (schema.DeleteResourceRateOverridesByIdResponse, error) {
-	var q struct {
-		DeleteResourceRateOverridesById schema.DeleteResourceRateOverridesByIdResponse `graphql:"deleteResourceRateOverridesById(keyId: $keyId, preCheck: $preCheck)"`
+	var out schema.DeleteResourceRateOverridesByIdResponse
+	args := map[string]any{
+		"keyId": keyId,
 	}
-	res := <-h.gql.Mutation(&q, map[string]any{
-		"keyId":    keyId,
-		"preCheck": params.PreCheck,
-	})
-	return q.DeleteResourceRateOverridesById, res.Error
+	if params.PreCheck != nil {
+		args["preCheck"] = params.PreCheck
+	}
+	res := <-h.gql.MutateFields("deleteResourceRateOverridesById", &out, args)
+	return out, res.Error
 }
 
 func (h *mutationHandler) Insert(ctx context.Context, objects []inputs.InsertResourceRateOverridesObjectInput, params InsertParams) (schema.InsertResourceRateOverridesResponse, error) {
-	var q struct {
-		InsertResourceRateOverrides schema.InsertResourceRateOverridesResponse `graphql:"insertResourceRateOverrides(objects: $objects, postCheck: $postCheck)"`
+	var out schema.InsertResourceRateOverridesResponse
+	args := map[string]any{
+		"objects": objects,
 	}
-	res := <-h.gql.Mutation(&q, map[string]any{
-		"objects":   objects,
-		"postCheck": params.PostCheck,
-	})
-	return q.InsertResourceRateOverrides, res.Error
+	if params.PostCheck != nil {
+		args["postCheck"] = params.PostCheck
+	}
+	res := <-h.gql.MutateFields("insertResourceRateOverrides", &out, args)
+	return out, res.Error
 }
 
 func (h *mutationHandler) UpdateById(ctx context.Context, keyId string, updateColumns inputs.UpdateResourceRateOverridesByIdUpdateColumnsInput, params UpdateByIdParams) (schema.UpdateResourceRateOverridesByIdResponse, error) {
-	var q struct {
-		UpdateResourceRateOverridesById schema.UpdateResourceRateOverridesByIdResponse `graphql:"updateResourceRateOverridesById(keyId: $keyId, postCheck: $postCheck, preCheck: $preCheck, updateColumns: $updateColumns)"`
-	}
-	res := <-h.gql.Mutation(&q, map[string]any{
+	var out schema.UpdateResourceRateOverridesByIdResponse
+	args := map[string]any{
 		"keyId":         keyId,
-		"postCheck":     params.PostCheck,
-		"preCheck":      params.PreCheck,
 		"updateColumns": updateColumns,
-	})
-	return q.UpdateResourceRateOverridesById, res.Error
+	}
+	if params.PostCheck != nil {
+		args["postCheck"] = params.PostCheck
+	}
+	if params.PreCheck != nil {
+		args["preCheck"] = params.PreCheck
+	}
+	res := <-h.gql.MutateFields("updateResourceRateOverridesById", &out, args)
+	return out, res.Error
 }

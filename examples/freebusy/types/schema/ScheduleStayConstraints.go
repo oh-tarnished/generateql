@@ -2,15 +2,19 @@
 
 package schema
 
+import (
+	"github.com/oh-tarnished/generate-ql/runtime/go/graphql"
+)
+
 // ScheduleStayConstraints is the ScheduleStayConstraints model.
 type ScheduleStayConstraints struct {
-	AdvanceMaxDays    *int32   `graphql:"advanceMaxDays"`
-	AdvanceMinDays    *int32   `graphql:"advanceMinDays"`
-	CheckinWeekdays   []string `graphql:"checkinWeekdays"`
-	CheckoutWeekdays  []string `graphql:"checkoutWeekdays"`
-	Id                string   `graphql:"id"`
-	MaxNights         *int32   `graphql:"maxNights"`
-	MinNights         *int32   `graphql:"minNights"`
+	AdvanceMaxDays    *int32    `graphql:"advanceMaxDays"`
+	AdvanceMinDays    *int32    `graphql:"advanceMinDays"`
+	CheckinWeekdays   []*string `graphql:"checkinWeekdays"`
+	CheckoutWeekdays  []*string `graphql:"checkoutWeekdays"`
+	Id                string    `graphql:"id"`
+	MaxNights         *int32    `graphql:"maxNights"`
+	MinNights         *int32    `graphql:"minNights"`
 	ScheduleResources []struct {
 		BuffersId            *string `graphql:"buffersId"`
 		CancellationPolicyId *string `graphql:"cancellationPolicyId"`
@@ -20,6 +24,6 @@ type ScheduleStayConstraints struct {
 		StayConstraintsId    *string `graphql:"stayConstraintsId"`
 	} `graphql:"scheduleResources"`
 	ScheduleResourcesAggregate struct {
-		Count int64 `graphql:"_count"`
+		Count graphql.Int64 `graphql:"_count"`
 	} `graphql:"scheduleResourcesAggregate"`
 }

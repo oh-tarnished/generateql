@@ -130,56 +130,49 @@ func (r *renderer) signature(o op) string {
 	return fmt.Sprintf("%s(%s) (%s, error)", o.Name, join, r.mapper.GoType(o.Op.Return, qHandler))
 }
 
-// method renders the concrete handler method implementing op.
+// method renders the concrete handler method implementing op. Optional (nullable)
+// arguments are only added to the variables map when non-nil, so the runtime omits
+// them from the operation entirely rather than sending an explicit null.
 func (r *renderer) method(recv string, o op) string {
-	field := naming.Export(o.Op.Name)
 	retGo := r.mapper.GoType(o.Op.Return, qHandler)
-	tag := r.tag(o.Op)
-	vars := r.varsExpr(o.Op)
 
 	var b strings.Builder
 	fmt.Fprintf(&b, "func (h *%s) %s {\n", recv, r.signature(o))
-	fmt.Fprintf(&b, "\tvar q struct {\n\t\t%s %s `graphql:%q`\n\t}\n", field, retGo, tag)
+	fmt.Fprintf(&b, "\tvar out %s\n", retGo)
+	b.WriteString(r.argsBlock(o.Op))
+
 	if o.Op.Kind == "subscription" {
-		fmt.Fprintf(&b, "\treturn h.gql.Subscribe(&q, %s)\n}\n", vars)
+		fmt.Fprintf(&b, "\treturn h.gql.SubscribeFields(%q, &out, args)\n}\n", o.Op.Name)
 		return b.String()
 	}
-	verb := "Query"
+	verb := "QueryFields"
 	if o.Op.Kind == "mutation" {
-		verb = "Mutation"
+		verb = "MutateFields"
 	}
-	fmt.Fprintf(&b, "\tres := <-h.gql.%s(&q, %s)\n", verb, vars)
-	fmt.Fprintf(&b, "\treturn q.%s, res.Error\n}\n", field)
+	fmt.Fprintf(&b, "\tres := <-h.gql.%s(%q, &out, args)\n", verb, o.Op.Name)
+	fmt.Fprintf(&b, "\treturn out, res.Error\n}\n")
 	return b.String()
 }
 
-// tag renders the GraphQL field tag, e.g. `users(where: $where, limit: $limit)`.
-func (r *renderer) tag(operation *ir.Operation) string {
-	if len(operation.Args) == 0 {
-		return operation.Name
-	}
-	var args []string
-	for _, a := range operation.Args {
-		args = append(args, fmt.Sprintf("%s: $%s", a.Name, a.Name))
-	}
-	return fmt.Sprintf("%s(%s)", operation.Name, strings.Join(args, ", "))
-}
-
-// varsExpr renders the variables map: required args read from positional parameters,
-// nullable args from the params struct.
-func (r *renderer) varsExpr(operation *ir.Operation) string {
-	if len(operation.Args) == 0 {
-		return "nil"
-	}
-	var kv []string
-	for _, a := range operation.Args {
-		value := paramName(a.Name)
-		if !a.Type.NonNull {
-			value = "params." + naming.Export(a.Name)
+// argsBlock renders the variables-map construction: required args are set
+// unconditionally; optional args are added only when non-nil.
+func (r *renderer) argsBlock(operation *ir.Operation) string {
+	var b strings.Builder
+	req := requiredArgs(operation)
+	if len(req) == 0 {
+		b.WriteString("\targs := map[string]any{}\n")
+	} else {
+		b.WriteString("\targs := map[string]any{\n")
+		for _, a := range req {
+			fmt.Fprintf(&b, "\t\t%q: %s,\n", a.Name, paramName(a.Name))
 		}
-		kv = append(kv, fmt.Sprintf("\t\t%q: %s,", a.Name, value))
+		b.WriteString("\t}\n")
 	}
-	return "map[string]any{\n" + strings.Join(kv, "\n") + "\n\t}"
+	for _, a := range optionalArgs(operation) {
+		field := naming.Export(a.Name)
+		fmt.Fprintf(&b, "\tif params.%s != nil {\n\t\targs[%q] = params.%s\n\t}\n", field, a.Name, field)
+	}
+	return b.String()
 }
 
 // requiredArgs returns the non-null arguments (positional parameters).

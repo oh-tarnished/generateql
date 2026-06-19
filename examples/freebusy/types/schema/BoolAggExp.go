@@ -2,11 +2,15 @@
 
 package schema
 
+import (
+	"github.com/oh-tarnished/generate-ql/runtime/go/graphql"
+)
+
 // BoolAggExp is the BoolAggExp model.
 type BoolAggExp struct {
-	Count         int64 `graphql:"_count"`
-	CountDistinct int64 `graphql:"_count_distinct"`
-	BoolAnd       *bool `graphql:"bool_and"`
-	BoolOr        *bool `graphql:"bool_or"`
-	Every         *bool `graphql:"every"`
+	Count         graphql.Int64 `graphql:"_count"`
+	CountDistinct graphql.Int64 `graphql:"_count_distinct"`
+	BoolAnd       *bool         `graphql:"bool_and"`
+	BoolOr        *bool         `graphql:"bool_or"`
+	Every         *bool         `graphql:"every"`
 }

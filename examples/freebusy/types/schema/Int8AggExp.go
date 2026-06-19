@@ -2,21 +2,25 @@
 
 package schema
 
+import (
+	"github.com/oh-tarnished/generate-ql/runtime/go/graphql"
+)
+
 // Int8AggExp is the Int8AggExp model.
 type Int8AggExp struct {
-	Count         int64   `graphql:"_count"`
-	CountDistinct int64   `graphql:"_count_distinct"`
-	Avg           *string `graphql:"avg"`
-	BitAnd        *int64  `graphql:"bit_and"`
-	BitOr         *int64  `graphql:"bit_or"`
-	BitXor        *int64  `graphql:"bit_xor"`
-	Max           *int64  `graphql:"max"`
-	Min           *int64  `graphql:"min"`
-	Stddev        *string `graphql:"stddev"`
-	StddevPop     *string `graphql:"stddev_pop"`
-	StddevSamp    *string `graphql:"stddev_samp"`
-	Sum           *string `graphql:"sum"`
-	VarPop        *string `graphql:"var_pop"`
-	VarSamp       *string `graphql:"var_samp"`
-	Variance      *string `graphql:"variance"`
+	Count         graphql.Int64  `graphql:"_count"`
+	CountDistinct graphql.Int64  `graphql:"_count_distinct"`
+	Avg           *string        `graphql:"avg"`
+	BitAnd        *graphql.Int64 `graphql:"bit_and"`
+	BitOr         *graphql.Int64 `graphql:"bit_or"`
+	BitXor        *graphql.Int64 `graphql:"bit_xor"`
+	Max           *graphql.Int64 `graphql:"max"`
+	Min           *graphql.Int64 `graphql:"min"`
+	Stddev        *string        `graphql:"stddev"`
+	StddevPop     *string        `graphql:"stddev_pop"`
+	StddevSamp    *string        `graphql:"stddev_samp"`
+	Sum           *string        `graphql:"sum"`
+	VarPop        *string        `graphql:"var_pop"`
+	VarSamp       *string        `graphql:"var_samp"`
+	Variance      *string        `graphql:"variance"`
 }

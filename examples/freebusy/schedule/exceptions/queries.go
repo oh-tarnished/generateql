@@ -13,34 +13,39 @@ type queryHandler struct {
 }
 
 func (h *queryHandler) List(ctx context.Context, params ListParams) ([]schema.ScheduleExceptions, error) {
-	var q struct {
-		ScheduleExceptions []schema.ScheduleExceptions `graphql:"scheduleExceptions(limit: $limit, offset: $offset, order_by: $order_by, where: $where)"`
+	var out []schema.ScheduleExceptions
+	args := map[string]any{}
+	if params.Limit != nil {
+		args["limit"] = params.Limit
 	}
-	res := <-h.gql.Query(&q, map[string]any{
-		"limit":    params.Limit,
-		"offset":   params.Offset,
-		"order_by": params.OrderBy,
-		"where":    params.Where,
-	})
-	return q.ScheduleExceptions, res.Error
+	if params.Offset != nil {
+		args["offset"] = params.Offset
+	}
+	if params.OrderBy != nil {
+		args["order_by"] = params.OrderBy
+	}
+	if params.Where != nil {
+		args["where"] = params.Where
+	}
+	res := <-h.gql.QueryFields("scheduleExceptions", &out, args)
+	return out, res.Error
 }
 
 func (h *queryHandler) Aggregate(ctx context.Context, params AggregateParams) (*schema.ScheduleExceptionsAggExp, error) {
-	var q struct {
-		ScheduleExceptionsAggregate *schema.ScheduleExceptionsAggExp `graphql:"scheduleExceptionsAggregate(filter_input: $filter_input)"`
+	var out *schema.ScheduleExceptionsAggExp
+	args := map[string]any{}
+	if params.FilterInput != nil {
+		args["filter_input"] = params.FilterInput
 	}
-	res := <-h.gql.Query(&q, map[string]any{
-		"filter_input": params.FilterInput,
-	})
-	return q.ScheduleExceptionsAggregate, res.Error
+	res := <-h.gql.QueryFields("scheduleExceptionsAggregate", &out, args)
+	return out, res.Error
 }
 
 func (h *queryHandler) ById(ctx context.Context, id string) (*schema.ScheduleExceptions, error) {
-	var q struct {
-		ScheduleExceptionsById *schema.ScheduleExceptions `graphql:"scheduleExceptionsById(id: $id)"`
-	}
-	res := <-h.gql.Query(&q, map[string]any{
+	var out *schema.ScheduleExceptions
+	args := map[string]any{
 		"id": id,
-	})
-	return q.ScheduleExceptionsById, res.Error
+	}
+	res := <-h.gql.QueryFields("scheduleExceptionsById", &out, args)
+	return out, res.Error
 }

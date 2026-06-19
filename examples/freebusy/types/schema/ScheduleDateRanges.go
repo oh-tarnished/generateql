@@ -2,19 +2,23 @@
 
 package schema
 
+import (
+	"github.com/oh-tarnished/generate-ql/runtime/go/graphql"
+)
+
 // ScheduleDateRanges is the ScheduleDateRanges model.
 type ScheduleDateRanges struct {
 	EndDate               string `graphql:"endDate"`
 	Id                    string `graphql:"id"`
 	ResourceRateOverrides []struct {
-		DateRangeId *string  `graphql:"dateRangeId"`
-		Id          string   `graphql:"id"`
-		OfferingId  string   `graphql:"offeringId"`
-		PriceId     string   `graphql:"priceId"`
-		Weekdays    []string `graphql:"weekdays"`
+		DateRangeId *string   `graphql:"dateRangeId"`
+		Id          string    `graphql:"id"`
+		OfferingId  string    `graphql:"offeringId"`
+		PriceId     string    `graphql:"priceId"`
+		Weekdays    []*string `graphql:"weekdays"`
 	} `graphql:"resourceRateOverrides"`
 	ResourceRateOverridesAggregate struct {
-		Count int64 `graphql:"_count"`
+		Count graphql.Int64 `graphql:"_count"`
 	} `graphql:"resourceRateOverridesAggregate"`
 	ScheduleAvailabilityExceptions []struct {
 		CreateTime  string  `graphql:"createTime"`
@@ -28,7 +32,7 @@ type ScheduleDateRanges struct {
 		WindowId    *string `graphql:"windowId"`
 	} `graphql:"scheduleAvailabilityExceptions"`
 	ScheduleAvailabilityExceptionsAggregate struct {
-		Count int64 `graphql:"_count"`
+		Count graphql.Int64 `graphql:"_count"`
 	} `graphql:"scheduleAvailabilityExceptionsAggregate"`
 	StartDate string `graphql:"startDate"`
 }

@@ -4,22 +4,23 @@ package schema
 
 import (
 	"encoding/json"
+	"github.com/oh-tarnished/generate-ql/runtime/go/graphql"
 )
 
 // PromocodeResource is the PromocodeResource model.
 type PromocodeResource struct {
 	AmountOffId  *string `graphql:"amountOffId"`
 	BookingMoney struct {
-		CurrencyCode *string `graphql:"currencyCode"`
-		Id           string  `graphql:"id"`
-		Nanos        *int32  `graphql:"nanos"`
-		Units        *int64  `graphql:"units"`
+		CurrencyCode *string        `graphql:"currencyCode"`
+		Id           string         `graphql:"id"`
+		Nanos        *int32         `graphql:"nanos"`
+		Units        *graphql.Int64 `graphql:"units"`
 	} `graphql:"bookingMoney"`
 	BookingMoneyByMinSubtotalId struct {
-		CurrencyCode *string `graphql:"currencyCode"`
-		Id           string  `graphql:"id"`
-		Nanos        *int32  `graphql:"nanos"`
-		Units        *int64  `graphql:"units"`
+		CurrencyCode *string        `graphql:"currencyCode"`
+		Id           string         `graphql:"id"`
+		Nanos        *int32         `graphql:"nanos"`
+		Units        *graphql.Int64 `graphql:"units"`
 	} `graphql:"bookingMoneyByMinSubtotalId"`
 	BookingResources []struct {
 		AssignedUnit   *string          `graphql:"assignedUnit"`
@@ -50,28 +51,28 @@ type PromocodeResource struct {
 		WindowId       string           `graphql:"windowId"`
 	} `graphql:"bookingResources"`
 	BookingResourcesAggregate struct {
-		Count int64 `graphql:"_count"`
+		Count graphql.Int64 `graphql:"_count"`
 	} `graphql:"bookingResourcesAggregate"`
-	Code                         string  `graphql:"code"`
-	CreateTime                   string  `graphql:"createTime"`
-	Description                  *string `graphql:"description"`
-	Disabled                     *bool   `graphql:"disabled"`
-	DiscountType                 string  `graphql:"discountType"`
-	DisplayName                  *string `graphql:"displayName"`
-	Etag                         *string `graphql:"etag"`
-	Id                           string  `graphql:"id"`
-	MaxRedemptions               *int64  `graphql:"maxRedemptions"`
-	MinSubtotalId                *string `graphql:"minSubtotalId"`
-	Name                         string  `graphql:"name"`
-	PerCustomerLimit             *int32  `graphql:"perCustomerLimit"`
-	PercentOff                   *int32  `graphql:"percentOff"`
+	Code                         string         `graphql:"code"`
+	CreateTime                   string         `graphql:"createTime"`
+	Description                  *string        `graphql:"description"`
+	Disabled                     *bool          `graphql:"disabled"`
+	DiscountType                 string         `graphql:"discountType"`
+	DisplayName                  *string        `graphql:"displayName"`
+	Etag                         *string        `graphql:"etag"`
+	Id                           string         `graphql:"id"`
+	MaxRedemptions               *graphql.Int64 `graphql:"maxRedemptions"`
+	MinSubtotalId                *string        `graphql:"minSubtotalId"`
+	Name                         string         `graphql:"name"`
+	PerCustomerLimit             *int32         `graphql:"perCustomerLimit"`
+	PercentOff                   *int32         `graphql:"percentOff"`
 	PromocodeApplicableOfferings []struct {
 		Id          string `graphql:"id"`
 		OfferingId  string `graphql:"offeringId"`
 		PromoCodeId string `graphql:"promoCodeId"`
 	} `graphql:"promocodeApplicableOfferings"`
 	PromocodeApplicableOfferingsAggregate struct {
-		Count int64 `graphql:"_count"`
+		Count graphql.Int64 `graphql:"_count"`
 	} `graphql:"promocodeApplicableOfferingsAggregate"`
 	PromocodeApplicableResources []struct {
 		Id          string `graphql:"id"`
@@ -79,11 +80,11 @@ type PromocodeResource struct {
 		ResourceId  string `graphql:"resourceId"`
 	} `graphql:"promocodeApplicableResources"`
 	PromocodeApplicableResourcesAggregate struct {
-		Count int64 `graphql:"_count"`
+		Count graphql.Int64 `graphql:"_count"`
 	} `graphql:"promocodeApplicableResourcesAggregate"`
-	RedeemEndTime   *string `graphql:"redeemEndTime"`
-	RedeemStartTime *string `graphql:"redeemStartTime"`
-	RedemptionCount *int64  `graphql:"redemptionCount"`
-	State           *string `graphql:"state"`
-	UpdateTime      string  `graphql:"updateTime"`
+	RedeemEndTime   *string        `graphql:"redeemEndTime"`
+	RedeemStartTime *string        `graphql:"redeemStartTime"`
+	RedemptionCount *graphql.Int64 `graphql:"redemptionCount"`
+	State           *string        `graphql:"state"`
+	UpdateTime      string         `graphql:"updateTime"`
 }

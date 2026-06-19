@@ -14,36 +14,41 @@ type mutationHandler struct {
 }
 
 func (h *mutationHandler) DeleteById(ctx context.Context, keyId string, params DeleteByIdParams) (schema.DeleteScheduleAvailabilityExceptionsByIdResponse, error) {
-	var q struct {
-		DeleteScheduleAvailabilityExceptionsById schema.DeleteScheduleAvailabilityExceptionsByIdResponse `graphql:"deleteScheduleAvailabilityExceptionsById(keyId: $keyId, preCheck: $preCheck)"`
+	var out schema.DeleteScheduleAvailabilityExceptionsByIdResponse
+	args := map[string]any{
+		"keyId": keyId,
 	}
-	res := <-h.gql.Mutation(&q, map[string]any{
-		"keyId":    keyId,
-		"preCheck": params.PreCheck,
-	})
-	return q.DeleteScheduleAvailabilityExceptionsById, res.Error
+	if params.PreCheck != nil {
+		args["preCheck"] = params.PreCheck
+	}
+	res := <-h.gql.MutateFields("deleteScheduleAvailabilityExceptionsById", &out, args)
+	return out, res.Error
 }
 
 func (h *mutationHandler) Insert(ctx context.Context, objects []inputs.InsertScheduleAvailabilityExceptionsObjectInput, params InsertParams) (schema.InsertScheduleAvailabilityExceptionsResponse, error) {
-	var q struct {
-		InsertScheduleAvailabilityExceptions schema.InsertScheduleAvailabilityExceptionsResponse `graphql:"insertScheduleAvailabilityExceptions(objects: $objects, postCheck: $postCheck)"`
+	var out schema.InsertScheduleAvailabilityExceptionsResponse
+	args := map[string]any{
+		"objects": objects,
 	}
-	res := <-h.gql.Mutation(&q, map[string]any{
-		"objects":   objects,
-		"postCheck": params.PostCheck,
-	})
-	return q.InsertScheduleAvailabilityExceptions, res.Error
+	if params.PostCheck != nil {
+		args["postCheck"] = params.PostCheck
+	}
+	res := <-h.gql.MutateFields("insertScheduleAvailabilityExceptions", &out, args)
+	return out, res.Error
 }
 
 func (h *mutationHandler) UpdateById(ctx context.Context, keyId string, updateColumns inputs.UpdateScheduleAvailabilityExceptionsByIdUpdateColumnsInput, params UpdateByIdParams) (schema.UpdateScheduleAvailabilityExceptionsByIdResponse, error) {
-	var q struct {
-		UpdateScheduleAvailabilityExceptionsById schema.UpdateScheduleAvailabilityExceptionsByIdResponse `graphql:"updateScheduleAvailabilityExceptionsById(keyId: $keyId, postCheck: $postCheck, preCheck: $preCheck, updateColumns: $updateColumns)"`
-	}
-	res := <-h.gql.Mutation(&q, map[string]any{
+	var out schema.UpdateScheduleAvailabilityExceptionsByIdResponse
+	args := map[string]any{
 		"keyId":         keyId,
-		"postCheck":     params.PostCheck,
-		"preCheck":      params.PreCheck,
 		"updateColumns": updateColumns,
-	})
-	return q.UpdateScheduleAvailabilityExceptionsById, res.Error
+	}
+	if params.PostCheck != nil {
+		args["postCheck"] = params.PostCheck
+	}
+	if params.PreCheck != nil {
+		args["preCheck"] = params.PreCheck
+	}
+	res := <-h.gql.MutateFields("updateScheduleAvailabilityExceptionsById", &out, args)
+	return out, res.Error
 }

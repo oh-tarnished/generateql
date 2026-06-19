@@ -24,14 +24,19 @@ func (s *Subscription) Updates() <-chan GraphQLResult { return s.updates }
 // Stop ends the subscription and releases the underlying WebSocket connection.
 func (s *Subscription) Stop() error { return s.client.Close() }
 
-// Subscribe opens a GraphQL subscription. subscription is a struct whose graphql
-// tags define the shape; variables may be nil. Each server message is decoded into a
-// new value of the subscription's type and delivered on the returned Subscription's
-// Updates channel. The ws/wss endpoint is derived from the client's URL, and
-// ConnectionOptions.Headers are sent on the WebSocket handshake.
-func (g *GraphQLClient) Subscribe(subscription interface{}, variables map[string]interface{}) (*Subscription, error) {
-	wsOpts := websocketURL(g.URL)
-	fullURL, err := buildFullURL(wsOpts, 0)
+// SubscribeFields opens a subscription selecting result under field with the given
+// arguments, declaring ONLY the arguments present (so nil optionals are omitted, not
+// sent as null). result must be a pointer to the typed selection; each server message
+// is decoded into a fresh value of that type and delivered (as Response) on the
+// returned Subscription's Updates channel. Headers are sent on the WebSocket handshake.
+func (g *GraphQLClient) SubscribeFields(field string, result any, args map[string]interface{}) (*Subscription, error) {
+	rv := reflect.ValueOf(result)
+	if rv.Kind() != reflect.Ptr {
+		return nil, fmt.Errorf("result must be a pointer")
+	}
+	resultType := rv.Type().Elem()
+
+	fullURL, err := buildFullURL(websocketURL(g.URL), 0)
 	if err != nil {
 		return nil, fmt.Errorf("failed to build subscription URL: %w", err)
 	}
@@ -45,19 +50,10 @@ func (g *GraphQLClient) Subscribe(subscription interface{}, variables map[string
 		subClient = subClient.WithWebSocketOptions(graphql.WebsocketOptions{HTTPHeader: header})
 	}
 
-	sub := &Subscription{
-		updates: make(chan GraphQLResult, 1),
-		client:  subClient,
-	}
+	sub := &Subscription{updates: make(chan GraphQLResult, 1), client: subClient}
+	wrapper := newOpStruct(field, resultType, args)
 
-	// elemType is the (non-pointer) type of the subscription struct, used to decode
-	// each message into a fresh typed value.
-	elemType := reflect.TypeOf(subscription)
-	if elemType.Kind() == reflect.Ptr {
-		elemType = elemType.Elem()
-	}
-
-	if _, err := subClient.Subscribe(subscription, variables, sub.handler(elemType)); err != nil {
+	if _, err := subClient.Subscribe(wrapper.Interface(), args, sub.handler(wrapper.Elem().Type())); err != nil {
 		_ = subClient.Close()
 		return nil, fmt.Errorf("failed to start subscription: %w", err)
 	}
@@ -72,20 +68,21 @@ func (g *GraphQLClient) Subscribe(subscription interface{}, variables map[string
 	return sub, nil
 }
 
-// handler returns a message callback that decodes each payload into a new value of
-// elemType and forwards it (or the error) onto the updates channel.
-func (s *Subscription) handler(elemType reflect.Type) func([]byte, error) error {
+// handler decodes each payload into a fresh wrapper of wrapperType and forwards the
+// selected field value (or the error) onto the updates channel.
+func (s *Subscription) handler(wrapperType reflect.Type) func([]byte, error) error {
 	return func(message []byte, err error) error {
 		if err != nil {
 			s.updates <- GraphQLResult{Error: err}
 			return nil
 		}
-		out := reflect.New(elemType)
+		out := reflect.New(wrapperType)
 		if decodeErr := graphql.UnmarshalGraphQL(message, out.Interface()); decodeErr != nil {
 			s.updates <- GraphQLResult{Error: fmt.Errorf("failed to decode subscription message: %w", decodeErr)}
 			return nil
 		}
-		s.updates <- GraphQLResult{Response: out.Interface()}
+		// Deliver a pointer to the inner "Result" field (the typed selection).
+		s.updates <- GraphQLResult{Response: out.Elem().Field(0).Addr().Interface()}
 		return nil
 	}
 }

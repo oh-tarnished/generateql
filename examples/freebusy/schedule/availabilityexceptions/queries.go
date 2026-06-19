@@ -13,34 +13,39 @@ type queryHandler struct {
 }
 
 func (h *queryHandler) List(ctx context.Context, params ListParams) ([]schema.ScheduleAvailabilityExceptions, error) {
-	var q struct {
-		ScheduleAvailabilityExceptions []schema.ScheduleAvailabilityExceptions `graphql:"scheduleAvailabilityExceptions(limit: $limit, offset: $offset, order_by: $order_by, where: $where)"`
+	var out []schema.ScheduleAvailabilityExceptions
+	args := map[string]any{}
+	if params.Limit != nil {
+		args["limit"] = params.Limit
 	}
-	res := <-h.gql.Query(&q, map[string]any{
-		"limit":    params.Limit,
-		"offset":   params.Offset,
-		"order_by": params.OrderBy,
-		"where":    params.Where,
-	})
-	return q.ScheduleAvailabilityExceptions, res.Error
+	if params.Offset != nil {
+		args["offset"] = params.Offset
+	}
+	if params.OrderBy != nil {
+		args["order_by"] = params.OrderBy
+	}
+	if params.Where != nil {
+		args["where"] = params.Where
+	}
+	res := <-h.gql.QueryFields("scheduleAvailabilityExceptions", &out, args)
+	return out, res.Error
 }
 
 func (h *queryHandler) Aggregate(ctx context.Context, params AggregateParams) (*schema.ScheduleAvailabilityExceptionsAggExp, error) {
-	var q struct {
-		ScheduleAvailabilityExceptionsAggregate *schema.ScheduleAvailabilityExceptionsAggExp `graphql:"scheduleAvailabilityExceptionsAggregate(filter_input: $filter_input)"`
+	var out *schema.ScheduleAvailabilityExceptionsAggExp
+	args := map[string]any{}
+	if params.FilterInput != nil {
+		args["filter_input"] = params.FilterInput
 	}
-	res := <-h.gql.Query(&q, map[string]any{
-		"filter_input": params.FilterInput,
-	})
-	return q.ScheduleAvailabilityExceptionsAggregate, res.Error
+	res := <-h.gql.QueryFields("scheduleAvailabilityExceptionsAggregate", &out, args)
+	return out, res.Error
 }
 
 func (h *queryHandler) ById(ctx context.Context, id string) (*schema.ScheduleAvailabilityExceptions, error) {
-	var q struct {
-		ScheduleAvailabilityExceptionsById *schema.ScheduleAvailabilityExceptions `graphql:"scheduleAvailabilityExceptionsById(id: $id)"`
-	}
-	res := <-h.gql.Query(&q, map[string]any{
+	var out *schema.ScheduleAvailabilityExceptions
+	args := map[string]any{
 		"id": id,
-	})
-	return q.ScheduleAvailabilityExceptionsById, res.Error
+	}
+	res := <-h.gql.QueryFields("scheduleAvailabilityExceptionsById", &out, args)
+	return out, res.Error
 }

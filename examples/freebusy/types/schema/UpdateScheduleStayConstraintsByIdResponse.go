@@ -6,12 +6,12 @@ package schema
 type UpdateScheduleStayConstraintsByIdResponse struct {
 	AffectedRows int32 `graphql:"affectedRows"`
 	Returning    []struct {
-		AdvanceMaxDays   *int32   `graphql:"advanceMaxDays"`
-		AdvanceMinDays   *int32   `graphql:"advanceMinDays"`
-		CheckinWeekdays  []string `graphql:"checkinWeekdays"`
-		CheckoutWeekdays []string `graphql:"checkoutWeekdays"`
-		Id               string   `graphql:"id"`
-		MaxNights        *int32   `graphql:"maxNights"`
-		MinNights        *int32   `graphql:"minNights"`
+		AdvanceMaxDays   *int32    `graphql:"advanceMaxDays"`
+		AdvanceMinDays   *int32    `graphql:"advanceMinDays"`
+		CheckinWeekdays  []*string `graphql:"checkinWeekdays"`
+		CheckoutWeekdays []*string `graphql:"checkoutWeekdays"`
+		Id               string    `graphql:"id"`
+		MaxNights        *int32    `graphql:"maxNights"`
+		MinNights        *int32    `graphql:"minNights"`
 	} `graphql:"returning"`
 }

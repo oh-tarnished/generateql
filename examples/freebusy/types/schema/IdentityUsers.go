@@ -4,6 +4,7 @@ package schema
 
 import (
 	"encoding/json"
+	"github.com/oh-tarnished/generate-ql/runtime/go/graphql"
 )
 
 // IdentityUsers is the IdentityUsers model.
@@ -38,7 +39,7 @@ type IdentityUsers struct {
 		WindowId       string           `graphql:"windowId"`
 	} `graphql:"bookingResources"`
 	BookingResourcesAggregate struct {
-		Count int64 `graphql:"_count"`
+		Count graphql.Int64 `graphql:"_count"`
 	} `graphql:"bookingResourcesAggregate"`
 	CreateTime                  string  `graphql:"createTime"`
 	DisplayName                 *string `graphql:"displayName"`
@@ -53,7 +54,7 @@ type IdentityUsers struct {
 		UserId         string  `graphql:"userId"`
 	} `graphql:"identityMembershipSummaries"`
 	IdentityMembershipSummariesAggregate struct {
-		Count int64 `graphql:"_count"`
+		Count graphql.Int64 `graphql:"_count"`
 	} `graphql:"identityMembershipSummariesAggregate"`
 	Locale              *string `graphql:"locale"`
 	Name                string  `graphql:"name"`
@@ -72,7 +73,7 @@ type IdentityUsers struct {
 		User           *string `graphql:"user"`
 	} `graphql:"organisationMembers"`
 	OrganisationMembersAggregate struct {
-		Count int64 `graphql:"_count"`
+		Count graphql.Int64 `graphql:"_count"`
 	} `graphql:"organisationMembersAggregate"`
 	OrganisationMembersByUser []struct {
 		CreateTime     string  `graphql:"createTime"`
@@ -89,7 +90,7 @@ type IdentityUsers struct {
 		User           *string `graphql:"user"`
 	} `graphql:"organisationMembersByUser"`
 	OrganisationMembersByUserAggregate struct {
-		Count int64 `graphql:"_count"`
+		Count graphql.Int64 `graphql:"_count"`
 	} `graphql:"organisationMembersByUserAggregate"`
 	TimeZone   *string `graphql:"timeZone"`
 	UpdateTime string  `graphql:"updateTime"`

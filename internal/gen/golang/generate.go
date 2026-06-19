@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"go/format"
 	"os"
+	"path"
 	"path/filepath"
 	"sort"
 	"strings"
@@ -60,10 +61,12 @@ type resGen struct {
 
 // domainGen groups resources sharing a top-level name (e.g. all "schedule*").
 type domainGen struct {
-	name       string // "schedule"
-	field      string // "Schedule"
+	name       string // package name, e.g. "schedule"
+	field      string // aggregator field, e.g. "Schedule"
 	importPath string
 	reses      []*resGen
+	usedPkg    map[string]bool // dedup for resource package names within the domain
+	usedField  map[string]bool // dedup for resource field names within the domain
 }
 
 // Generate renders the full Go client into Options.OutDir.
@@ -107,20 +110,30 @@ type generator struct {
 func (g *generator) plan() {
 	byDomain := map[string]*domainGen{}
 	for _, res := range g.opts.Schema.Resources {
-		domain, rest := splitDomain(res.Name)
+		rawDomain, rest := splitDomain(res.Name)
 		if rest == "" {
 			rest = res.Name
 		}
+		domain := identifier(rawDomain) // keyword/identifier-safe package name
 		dg, ok := byDomain[domain]
 		if !ok {
-			dg = &domainGen{name: domain, field: naming.Export(domain), importPath: g.opts.GoModule + "/" + domain}
+			dg = &domainGen{
+				name:       domain,
+				field:      naming.Export(rawDomain),
+				importPath: g.opts.GoModule + "/" + domain,
+				usedPkg:    map[string]bool{},
+				usedField:  map[string]bool{},
+			}
 			byDomain[domain] = dg
 		}
-		pkg := identifier(rest)
+		// Dedup within the domain so distinct resource names never collide on a
+		// package directory or aggregator field (which would overwrite files or emit
+		// a duplicate struct field).
+		pkg := uniqueName(identifier(rest), dg.usedPkg)
 		dg.reses = append(dg.reses, &resGen{
 			res:        res,
 			domain:     domain,
-			field:      naming.Export(rest),
+			field:      uniqueName(naming.Export(rest), dg.usedField),
 			pkg:        pkg,
 			importPath: g.opts.GoModule + "/" + domain + "/" + pkg,
 			queries:    pairOps(res.Queries, res.Name),
@@ -202,6 +215,9 @@ func (g *generator) typeImports(body string) []string {
 	if strings.Contains(body, "json.RawMessage") {
 		im = append(im, "encoding/json")
 	}
+	if strings.Contains(body, "graphql.") {
+		im = append(im, g.graphqlModule())
+	}
 	if strings.Contains(body, "enums.") {
 		im = append(im, g.opts.GoModule+"/"+enumsDir)
 	}
@@ -212,6 +228,12 @@ func (g *generator) typeImports(body string) []string {
 		im = append(im, g.opts.GoModule+"/"+modelsDir)
 	}
 	return im
+}
+
+// graphqlModule is the import path of the runtime graphql helper package (scalar types
+// and pointer constructors), a sibling of the runtime facade module.
+func (g *generator) graphqlModule() string {
+	return path.Dir(g.opts.RuntimeModule) + "/graphql"
 }
 
 // ---- resource packages ------------------------------------------------------
@@ -472,7 +494,18 @@ func uniqueName(base string, used map[string]bool) string {
 	return name
 }
 
-// identifier lowercases a name and keeps only [a-z0-9] for use as a package name.
+// goKeywords are the reserved words that cannot be used as identifiers, so they cannot
+// be a generated package name (e.g. a table named "Type" -> package "type").
+var goKeywords = map[string]bool{
+	"break": true, "case": true, "chan": true, "const": true, "continue": true,
+	"default": true, "defer": true, "else": true, "fallthrough": true, "for": true,
+	"func": true, "go": true, "goto": true, "if": true, "import": true,
+	"interface": true, "map": true, "package": true, "range": true, "return": true,
+	"select": true, "struct": true, "switch": true, "type": true, "var": true,
+}
+
+// identifier lowercases a name and keeps only [a-z0-9] for use as a package name,
+// avoiding empty/digit-leading names and Go keywords (which are invalid as packages).
 func identifier(name string) string {
 	var b strings.Builder
 	for _, r := range strings.ToLower(name) {
@@ -482,7 +515,10 @@ func identifier(name string) string {
 	}
 	s := b.String()
 	if s == "" || (s[0] >= '0' && s[0] <= '9') {
-		return "res" + s
+		s = "res" + s
+	}
+	if goKeywords[s] {
+		s += "_"
 	}
 	return s
 }

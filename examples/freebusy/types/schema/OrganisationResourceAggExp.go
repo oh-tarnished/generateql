@@ -2,82 +2,86 @@
 
 package schema
 
+import (
+	"github.com/oh-tarnished/generate-ql/runtime/go/graphql"
+)
+
 // OrganisationResourceAggExp is the OrganisationResourceAggExp model.
 type OrganisationResourceAggExp struct {
-	Count        int64 `graphql:"_count"`
+	Count        graphql.Int64 `graphql:"_count"`
 	BillingEmail struct {
-		Count         int64   `graphql:"_count"`
-		CountDistinct int64   `graphql:"_count_distinct"`
-		Max           *string `graphql:"max"`
-		Min           *string `graphql:"min"`
+		Count         graphql.Int64 `graphql:"_count"`
+		CountDistinct graphql.Int64 `graphql:"_count_distinct"`
+		Max           *string       `graphql:"max"`
+		Min           *string       `graphql:"min"`
 	} `graphql:"billingEmail"`
 	CreateTime struct {
-		Count         int64   `graphql:"_count"`
-		CountDistinct int64   `graphql:"_count_distinct"`
-		Max           *string `graphql:"max"`
-		Min           *string `graphql:"min"`
+		Count         graphql.Int64 `graphql:"_count"`
+		CountDistinct graphql.Int64 `graphql:"_count_distinct"`
+		Max           *string       `graphql:"max"`
+		Min           *string       `graphql:"min"`
 	} `graphql:"createTime"`
 	DisplayName struct {
-		Count         int64   `graphql:"_count"`
-		CountDistinct int64   `graphql:"_count_distinct"`
-		Max           *string `graphql:"max"`
-		Min           *string `graphql:"min"`
+		Count         graphql.Int64 `graphql:"_count"`
+		CountDistinct graphql.Int64 `graphql:"_count_distinct"`
+		Max           *string       `graphql:"max"`
+		Min           *string       `graphql:"min"`
 	} `graphql:"displayName"`
 	Etag struct {
-		Count         int64   `graphql:"_count"`
-		CountDistinct int64   `graphql:"_count_distinct"`
-		Max           *string `graphql:"max"`
-		Min           *string `graphql:"min"`
+		Count         graphql.Int64 `graphql:"_count"`
+		CountDistinct graphql.Int64 `graphql:"_count_distinct"`
+		Max           *string       `graphql:"max"`
+		Min           *string       `graphql:"min"`
 	} `graphql:"etag"`
 	Id struct {
-		Count         int64   `graphql:"_count"`
-		CountDistinct int64   `graphql:"_count_distinct"`
-		Max           *string `graphql:"max"`
-		Min           *string `graphql:"min"`
+		Count         graphql.Int64 `graphql:"_count"`
+		CountDistinct graphql.Int64 `graphql:"_count_distinct"`
+		Max           *string       `graphql:"max"`
+		Min           *string       `graphql:"min"`
 	} `graphql:"id"`
 	MemberCount struct {
-		Count         int64   `graphql:"_count"`
-		CountDistinct int64   `graphql:"_count_distinct"`
-		Avg           *string `graphql:"avg"`
-		BitAnd        *int64  `graphql:"bit_and"`
-		BitOr         *int64  `graphql:"bit_or"`
-		BitXor        *int64  `graphql:"bit_xor"`
-		Max           *int64  `graphql:"max"`
-		Min           *int64  `graphql:"min"`
-		Stddev        *string `graphql:"stddev"`
-		StddevPop     *string `graphql:"stddev_pop"`
-		StddevSamp    *string `graphql:"stddev_samp"`
-		Sum           *string `graphql:"sum"`
-		VarPop        *string `graphql:"var_pop"`
-		VarSamp       *string `graphql:"var_samp"`
-		Variance      *string `graphql:"variance"`
+		Count         graphql.Int64  `graphql:"_count"`
+		CountDistinct graphql.Int64  `graphql:"_count_distinct"`
+		Avg           *string        `graphql:"avg"`
+		BitAnd        *graphql.Int64 `graphql:"bit_and"`
+		BitOr         *graphql.Int64 `graphql:"bit_or"`
+		BitXor        *graphql.Int64 `graphql:"bit_xor"`
+		Max           *graphql.Int64 `graphql:"max"`
+		Min           *graphql.Int64 `graphql:"min"`
+		Stddev        *string        `graphql:"stddev"`
+		StddevPop     *string        `graphql:"stddev_pop"`
+		StddevSamp    *string        `graphql:"stddev_samp"`
+		Sum           *string        `graphql:"sum"`
+		VarPop        *string        `graphql:"var_pop"`
+		VarSamp       *string        `graphql:"var_samp"`
+		Variance      *string        `graphql:"variance"`
 	} `graphql:"memberCount"`
 	Name struct {
-		Count         int64   `graphql:"_count"`
-		CountDistinct int64   `graphql:"_count_distinct"`
-		Max           *string `graphql:"max"`
-		Min           *string `graphql:"min"`
+		Count         graphql.Int64 `graphql:"_count"`
+		CountDistinct graphql.Int64 `graphql:"_count_distinct"`
+		Max           *string       `graphql:"max"`
+		Min           *string       `graphql:"min"`
 	} `graphql:"name"`
 	Settings struct {
-		Count         int64 `graphql:"_count"`
-		CountDistinct int64 `graphql:"_count_distinct"`
+		Count         graphql.Int64 `graphql:"_count"`
+		CountDistinct graphql.Int64 `graphql:"_count_distinct"`
 	} `graphql:"settings"`
 	Slug struct {
-		Count         int64   `graphql:"_count"`
-		CountDistinct int64   `graphql:"_count_distinct"`
-		Max           *string `graphql:"max"`
-		Min           *string `graphql:"min"`
+		Count         graphql.Int64 `graphql:"_count"`
+		CountDistinct graphql.Int64 `graphql:"_count_distinct"`
+		Max           *string       `graphql:"max"`
+		Min           *string       `graphql:"min"`
 	} `graphql:"slug"`
 	State struct {
-		Count         int64   `graphql:"_count"`
-		CountDistinct int64   `graphql:"_count_distinct"`
-		Max           *string `graphql:"max"`
-		Min           *string `graphql:"min"`
+		Count         graphql.Int64 `graphql:"_count"`
+		CountDistinct graphql.Int64 `graphql:"_count_distinct"`
+		Max           *string       `graphql:"max"`
+		Min           *string       `graphql:"min"`
 	} `graphql:"state"`
 	UpdateTime struct {
-		Count         int64   `graphql:"_count"`
-		CountDistinct int64   `graphql:"_count_distinct"`
-		Max           *string `graphql:"max"`
-		Min           *string `graphql:"min"`
+		Count         graphql.Int64 `graphql:"_count"`
+		CountDistinct graphql.Int64 `graphql:"_count_distinct"`
+		Max           *string       `graphql:"max"`
+		Min           *string       `graphql:"min"`
 	} `graphql:"updateTime"`
 }

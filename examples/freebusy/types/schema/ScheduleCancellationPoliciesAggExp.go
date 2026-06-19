@@ -2,13 +2,17 @@
 
 package schema
 
+import (
+	"github.com/oh-tarnished/generate-ql/runtime/go/graphql"
+)
+
 // ScheduleCancellationPoliciesAggExp is the ScheduleCancellationPoliciesAggExp model.
 type ScheduleCancellationPoliciesAggExp struct {
-	Count int64 `graphql:"_count"`
+	Count graphql.Int64 `graphql:"_count"`
 	Id    struct {
-		Count         int64   `graphql:"_count"`
-		CountDistinct int64   `graphql:"_count_distinct"`
-		Max           *string `graphql:"max"`
-		Min           *string `graphql:"min"`
+		Count         graphql.Int64 `graphql:"_count"`
+		CountDistinct graphql.Int64 `graphql:"_count_distinct"`
+		Max           *string       `graphql:"max"`
+		Min           *string       `graphql:"min"`
 	} `graphql:"id"`
 }

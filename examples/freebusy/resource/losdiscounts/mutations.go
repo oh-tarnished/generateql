@@ -14,36 +14,41 @@ type mutationHandler struct {
 }
 
 func (h *mutationHandler) DeleteById(ctx context.Context, keyId string, params DeleteByIdParams) (schema.DeleteResourceLosDiscountsByIdResponse, error) {
-	var q struct {
-		DeleteResourceLosDiscountsById schema.DeleteResourceLosDiscountsByIdResponse `graphql:"deleteResourceLosDiscountsById(keyId: $keyId, preCheck: $preCheck)"`
+	var out schema.DeleteResourceLosDiscountsByIdResponse
+	args := map[string]any{
+		"keyId": keyId,
 	}
-	res := <-h.gql.Mutation(&q, map[string]any{
-		"keyId":    keyId,
-		"preCheck": params.PreCheck,
-	})
-	return q.DeleteResourceLosDiscountsById, res.Error
+	if params.PreCheck != nil {
+		args["preCheck"] = params.PreCheck
+	}
+	res := <-h.gql.MutateFields("deleteResourceLosDiscountsById", &out, args)
+	return out, res.Error
 }
 
 func (h *mutationHandler) Insert(ctx context.Context, objects []inputs.InsertResourceLosDiscountsObjectInput, params InsertParams) (schema.InsertResourceLosDiscountsResponse, error) {
-	var q struct {
-		InsertResourceLosDiscounts schema.InsertResourceLosDiscountsResponse `graphql:"insertResourceLosDiscounts(objects: $objects, postCheck: $postCheck)"`
+	var out schema.InsertResourceLosDiscountsResponse
+	args := map[string]any{
+		"objects": objects,
 	}
-	res := <-h.gql.Mutation(&q, map[string]any{
-		"objects":   objects,
-		"postCheck": params.PostCheck,
-	})
-	return q.InsertResourceLosDiscounts, res.Error
+	if params.PostCheck != nil {
+		args["postCheck"] = params.PostCheck
+	}
+	res := <-h.gql.MutateFields("insertResourceLosDiscounts", &out, args)
+	return out, res.Error
 }
 
 func (h *mutationHandler) UpdateById(ctx context.Context, keyId string, updateColumns inputs.UpdateResourceLosDiscountsByIdUpdateColumnsInput, params UpdateByIdParams) (schema.UpdateResourceLosDiscountsByIdResponse, error) {
-	var q struct {
-		UpdateResourceLosDiscountsById schema.UpdateResourceLosDiscountsByIdResponse `graphql:"updateResourceLosDiscountsById(keyId: $keyId, postCheck: $postCheck, preCheck: $preCheck, updateColumns: $updateColumns)"`
-	}
-	res := <-h.gql.Mutation(&q, map[string]any{
+	var out schema.UpdateResourceLosDiscountsByIdResponse
+	args := map[string]any{
 		"keyId":         keyId,
-		"postCheck":     params.PostCheck,
-		"preCheck":      params.PreCheck,
 		"updateColumns": updateColumns,
-	})
-	return q.UpdateResourceLosDiscountsById, res.Error
+	}
+	if params.PostCheck != nil {
+		args["postCheck"] = params.PostCheck
+	}
+	if params.PreCheck != nil {
+		args["preCheck"] = params.PreCheck
+	}
+	res := <-h.gql.MutateFields("updateResourceLosDiscountsById", &out, args)
+	return out, res.Error
 }

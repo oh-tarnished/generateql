@@ -2,6 +2,10 @@
 
 package schema
 
+import (
+	"github.com/oh-tarnished/generate-ql/runtime/go/graphql"
+)
+
 // ScheduleBufferSettings is the ScheduleBufferSettings model.
 type ScheduleBufferSettings struct {
 	EndDelta          *string `graphql:"endDelta"`
@@ -18,7 +22,7 @@ type ScheduleBufferSettings struct {
 		StayConstraintsId    *string `graphql:"stayConstraintsId"`
 	} `graphql:"scheduleResources"`
 	ScheduleResourcesAggregate struct {
-		Count int64 `graphql:"_count"`
+		Count graphql.Int64 `graphql:"_count"`
 	} `graphql:"scheduleResourcesAggregate"`
 	StartDelta *string `graphql:"startDelta"`
 }

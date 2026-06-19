@@ -14,36 +14,41 @@ type mutationHandler struct {
 }
 
 func (h *mutationHandler) DeleteById(ctx context.Context, keyId string, params DeleteByIdParams) (schema.DeleteScheduleCancellationPoliciesByIdResponse, error) {
-	var q struct {
-		DeleteScheduleCancellationPoliciesById schema.DeleteScheduleCancellationPoliciesByIdResponse `graphql:"deleteScheduleCancellationPoliciesById(keyId: $keyId, preCheck: $preCheck)"`
+	var out schema.DeleteScheduleCancellationPoliciesByIdResponse
+	args := map[string]any{
+		"keyId": keyId,
 	}
-	res := <-h.gql.Mutation(&q, map[string]any{
-		"keyId":    keyId,
-		"preCheck": params.PreCheck,
-	})
-	return q.DeleteScheduleCancellationPoliciesById, res.Error
+	if params.PreCheck != nil {
+		args["preCheck"] = params.PreCheck
+	}
+	res := <-h.gql.MutateFields("deleteScheduleCancellationPoliciesById", &out, args)
+	return out, res.Error
 }
 
 func (h *mutationHandler) Insert(ctx context.Context, objects []inputs.InsertScheduleCancellationPoliciesObjectInput, params InsertParams) (schema.InsertScheduleCancellationPoliciesResponse, error) {
-	var q struct {
-		InsertScheduleCancellationPolicies schema.InsertScheduleCancellationPoliciesResponse `graphql:"insertScheduleCancellationPolicies(objects: $objects, postCheck: $postCheck)"`
+	var out schema.InsertScheduleCancellationPoliciesResponse
+	args := map[string]any{
+		"objects": objects,
 	}
-	res := <-h.gql.Mutation(&q, map[string]any{
-		"objects":   objects,
-		"postCheck": params.PostCheck,
-	})
-	return q.InsertScheduleCancellationPolicies, res.Error
+	if params.PostCheck != nil {
+		args["postCheck"] = params.PostCheck
+	}
+	res := <-h.gql.MutateFields("insertScheduleCancellationPolicies", &out, args)
+	return out, res.Error
 }
 
 func (h *mutationHandler) UpdateById(ctx context.Context, keyId string, updateColumns inputs.UpdateScheduleCancellationPoliciesByIdUpdateColumnsInput, params UpdateByIdParams) (schema.UpdateScheduleCancellationPoliciesByIdResponse, error) {
-	var q struct {
-		UpdateScheduleCancellationPoliciesById schema.UpdateScheduleCancellationPoliciesByIdResponse `graphql:"updateScheduleCancellationPoliciesById(keyId: $keyId, postCheck: $postCheck, preCheck: $preCheck, updateColumns: $updateColumns)"`
-	}
-	res := <-h.gql.Mutation(&q, map[string]any{
+	var out schema.UpdateScheduleCancellationPoliciesByIdResponse
+	args := map[string]any{
 		"keyId":         keyId,
-		"postCheck":     params.PostCheck,
-		"preCheck":      params.PreCheck,
 		"updateColumns": updateColumns,
-	})
-	return q.UpdateScheduleCancellationPoliciesById, res.Error
+	}
+	if params.PostCheck != nil {
+		args["postCheck"] = params.PostCheck
+	}
+	if params.PreCheck != nil {
+		args["preCheck"] = params.PreCheck
+	}
+	res := <-h.gql.MutateFields("updateScheduleCancellationPoliciesById", &out, args)
+	return out, res.Error
 }

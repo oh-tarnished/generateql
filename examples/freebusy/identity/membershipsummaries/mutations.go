@@ -14,36 +14,41 @@ type mutationHandler struct {
 }
 
 func (h *mutationHandler) DeleteById(ctx context.Context, keyId string, params DeleteByIdParams) (schema.DeleteIdentityMembershipSummariesByIdResponse, error) {
-	var q struct {
-		DeleteIdentityMembershipSummariesById schema.DeleteIdentityMembershipSummariesByIdResponse `graphql:"deleteIdentityMembershipSummariesById(keyId: $keyId, preCheck: $preCheck)"`
+	var out schema.DeleteIdentityMembershipSummariesByIdResponse
+	args := map[string]any{
+		"keyId": keyId,
 	}
-	res := <-h.gql.Mutation(&q, map[string]any{
-		"keyId":    keyId,
-		"preCheck": params.PreCheck,
-	})
-	return q.DeleteIdentityMembershipSummariesById, res.Error
+	if params.PreCheck != nil {
+		args["preCheck"] = params.PreCheck
+	}
+	res := <-h.gql.MutateFields("deleteIdentityMembershipSummariesById", &out, args)
+	return out, res.Error
 }
 
 func (h *mutationHandler) Insert(ctx context.Context, objects []inputs.InsertIdentityMembershipSummariesObjectInput, params InsertParams) (schema.InsertIdentityMembershipSummariesResponse, error) {
-	var q struct {
-		InsertIdentityMembershipSummaries schema.InsertIdentityMembershipSummariesResponse `graphql:"insertIdentityMembershipSummaries(objects: $objects, postCheck: $postCheck)"`
+	var out schema.InsertIdentityMembershipSummariesResponse
+	args := map[string]any{
+		"objects": objects,
 	}
-	res := <-h.gql.Mutation(&q, map[string]any{
-		"objects":   objects,
-		"postCheck": params.PostCheck,
-	})
-	return q.InsertIdentityMembershipSummaries, res.Error
+	if params.PostCheck != nil {
+		args["postCheck"] = params.PostCheck
+	}
+	res := <-h.gql.MutateFields("insertIdentityMembershipSummaries", &out, args)
+	return out, res.Error
 }
 
 func (h *mutationHandler) UpdateById(ctx context.Context, keyId string, updateColumns inputs.UpdateIdentityMembershipSummariesByIdUpdateColumnsInput, params UpdateByIdParams) (schema.UpdateIdentityMembershipSummariesByIdResponse, error) {
-	var q struct {
-		UpdateIdentityMembershipSummariesById schema.UpdateIdentityMembershipSummariesByIdResponse `graphql:"updateIdentityMembershipSummariesById(keyId: $keyId, postCheck: $postCheck, preCheck: $preCheck, updateColumns: $updateColumns)"`
-	}
-	res := <-h.gql.Mutation(&q, map[string]any{
+	var out schema.UpdateIdentityMembershipSummariesByIdResponse
+	args := map[string]any{
 		"keyId":         keyId,
-		"postCheck":     params.PostCheck,
-		"preCheck":      params.PreCheck,
 		"updateColumns": updateColumns,
-	})
-	return q.UpdateIdentityMembershipSummariesById, res.Error
+	}
+	if params.PostCheck != nil {
+		args["postCheck"] = params.PostCheck
+	}
+	if params.PreCheck != nil {
+		args["preCheck"] = params.PreCheck
+	}
+	res := <-h.gql.MutateFields("updateIdentityMembershipSummariesById", &out, args)
+	return out, res.Error
 }

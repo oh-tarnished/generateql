@@ -14,36 +14,41 @@ type mutationHandler struct {
 }
 
 func (h *mutationHandler) DeleteById(ctx context.Context, keyId string, params DeleteByIdParams) (schema.DeletePrismaMigrationsByIdResponse, error) {
-	var q struct {
-		DeletePrismaMigrationsById schema.DeletePrismaMigrationsByIdResponse `graphql:"deletePrismaMigrationsById(keyId: $keyId, preCheck: $preCheck)"`
+	var out schema.DeletePrismaMigrationsByIdResponse
+	args := map[string]any{
+		"keyId": keyId,
 	}
-	res := <-h.gql.Mutation(&q, map[string]any{
-		"keyId":    keyId,
-		"preCheck": params.PreCheck,
-	})
-	return q.DeletePrismaMigrationsById, res.Error
+	if params.PreCheck != nil {
+		args["preCheck"] = params.PreCheck
+	}
+	res := <-h.gql.MutateFields("deletePrismaMigrationsById", &out, args)
+	return out, res.Error
 }
 
 func (h *mutationHandler) Insert(ctx context.Context, objects []inputs.InsertPrismaMigrationsObjectInput, params InsertParams) (schema.InsertPrismaMigrationsResponse, error) {
-	var q struct {
-		InsertPrismaMigrations schema.InsertPrismaMigrationsResponse `graphql:"insertPrismaMigrations(objects: $objects, postCheck: $postCheck)"`
+	var out schema.InsertPrismaMigrationsResponse
+	args := map[string]any{
+		"objects": objects,
 	}
-	res := <-h.gql.Mutation(&q, map[string]any{
-		"objects":   objects,
-		"postCheck": params.PostCheck,
-	})
-	return q.InsertPrismaMigrations, res.Error
+	if params.PostCheck != nil {
+		args["postCheck"] = params.PostCheck
+	}
+	res := <-h.gql.MutateFields("insertPrismaMigrations", &out, args)
+	return out, res.Error
 }
 
 func (h *mutationHandler) UpdateById(ctx context.Context, keyId string, updateColumns inputs.UpdatePrismaMigrationsByIdUpdateColumnsInput, params UpdateByIdParams) (schema.UpdatePrismaMigrationsByIdResponse, error) {
-	var q struct {
-		UpdatePrismaMigrationsById schema.UpdatePrismaMigrationsByIdResponse `graphql:"updatePrismaMigrationsById(keyId: $keyId, postCheck: $postCheck, preCheck: $preCheck, updateColumns: $updateColumns)"`
-	}
-	res := <-h.gql.Mutation(&q, map[string]any{
+	var out schema.UpdatePrismaMigrationsByIdResponse
+	args := map[string]any{
 		"keyId":         keyId,
-		"postCheck":     params.PostCheck,
-		"preCheck":      params.PreCheck,
 		"updateColumns": updateColumns,
-	})
-	return q.UpdatePrismaMigrationsById, res.Error
+	}
+	if params.PostCheck != nil {
+		args["postCheck"] = params.PostCheck
+	}
+	if params.PreCheck != nil {
+		args["preCheck"] = params.PreCheck
+	}
+	res := <-h.gql.MutateFields("updatePrismaMigrationsById", &out, args)
+	return out, res.Error
 }

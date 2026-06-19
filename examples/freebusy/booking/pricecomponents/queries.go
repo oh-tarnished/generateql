@@ -13,34 +13,39 @@ type queryHandler struct {
 }
 
 func (h *queryHandler) List(ctx context.Context, params ListParams) ([]schema.BookingPriceComponents, error) {
-	var q struct {
-		BookingPriceComponents []schema.BookingPriceComponents `graphql:"bookingPriceComponents(limit: $limit, offset: $offset, order_by: $order_by, where: $where)"`
+	var out []schema.BookingPriceComponents
+	args := map[string]any{}
+	if params.Limit != nil {
+		args["limit"] = params.Limit
 	}
-	res := <-h.gql.Query(&q, map[string]any{
-		"limit":    params.Limit,
-		"offset":   params.Offset,
-		"order_by": params.OrderBy,
-		"where":    params.Where,
-	})
-	return q.BookingPriceComponents, res.Error
+	if params.Offset != nil {
+		args["offset"] = params.Offset
+	}
+	if params.OrderBy != nil {
+		args["order_by"] = params.OrderBy
+	}
+	if params.Where != nil {
+		args["where"] = params.Where
+	}
+	res := <-h.gql.QueryFields("bookingPriceComponents", &out, args)
+	return out, res.Error
 }
 
 func (h *queryHandler) Aggregate(ctx context.Context, params AggregateParams) (*schema.BookingPriceComponentsAggExp, error) {
-	var q struct {
-		BookingPriceComponentsAggregate *schema.BookingPriceComponentsAggExp `graphql:"bookingPriceComponentsAggregate(filter_input: $filter_input)"`
+	var out *schema.BookingPriceComponentsAggExp
+	args := map[string]any{}
+	if params.FilterInput != nil {
+		args["filter_input"] = params.FilterInput
 	}
-	res := <-h.gql.Query(&q, map[string]any{
-		"filter_input": params.FilterInput,
-	})
-	return q.BookingPriceComponentsAggregate, res.Error
+	res := <-h.gql.QueryFields("bookingPriceComponentsAggregate", &out, args)
+	return out, res.Error
 }
 
 func (h *queryHandler) ById(ctx context.Context, id string) (*schema.BookingPriceComponents, error) {
-	var q struct {
-		BookingPriceComponentsById *schema.BookingPriceComponents `graphql:"bookingPriceComponentsById(id: $id)"`
-	}
-	res := <-h.gql.Query(&q, map[string]any{
+	var out *schema.BookingPriceComponents
+	args := map[string]any{
 		"id": id,
-	})
-	return q.BookingPriceComponentsById, res.Error
+	}
+	res := <-h.gql.QueryFields("bookingPriceComponentsById", &out, args)
+	return out, res.Error
 }

@@ -15,7 +15,8 @@ var defaultScalars = map[string]string{
 	"Boolean1":    "bool",
 	"Int":         "int",
 	"Int32":       "int32",
-	"Int64":       "int64",
+	"Int64":       "graphql.Int64", // engine serializes 64-bit ints as strings; flexible scalar
+
 	"Float":       "float64",
 	"Float64":     "float64",
 	"Bigdecimal":  "string",
@@ -76,14 +77,23 @@ type Qualifier struct {
 // nullability wrappers and qualifying references to generated types per q. Relations
 // expanded inline by the selection renderer do not go through this function.
 func (m *Mapper) GoType(ft ir.FieldType, q Qualifier) string {
-	base := m.qualifiedLeaf(ft.Base, q)
 	if ft.List {
-		return "[]" + base
+		return "[]" + m.elemType(ft, q)
 	}
 	if !ft.NonNull {
-		return "*" + base
+		return "*" + m.qualifiedLeaf(ft.Base, q)
 	}
-	return base
+	return m.qualifiedLeaf(ft.Base, q)
+}
+
+// elemType returns the list element Go type, adding a pointer when list elements are
+// nullable (e.g. [String] -> []*string, [String!] -> []string).
+func (m *Mapper) elemType(ft ir.FieldType, q Qualifier) string {
+	elem := m.qualifiedLeaf(ft.Base, q)
+	if !ft.ElemNonNull {
+		elem = "*" + elem
+	}
+	return elem
 }
 
 // GoArgType returns the Go type for an operation argument (a GraphQL variable). It
@@ -92,7 +102,7 @@ func (m *Mapper) GoType(ft ir.FieldType, q Qualifier) string {
 // (absent) nullable list argument.
 func (m *Mapper) GoArgType(ft ir.FieldType, q Qualifier) string {
 	if ft.List && !ft.NonNull {
-		return "*[]" + m.qualifiedLeaf(ft.Base, q)
+		return "*[]" + m.elemType(ft, q)
 	}
 	return m.GoType(ft, q)
 }

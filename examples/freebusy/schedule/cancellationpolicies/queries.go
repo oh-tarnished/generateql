@@ -13,34 +13,39 @@ type queryHandler struct {
 }
 
 func (h *queryHandler) List(ctx context.Context, params ListParams) ([]schema.ScheduleCancellationPolicies, error) {
-	var q struct {
-		ScheduleCancellationPolicies []schema.ScheduleCancellationPolicies `graphql:"scheduleCancellationPolicies(limit: $limit, offset: $offset, order_by: $order_by, where: $where)"`
+	var out []schema.ScheduleCancellationPolicies
+	args := map[string]any{}
+	if params.Limit != nil {
+		args["limit"] = params.Limit
 	}
-	res := <-h.gql.Query(&q, map[string]any{
-		"limit":    params.Limit,
-		"offset":   params.Offset,
-		"order_by": params.OrderBy,
-		"where":    params.Where,
-	})
-	return q.ScheduleCancellationPolicies, res.Error
+	if params.Offset != nil {
+		args["offset"] = params.Offset
+	}
+	if params.OrderBy != nil {
+		args["order_by"] = params.OrderBy
+	}
+	if params.Where != nil {
+		args["where"] = params.Where
+	}
+	res := <-h.gql.QueryFields("scheduleCancellationPolicies", &out, args)
+	return out, res.Error
 }
 
 func (h *queryHandler) Aggregate(ctx context.Context, params AggregateParams) (*schema.ScheduleCancellationPoliciesAggExp, error) {
-	var q struct {
-		ScheduleCancellationPoliciesAggregate *schema.ScheduleCancellationPoliciesAggExp `graphql:"scheduleCancellationPoliciesAggregate(filter_input: $filter_input)"`
+	var out *schema.ScheduleCancellationPoliciesAggExp
+	args := map[string]any{}
+	if params.FilterInput != nil {
+		args["filter_input"] = params.FilterInput
 	}
-	res := <-h.gql.Query(&q, map[string]any{
-		"filter_input": params.FilterInput,
-	})
-	return q.ScheduleCancellationPoliciesAggregate, res.Error
+	res := <-h.gql.QueryFields("scheduleCancellationPoliciesAggregate", &out, args)
+	return out, res.Error
 }
 
 func (h *queryHandler) ById(ctx context.Context, id string) (*schema.ScheduleCancellationPolicies, error) {
-	var q struct {
-		ScheduleCancellationPoliciesById *schema.ScheduleCancellationPolicies `graphql:"scheduleCancellationPoliciesById(id: $id)"`
-	}
-	res := <-h.gql.Query(&q, map[string]any{
+	var out *schema.ScheduleCancellationPolicies
+	args := map[string]any{
 		"id": id,
-	})
-	return q.ScheduleCancellationPoliciesById, res.Error
+	}
+	res := <-h.gql.QueryFields("scheduleCancellationPoliciesById", &out, args)
+	return out, res.Error
 }

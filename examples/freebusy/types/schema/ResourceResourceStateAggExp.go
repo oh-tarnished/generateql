@@ -2,10 +2,14 @@
 
 package schema
 
+import (
+	"github.com/oh-tarnished/generate-ql/runtime/go/graphql"
+)
+
 // ResourceResourceStateAggExp is the ResourceResourceStateAggExp model.
 type ResourceResourceStateAggExp struct {
-	Count         int64   `graphql:"_count"`
-	CountDistinct int64   `graphql:"_count_distinct"`
-	Max           *string `graphql:"max"`
-	Min           *string `graphql:"min"`
+	Count         graphql.Int64 `graphql:"_count"`
+	CountDistinct graphql.Int64 `graphql:"_count_distinct"`
+	Max           *string       `graphql:"max"`
+	Min           *string       `graphql:"min"`
 }

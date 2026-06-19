@@ -4,6 +4,7 @@ package schema
 
 import (
 	"encoding/json"
+	"github.com/oh-tarnished/generate-ql/runtime/go/graphql"
 )
 
 // BookingPriceComponents is the BookingPriceComponents model.
@@ -11,10 +12,10 @@ type BookingPriceComponents struct {
 	AmountId     *string `graphql:"amountId"`
 	BookingId    string  `graphql:"bookingId"`
 	BookingMoney struct {
-		CurrencyCode *string `graphql:"currencyCode"`
-		Id           string  `graphql:"id"`
-		Nanos        *int32  `graphql:"nanos"`
-		Units        *int64  `graphql:"units"`
+		CurrencyCode *string        `graphql:"currencyCode"`
+		Id           string         `graphql:"id"`
+		Nanos        *int32         `graphql:"nanos"`
+		Units        *graphql.Int64 `graphql:"units"`
 	} `graphql:"bookingMoney"`
 	BookingResource struct {
 		AssignedUnit   *string          `graphql:"assignedUnit"`

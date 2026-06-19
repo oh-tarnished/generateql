@@ -14,36 +14,41 @@ type mutationHandler struct {
 }
 
 func (h *mutationHandler) DeleteById(ctx context.Context, keyId string, params DeleteByIdParams) (schema.DeleteBookingResourceByIdResponse, error) {
-	var q struct {
-		DeleteBookingResourceById schema.DeleteBookingResourceByIdResponse `graphql:"deleteBookingResourceById(keyId: $keyId, preCheck: $preCheck)"`
+	var out schema.DeleteBookingResourceByIdResponse
+	args := map[string]any{
+		"keyId": keyId,
 	}
-	res := <-h.gql.Mutation(&q, map[string]any{
-		"keyId":    keyId,
-		"preCheck": params.PreCheck,
-	})
-	return q.DeleteBookingResourceById, res.Error
+	if params.PreCheck != nil {
+		args["preCheck"] = params.PreCheck
+	}
+	res := <-h.gql.MutateFields("deleteBookingResourceById", &out, args)
+	return out, res.Error
 }
 
 func (h *mutationHandler) Insert(ctx context.Context, objects []inputs.InsertBookingResourceObjectInput, params InsertParams) (schema.InsertBookingResourceResponse, error) {
-	var q struct {
-		InsertBookingResource schema.InsertBookingResourceResponse `graphql:"insertBookingResource(objects: $objects, postCheck: $postCheck)"`
+	var out schema.InsertBookingResourceResponse
+	args := map[string]any{
+		"objects": objects,
 	}
-	res := <-h.gql.Mutation(&q, map[string]any{
-		"objects":   objects,
-		"postCheck": params.PostCheck,
-	})
-	return q.InsertBookingResource, res.Error
+	if params.PostCheck != nil {
+		args["postCheck"] = params.PostCheck
+	}
+	res := <-h.gql.MutateFields("insertBookingResource", &out, args)
+	return out, res.Error
 }
 
 func (h *mutationHandler) UpdateById(ctx context.Context, keyId string, updateColumns inputs.UpdateBookingResourceByIdUpdateColumnsInput, params UpdateByIdParams) (schema.UpdateBookingResourceByIdResponse, error) {
-	var q struct {
-		UpdateBookingResourceById schema.UpdateBookingResourceByIdResponse `graphql:"updateBookingResourceById(keyId: $keyId, postCheck: $postCheck, preCheck: $preCheck, updateColumns: $updateColumns)"`
-	}
-	res := <-h.gql.Mutation(&q, map[string]any{
+	var out schema.UpdateBookingResourceByIdResponse
+	args := map[string]any{
 		"keyId":         keyId,
-		"postCheck":     params.PostCheck,
-		"preCheck":      params.PreCheck,
 		"updateColumns": updateColumns,
-	})
-	return q.UpdateBookingResourceById, res.Error
+	}
+	if params.PostCheck != nil {
+		args["postCheck"] = params.PostCheck
+	}
+	if params.PreCheck != nil {
+		args["preCheck"] = params.PreCheck
+	}
+	res := <-h.gql.MutateFields("updateBookingResourceById", &out, args)
+	return out, res.Error
 }

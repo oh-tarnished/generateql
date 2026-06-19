@@ -4,6 +4,7 @@ package schema
 
 import (
 	"encoding/json"
+	"github.com/oh-tarnished/generate-ql/runtime/go/graphql"
 )
 
 // UpdateOrganisationResourceByIdResponse is the UpdateOrganisationResourceByIdResponse model.
@@ -15,7 +16,7 @@ type UpdateOrganisationResourceByIdResponse struct {
 		DisplayName  string           `graphql:"displayName"`
 		Etag         *string          `graphql:"etag"`
 		Id           string           `graphql:"id"`
-		MemberCount  *int64           `graphql:"memberCount"`
+		MemberCount  *graphql.Int64   `graphql:"memberCount"`
 		Name         string           `graphql:"name"`
 		Settings     *json.RawMessage `graphql:"settings"`
 		Slug         *string          `graphql:"slug"`

@@ -2,27 +2,31 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generate-ql/runtime/go/graphql"
+)
+
 // InsertPromocodeResourceObjectInput is the InsertPromocodeResourceObjectInput input type.
 type InsertPromocodeResourceObjectInput struct {
-	AmountOffId      *string `json:"amountOffId,omitempty"`
-	Code             string  `json:"code,omitempty"`
-	CreateTime       *string `json:"createTime,omitempty"`
-	Description      *string `json:"description,omitempty"`
-	Disabled         *bool   `json:"disabled,omitempty"`
-	DiscountType     *string `json:"discountType,omitempty"`
-	DisplayName      *string `json:"displayName,omitempty"`
-	Etag             *string `json:"etag,omitempty"`
-	Id               string  `json:"id,omitempty"`
-	MaxRedemptions   *int64  `json:"maxRedemptions,omitempty"`
-	MinSubtotalId    *string `json:"minSubtotalId,omitempty"`
-	Name             string  `json:"name,omitempty"`
-	PerCustomerLimit *int32  `json:"perCustomerLimit,omitempty"`
-	PercentOff       *int32  `json:"percentOff,omitempty"`
-	RedeemEndTime    *string `json:"redeemEndTime,omitempty"`
-	RedeemStartTime  *string `json:"redeemStartTime,omitempty"`
-	RedemptionCount  *int64  `json:"redemptionCount,omitempty"`
-	State            *string `json:"state,omitempty"`
-	UpdateTime       string  `json:"updateTime,omitempty"`
+	AmountOffId      *string        `json:"amountOffId,omitempty"`
+	Code             string         `json:"code,omitempty"`
+	CreateTime       *string        `json:"createTime,omitempty"`
+	Description      *string        `json:"description,omitempty"`
+	Disabled         *bool          `json:"disabled,omitempty"`
+	DiscountType     *string        `json:"discountType,omitempty"`
+	DisplayName      *string        `json:"displayName,omitempty"`
+	Etag             *string        `json:"etag,omitempty"`
+	Id               string         `json:"id,omitempty"`
+	MaxRedemptions   *graphql.Int64 `json:"maxRedemptions,omitempty"`
+	MinSubtotalId    *string        `json:"minSubtotalId,omitempty"`
+	Name             string         `json:"name,omitempty"`
+	PerCustomerLimit *int32         `json:"perCustomerLimit,omitempty"`
+	PercentOff       *int32         `json:"percentOff,omitempty"`
+	RedeemEndTime    *string        `json:"redeemEndTime,omitempty"`
+	RedeemStartTime  *string        `json:"redeemStartTime,omitempty"`
+	RedemptionCount  *graphql.Int64 `json:"redemptionCount,omitempty"`
+	State            *string        `json:"state,omitempty"`
+	UpdateTime       string         `json:"updateTime,omitempty"`
 }
 
 func (*InsertPromocodeResourceObjectInput) GetGraphQLType() string {

@@ -13,34 +13,39 @@ type queryHandler struct {
 }
 
 func (h *queryHandler) List(ctx context.Context, params ListParams) ([]schema.ScheduleResource, error) {
-	var q struct {
-		ScheduleResource []schema.ScheduleResource `graphql:"scheduleResource(limit: $limit, offset: $offset, order_by: $order_by, where: $where)"`
+	var out []schema.ScheduleResource
+	args := map[string]any{}
+	if params.Limit != nil {
+		args["limit"] = params.Limit
 	}
-	res := <-h.gql.Query(&q, map[string]any{
-		"limit":    params.Limit,
-		"offset":   params.Offset,
-		"order_by": params.OrderBy,
-		"where":    params.Where,
-	})
-	return q.ScheduleResource, res.Error
+	if params.Offset != nil {
+		args["offset"] = params.Offset
+	}
+	if params.OrderBy != nil {
+		args["order_by"] = params.OrderBy
+	}
+	if params.Where != nil {
+		args["where"] = params.Where
+	}
+	res := <-h.gql.QueryFields("scheduleResource", &out, args)
+	return out, res.Error
 }
 
 func (h *queryHandler) Aggregate(ctx context.Context, params AggregateParams) (*schema.ScheduleResourceAggExp, error) {
-	var q struct {
-		ScheduleResourceAggregate *schema.ScheduleResourceAggExp `graphql:"scheduleResourceAggregate(filter_input: $filter_input)"`
+	var out *schema.ScheduleResourceAggExp
+	args := map[string]any{}
+	if params.FilterInput != nil {
+		args["filter_input"] = params.FilterInput
 	}
-	res := <-h.gql.Query(&q, map[string]any{
-		"filter_input": params.FilterInput,
-	})
-	return q.ScheduleResourceAggregate, res.Error
+	res := <-h.gql.QueryFields("scheduleResourceAggregate", &out, args)
+	return out, res.Error
 }
 
 func (h *queryHandler) ById(ctx context.Context, id string) (*schema.ScheduleResource, error) {
-	var q struct {
-		ScheduleResourceById *schema.ScheduleResource `graphql:"scheduleResourceById(id: $id)"`
-	}
-	res := <-h.gql.Query(&q, map[string]any{
+	var out *schema.ScheduleResource
+	args := map[string]any{
 		"id": id,
-	})
-	return q.ScheduleResourceById, res.Error
+	}
+	res := <-h.gql.QueryFields("scheduleResourceById", &out, args)
+	return out, res.Error
 }
