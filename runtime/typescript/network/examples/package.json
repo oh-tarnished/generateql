@@ -1,0 +1,19 @@
+{
+	"name": "examples",
+	"module": "index.ts",
+	"type": "module",
+	"scripts": {
+		"run:all": "bun run index.ts",
+		"run:http": "bun run http/index.ts",
+		"run:graphql": "bun run graphql/index.ts",
+		"run:websocket": "bun run websockets/index.ts",
+		"run:svelte": "bun --cwd svelte run dev"
+	},
+	"dependencies": {
+		"@machanirobotics/loom-network": "link:@machanirobotics/loom-network"
+	},
+	"devDependencies": {
+		"@types/bun": "latest",
+		"typescript": "^6.0.2"
+	}
+}

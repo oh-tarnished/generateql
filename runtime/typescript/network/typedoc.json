@@ -1,0 +1,13 @@
+{
+	"$schema": "https://typedoc.org/schema.json",
+	"entryPoints": ["index.ts", "types.ts", "lib/connection.ts", "lib/errors.ts"],
+	"tsconfig": "tsconfig.json",
+	"out": "docs",
+	"json": "docs/api.json",
+	"excludePrivate": true,
+	"excludeProtected": true,
+	"excludeInternal": false,
+	"categorizeByGroup": true,
+	"readme": "README.md",
+	"plugin": []
+}
