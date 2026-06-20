@@ -4,27 +4,27 @@ package inputs
 
 // ResourceEntityBoolExp is the ResourceEntityBoolExp input type.
 type ResourceEntityBoolExp struct {
-	And                            []ResourceEntityBoolExp                `json:"_and,omitempty"`
-	Not                            *ResourceEntityBoolExp                 `json:"_not,omitempty"`
-	Or                             []ResourceEntityBoolExp                `json:"_or,omitempty"`
-	Attributes                     *JsonbBoolExp                          `json:"attributes,omitempty"`
-	BookingMode                    *ResourceBookingModeBoolExp            `json:"bookingMode,omitempty"`
-	BookingResources               *BookingResourceBoolExp                `json:"bookingResources,omitempty"`
-	Capacity                       *Int4BoolExp                           `json:"capacity,omitempty"`
-	CreateTime                     *TimestampBoolExp                      `json:"createTime,omitempty"`
-	Description                    *TextBoolExp                           `json:"description,omitempty"`
-	DisplayName                    *TextBoolExp                           `json:"displayName,omitempty"`
-	Etag                           *TextBoolExp                           `json:"etag,omitempty"`
-	Id                             *TextBoolExp                           `json:"id,omitempty"`
-	Name                           *TextBoolExp                           `json:"name,omitempty"`
-	PromocodeApplicableResources   *PromocodeApplicableResourcesBoolExp   `json:"promocodeApplicableResources,omitempty"`
-	ResourceOfferings              *ResourceOfferingsBoolExp              `json:"resourceOfferings,omitempty"`
-	ResourceOfferingsLinks         *ResourceOfferingsLinkBoolExp          `json:"resourceOfferingsLinks,omitempty"`
-	ScheduleAvailabilityExceptions *ScheduleAvailabilityExceptionsBoolExp `json:"scheduleAvailabilityExceptions,omitempty"`
-	State                          *ResourceResourceStateBoolExp          `json:"state,omitempty"`
-	TimeZone                       *TextBoolExp                           `json:"timeZone,omitempty"`
-	Type                           *ResourceResourceTypeBoolExp           `json:"type,omitempty"`
-	UpdateTime                     *TimestampBoolExp                      `json:"updateTime,omitempty"`
+	And                            []ResourceEntityBoolExp               `json:"_and,omitzero"`
+	Not                            ResourceEntityBoolExp                 `json:"_not,omitzero"`
+	Or                             []ResourceEntityBoolExp               `json:"_or,omitzero"`
+	Attributes                     JsonbBoolExp                          `json:"attributes,omitzero"`
+	BookingMode                    ResourceBookingModeBoolExp            `json:"bookingMode,omitzero"`
+	BookingResources               BookingResourceBoolExp                `json:"bookingResources,omitzero"`
+	Capacity                       Int4BoolExp                           `json:"capacity,omitzero"`
+	CreateTime                     TimestampBoolExp                      `json:"createTime,omitzero"`
+	Description                    TextBoolExp                           `json:"description,omitzero"`
+	DisplayName                    TextBoolExp                           `json:"displayName,omitzero"`
+	Etag                           TextBoolExp                           `json:"etag,omitzero"`
+	Id                             TextBoolExp                           `json:"id,omitzero"`
+	Name                           TextBoolExp                           `json:"name,omitzero"`
+	PromocodeApplicableResources   PromocodeApplicableResourcesBoolExp   `json:"promocodeApplicableResources,omitzero"`
+	ResourceOfferings              ResourceOfferingsBoolExp              `json:"resourceOfferings,omitzero"`
+	ResourceOfferingsLinks         ResourceOfferingsLinkBoolExp          `json:"resourceOfferingsLinks,omitzero"`
+	ScheduleAvailabilityExceptions ScheduleAvailabilityExceptionsBoolExp `json:"scheduleAvailabilityExceptions,omitzero"`
+	State                          ResourceResourceStateBoolExp          `json:"state,omitzero"`
+	TimeZone                       TextBoolExp                           `json:"timeZone,omitzero"`
+	Type                           ResourceResourceTypeBoolExp           `json:"type,omitzero"`
+	UpdateTime                     TimestampBoolExp                      `json:"updateTime,omitzero"`
 }
 
 func (*ResourceEntityBoolExp) GetGraphQLType() string { return "ResourceEntityBoolExp" }

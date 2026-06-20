@@ -2,12 +2,16 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // ScheduleBufferSettingsFilterInput is the ScheduleBufferSettingsFilterInput input type.
 type ScheduleBufferSettingsFilterInput struct {
-	Limit   *int                               `json:"limit,omitempty"`
-	Offset  *int                               `json:"offset,omitempty"`
-	OrderBy []ScheduleBufferSettingsOrderByExp `json:"order_by,omitempty"`
-	Where   *ScheduleBufferSettingsBoolExp     `json:"where,omitempty"`
+	Limit   param.Opt[int]                     `json:"limit,omitzero"`
+	Offset  param.Opt[int]                     `json:"offset,omitzero"`
+	OrderBy []ScheduleBufferSettingsOrderByExp `json:"order_by,omitzero"`
+	Where   ScheduleBufferSettingsBoolExp      `json:"where,omitzero"`
 }
 
 func (*ScheduleBufferSettingsFilterInput) GetGraphQLType() string {

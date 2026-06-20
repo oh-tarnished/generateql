@@ -4,7 +4,7 @@ package inputs
 
 // UpdateColumnScheduleRefundTiersCutoffInput is the UpdateColumnScheduleRefundTiersCutoffInput input type.
 type UpdateColumnScheduleRefundTiersCutoffInput struct {
-	Set string `json:"set,omitempty"`
+	Set string `json:"set"`
 }
 
 func (*UpdateColumnScheduleRefundTiersCutoffInput) GetGraphQLType() string {

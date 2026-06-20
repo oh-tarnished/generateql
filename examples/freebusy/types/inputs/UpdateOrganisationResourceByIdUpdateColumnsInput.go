@@ -4,17 +4,17 @@ package inputs
 
 // UpdateOrganisationResourceByIdUpdateColumnsInput is the UpdateOrganisationResourceByIdUpdateColumnsInput input type.
 type UpdateOrganisationResourceByIdUpdateColumnsInput struct {
-	BillingEmail *UpdateColumnOrganisationResourceBillingEmailInput `json:"billingEmail,omitempty"`
-	CreateTime   *UpdateColumnOrganisationResourceCreateTimeInput   `json:"createTime,omitempty"`
-	DisplayName  *UpdateColumnOrganisationResourceDisplayNameInput  `json:"displayName,omitempty"`
-	Etag         *UpdateColumnOrganisationResourceEtagInput         `json:"etag,omitempty"`
-	Id           *UpdateColumnOrganisationResourceIdInput           `json:"id,omitempty"`
-	MemberCount  *UpdateColumnOrganisationResourceMemberCountInput  `json:"memberCount,omitempty"`
-	Name         *UpdateColumnOrganisationResourceNameInput         `json:"name,omitempty"`
-	Settings     *UpdateColumnOrganisationResourceSettingsInput     `json:"settings,omitempty"`
-	Slug         *UpdateColumnOrganisationResourceSlugInput         `json:"slug,omitempty"`
-	State        *UpdateColumnOrganisationResourceStateInput        `json:"state,omitempty"`
-	UpdateTime   *UpdateColumnOrganisationResourceUpdateTimeInput   `json:"updateTime,omitempty"`
+	BillingEmail UpdateColumnOrganisationResourceBillingEmailInput `json:"billingEmail,omitzero"`
+	CreateTime   UpdateColumnOrganisationResourceCreateTimeInput   `json:"createTime,omitzero"`
+	DisplayName  UpdateColumnOrganisationResourceDisplayNameInput  `json:"displayName,omitzero"`
+	Etag         UpdateColumnOrganisationResourceEtagInput         `json:"etag,omitzero"`
+	Id           UpdateColumnOrganisationResourceIdInput           `json:"id,omitzero"`
+	MemberCount  UpdateColumnOrganisationResourceMemberCountInput  `json:"memberCount,omitzero"`
+	Name         UpdateColumnOrganisationResourceNameInput         `json:"name,omitzero"`
+	Settings     UpdateColumnOrganisationResourceSettingsInput     `json:"settings,omitzero"`
+	Slug         UpdateColumnOrganisationResourceSlugInput         `json:"slug,omitzero"`
+	State        UpdateColumnOrganisationResourceStateInput        `json:"state,omitzero"`
+	UpdateTime   UpdateColumnOrganisationResourceUpdateTimeInput   `json:"updateTime,omitzero"`
 }
 
 func (*UpdateOrganisationResourceByIdUpdateColumnsInput) GetGraphQLType() string {

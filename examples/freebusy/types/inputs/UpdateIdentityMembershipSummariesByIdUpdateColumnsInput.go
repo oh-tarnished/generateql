@@ -4,11 +4,11 @@ package inputs
 
 // UpdateIdentityMembershipSummariesByIdUpdateColumnsInput is the UpdateIdentityMembershipSummariesByIdUpdateColumnsInput input type.
 type UpdateIdentityMembershipSummariesByIdUpdateColumnsInput struct {
-	Id             *UpdateColumnIdentityMembershipSummariesIdInput             `json:"id,omitempty"`
-	OrgDisplayName *UpdateColumnIdentityMembershipSummariesOrgDisplayNameInput `json:"orgDisplayName,omitempty"`
-	Organisation   *UpdateColumnIdentityMembershipSummariesOrganisationInput   `json:"organisation,omitempty"`
-	Role           *UpdateColumnIdentityMembershipSummariesRoleInput           `json:"role,omitempty"`
-	UserId         *UpdateColumnIdentityMembershipSummariesUserIdInput         `json:"userId,omitempty"`
+	Id             UpdateColumnIdentityMembershipSummariesIdInput             `json:"id,omitzero"`
+	OrgDisplayName UpdateColumnIdentityMembershipSummariesOrgDisplayNameInput `json:"orgDisplayName,omitzero"`
+	Organisation   UpdateColumnIdentityMembershipSummariesOrganisationInput   `json:"organisation,omitzero"`
+	Role           UpdateColumnIdentityMembershipSummariesRoleInput           `json:"role,omitzero"`
+	UserId         UpdateColumnIdentityMembershipSummariesUserIdInput         `json:"userId,omitzero"`
 }
 
 func (*UpdateIdentityMembershipSummariesByIdUpdateColumnsInput) GetGraphQLType() string {

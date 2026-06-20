@@ -4,51 +4,52 @@ package resource
 
 import (
 	"context"
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/inputs"
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/schema"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/inputs"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/schema"
+	"github.com/oh-tarnished/generateql/runtime/go/param"
 	"github.com/oh-tarnished/generateql/runtime/go/runtime"
 )
 
 // ListParams holds the optional arguments for List.
 type ListParams struct {
-	Limit   *int
-	Offset  *int
-	OrderBy *[]inputs.OrganisationResourceOrderByExp
-	Where   *inputs.OrganisationResourceBoolExp
+	Limit   param.Opt[int]
+	Offset  param.Opt[int]
+	OrderBy []inputs.OrganisationResourceOrderByExp
+	Where   inputs.OrganisationResourceBoolExp
 }
 
 // AggregateParams holds the optional arguments for Aggregate.
 type AggregateParams struct {
-	FilterInput *inputs.OrganisationResourceFilterInput
+	FilterInput inputs.OrganisationResourceFilterInput
 }
 
 // DeleteByIdParams holds the optional arguments for DeleteById.
 type DeleteByIdParams struct {
-	PreCheck *inputs.OrganisationResourceBoolExp
+	PreCheck inputs.OrganisationResourceBoolExp
 }
 
 // InsertParams holds the optional arguments for Insert.
 type InsertParams struct {
-	PostCheck *inputs.OrganisationResourceBoolExp
+	PostCheck inputs.OrganisationResourceBoolExp
 }
 
 // UpdateByIdParams holds the optional arguments for UpdateById.
 type UpdateByIdParams struct {
-	PostCheck *inputs.OrganisationResourceBoolExp
-	PreCheck  *inputs.OrganisationResourceBoolExp
+	PostCheck inputs.OrganisationResourceBoolExp
+	PreCheck  inputs.OrganisationResourceBoolExp
 }
 
 // OnListParams holds the optional arguments for OnList.
 type OnListParams struct {
-	Limit   *int
-	Offset  *int
-	OrderBy *[]inputs.OrganisationResourceOrderByExp
-	Where   *inputs.OrganisationResourceBoolExp
+	Limit   param.Opt[int]
+	Offset  param.Opt[int]
+	OrderBy []inputs.OrganisationResourceOrderByExp
+	Where   inputs.OrganisationResourceBoolExp
 }
 
 // OnAggregateParams holds the optional arguments for OnAggregate.
 type OnAggregateParams struct {
-	FilterInput *inputs.OrganisationResourceFilterInput
+	FilterInput inputs.OrganisationResourceFilterInput
 }
 
 // QueryHandler runs OrganisationResource query operations.

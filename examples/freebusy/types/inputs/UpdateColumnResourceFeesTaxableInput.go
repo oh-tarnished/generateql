@@ -2,9 +2,13 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // UpdateColumnResourceFeesTaxableInput is the UpdateColumnResourceFeesTaxableInput input type.
 type UpdateColumnResourceFeesTaxableInput struct {
-	Set *bool `json:"set,omitempty"`
+	Set param.Opt[bool] `json:"set,omitzero"`
 }
 
 func (*UpdateColumnResourceFeesTaxableInput) GetGraphQLType() string {

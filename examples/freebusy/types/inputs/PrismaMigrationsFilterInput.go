@@ -2,12 +2,16 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // PrismaMigrationsFilterInput is the PrismaMigrationsFilterInput input type.
 type PrismaMigrationsFilterInput struct {
-	Limit   *int                         `json:"limit,omitempty"`
-	Offset  *int                         `json:"offset,omitempty"`
-	OrderBy []PrismaMigrationsOrderByExp `json:"order_by,omitempty"`
-	Where   *PrismaMigrationsBoolExp     `json:"where,omitempty"`
+	Limit   param.Opt[int]               `json:"limit,omitzero"`
+	Offset  param.Opt[int]               `json:"offset,omitzero"`
+	OrderBy []PrismaMigrationsOrderByExp `json:"order_by,omitzero"`
+	Where   PrismaMigrationsBoolExp      `json:"where,omitzero"`
 }
 
 func (*PrismaMigrationsFilterInput) GetGraphQLType() string { return "PrismaMigrationsFilterInput" }

@@ -3,18 +3,19 @@
 package inputs
 
 import (
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/enums"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/enums"
+	"github.com/oh-tarnished/generateql/runtime/go/param"
 )
 
 // ResourceLosDiscountsOrderByExp is the ResourceLosDiscountsOrderByExp input type.
 type ResourceLosDiscountsOrderByExp struct {
-	AmountOffId      *enums.OrderBy               `json:"amountOffId,omitempty"`
-	BookingMoney     *BookingMoneysOrderByExp     `json:"bookingMoney,omitempty"`
-	Id               *enums.OrderBy               `json:"id,omitempty"`
-	MinNights        *enums.OrderBy               `json:"minNights,omitempty"`
-	OfferingId       *enums.OrderBy               `json:"offeringId,omitempty"`
-	PercentOff       *enums.OrderBy               `json:"percentOff,omitempty"`
-	ResourceOffering *ResourceOfferingsOrderByExp `json:"resourceOffering,omitempty"`
+	AmountOffId      param.Opt[enums.OrderBy]    `json:"amountOffId,omitzero"`
+	BookingMoney     BookingMoneysOrderByExp     `json:"bookingMoney,omitzero"`
+	Id               param.Opt[enums.OrderBy]    `json:"id,omitzero"`
+	MinNights        param.Opt[enums.OrderBy]    `json:"minNights,omitzero"`
+	OfferingId       param.Opt[enums.OrderBy]    `json:"offeringId,omitzero"`
+	PercentOff       param.Opt[enums.OrderBy]    `json:"percentOff,omitzero"`
+	ResourceOffering ResourceOfferingsOrderByExp `json:"resourceOffering,omitzero"`
 }
 
 func (*ResourceLosDiscountsOrderByExp) GetGraphQLType() string {

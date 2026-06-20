@@ -4,7 +4,7 @@ package inputs
 
 // UpdateColumnPrismaMigrationsStartedAtInput is the UpdateColumnPrismaMigrationsStartedAtInput input type.
 type UpdateColumnPrismaMigrationsStartedAtInput struct {
-	Set string `json:"set,omitempty"`
+	Set string `json:"set"`
 }
 
 func (*UpdateColumnPrismaMigrationsStartedAtInput) GetGraphQLType() string {

@@ -2,13 +2,17 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // InsertIdentityMembershipSummariesObjectInput is the InsertIdentityMembershipSummariesObjectInput input type.
 type InsertIdentityMembershipSummariesObjectInput struct {
-	Id             string  `json:"id,omitempty"`
-	OrgDisplayName *string `json:"orgDisplayName,omitempty"`
-	Organisation   *string `json:"organisation,omitempty"`
-	Role           *string `json:"role,omitempty"`
-	UserId         string  `json:"userId,omitempty"`
+	Id             string            `json:"id"`
+	OrgDisplayName param.Opt[string] `json:"orgDisplayName,omitzero"`
+	Organisation   param.Opt[string] `json:"organisation,omitzero"`
+	Role           param.Opt[string] `json:"role,omitzero"`
+	UserId         string            `json:"userId"`
 }
 
 func (*InsertIdentityMembershipSummariesObjectInput) GetGraphQLType() string {

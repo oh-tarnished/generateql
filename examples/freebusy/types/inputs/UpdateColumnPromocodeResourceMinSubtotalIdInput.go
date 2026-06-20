@@ -2,9 +2,13 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // UpdateColumnPromocodeResourceMinSubtotalIdInput is the UpdateColumnPromocodeResourceMinSubtotalIdInput input type.
 type UpdateColumnPromocodeResourceMinSubtotalIdInput struct {
-	Set *string `json:"set,omitempty"`
+	Set param.Opt[string] `json:"set,omitzero"`
 }
 
 func (*UpdateColumnPromocodeResourceMinSubtotalIdInput) GetGraphQLType() string {

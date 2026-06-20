@@ -4,24 +4,25 @@ package inputs
 
 import (
 	"encoding/json"
+	"github.com/oh-tarnished/generateql/runtime/go/param"
 )
 
 // InsertResourceEntityObjectInput is the InsertResourceEntityObjectInput input type.
 type InsertResourceEntityObjectInput struct {
-	Attributes  *json.RawMessage `json:"attributes,omitempty"`
-	BookingMode *string          `json:"bookingMode,omitempty"`
-	Capacity    *int32           `json:"capacity,omitempty"`
-	CreateTime  *string          `json:"createTime,omitempty"`
-	Description *string          `json:"description,omitempty"`
-	DisplayName string           `json:"displayName,omitempty"`
-	Etag        *string          `json:"etag,omitempty"`
-	Id          string           `json:"id,omitempty"`
-	Name        string           `json:"name,omitempty"`
-	State       *string          `json:"state,omitempty"`
-	Tags        []*string        `json:"tags,omitempty"`
-	TimeZone    string           `json:"timeZone,omitempty"`
-	Type        *string          `json:"type,omitempty"`
-	UpdateTime  string           `json:"updateTime,omitempty"`
+	Attributes  json.RawMessage   `json:"attributes,omitzero"`
+	BookingMode param.Opt[string] `json:"bookingMode,omitzero"`
+	Capacity    param.Opt[int32]  `json:"capacity,omitzero"`
+	CreateTime  param.Opt[string] `json:"createTime,omitzero"`
+	Description param.Opt[string] `json:"description,omitzero"`
+	DisplayName string            `json:"displayName"`
+	Etag        param.Opt[string] `json:"etag,omitzero"`
+	Id          string            `json:"id"`
+	Name        string            `json:"name"`
+	State       param.Opt[string] `json:"state,omitzero"`
+	Tags        []*string         `json:"tags,omitzero"`
+	TimeZone    string            `json:"timeZone"`
+	Type        param.Opt[string] `json:"type,omitzero"`
+	UpdateTime  string            `json:"updateTime"`
 }
 
 func (*InsertResourceEntityObjectInput) GetGraphQLType() string {

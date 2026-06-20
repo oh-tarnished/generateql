@@ -3,21 +3,22 @@
 package inputs
 
 import (
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/enums"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/enums"
+	"github.com/oh-tarnished/generateql/runtime/go/param"
 )
 
 // ResourceFeesOrderByExp is the ResourceFeesOrderByExp input type.
 type ResourceFeesOrderByExp struct {
-	AmountId         *enums.OrderBy               `json:"amountId,omitempty"`
-	BookingMoney     *BookingMoneysOrderByExp     `json:"bookingMoney,omitempty"`
-	Code             *enums.OrderBy               `json:"code,omitempty"`
-	DisplayName      *enums.OrderBy               `json:"displayName,omitempty"`
-	Id               *enums.OrderBy               `json:"id,omitempty"`
-	OfferingId       *enums.OrderBy               `json:"offeringId,omitempty"`
-	Percent          *enums.OrderBy               `json:"percent,omitempty"`
-	PricingUnit      *enums.OrderBy               `json:"pricingUnit,omitempty"`
-	ResourceOffering *ResourceOfferingsOrderByExp `json:"resourceOffering,omitempty"`
-	Taxable          *enums.OrderBy               `json:"taxable,omitempty"`
+	AmountId         param.Opt[enums.OrderBy]    `json:"amountId,omitzero"`
+	BookingMoney     BookingMoneysOrderByExp     `json:"bookingMoney,omitzero"`
+	Code             param.Opt[enums.OrderBy]    `json:"code,omitzero"`
+	DisplayName      param.Opt[enums.OrderBy]    `json:"displayName,omitzero"`
+	Id               param.Opt[enums.OrderBy]    `json:"id,omitzero"`
+	OfferingId       param.Opt[enums.OrderBy]    `json:"offeringId,omitzero"`
+	Percent          param.Opt[enums.OrderBy]    `json:"percent,omitzero"`
+	PricingUnit      param.Opt[enums.OrderBy]    `json:"pricingUnit,omitzero"`
+	ResourceOffering ResourceOfferingsOrderByExp `json:"resourceOffering,omitzero"`
+	Taxable          param.Opt[enums.OrderBy]    `json:"taxable,omitzero"`
 }
 
 func (*ResourceFeesOrderByExp) GetGraphQLType() string { return "ResourceFeesOrderByExp" }

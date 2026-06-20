@@ -4,51 +4,52 @@ package refundtiers
 
 import (
 	"context"
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/inputs"
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/schema"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/inputs"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/schema"
+	"github.com/oh-tarnished/generateql/runtime/go/param"
 	"github.com/oh-tarnished/generateql/runtime/go/runtime"
 )
 
 // ListParams holds the optional arguments for List.
 type ListParams struct {
-	Limit   *int
-	Offset  *int
-	OrderBy *[]inputs.ScheduleRefundTiersOrderByExp
-	Where   *inputs.ScheduleRefundTiersBoolExp
+	Limit   param.Opt[int]
+	Offset  param.Opt[int]
+	OrderBy []inputs.ScheduleRefundTiersOrderByExp
+	Where   inputs.ScheduleRefundTiersBoolExp
 }
 
 // AggregateParams holds the optional arguments for Aggregate.
 type AggregateParams struct {
-	FilterInput *inputs.ScheduleRefundTiersFilterInput
+	FilterInput inputs.ScheduleRefundTiersFilterInput
 }
 
 // DeleteByIdParams holds the optional arguments for DeleteById.
 type DeleteByIdParams struct {
-	PreCheck *inputs.ScheduleRefundTiersBoolExp
+	PreCheck inputs.ScheduleRefundTiersBoolExp
 }
 
 // InsertParams holds the optional arguments for Insert.
 type InsertParams struct {
-	PostCheck *inputs.ScheduleRefundTiersBoolExp
+	PostCheck inputs.ScheduleRefundTiersBoolExp
 }
 
 // UpdateByIdParams holds the optional arguments for UpdateById.
 type UpdateByIdParams struct {
-	PostCheck *inputs.ScheduleRefundTiersBoolExp
-	PreCheck  *inputs.ScheduleRefundTiersBoolExp
+	PostCheck inputs.ScheduleRefundTiersBoolExp
+	PreCheck  inputs.ScheduleRefundTiersBoolExp
 }
 
 // OnListParams holds the optional arguments for OnList.
 type OnListParams struct {
-	Limit   *int
-	Offset  *int
-	OrderBy *[]inputs.ScheduleRefundTiersOrderByExp
-	Where   *inputs.ScheduleRefundTiersBoolExp
+	Limit   param.Opt[int]
+	Offset  param.Opt[int]
+	OrderBy []inputs.ScheduleRefundTiersOrderByExp
+	Where   inputs.ScheduleRefundTiersBoolExp
 }
 
 // OnAggregateParams holds the optional arguments for OnAggregate.
 type OnAggregateParams struct {
-	FilterInput *inputs.ScheduleRefundTiersFilterInput
+	FilterInput inputs.ScheduleRefundTiersFilterInput
 }
 
 // QueryHandler runs ScheduleRefundTiers query operations.

@@ -4,24 +4,24 @@ package inputs
 
 // BookingMoneysBoolExp is the BookingMoneysBoolExp input type.
 type BookingMoneysBoolExp struct {
-	And                               []BookingMoneysBoolExp         `json:"_and,omitempty"`
-	Not                               *BookingMoneysBoolExp          `json:"_not,omitempty"`
-	Or                                []BookingMoneysBoolExp         `json:"_or,omitempty"`
-	BookingPriceComponents            *BookingPriceComponentsBoolExp `json:"bookingPriceComponents,omitempty"`
-	BookingResources                  *BookingResourceBoolExp        `json:"bookingResources,omitempty"`
-	BookingResourcesByPriceId         *BookingResourceBoolExp        `json:"bookingResourcesByPriceId,omitempty"`
-	BookingResourcesByRefundAmountId  *BookingResourceBoolExp        `json:"bookingResourcesByRefundAmountId,omitempty"`
-	BookingResourcesByTotalId         *BookingResourceBoolExp        `json:"bookingResourcesByTotalId,omitempty"`
-	CurrencyCode                      *TextBoolExp                   `json:"currencyCode,omitempty"`
-	Id                                *TextBoolExp                   `json:"id,omitempty"`
-	Nanos                             *Int4BoolExp                   `json:"nanos,omitempty"`
-	PromocodeResources                *PromocodeResourceBoolExp      `json:"promocodeResources,omitempty"`
-	PromocodeResourcesByMinSubtotalId *PromocodeResourceBoolExp      `json:"promocodeResourcesByMinSubtotalId,omitempty"`
-	ResourceFees                      *ResourceFeesBoolExp           `json:"resourceFees,omitempty"`
-	ResourceLosDiscounts              *ResourceLosDiscountsBoolExp   `json:"resourceLosDiscounts,omitempty"`
-	ResourceOfferings                 *ResourceOfferingsBoolExp      `json:"resourceOfferings,omitempty"`
-	ResourceRateOverrides             *ResourceRateOverridesBoolExp  `json:"resourceRateOverrides,omitempty"`
-	Units                             *Int8BoolExp                   `json:"units,omitempty"`
+	And                               []BookingMoneysBoolExp        `json:"_and,omitzero"`
+	Not                               BookingMoneysBoolExp          `json:"_not,omitzero"`
+	Or                                []BookingMoneysBoolExp        `json:"_or,omitzero"`
+	BookingPriceComponents            BookingPriceComponentsBoolExp `json:"bookingPriceComponents,omitzero"`
+	BookingResources                  BookingResourceBoolExp        `json:"bookingResources,omitzero"`
+	BookingResourcesByPriceId         BookingResourceBoolExp        `json:"bookingResourcesByPriceId,omitzero"`
+	BookingResourcesByRefundAmountId  BookingResourceBoolExp        `json:"bookingResourcesByRefundAmountId,omitzero"`
+	BookingResourcesByTotalId         BookingResourceBoolExp        `json:"bookingResourcesByTotalId,omitzero"`
+	CurrencyCode                      TextBoolExp                   `json:"currencyCode,omitzero"`
+	Id                                TextBoolExp                   `json:"id,omitzero"`
+	Nanos                             Int4BoolExp                   `json:"nanos,omitzero"`
+	PromocodeResources                PromocodeResourceBoolExp      `json:"promocodeResources,omitzero"`
+	PromocodeResourcesByMinSubtotalId PromocodeResourceBoolExp      `json:"promocodeResourcesByMinSubtotalId,omitzero"`
+	ResourceFees                      ResourceFeesBoolExp           `json:"resourceFees,omitzero"`
+	ResourceLosDiscounts              ResourceLosDiscountsBoolExp   `json:"resourceLosDiscounts,omitzero"`
+	ResourceOfferings                 ResourceOfferingsBoolExp      `json:"resourceOfferings,omitzero"`
+	ResourceRateOverrides             ResourceRateOverridesBoolExp  `json:"resourceRateOverrides,omitzero"`
+	Units                             Int8BoolExp                   `json:"units,omitzero"`
 }
 
 func (*BookingMoneysBoolExp) GetGraphQLType() string { return "BookingMoneysBoolExp" }

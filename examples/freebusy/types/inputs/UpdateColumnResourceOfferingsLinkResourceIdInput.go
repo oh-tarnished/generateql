@@ -4,7 +4,7 @@ package inputs
 
 // UpdateColumnResourceOfferingsLinkResourceIdInput is the UpdateColumnResourceOfferingsLinkResourceIdInput input type.
 type UpdateColumnResourceOfferingsLinkResourceIdInput struct {
-	Set string `json:"set,omitempty"`
+	Set string `json:"set"`
 }
 
 func (*UpdateColumnResourceOfferingsLinkResourceIdInput) GetGraphQLType() string {

@@ -3,9 +3,9 @@
 package promocode
 
 import (
-	"github.com/oh-tarnished/generateql/examples/freebusy/promocode/applicableofferings"
-	"github.com/oh-tarnished/generateql/examples/freebusy/promocode/applicableresources"
-	"github.com/oh-tarnished/generateql/examples/freebusy/promocode/resource"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/promocode/applicableofferings"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/promocode/applicableresources"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/promocode/resource"
 	"github.com/oh-tarnished/generateql/runtime/go/runtime"
 )
 

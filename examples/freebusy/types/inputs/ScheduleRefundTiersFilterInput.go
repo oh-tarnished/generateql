@@ -2,12 +2,16 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // ScheduleRefundTiersFilterInput is the ScheduleRefundTiersFilterInput input type.
 type ScheduleRefundTiersFilterInput struct {
-	Limit   *int                            `json:"limit,omitempty"`
-	Offset  *int                            `json:"offset,omitempty"`
-	OrderBy []ScheduleRefundTiersOrderByExp `json:"order_by,omitempty"`
-	Where   *ScheduleRefundTiersBoolExp     `json:"where,omitempty"`
+	Limit   param.Opt[int]                  `json:"limit,omitzero"`
+	Offset  param.Opt[int]                  `json:"offset,omitzero"`
+	OrderBy []ScheduleRefundTiersOrderByExp `json:"order_by,omitzero"`
+	Where   ScheduleRefundTiersBoolExp      `json:"where,omitzero"`
 }
 
 func (*ScheduleRefundTiersFilterInput) GetGraphQLType() string {

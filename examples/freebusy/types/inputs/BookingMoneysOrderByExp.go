@@ -3,15 +3,16 @@
 package inputs
 
 import (
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/enums"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/enums"
+	"github.com/oh-tarnished/generateql/runtime/go/param"
 )
 
 // BookingMoneysOrderByExp is the BookingMoneysOrderByExp input type.
 type BookingMoneysOrderByExp struct {
-	CurrencyCode *enums.OrderBy `json:"currencyCode,omitempty"`
-	Id           *enums.OrderBy `json:"id,omitempty"`
-	Nanos        *enums.OrderBy `json:"nanos,omitempty"`
-	Units        *enums.OrderBy `json:"units,omitempty"`
+	CurrencyCode param.Opt[enums.OrderBy] `json:"currencyCode,omitzero"`
+	Id           param.Opt[enums.OrderBy] `json:"id,omitzero"`
+	Nanos        param.Opt[enums.OrderBy] `json:"nanos,omitzero"`
+	Units        param.Opt[enums.OrderBy] `json:"units,omitzero"`
 }
 
 func (*BookingMoneysOrderByExp) GetGraphQLType() string { return "BookingMoneysOrderByExp" }

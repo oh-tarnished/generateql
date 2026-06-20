@@ -4,14 +4,14 @@ package inputs
 
 // BookingTimeWindowsBoolExp is the BookingTimeWindowsBoolExp input type.
 type BookingTimeWindowsBoolExp struct {
-	And                            []BookingTimeWindowsBoolExp            `json:"_and,omitempty"`
-	Not                            *BookingTimeWindowsBoolExp             `json:"_not,omitempty"`
-	Or                             []BookingTimeWindowsBoolExp            `json:"_or,omitempty"`
-	BookingResources               *BookingResourceBoolExp                `json:"bookingResources,omitempty"`
-	EndTime                        *TimestampBoolExp                      `json:"endTime,omitempty"`
-	Id                             *TextBoolExp                           `json:"id,omitempty"`
-	ScheduleAvailabilityExceptions *ScheduleAvailabilityExceptionsBoolExp `json:"scheduleAvailabilityExceptions,omitempty"`
-	StartTime                      *TimestampBoolExp                      `json:"startTime,omitempty"`
+	And                            []BookingTimeWindowsBoolExp           `json:"_and,omitzero"`
+	Not                            BookingTimeWindowsBoolExp             `json:"_not,omitzero"`
+	Or                             []BookingTimeWindowsBoolExp           `json:"_or,omitzero"`
+	BookingResources               BookingResourceBoolExp                `json:"bookingResources,omitzero"`
+	EndTime                        TimestampBoolExp                      `json:"endTime,omitzero"`
+	Id                             TextBoolExp                           `json:"id,omitzero"`
+	ScheduleAvailabilityExceptions ScheduleAvailabilityExceptionsBoolExp `json:"scheduleAvailabilityExceptions,omitzero"`
+	StartTime                      TimestampBoolExp                      `json:"startTime,omitzero"`
 }
 
 func (*BookingTimeWindowsBoolExp) GetGraphQLType() string { return "BookingTimeWindowsBoolExp" }

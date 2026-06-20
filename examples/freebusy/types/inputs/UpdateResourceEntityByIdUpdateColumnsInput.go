@@ -4,20 +4,20 @@ package inputs
 
 // UpdateResourceEntityByIdUpdateColumnsInput is the UpdateResourceEntityByIdUpdateColumnsInput input type.
 type UpdateResourceEntityByIdUpdateColumnsInput struct {
-	Attributes  *UpdateColumnResourceEntityAttributesInput  `json:"attributes,omitempty"`
-	BookingMode *UpdateColumnResourceEntityBookingModeInput `json:"bookingMode,omitempty"`
-	Capacity    *UpdateColumnResourceEntityCapacityInput    `json:"capacity,omitempty"`
-	CreateTime  *UpdateColumnResourceEntityCreateTimeInput  `json:"createTime,omitempty"`
-	Description *UpdateColumnResourceEntityDescriptionInput `json:"description,omitempty"`
-	DisplayName *UpdateColumnResourceEntityDisplayNameInput `json:"displayName,omitempty"`
-	Etag        *UpdateColumnResourceEntityEtagInput        `json:"etag,omitempty"`
-	Id          *UpdateColumnResourceEntityIdInput          `json:"id,omitempty"`
-	Name        *UpdateColumnResourceEntityNameInput        `json:"name,omitempty"`
-	State       *UpdateColumnResourceEntityStateInput       `json:"state,omitempty"`
-	Tags        *UpdateColumnResourceEntityTagsInput        `json:"tags,omitempty"`
-	TimeZone    *UpdateColumnResourceEntityTimeZoneInput    `json:"timeZone,omitempty"`
-	Type        *UpdateColumnResourceEntityTypeInput        `json:"type,omitempty"`
-	UpdateTime  *UpdateColumnResourceEntityUpdateTimeInput  `json:"updateTime,omitempty"`
+	Attributes  UpdateColumnResourceEntityAttributesInput  `json:"attributes,omitzero"`
+	BookingMode UpdateColumnResourceEntityBookingModeInput `json:"bookingMode,omitzero"`
+	Capacity    UpdateColumnResourceEntityCapacityInput    `json:"capacity,omitzero"`
+	CreateTime  UpdateColumnResourceEntityCreateTimeInput  `json:"createTime,omitzero"`
+	Description UpdateColumnResourceEntityDescriptionInput `json:"description,omitzero"`
+	DisplayName UpdateColumnResourceEntityDisplayNameInput `json:"displayName,omitzero"`
+	Etag        UpdateColumnResourceEntityEtagInput        `json:"etag,omitzero"`
+	Id          UpdateColumnResourceEntityIdInput          `json:"id,omitzero"`
+	Name        UpdateColumnResourceEntityNameInput        `json:"name,omitzero"`
+	State       UpdateColumnResourceEntityStateInput       `json:"state,omitzero"`
+	Tags        UpdateColumnResourceEntityTagsInput        `json:"tags,omitzero"`
+	TimeZone    UpdateColumnResourceEntityTimeZoneInput    `json:"timeZone,omitzero"`
+	Type        UpdateColumnResourceEntityTypeInput        `json:"type,omitzero"`
+	UpdateTime  UpdateColumnResourceEntityUpdateTimeInput  `json:"updateTime,omitzero"`
 }
 
 func (*UpdateResourceEntityByIdUpdateColumnsInput) GetGraphQLType() string {

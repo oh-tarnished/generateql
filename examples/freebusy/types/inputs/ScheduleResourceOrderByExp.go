@@ -3,20 +3,21 @@
 package inputs
 
 import (
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/enums"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/enums"
+	"github.com/oh-tarnished/generateql/runtime/go/param"
 )
 
 // ScheduleResourceOrderByExp is the ScheduleResourceOrderByExp input type.
 type ScheduleResourceOrderByExp struct {
-	BuffersId                  *enums.OrderBy                          `json:"buffersId,omitempty"`
-	CancellationPolicyId       *enums.OrderBy                          `json:"cancellationPolicyId,omitempty"`
-	Etag                       *enums.OrderBy                          `json:"etag,omitempty"`
-	Id                         *enums.OrderBy                          `json:"id,omitempty"`
-	Name                       *enums.OrderBy                          `json:"name,omitempty"`
-	ScheduleBufferSetting      *ScheduleBufferSettingsOrderByExp       `json:"scheduleBufferSetting,omitempty"`
-	ScheduleCancellationPolicy *ScheduleCancellationPoliciesOrderByExp `json:"scheduleCancellationPolicy,omitempty"`
-	ScheduleStayConstraint     *ScheduleStayConstraintsOrderByExp      `json:"scheduleStayConstraint,omitempty"`
-	StayConstraintsId          *enums.OrderBy                          `json:"stayConstraintsId,omitempty"`
+	BuffersId                  param.Opt[enums.OrderBy]               `json:"buffersId,omitzero"`
+	CancellationPolicyId       param.Opt[enums.OrderBy]               `json:"cancellationPolicyId,omitzero"`
+	Etag                       param.Opt[enums.OrderBy]               `json:"etag,omitzero"`
+	Id                         param.Opt[enums.OrderBy]               `json:"id,omitzero"`
+	Name                       param.Opt[enums.OrderBy]               `json:"name,omitzero"`
+	ScheduleBufferSetting      ScheduleBufferSettingsOrderByExp       `json:"scheduleBufferSetting,omitzero"`
+	ScheduleCancellationPolicy ScheduleCancellationPoliciesOrderByExp `json:"scheduleCancellationPolicy,omitzero"`
+	ScheduleStayConstraint     ScheduleStayConstraintsOrderByExp      `json:"scheduleStayConstraint,omitzero"`
+	StayConstraintsId          param.Opt[enums.OrderBy]               `json:"stayConstraintsId,omitzero"`
 }
 
 func (*ScheduleResourceOrderByExp) GetGraphQLType() string { return "ScheduleResourceOrderByExp" }

@@ -4,11 +4,11 @@ package inputs
 
 // UpdateResourceRateOverridesByIdUpdateColumnsInput is the UpdateResourceRateOverridesByIdUpdateColumnsInput input type.
 type UpdateResourceRateOverridesByIdUpdateColumnsInput struct {
-	DateRangeId *UpdateColumnResourceRateOverridesDateRangeIdInput `json:"dateRangeId,omitempty"`
-	Id          *UpdateColumnResourceRateOverridesIdInput          `json:"id,omitempty"`
-	OfferingId  *UpdateColumnResourceRateOverridesOfferingIdInput  `json:"offeringId,omitempty"`
-	PriceId     *UpdateColumnResourceRateOverridesPriceIdInput     `json:"priceId,omitempty"`
-	Weekdays    *UpdateColumnResourceRateOverridesWeekdaysInput    `json:"weekdays,omitempty"`
+	DateRangeId UpdateColumnResourceRateOverridesDateRangeIdInput `json:"dateRangeId,omitzero"`
+	Id          UpdateColumnResourceRateOverridesIdInput          `json:"id,omitzero"`
+	OfferingId  UpdateColumnResourceRateOverridesOfferingIdInput  `json:"offeringId,omitzero"`
+	PriceId     UpdateColumnResourceRateOverridesPriceIdInput     `json:"priceId,omitzero"`
+	Weekdays    UpdateColumnResourceRateOverridesWeekdaysInput    `json:"weekdays,omitzero"`
 }
 
 func (*UpdateResourceRateOverridesByIdUpdateColumnsInput) GetGraphQLType() string {

@@ -2,12 +2,16 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // ScheduleResourceFilterInput is the ScheduleResourceFilterInput input type.
 type ScheduleResourceFilterInput struct {
-	Limit   *int                         `json:"limit,omitempty"`
-	Offset  *int                         `json:"offset,omitempty"`
-	OrderBy []ScheduleResourceOrderByExp `json:"order_by,omitempty"`
-	Where   *ScheduleResourceBoolExp     `json:"where,omitempty"`
+	Limit   param.Opt[int]               `json:"limit,omitzero"`
+	Offset  param.Opt[int]               `json:"offset,omitzero"`
+	OrderBy []ScheduleResourceOrderByExp `json:"order_by,omitzero"`
+	Where   ScheduleResourceBoolExp      `json:"where,omitzero"`
 }
 
 func (*ScheduleResourceFilterInput) GetGraphQLType() string { return "ScheduleResourceFilterInput" }

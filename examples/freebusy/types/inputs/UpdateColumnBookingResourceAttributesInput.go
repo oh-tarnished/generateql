@@ -8,7 +8,7 @@ import (
 
 // UpdateColumnBookingResourceAttributesInput is the UpdateColumnBookingResourceAttributesInput input type.
 type UpdateColumnBookingResourceAttributesInput struct {
-	Set *json.RawMessage `json:"set,omitempty"`
+	Set json.RawMessage `json:"set,omitzero"`
 }
 
 func (*UpdateColumnBookingResourceAttributesInput) GetGraphQLType() string {

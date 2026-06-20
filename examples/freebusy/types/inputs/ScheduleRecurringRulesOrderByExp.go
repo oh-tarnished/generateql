@@ -3,17 +3,18 @@
 package inputs
 
 import (
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/enums"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/enums"
+	"github.com/oh-tarnished/generateql/runtime/go/param"
 )
 
 // ScheduleRecurringRulesOrderByExp is the ScheduleRecurringRulesOrderByExp input type.
 type ScheduleRecurringRulesOrderByExp struct {
-	Closes           *enums.OrderBy              `json:"closes,omitempty"`
-	Id               *enums.OrderBy              `json:"id,omitempty"`
-	Opens            *enums.OrderBy              `json:"opens,omitempty"`
-	Rrule            *enums.OrderBy              `json:"rrule,omitempty"`
-	ScheduleId       *enums.OrderBy              `json:"scheduleId,omitempty"`
-	ScheduleResource *ScheduleResourceOrderByExp `json:"scheduleResource,omitempty"`
+	Closes           param.Opt[enums.OrderBy]   `json:"closes,omitzero"`
+	Id               param.Opt[enums.OrderBy]   `json:"id,omitzero"`
+	Opens            param.Opt[enums.OrderBy]   `json:"opens,omitzero"`
+	Rrule            param.Opt[enums.OrderBy]   `json:"rrule,omitzero"`
+	ScheduleId       param.Opt[enums.OrderBy]   `json:"scheduleId,omitzero"`
+	ScheduleResource ScheduleResourceOrderByExp `json:"scheduleResource,omitzero"`
 }
 
 func (*ScheduleRecurringRulesOrderByExp) GetGraphQLType() string {

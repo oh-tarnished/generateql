@@ -3,19 +3,20 @@
 package inputs
 
 import (
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/enums"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/enums"
+	"github.com/oh-tarnished/generateql/runtime/go/param"
 )
 
 // PrismaMigrationsOrderByExp is the PrismaMigrationsOrderByExp input type.
 type PrismaMigrationsOrderByExp struct {
-	AppliedStepsCount *enums.OrderBy `json:"appliedStepsCount,omitempty"`
-	Checksum          *enums.OrderBy `json:"checksum,omitempty"`
-	FinishedAt        *enums.OrderBy `json:"finishedAt,omitempty"`
-	Id                *enums.OrderBy `json:"id,omitempty"`
-	Logs              *enums.OrderBy `json:"logs,omitempty"`
-	MigrationName     *enums.OrderBy `json:"migrationName,omitempty"`
-	RolledBackAt      *enums.OrderBy `json:"rolledBackAt,omitempty"`
-	StartedAt         *enums.OrderBy `json:"startedAt,omitempty"`
+	AppliedStepsCount param.Opt[enums.OrderBy] `json:"appliedStepsCount,omitzero"`
+	Checksum          param.Opt[enums.OrderBy] `json:"checksum,omitzero"`
+	FinishedAt        param.Opt[enums.OrderBy] `json:"finishedAt,omitzero"`
+	Id                param.Opt[enums.OrderBy] `json:"id,omitzero"`
+	Logs              param.Opt[enums.OrderBy] `json:"logs,omitzero"`
+	MigrationName     param.Opt[enums.OrderBy] `json:"migrationName,omitzero"`
+	RolledBackAt      param.Opt[enums.OrderBy] `json:"rolledBackAt,omitzero"`
+	StartedAt         param.Opt[enums.OrderBy] `json:"startedAt,omitzero"`
 }
 
 func (*PrismaMigrationsOrderByExp) GetGraphQLType() string { return "PrismaMigrationsOrderByExp" }

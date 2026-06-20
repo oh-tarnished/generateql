@@ -3,15 +3,15 @@
 package schedule
 
 import (
-	"github.com/oh-tarnished/generateql/examples/freebusy/schedule/availabilityexceptions"
-	"github.com/oh-tarnished/generateql/examples/freebusy/schedule/buffersettings"
-	"github.com/oh-tarnished/generateql/examples/freebusy/schedule/cancellationpolicies"
-	"github.com/oh-tarnished/generateql/examples/freebusy/schedule/dateranges"
-	"github.com/oh-tarnished/generateql/examples/freebusy/schedule/exceptions"
-	"github.com/oh-tarnished/generateql/examples/freebusy/schedule/recurringrules"
-	"github.com/oh-tarnished/generateql/examples/freebusy/schedule/refundtiers"
-	"github.com/oh-tarnished/generateql/examples/freebusy/schedule/resource"
-	"github.com/oh-tarnished/generateql/examples/freebusy/schedule/stayconstraints"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/schedule/availabilityexceptions"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/schedule/buffersettings"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/schedule/cancellationpolicies"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/schedule/dateranges"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/schedule/exceptions"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/schedule/recurringrules"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/schedule/refundtiers"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/schedule/resource"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/schedule/stayconstraints"
 	"github.com/oh-tarnished/generateql/runtime/go/runtime"
 )
 

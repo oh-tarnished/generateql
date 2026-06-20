@@ -2,12 +2,16 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // ResourceOfferingsFilterInput is the ResourceOfferingsFilterInput input type.
 type ResourceOfferingsFilterInput struct {
-	Limit   *int                          `json:"limit,omitempty"`
-	Offset  *int                          `json:"offset,omitempty"`
-	OrderBy []ResourceOfferingsOrderByExp `json:"order_by,omitempty"`
-	Where   *ResourceOfferingsBoolExp     `json:"where,omitempty"`
+	Limit   param.Opt[int]                `json:"limit,omitzero"`
+	Offset  param.Opt[int]                `json:"offset,omitzero"`
+	OrderBy []ResourceOfferingsOrderByExp `json:"order_by,omitzero"`
+	Where   ResourceOfferingsBoolExp      `json:"where,omitzero"`
 }
 
 func (*ResourceOfferingsFilterInput) GetGraphQLType() string { return "ResourceOfferingsFilterInput" }

@@ -2,9 +2,13 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // UpdateColumnIdentityUsersLocaleInput is the UpdateColumnIdentityUsersLocaleInput input type.
 type UpdateColumnIdentityUsersLocaleInput struct {
-	Set *string `json:"set,omitempty"`
+	Set param.Opt[string] `json:"set,omitzero"`
 }
 
 func (*UpdateColumnIdentityUsersLocaleInput) GetGraphQLType() string {

@@ -4,11 +4,11 @@ package inputs
 
 // UpdateScheduleRecurringRulesByIdUpdateColumnsInput is the UpdateScheduleRecurringRulesByIdUpdateColumnsInput input type.
 type UpdateScheduleRecurringRulesByIdUpdateColumnsInput struct {
-	Closes     *UpdateColumnScheduleRecurringRulesClosesInput     `json:"closes,omitempty"`
-	Id         *UpdateColumnScheduleRecurringRulesIdInput         `json:"id,omitempty"`
-	Opens      *UpdateColumnScheduleRecurringRulesOpensInput      `json:"opens,omitempty"`
-	Rrule      *UpdateColumnScheduleRecurringRulesRruleInput      `json:"rrule,omitempty"`
-	ScheduleId *UpdateColumnScheduleRecurringRulesScheduleIdInput `json:"scheduleId,omitempty"`
+	Closes     UpdateColumnScheduleRecurringRulesClosesInput     `json:"closes,omitzero"`
+	Id         UpdateColumnScheduleRecurringRulesIdInput         `json:"id,omitzero"`
+	Opens      UpdateColumnScheduleRecurringRulesOpensInput      `json:"opens,omitzero"`
+	Rrule      UpdateColumnScheduleRecurringRulesRruleInput      `json:"rrule,omitzero"`
+	ScheduleId UpdateColumnScheduleRecurringRulesScheduleIdInput `json:"scheduleId,omitzero"`
 }
 
 func (*UpdateScheduleRecurringRulesByIdUpdateColumnsInput) GetGraphQLType() string {

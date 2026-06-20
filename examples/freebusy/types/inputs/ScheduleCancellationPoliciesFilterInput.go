@@ -2,12 +2,16 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // ScheduleCancellationPoliciesFilterInput is the ScheduleCancellationPoliciesFilterInput input type.
 type ScheduleCancellationPoliciesFilterInput struct {
-	Limit   *int                                     `json:"limit,omitempty"`
-	Offset  *int                                     `json:"offset,omitempty"`
-	OrderBy []ScheduleCancellationPoliciesOrderByExp `json:"order_by,omitempty"`
-	Where   *ScheduleCancellationPoliciesBoolExp     `json:"where,omitempty"`
+	Limit   param.Opt[int]                           `json:"limit,omitzero"`
+	Offset  param.Opt[int]                           `json:"offset,omitzero"`
+	OrderBy []ScheduleCancellationPoliciesOrderByExp `json:"order_by,omitzero"`
+	Where   ScheduleCancellationPoliciesBoolExp      `json:"where,omitzero"`
 }
 
 func (*ScheduleCancellationPoliciesFilterInput) GetGraphQLType() string {

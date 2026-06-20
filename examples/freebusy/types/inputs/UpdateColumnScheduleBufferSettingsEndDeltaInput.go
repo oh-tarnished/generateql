@@ -2,9 +2,13 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // UpdateColumnScheduleBufferSettingsEndDeltaInput is the UpdateColumnScheduleBufferSettingsEndDeltaInput input type.
 type UpdateColumnScheduleBufferSettingsEndDeltaInput struct {
-	Set *string `json:"set,omitempty"`
+	Set param.Opt[string] `json:"set,omitzero"`
 }
 
 func (*UpdateColumnScheduleBufferSettingsEndDeltaInput) GetGraphQLType() string {

@@ -3,11 +3,11 @@
 package booking
 
 import (
-	"github.com/oh-tarnished/generateql/examples/freebusy/booking/contacts"
-	"github.com/oh-tarnished/generateql/examples/freebusy/booking/moneys"
-	"github.com/oh-tarnished/generateql/examples/freebusy/booking/pricecomponents"
-	"github.com/oh-tarnished/generateql/examples/freebusy/booking/resource"
-	"github.com/oh-tarnished/generateql/examples/freebusy/booking/timewindows"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/booking/contacts"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/booking/moneys"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/booking/pricecomponents"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/booking/resource"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/booking/timewindows"
 	"github.com/oh-tarnished/generateql/runtime/go/runtime"
 )
 

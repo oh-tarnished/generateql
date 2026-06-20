@@ -2,20 +2,24 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // InsertResourceOfferingsObjectInput is the InsertResourceOfferingsObjectInput input type.
 type InsertResourceOfferingsObjectInput struct {
-	CreateTime  *string `json:"createTime,omitempty"`
-	Description *string `json:"description,omitempty"`
-	DisplayName string  `json:"displayName,omitempty"`
-	Duration    *string `json:"duration,omitempty"`
-	Etag        *string `json:"etag,omitempty"`
-	Id          string  `json:"id,omitempty"`
-	Name        string  `json:"name,omitempty"`
-	PriceId     *string `json:"priceId,omitempty"`
-	PricingUnit *string `json:"pricingUnit,omitempty"`
-	ResourceId  string  `json:"resourceId,omitempty"`
-	State       *string `json:"state,omitempty"`
-	UpdateTime  string  `json:"updateTime,omitempty"`
+	CreateTime  param.Opt[string] `json:"createTime,omitzero"`
+	Description param.Opt[string] `json:"description,omitzero"`
+	DisplayName string            `json:"displayName"`
+	Duration    param.Opt[string] `json:"duration,omitzero"`
+	Etag        param.Opt[string] `json:"etag,omitzero"`
+	Id          string            `json:"id"`
+	Name        string            `json:"name"`
+	PriceId     param.Opt[string] `json:"priceId,omitzero"`
+	PricingUnit param.Opt[string] `json:"pricingUnit,omitzero"`
+	ResourceId  string            `json:"resourceId"`
+	State       param.Opt[string] `json:"state,omitzero"`
+	UpdateTime  string            `json:"updateTime"`
 }
 
 func (*InsertResourceOfferingsObjectInput) GetGraphQLType() string {

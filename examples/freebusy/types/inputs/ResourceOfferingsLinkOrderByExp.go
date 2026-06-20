@@ -3,16 +3,17 @@
 package inputs
 
 import (
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/enums"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/enums"
+	"github.com/oh-tarnished/generateql/runtime/go/param"
 )
 
 // ResourceOfferingsLinkOrderByExp is the ResourceOfferingsLinkOrderByExp input type.
 type ResourceOfferingsLinkOrderByExp struct {
-	Id               *enums.OrderBy               `json:"id,omitempty"`
-	OfferingId       *enums.OrderBy               `json:"offeringId,omitempty"`
-	ResourceEntity   *ResourceEntityOrderByExp    `json:"resourceEntity,omitempty"`
-	ResourceId       *enums.OrderBy               `json:"resourceId,omitempty"`
-	ResourceOffering *ResourceOfferingsOrderByExp `json:"resourceOffering,omitempty"`
+	Id               param.Opt[enums.OrderBy]    `json:"id,omitzero"`
+	OfferingId       param.Opt[enums.OrderBy]    `json:"offeringId,omitzero"`
+	ResourceEntity   ResourceEntityOrderByExp    `json:"resourceEntity,omitzero"`
+	ResourceId       param.Opt[enums.OrderBy]    `json:"resourceId,omitzero"`
+	ResourceOffering ResourceOfferingsOrderByExp `json:"resourceOffering,omitzero"`
 }
 
 func (*ResourceOfferingsLinkOrderByExp) GetGraphQLType() string {

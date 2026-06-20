@@ -4,9 +4,9 @@ package inputs
 
 // UpdateResourceOfferingsLinkByIdUpdateColumnsInput is the UpdateResourceOfferingsLinkByIdUpdateColumnsInput input type.
 type UpdateResourceOfferingsLinkByIdUpdateColumnsInput struct {
-	Id         *UpdateColumnResourceOfferingsLinkIdInput         `json:"id,omitempty"`
-	OfferingId *UpdateColumnResourceOfferingsLinkOfferingIdInput `json:"offeringId,omitempty"`
-	ResourceId *UpdateColumnResourceOfferingsLinkResourceIdInput `json:"resourceId,omitempty"`
+	Id         UpdateColumnResourceOfferingsLinkIdInput         `json:"id,omitzero"`
+	OfferingId UpdateColumnResourceOfferingsLinkOfferingIdInput `json:"offeringId,omitzero"`
+	ResourceId UpdateColumnResourceOfferingsLinkResourceIdInput `json:"resourceId,omitzero"`
 }
 
 func (*UpdateResourceOfferingsLinkByIdUpdateColumnsInput) GetGraphQLType() string {

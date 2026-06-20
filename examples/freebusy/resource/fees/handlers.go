@@ -4,51 +4,52 @@ package fees
 
 import (
 	"context"
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/inputs"
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/schema"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/inputs"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/schema"
+	"github.com/oh-tarnished/generateql/runtime/go/param"
 	"github.com/oh-tarnished/generateql/runtime/go/runtime"
 )
 
 // ListParams holds the optional arguments for List.
 type ListParams struct {
-	Limit   *int
-	Offset  *int
-	OrderBy *[]inputs.ResourceFeesOrderByExp
-	Where   *inputs.ResourceFeesBoolExp
+	Limit   param.Opt[int]
+	Offset  param.Opt[int]
+	OrderBy []inputs.ResourceFeesOrderByExp
+	Where   inputs.ResourceFeesBoolExp
 }
 
 // AggregateParams holds the optional arguments for Aggregate.
 type AggregateParams struct {
-	FilterInput *inputs.ResourceFeesFilterInput
+	FilterInput inputs.ResourceFeesFilterInput
 }
 
 // DeleteByIdParams holds the optional arguments for DeleteById.
 type DeleteByIdParams struct {
-	PreCheck *inputs.ResourceFeesBoolExp
+	PreCheck inputs.ResourceFeesBoolExp
 }
 
 // InsertParams holds the optional arguments for Insert.
 type InsertParams struct {
-	PostCheck *inputs.ResourceFeesBoolExp
+	PostCheck inputs.ResourceFeesBoolExp
 }
 
 // UpdateByIdParams holds the optional arguments for UpdateById.
 type UpdateByIdParams struct {
-	PostCheck *inputs.ResourceFeesBoolExp
-	PreCheck  *inputs.ResourceFeesBoolExp
+	PostCheck inputs.ResourceFeesBoolExp
+	PreCheck  inputs.ResourceFeesBoolExp
 }
 
 // OnListParams holds the optional arguments for OnList.
 type OnListParams struct {
-	Limit   *int
-	Offset  *int
-	OrderBy *[]inputs.ResourceFeesOrderByExp
-	Where   *inputs.ResourceFeesBoolExp
+	Limit   param.Opt[int]
+	Offset  param.Opt[int]
+	OrderBy []inputs.ResourceFeesOrderByExp
+	Where   inputs.ResourceFeesBoolExp
 }
 
 // OnAggregateParams holds the optional arguments for OnAggregate.
 type OnAggregateParams struct {
-	FilterInput *inputs.ResourceFeesFilterInput
+	FilterInput inputs.ResourceFeesFilterInput
 }
 
 // QueryHandler runs ResourceFees query operations.

@@ -3,14 +3,15 @@
 package inputs
 
 import (
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/enums"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/enums"
+	"github.com/oh-tarnished/generateql/runtime/go/param"
 )
 
 // BookingTimeWindowsOrderByExp is the BookingTimeWindowsOrderByExp input type.
 type BookingTimeWindowsOrderByExp struct {
-	EndTime   *enums.OrderBy `json:"endTime,omitempty"`
-	Id        *enums.OrderBy `json:"id,omitempty"`
-	StartTime *enums.OrderBy `json:"startTime,omitempty"`
+	EndTime   param.Opt[enums.OrderBy] `json:"endTime,omitzero"`
+	Id        param.Opt[enums.OrderBy] `json:"id,omitzero"`
+	StartTime param.Opt[enums.OrderBy] `json:"startTime,omitzero"`
 }
 
 func (*BookingTimeWindowsOrderByExp) GetGraphQLType() string { return "BookingTimeWindowsOrderByExp" }

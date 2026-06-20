@@ -4,7 +4,7 @@ package inputs
 
 // UpdateColumnResourceLosDiscountsMinNightsInput is the UpdateColumnResourceLosDiscountsMinNightsInput input type.
 type UpdateColumnResourceLosDiscountsMinNightsInput struct {
-	Set int32 `json:"set,omitempty"`
+	Set int32 `json:"set"`
 }
 
 func (*UpdateColumnResourceLosDiscountsMinNightsInput) GetGraphQLType() string {

@@ -5,21 +5,22 @@ package inputs
 import (
 	"encoding/json"
 	"github.com/oh-tarnished/generateql/runtime/go/graphql"
+	"github.com/oh-tarnished/generateql/runtime/go/param"
 )
 
 // InsertOrganisationResourceObjectInput is the InsertOrganisationResourceObjectInput input type.
 type InsertOrganisationResourceObjectInput struct {
-	BillingEmail *string          `json:"billingEmail,omitempty"`
-	CreateTime   *string          `json:"createTime,omitempty"`
-	DisplayName  string           `json:"displayName,omitempty"`
-	Etag         *string          `json:"etag,omitempty"`
-	Id           string           `json:"id,omitempty"`
-	MemberCount  *graphql.Int64   `json:"memberCount,omitempty"`
-	Name         string           `json:"name,omitempty"`
-	Settings     *json.RawMessage `json:"settings,omitempty"`
-	Slug         *string          `json:"slug,omitempty"`
-	State        *string          `json:"state,omitempty"`
-	UpdateTime   string           `json:"updateTime,omitempty"`
+	BillingEmail param.Opt[string]        `json:"billingEmail,omitzero"`
+	CreateTime   param.Opt[string]        `json:"createTime,omitzero"`
+	DisplayName  string                   `json:"displayName"`
+	Etag         param.Opt[string]        `json:"etag,omitzero"`
+	Id           string                   `json:"id"`
+	MemberCount  param.Opt[graphql.Int64] `json:"memberCount,omitzero"`
+	Name         string                   `json:"name"`
+	Settings     json.RawMessage          `json:"settings,omitzero"`
+	Slug         param.Opt[string]        `json:"slug,omitzero"`
+	State        param.Opt[string]        `json:"state,omitzero"`
+	UpdateTime   string                   `json:"updateTime"`
 }
 
 func (*InsertOrganisationResourceObjectInput) GetGraphQLType() string {

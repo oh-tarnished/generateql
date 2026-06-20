@@ -3,23 +3,24 @@
 package inputs
 
 import (
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/enums"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/enums"
+	"github.com/oh-tarnished/generateql/runtime/go/param"
 )
 
 // ScheduleAvailabilityExceptionsOrderByExp is the ScheduleAvailabilityExceptionsOrderByExp input type.
 type ScheduleAvailabilityExceptionsOrderByExp struct {
-	BookingTimeWindow *BookingTimeWindowsOrderByExp `json:"bookingTimeWindow,omitempty"`
-	CreateTime        *enums.OrderBy                `json:"createTime,omitempty"`
-	DateRangeId       *enums.OrderBy                `json:"dateRangeId,omitempty"`
-	Id                *enums.OrderBy                `json:"id,omitempty"`
-	Kind              *enums.OrderBy                `json:"kind,omitempty"`
-	Name              *enums.OrderBy                `json:"name,omitempty"`
-	Reason            *enums.OrderBy                `json:"reason,omitempty"`
-	ResourceEntity    *ResourceEntityOrderByExp     `json:"resourceEntity,omitempty"`
-	ResourceId        *enums.OrderBy                `json:"resourceId,omitempty"`
-	ScheduleDateRange *ScheduleDateRangesOrderByExp `json:"scheduleDateRange,omitempty"`
-	SpanCase          *enums.OrderBy                `json:"spanCase,omitempty"`
-	WindowId          *enums.OrderBy                `json:"windowId,omitempty"`
+	BookingTimeWindow BookingTimeWindowsOrderByExp `json:"bookingTimeWindow,omitzero"`
+	CreateTime        param.Opt[enums.OrderBy]     `json:"createTime,omitzero"`
+	DateRangeId       param.Opt[enums.OrderBy]     `json:"dateRangeId,omitzero"`
+	Id                param.Opt[enums.OrderBy]     `json:"id,omitzero"`
+	Kind              param.Opt[enums.OrderBy]     `json:"kind,omitzero"`
+	Name              param.Opt[enums.OrderBy]     `json:"name,omitzero"`
+	Reason            param.Opt[enums.OrderBy]     `json:"reason,omitzero"`
+	ResourceEntity    ResourceEntityOrderByExp     `json:"resourceEntity,omitzero"`
+	ResourceId        param.Opt[enums.OrderBy]     `json:"resourceId,omitzero"`
+	ScheduleDateRange ScheduleDateRangesOrderByExp `json:"scheduleDateRange,omitzero"`
+	SpanCase          param.Opt[enums.OrderBy]     `json:"spanCase,omitzero"`
+	WindowId          param.Opt[enums.OrderBy]     `json:"windowId,omitzero"`
 }
 
 func (*ScheduleAvailabilityExceptionsOrderByExp) GetGraphQLType() string {

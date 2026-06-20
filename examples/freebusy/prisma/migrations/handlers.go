@@ -4,51 +4,52 @@ package migrations
 
 import (
 	"context"
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/inputs"
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/schema"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/inputs"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/schema"
+	"github.com/oh-tarnished/generateql/runtime/go/param"
 	"github.com/oh-tarnished/generateql/runtime/go/runtime"
 )
 
 // ListParams holds the optional arguments for List.
 type ListParams struct {
-	Limit   *int
-	Offset  *int
-	OrderBy *[]inputs.PrismaMigrationsOrderByExp
-	Where   *inputs.PrismaMigrationsBoolExp
+	Limit   param.Opt[int]
+	Offset  param.Opt[int]
+	OrderBy []inputs.PrismaMigrationsOrderByExp
+	Where   inputs.PrismaMigrationsBoolExp
 }
 
 // AggregateParams holds the optional arguments for Aggregate.
 type AggregateParams struct {
-	FilterInput *inputs.PrismaMigrationsFilterInput
+	FilterInput inputs.PrismaMigrationsFilterInput
 }
 
 // DeleteByIdParams holds the optional arguments for DeleteById.
 type DeleteByIdParams struct {
-	PreCheck *inputs.PrismaMigrationsBoolExp
+	PreCheck inputs.PrismaMigrationsBoolExp
 }
 
 // InsertParams holds the optional arguments for Insert.
 type InsertParams struct {
-	PostCheck *inputs.PrismaMigrationsBoolExp
+	PostCheck inputs.PrismaMigrationsBoolExp
 }
 
 // UpdateByIdParams holds the optional arguments for UpdateById.
 type UpdateByIdParams struct {
-	PostCheck *inputs.PrismaMigrationsBoolExp
-	PreCheck  *inputs.PrismaMigrationsBoolExp
+	PostCheck inputs.PrismaMigrationsBoolExp
+	PreCheck  inputs.PrismaMigrationsBoolExp
 }
 
 // OnListParams holds the optional arguments for OnList.
 type OnListParams struct {
-	Limit   *int
-	Offset  *int
-	OrderBy *[]inputs.PrismaMigrationsOrderByExp
-	Where   *inputs.PrismaMigrationsBoolExp
+	Limit   param.Opt[int]
+	Offset  param.Opt[int]
+	OrderBy []inputs.PrismaMigrationsOrderByExp
+	Where   inputs.PrismaMigrationsBoolExp
 }
 
 // OnAggregateParams holds the optional arguments for OnAggregate.
 type OnAggregateParams struct {
-	FilterInput *inputs.PrismaMigrationsFilterInput
+	FilterInput inputs.PrismaMigrationsFilterInput
 }
 
 // QueryHandler runs PrismaMigrations query operations.

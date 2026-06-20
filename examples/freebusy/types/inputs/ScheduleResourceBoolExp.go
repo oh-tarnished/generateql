@@ -4,20 +4,20 @@ package inputs
 
 // ScheduleResourceBoolExp is the ScheduleResourceBoolExp input type.
 type ScheduleResourceBoolExp struct {
-	And                        []ScheduleResourceBoolExp            `json:"_and,omitempty"`
-	Not                        *ScheduleResourceBoolExp             `json:"_not,omitempty"`
-	Or                         []ScheduleResourceBoolExp            `json:"_or,omitempty"`
-	BuffersId                  *TextBoolExp                         `json:"buffersId,omitempty"`
-	CancellationPolicyId       *TextBoolExp                         `json:"cancellationPolicyId,omitempty"`
-	Etag                       *TextBoolExp                         `json:"etag,omitempty"`
-	Id                         *TextBoolExp                         `json:"id,omitempty"`
-	Name                       *TextBoolExp                         `json:"name,omitempty"`
-	ScheduleBufferSetting      *ScheduleBufferSettingsBoolExp       `json:"scheduleBufferSetting,omitempty"`
-	ScheduleCancellationPolicy *ScheduleCancellationPoliciesBoolExp `json:"scheduleCancellationPolicy,omitempty"`
-	ScheduleExceptions         *ScheduleExceptionsBoolExp           `json:"scheduleExceptions,omitempty"`
-	ScheduleRecurringRules     *ScheduleRecurringRulesBoolExp       `json:"scheduleRecurringRules,omitempty"`
-	ScheduleStayConstraint     *ScheduleStayConstraintsBoolExp      `json:"scheduleStayConstraint,omitempty"`
-	StayConstraintsId          *TextBoolExp                         `json:"stayConstraintsId,omitempty"`
+	And                        []ScheduleResourceBoolExp           `json:"_and,omitzero"`
+	Not                        ScheduleResourceBoolExp             `json:"_not,omitzero"`
+	Or                         []ScheduleResourceBoolExp           `json:"_or,omitzero"`
+	BuffersId                  TextBoolExp                         `json:"buffersId,omitzero"`
+	CancellationPolicyId       TextBoolExp                         `json:"cancellationPolicyId,omitzero"`
+	Etag                       TextBoolExp                         `json:"etag,omitzero"`
+	Id                         TextBoolExp                         `json:"id,omitzero"`
+	Name                       TextBoolExp                         `json:"name,omitzero"`
+	ScheduleBufferSetting      ScheduleBufferSettingsBoolExp       `json:"scheduleBufferSetting,omitzero"`
+	ScheduleCancellationPolicy ScheduleCancellationPoliciesBoolExp `json:"scheduleCancellationPolicy,omitzero"`
+	ScheduleExceptions         ScheduleExceptionsBoolExp           `json:"scheduleExceptions,omitzero"`
+	ScheduleRecurringRules     ScheduleRecurringRulesBoolExp       `json:"scheduleRecurringRules,omitzero"`
+	ScheduleStayConstraint     ScheduleStayConstraintsBoolExp      `json:"scheduleStayConstraint,omitzero"`
+	StayConstraintsId          TextBoolExp                         `json:"stayConstraintsId,omitzero"`
 }
 
 func (*ScheduleResourceBoolExp) GetGraphQLType() string { return "ScheduleResourceBoolExp" }

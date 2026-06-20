@@ -2,9 +2,13 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // UpdateColumnResourceTaxesDisplayNameInput is the UpdateColumnResourceTaxesDisplayNameInput input type.
 type UpdateColumnResourceTaxesDisplayNameInput struct {
-	Set *string `json:"set,omitempty"`
+	Set param.Opt[string] `json:"set,omitzero"`
 }
 
 func (*UpdateColumnResourceTaxesDisplayNameInput) GetGraphQLType() string {

@@ -2,9 +2,13 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // UpdateColumnScheduleBufferSettingsMinNoticeInput is the UpdateColumnScheduleBufferSettingsMinNoticeInput input type.
 type UpdateColumnScheduleBufferSettingsMinNoticeInput struct {
-	Set *string `json:"set,omitempty"`
+	Set param.Opt[string] `json:"set,omitzero"`
 }
 
 func (*UpdateColumnScheduleBufferSettingsMinNoticeInput) GetGraphQLType() string {

@@ -2,18 +2,22 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // InsertIdentityUsersObjectInput is the InsertIdentityUsersObjectInput input type.
 type InsertIdentityUsersObjectInput struct {
-	AvatarUrl   *string `json:"avatarUrl,omitempty"`
-	CreateTime  *string `json:"createTime,omitempty"`
-	DisplayName *string `json:"displayName,omitempty"`
-	Email       *string `json:"email,omitempty"`
-	Etag        *string `json:"etag,omitempty"`
-	Id          string  `json:"id,omitempty"`
-	Locale      *string `json:"locale,omitempty"`
-	Name        string  `json:"name,omitempty"`
-	TimeZone    *string `json:"timeZone,omitempty"`
-	UpdateTime  string  `json:"updateTime,omitempty"`
+	AvatarUrl   param.Opt[string] `json:"avatarUrl,omitzero"`
+	CreateTime  param.Opt[string] `json:"createTime,omitzero"`
+	DisplayName param.Opt[string] `json:"displayName,omitzero"`
+	Email       param.Opt[string] `json:"email,omitzero"`
+	Etag        param.Opt[string] `json:"etag,omitzero"`
+	Id          string            `json:"id"`
+	Locale      param.Opt[string] `json:"locale,omitzero"`
+	Name        string            `json:"name"`
+	TimeZone    param.Opt[string] `json:"timeZone,omitzero"`
+	UpdateTime  string            `json:"updateTime"`
 }
 
 func (*InsertIdentityUsersObjectInput) GetGraphQLType() string {

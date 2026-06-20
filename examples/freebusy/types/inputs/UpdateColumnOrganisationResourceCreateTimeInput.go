@@ -4,7 +4,7 @@ package inputs
 
 // UpdateColumnOrganisationResourceCreateTimeInput is the UpdateColumnOrganisationResourceCreateTimeInput input type.
 type UpdateColumnOrganisationResourceCreateTimeInput struct {
-	Set string `json:"set,omitempty"`
+	Set string `json:"set"`
 }
 
 func (*UpdateColumnOrganisationResourceCreateTimeInput) GetGraphQLType() string {

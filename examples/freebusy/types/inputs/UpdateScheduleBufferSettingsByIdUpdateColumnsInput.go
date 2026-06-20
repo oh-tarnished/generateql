@@ -4,12 +4,12 @@ package inputs
 
 // UpdateScheduleBufferSettingsByIdUpdateColumnsInput is the UpdateScheduleBufferSettingsByIdUpdateColumnsInput input type.
 type UpdateScheduleBufferSettingsByIdUpdateColumnsInput struct {
-	EndDelta   *UpdateColumnScheduleBufferSettingsEndDeltaInput   `json:"endDelta,omitempty"`
-	Gap        *UpdateColumnScheduleBufferSettingsGapInput        `json:"gap,omitempty"`
-	Id         *UpdateColumnScheduleBufferSettingsIdInput         `json:"id,omitempty"`
-	MaxAdvance *UpdateColumnScheduleBufferSettingsMaxAdvanceInput `json:"maxAdvance,omitempty"`
-	MinNotice  *UpdateColumnScheduleBufferSettingsMinNoticeInput  `json:"minNotice,omitempty"`
-	StartDelta *UpdateColumnScheduleBufferSettingsStartDeltaInput `json:"startDelta,omitempty"`
+	EndDelta   UpdateColumnScheduleBufferSettingsEndDeltaInput   `json:"endDelta,omitzero"`
+	Gap        UpdateColumnScheduleBufferSettingsGapInput        `json:"gap,omitzero"`
+	Id         UpdateColumnScheduleBufferSettingsIdInput         `json:"id,omitzero"`
+	MaxAdvance UpdateColumnScheduleBufferSettingsMaxAdvanceInput `json:"maxAdvance,omitzero"`
+	MinNotice  UpdateColumnScheduleBufferSettingsMinNoticeInput  `json:"minNotice,omitzero"`
+	StartDelta UpdateColumnScheduleBufferSettingsStartDeltaInput `json:"startDelta,omitzero"`
 }
 
 func (*UpdateScheduleBufferSettingsByIdUpdateColumnsInput) GetGraphQLType() string {

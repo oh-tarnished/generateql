@@ -4,7 +4,7 @@ package inputs
 
 // UpdateColumnIdentityUsersIdInput is the UpdateColumnIdentityUsersIdInput input type.
 type UpdateColumnIdentityUsersIdInput struct {
-	Set string `json:"set,omitempty"`
+	Set string `json:"set"`
 }
 
 func (*UpdateColumnIdentityUsersIdInput) GetGraphQLType() string {

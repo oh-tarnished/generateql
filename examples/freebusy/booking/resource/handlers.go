@@ -4,51 +4,52 @@ package resource
 
 import (
 	"context"
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/inputs"
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/schema"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/inputs"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/schema"
+	"github.com/oh-tarnished/generateql/runtime/go/param"
 	"github.com/oh-tarnished/generateql/runtime/go/runtime"
 )
 
 // ListParams holds the optional arguments for List.
 type ListParams struct {
-	Limit   *int
-	Offset  *int
-	OrderBy *[]inputs.BookingResourceOrderByExp
-	Where   *inputs.BookingResourceBoolExp
+	Limit   param.Opt[int]
+	Offset  param.Opt[int]
+	OrderBy []inputs.BookingResourceOrderByExp
+	Where   inputs.BookingResourceBoolExp
 }
 
 // AggregateParams holds the optional arguments for Aggregate.
 type AggregateParams struct {
-	FilterInput *inputs.BookingResourceFilterInput
+	FilterInput inputs.BookingResourceFilterInput
 }
 
 // DeleteByIdParams holds the optional arguments for DeleteById.
 type DeleteByIdParams struct {
-	PreCheck *inputs.BookingResourceBoolExp
+	PreCheck inputs.BookingResourceBoolExp
 }
 
 // InsertParams holds the optional arguments for Insert.
 type InsertParams struct {
-	PostCheck *inputs.BookingResourceBoolExp
+	PostCheck inputs.BookingResourceBoolExp
 }
 
 // UpdateByIdParams holds the optional arguments for UpdateById.
 type UpdateByIdParams struct {
-	PostCheck *inputs.BookingResourceBoolExp
-	PreCheck  *inputs.BookingResourceBoolExp
+	PostCheck inputs.BookingResourceBoolExp
+	PreCheck  inputs.BookingResourceBoolExp
 }
 
 // OnListParams holds the optional arguments for OnList.
 type OnListParams struct {
-	Limit   *int
-	Offset  *int
-	OrderBy *[]inputs.BookingResourceOrderByExp
-	Where   *inputs.BookingResourceBoolExp
+	Limit   param.Opt[int]
+	Offset  param.Opt[int]
+	OrderBy []inputs.BookingResourceOrderByExp
+	Where   inputs.BookingResourceBoolExp
 }
 
 // OnAggregateParams holds the optional arguments for OnAggregate.
 type OnAggregateParams struct {
-	FilterInput *inputs.BookingResourceFilterInput
+	FilterInput inputs.BookingResourceFilterInput
 }
 
 // QueryHandler runs BookingResource query operations.

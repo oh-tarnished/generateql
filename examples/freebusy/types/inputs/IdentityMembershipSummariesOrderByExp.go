@@ -3,18 +3,19 @@
 package inputs
 
 import (
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/enums"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/enums"
+	"github.com/oh-tarnished/generateql/runtime/go/param"
 )
 
 // IdentityMembershipSummariesOrderByExp is the IdentityMembershipSummariesOrderByExp input type.
 type IdentityMembershipSummariesOrderByExp struct {
-	Id                   *enums.OrderBy                  `json:"id,omitempty"`
-	IdentityUser         *IdentityUsersOrderByExp        `json:"identityUser,omitempty"`
-	OrgDisplayName       *enums.OrderBy                  `json:"orgDisplayName,omitempty"`
-	Organisation         *enums.OrderBy                  `json:"organisation,omitempty"`
-	OrganisationResource *OrganisationResourceOrderByExp `json:"organisationResource,omitempty"`
-	Role                 *enums.OrderBy                  `json:"role,omitempty"`
-	UserId               *enums.OrderBy                  `json:"userId,omitempty"`
+	Id                   param.Opt[enums.OrderBy]       `json:"id,omitzero"`
+	IdentityUser         IdentityUsersOrderByExp        `json:"identityUser,omitzero"`
+	OrgDisplayName       param.Opt[enums.OrderBy]       `json:"orgDisplayName,omitzero"`
+	Organisation         param.Opt[enums.OrderBy]       `json:"organisation,omitzero"`
+	OrganisationResource OrganisationResourceOrderByExp `json:"organisationResource,omitzero"`
+	Role                 param.Opt[enums.OrderBy]       `json:"role,omitzero"`
+	UserId               param.Opt[enums.OrderBy]       `json:"userId,omitzero"`
 }
 
 func (*IdentityMembershipSummariesOrderByExp) GetGraphQLType() string {

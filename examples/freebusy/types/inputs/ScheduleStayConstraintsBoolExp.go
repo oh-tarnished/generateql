@@ -4,15 +4,15 @@ package inputs
 
 // ScheduleStayConstraintsBoolExp is the ScheduleStayConstraintsBoolExp input type.
 type ScheduleStayConstraintsBoolExp struct {
-	And               []ScheduleStayConstraintsBoolExp `json:"_and,omitempty"`
-	Not               *ScheduleStayConstraintsBoolExp  `json:"_not,omitempty"`
-	Or                []ScheduleStayConstraintsBoolExp `json:"_or,omitempty"`
-	AdvanceMaxDays    *Int4BoolExp                     `json:"advanceMaxDays,omitempty"`
-	AdvanceMinDays    *Int4BoolExp                     `json:"advanceMinDays,omitempty"`
-	Id                *TextBoolExp                     `json:"id,omitempty"`
-	MaxNights         *Int4BoolExp                     `json:"maxNights,omitempty"`
-	MinNights         *Int4BoolExp                     `json:"minNights,omitempty"`
-	ScheduleResources *ScheduleResourceBoolExp         `json:"scheduleResources,omitempty"`
+	And               []ScheduleStayConstraintsBoolExp `json:"_and,omitzero"`
+	Not               ScheduleStayConstraintsBoolExp   `json:"_not,omitzero"`
+	Or                []ScheduleStayConstraintsBoolExp `json:"_or,omitzero"`
+	AdvanceMaxDays    Int4BoolExp                      `json:"advanceMaxDays,omitzero"`
+	AdvanceMinDays    Int4BoolExp                      `json:"advanceMinDays,omitzero"`
+	Id                TextBoolExp                      `json:"id,omitzero"`
+	MaxNights         Int4BoolExp                      `json:"maxNights,omitzero"`
+	MinNights         Int4BoolExp                      `json:"minNights,omitzero"`
+	ScheduleResources ScheduleResourceBoolExp          `json:"scheduleResources,omitzero"`
 }
 
 func (*ScheduleStayConstraintsBoolExp) GetGraphQLType() string {

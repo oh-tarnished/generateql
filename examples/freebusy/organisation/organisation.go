@@ -3,8 +3,8 @@
 package organisation
 
 import (
-	"github.com/oh-tarnished/generateql/examples/freebusy/organisation/members"
-	"github.com/oh-tarnished/generateql/examples/freebusy/organisation/resource"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/organisation/members"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/organisation/resource"
 	"github.com/oh-tarnished/generateql/runtime/go/runtime"
 )
 

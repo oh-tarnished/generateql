@@ -4,51 +4,52 @@ package users
 
 import (
 	"context"
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/inputs"
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/schema"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/inputs"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/schema"
+	"github.com/oh-tarnished/generateql/runtime/go/param"
 	"github.com/oh-tarnished/generateql/runtime/go/runtime"
 )
 
 // ListParams holds the optional arguments for List.
 type ListParams struct {
-	Limit   *int
-	Offset  *int
-	OrderBy *[]inputs.IdentityUsersOrderByExp
-	Where   *inputs.IdentityUsersBoolExp
+	Limit   param.Opt[int]
+	Offset  param.Opt[int]
+	OrderBy []inputs.IdentityUsersOrderByExp
+	Where   inputs.IdentityUsersBoolExp
 }
 
 // AggregateParams holds the optional arguments for Aggregate.
 type AggregateParams struct {
-	FilterInput *inputs.IdentityUsersFilterInput
+	FilterInput inputs.IdentityUsersFilterInput
 }
 
 // DeleteByIdParams holds the optional arguments for DeleteById.
 type DeleteByIdParams struct {
-	PreCheck *inputs.IdentityUsersBoolExp
+	PreCheck inputs.IdentityUsersBoolExp
 }
 
 // InsertParams holds the optional arguments for Insert.
 type InsertParams struct {
-	PostCheck *inputs.IdentityUsersBoolExp
+	PostCheck inputs.IdentityUsersBoolExp
 }
 
 // UpdateByIdParams holds the optional arguments for UpdateById.
 type UpdateByIdParams struct {
-	PostCheck *inputs.IdentityUsersBoolExp
-	PreCheck  *inputs.IdentityUsersBoolExp
+	PostCheck inputs.IdentityUsersBoolExp
+	PreCheck  inputs.IdentityUsersBoolExp
 }
 
 // OnListParams holds the optional arguments for OnList.
 type OnListParams struct {
-	Limit   *int
-	Offset  *int
-	OrderBy *[]inputs.IdentityUsersOrderByExp
-	Where   *inputs.IdentityUsersBoolExp
+	Limit   param.Opt[int]
+	Offset  param.Opt[int]
+	OrderBy []inputs.IdentityUsersOrderByExp
+	Where   inputs.IdentityUsersBoolExp
 }
 
 // OnAggregateParams holds the optional arguments for OnAggregate.
 type OnAggregateParams struct {
-	FilterInput *inputs.IdentityUsersFilterInput
+	FilterInput inputs.IdentityUsersFilterInput
 }
 
 // QueryHandler runs IdentityUsers query operations.

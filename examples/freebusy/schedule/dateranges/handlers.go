@@ -4,51 +4,52 @@ package dateranges
 
 import (
 	"context"
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/inputs"
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/schema"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/inputs"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/schema"
+	"github.com/oh-tarnished/generateql/runtime/go/param"
 	"github.com/oh-tarnished/generateql/runtime/go/runtime"
 )
 
 // ListParams holds the optional arguments for List.
 type ListParams struct {
-	Limit   *int
-	Offset  *int
-	OrderBy *[]inputs.ScheduleDateRangesOrderByExp
-	Where   *inputs.ScheduleDateRangesBoolExp
+	Limit   param.Opt[int]
+	Offset  param.Opt[int]
+	OrderBy []inputs.ScheduleDateRangesOrderByExp
+	Where   inputs.ScheduleDateRangesBoolExp
 }
 
 // AggregateParams holds the optional arguments for Aggregate.
 type AggregateParams struct {
-	FilterInput *inputs.ScheduleDateRangesFilterInput
+	FilterInput inputs.ScheduleDateRangesFilterInput
 }
 
 // DeleteByIdParams holds the optional arguments for DeleteById.
 type DeleteByIdParams struct {
-	PreCheck *inputs.ScheduleDateRangesBoolExp
+	PreCheck inputs.ScheduleDateRangesBoolExp
 }
 
 // InsertParams holds the optional arguments for Insert.
 type InsertParams struct {
-	PostCheck *inputs.ScheduleDateRangesBoolExp
+	PostCheck inputs.ScheduleDateRangesBoolExp
 }
 
 // UpdateByIdParams holds the optional arguments for UpdateById.
 type UpdateByIdParams struct {
-	PostCheck *inputs.ScheduleDateRangesBoolExp
-	PreCheck  *inputs.ScheduleDateRangesBoolExp
+	PostCheck inputs.ScheduleDateRangesBoolExp
+	PreCheck  inputs.ScheduleDateRangesBoolExp
 }
 
 // OnListParams holds the optional arguments for OnList.
 type OnListParams struct {
-	Limit   *int
-	Offset  *int
-	OrderBy *[]inputs.ScheduleDateRangesOrderByExp
-	Where   *inputs.ScheduleDateRangesBoolExp
+	Limit   param.Opt[int]
+	Offset  param.Opt[int]
+	OrderBy []inputs.ScheduleDateRangesOrderByExp
+	Where   inputs.ScheduleDateRangesBoolExp
 }
 
 // OnAggregateParams holds the optional arguments for OnAggregate.
 type OnAggregateParams struct {
-	FilterInput *inputs.ScheduleDateRangesFilterInput
+	FilterInput inputs.ScheduleDateRangesFilterInput
 }
 
 // QueryHandler runs ScheduleDateRanges query operations.

@@ -3,26 +3,27 @@
 package inputs
 
 import (
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/enums"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/enums"
+	"github.com/oh-tarnished/generateql/runtime/go/param"
 )
 
 // OrganisationMembersOrderByExp is the OrganisationMembersOrderByExp input type.
 type OrganisationMembersOrderByExp struct {
-	CreateTime           *enums.OrderBy                  `json:"createTime,omitempty"`
-	DisplayName          *enums.OrderBy                  `json:"displayName,omitempty"`
-	Email                *enums.OrderBy                  `json:"email,omitempty"`
-	Etag                 *enums.OrderBy                  `json:"etag,omitempty"`
-	Id                   *enums.OrderBy                  `json:"id,omitempty"`
-	IdentityUser         *IdentityUsersOrderByExp        `json:"identityUser,omitempty"`
-	IdentityUserByUser   *IdentityUsersOrderByExp        `json:"identityUserByUser,omitempty"`
-	Inviter              *enums.OrderBy                  `json:"inviter,omitempty"`
-	Name                 *enums.OrderBy                  `json:"name,omitempty"`
-	OrganisationId       *enums.OrderBy                  `json:"organisationId,omitempty"`
-	OrganisationResource *OrganisationResourceOrderByExp `json:"organisationResource,omitempty"`
-	Role                 *enums.OrderBy                  `json:"role,omitempty"`
-	State                *enums.OrderBy                  `json:"state,omitempty"`
-	UpdateTime           *enums.OrderBy                  `json:"updateTime,omitempty"`
-	User                 *enums.OrderBy                  `json:"user,omitempty"`
+	CreateTime           param.Opt[enums.OrderBy]       `json:"createTime,omitzero"`
+	DisplayName          param.Opt[enums.OrderBy]       `json:"displayName,omitzero"`
+	Email                param.Opt[enums.OrderBy]       `json:"email,omitzero"`
+	Etag                 param.Opt[enums.OrderBy]       `json:"etag,omitzero"`
+	Id                   param.Opt[enums.OrderBy]       `json:"id,omitzero"`
+	IdentityUser         IdentityUsersOrderByExp        `json:"identityUser,omitzero"`
+	IdentityUserByUser   IdentityUsersOrderByExp        `json:"identityUserByUser,omitzero"`
+	Inviter              param.Opt[enums.OrderBy]       `json:"inviter,omitzero"`
+	Name                 param.Opt[enums.OrderBy]       `json:"name,omitzero"`
+	OrganisationId       param.Opt[enums.OrderBy]       `json:"organisationId,omitzero"`
+	OrganisationResource OrganisationResourceOrderByExp `json:"organisationResource,omitzero"`
+	Role                 param.Opt[enums.OrderBy]       `json:"role,omitzero"`
+	State                param.Opt[enums.OrderBy]       `json:"state,omitzero"`
+	UpdateTime           param.Opt[enums.OrderBy]       `json:"updateTime,omitzero"`
+	User                 param.Opt[enums.OrderBy]       `json:"user,omitzero"`
 }
 
 func (*OrganisationMembersOrderByExp) GetGraphQLType() string { return "OrganisationMembersOrderByExp" }

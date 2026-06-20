@@ -71,6 +71,9 @@ func Generate(opts Options) error {
 	if err := g.writeDomains(); err != nil {
 		return err
 	}
+	if err := g.writeHelpers(); err != nil {
+		return err
+	}
 	return g.writeRoot()
 }
 

@@ -4,12 +4,12 @@ package inputs
 
 // UpdateBookingPriceComponentsByIdUpdateColumnsInput is the UpdateBookingPriceComponentsByIdUpdateColumnsInput input type.
 type UpdateBookingPriceComponentsByIdUpdateColumnsInput struct {
-	AmountId    *UpdateColumnBookingPriceComponentsAmountIdInput    `json:"amountId,omitempty"`
-	BookingId   *UpdateColumnBookingPriceComponentsBookingIdInput   `json:"bookingId,omitempty"`
-	Code        *UpdateColumnBookingPriceComponentsCodeInput        `json:"code,omitempty"`
-	DisplayName *UpdateColumnBookingPriceComponentsDisplayNameInput `json:"displayName,omitempty"`
-	Id          *UpdateColumnBookingPriceComponentsIdInput          `json:"id,omitempty"`
-	Type        *UpdateColumnBookingPriceComponentsTypeInput        `json:"type,omitempty"`
+	AmountId    UpdateColumnBookingPriceComponentsAmountIdInput    `json:"amountId,omitzero"`
+	BookingId   UpdateColumnBookingPriceComponentsBookingIdInput   `json:"bookingId,omitzero"`
+	Code        UpdateColumnBookingPriceComponentsCodeInput        `json:"code,omitzero"`
+	DisplayName UpdateColumnBookingPriceComponentsDisplayNameInput `json:"displayName,omitzero"`
+	Id          UpdateColumnBookingPriceComponentsIdInput          `json:"id,omitzero"`
+	Type        UpdateColumnBookingPriceComponentsTypeInput        `json:"type,omitzero"`
 }
 
 func (*UpdateBookingPriceComponentsByIdUpdateColumnsInput) GetGraphQLType() string {

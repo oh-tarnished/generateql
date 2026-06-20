@@ -4,7 +4,7 @@ package inputs
 
 // UpdateColumnScheduleRefundTiersIdInput is the UpdateColumnScheduleRefundTiersIdInput input type.
 type UpdateColumnScheduleRefundTiersIdInput struct {
-	Set string `json:"set,omitempty"`
+	Set string `json:"set"`
 }
 
 func (*UpdateColumnScheduleRefundTiersIdInput) GetGraphQLType() string {

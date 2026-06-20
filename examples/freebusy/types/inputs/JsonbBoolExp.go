@@ -4,24 +4,25 @@ package inputs
 
 import (
 	"encoding/json"
+	"github.com/oh-tarnished/generateql/runtime/go/param"
 )
 
 // JsonbBoolExp is the JsonbBoolExp input type.
 type JsonbBoolExp struct {
-	And            []JsonbBoolExp    `json:"_and,omitempty"`
-	Eq             *json.RawMessage  `json:"_eq,omitempty"`
-	Gt             *json.RawMessage  `json:"_gt,omitempty"`
-	Gte            *json.RawMessage  `json:"_gte,omitempty"`
-	In             []json.RawMessage `json:"_in,omitempty"`
-	IsNull         *bool             `json:"_is_null,omitempty"`
-	Lt             *json.RawMessage  `json:"_lt,omitempty"`
-	Lte            *json.RawMessage  `json:"_lte,omitempty"`
-	Neq            *json.RawMessage  `json:"_neq,omitempty"`
-	Not            *JsonbBoolExp     `json:"_not,omitempty"`
-	Or             []JsonbBoolExp    `json:"_or,omitempty"`
-	JsonbContained *json.RawMessage  `json:"jsonb_contained,omitempty"`
-	JsonbContains  *json.RawMessage  `json:"jsonb_contains,omitempty"`
-	JsonbExists    *string           `json:"jsonb_exists,omitempty"`
+	And            []JsonbBoolExp    `json:"_and,omitzero"`
+	Eq             json.RawMessage   `json:"_eq,omitzero"`
+	Gt             json.RawMessage   `json:"_gt,omitzero"`
+	Gte            json.RawMessage   `json:"_gte,omitzero"`
+	In             []json.RawMessage `json:"_in,omitzero"`
+	IsNull         param.Opt[bool]   `json:"_is_null,omitzero"`
+	Lt             json.RawMessage   `json:"_lt,omitzero"`
+	Lte            json.RawMessage   `json:"_lte,omitzero"`
+	Neq            json.RawMessage   `json:"_neq,omitzero"`
+	Not            JsonbBoolExp      `json:"_not,omitzero"`
+	Or             []JsonbBoolExp    `json:"_or,omitzero"`
+	JsonbContained json.RawMessage   `json:"jsonb_contained,omitzero"`
+	JsonbContains  json.RawMessage   `json:"jsonb_contains,omitzero"`
+	JsonbExists    param.Opt[string] `json:"jsonb_exists,omitzero"`
 }
 
 func (*JsonbBoolExp) GetGraphQLType() string { return "JsonbBoolExp" }

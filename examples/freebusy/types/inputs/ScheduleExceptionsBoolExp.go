@@ -4,14 +4,14 @@ package inputs
 
 // ScheduleExceptionsBoolExp is the ScheduleExceptionsBoolExp input type.
 type ScheduleExceptionsBoolExp struct {
-	And                           []ScheduleExceptionsBoolExp            `json:"_and,omitempty"`
-	Not                           *ScheduleExceptionsBoolExp             `json:"_not,omitempty"`
-	Or                            []ScheduleExceptionsBoolExp            `json:"_or,omitempty"`
-	AvailabilityExceptionId       *TextBoolExp                           `json:"availabilityExceptionId,omitempty"`
-	Id                            *TextBoolExp                           `json:"id,omitempty"`
-	ScheduleAvailabilityException *ScheduleAvailabilityExceptionsBoolExp `json:"scheduleAvailabilityException,omitempty"`
-	ScheduleId                    *TextBoolExp                           `json:"scheduleId,omitempty"`
-	ScheduleResource              *ScheduleResourceBoolExp               `json:"scheduleResource,omitempty"`
+	And                           []ScheduleExceptionsBoolExp           `json:"_and,omitzero"`
+	Not                           ScheduleExceptionsBoolExp             `json:"_not,omitzero"`
+	Or                            []ScheduleExceptionsBoolExp           `json:"_or,omitzero"`
+	AvailabilityExceptionId       TextBoolExp                           `json:"availabilityExceptionId,omitzero"`
+	Id                            TextBoolExp                           `json:"id,omitzero"`
+	ScheduleAvailabilityException ScheduleAvailabilityExceptionsBoolExp `json:"scheduleAvailabilityException,omitzero"`
+	ScheduleId                    TextBoolExp                           `json:"scheduleId,omitzero"`
+	ScheduleResource              ScheduleResourceBoolExp               `json:"scheduleResource,omitzero"`
 }
 
 func (*ScheduleExceptionsBoolExp) GetGraphQLType() string { return "ScheduleExceptionsBoolExp" }

@@ -4,12 +4,12 @@ package inputs
 
 // UpdateScheduleResourceByIdUpdateColumnsInput is the UpdateScheduleResourceByIdUpdateColumnsInput input type.
 type UpdateScheduleResourceByIdUpdateColumnsInput struct {
-	BuffersId            *UpdateColumnScheduleResourceBuffersIdInput            `json:"buffersId,omitempty"`
-	CancellationPolicyId *UpdateColumnScheduleResourceCancellationPolicyIdInput `json:"cancellationPolicyId,omitempty"`
-	Etag                 *UpdateColumnScheduleResourceEtagInput                 `json:"etag,omitempty"`
-	Id                   *UpdateColumnScheduleResourceIdInput                   `json:"id,omitempty"`
-	Name                 *UpdateColumnScheduleResourceNameInput                 `json:"name,omitempty"`
-	StayConstraintsId    *UpdateColumnScheduleResourceStayConstraintsIdInput    `json:"stayConstraintsId,omitempty"`
+	BuffersId            UpdateColumnScheduleResourceBuffersIdInput            `json:"buffersId,omitzero"`
+	CancellationPolicyId UpdateColumnScheduleResourceCancellationPolicyIdInput `json:"cancellationPolicyId,omitzero"`
+	Etag                 UpdateColumnScheduleResourceEtagInput                 `json:"etag,omitzero"`
+	Id                   UpdateColumnScheduleResourceIdInput                   `json:"id,omitzero"`
+	Name                 UpdateColumnScheduleResourceNameInput                 `json:"name,omitzero"`
+	StayConstraintsId    UpdateColumnScheduleResourceStayConstraintsIdInput    `json:"stayConstraintsId,omitzero"`
 }
 
 func (*UpdateScheduleResourceByIdUpdateColumnsInput) GetGraphQLType() string {

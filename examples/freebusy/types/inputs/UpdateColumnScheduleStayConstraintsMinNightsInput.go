@@ -2,9 +2,13 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // UpdateColumnScheduleStayConstraintsMinNightsInput is the UpdateColumnScheduleStayConstraintsMinNightsInput input type.
 type UpdateColumnScheduleStayConstraintsMinNightsInput struct {
-	Set *int32 `json:"set,omitempty"`
+	Set param.Opt[int32] `json:"set,omitzero"`
 }
 
 func (*UpdateColumnScheduleStayConstraintsMinNightsInput) GetGraphQLType() string {

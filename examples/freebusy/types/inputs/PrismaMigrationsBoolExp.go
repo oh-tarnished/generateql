@@ -4,17 +4,17 @@ package inputs
 
 // PrismaMigrationsBoolExp is the PrismaMigrationsBoolExp input type.
 type PrismaMigrationsBoolExp struct {
-	And               []PrismaMigrationsBoolExp `json:"_and,omitempty"`
-	Not               *PrismaMigrationsBoolExp  `json:"_not,omitempty"`
-	Or                []PrismaMigrationsBoolExp `json:"_or,omitempty"`
-	AppliedStepsCount *Int4BoolExp              `json:"appliedStepsCount,omitempty"`
-	Checksum          *VarcharBoolExp           `json:"checksum,omitempty"`
-	FinishedAt        *TimestamptzBoolExp       `json:"finishedAt,omitempty"`
-	Id                *VarcharBoolExp           `json:"id,omitempty"`
-	Logs              *TextBoolExp              `json:"logs,omitempty"`
-	MigrationName     *VarcharBoolExp           `json:"migrationName,omitempty"`
-	RolledBackAt      *TimestamptzBoolExp       `json:"rolledBackAt,omitempty"`
-	StartedAt         *TimestamptzBoolExp       `json:"startedAt,omitempty"`
+	And               []PrismaMigrationsBoolExp `json:"_and,omitzero"`
+	Not               PrismaMigrationsBoolExp   `json:"_not,omitzero"`
+	Or                []PrismaMigrationsBoolExp `json:"_or,omitzero"`
+	AppliedStepsCount Int4BoolExp               `json:"appliedStepsCount,omitzero"`
+	Checksum          VarcharBoolExp            `json:"checksum,omitzero"`
+	FinishedAt        TimestamptzBoolExp        `json:"finishedAt,omitzero"`
+	Id                VarcharBoolExp            `json:"id,omitzero"`
+	Logs              TextBoolExp               `json:"logs,omitzero"`
+	MigrationName     VarcharBoolExp            `json:"migrationName,omitzero"`
+	RolledBackAt      TimestamptzBoolExp        `json:"rolledBackAt,omitzero"`
+	StartedAt         TimestamptzBoolExp        `json:"startedAt,omitzero"`
 }
 
 func (*PrismaMigrationsBoolExp) GetGraphQLType() string { return "PrismaMigrationsBoolExp" }

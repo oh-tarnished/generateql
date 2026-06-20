@@ -2,13 +2,17 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // InsertResourceRateOverridesObjectInput is the InsertResourceRateOverridesObjectInput input type.
 type InsertResourceRateOverridesObjectInput struct {
-	DateRangeId *string   `json:"dateRangeId,omitempty"`
-	Id          string    `json:"id,omitempty"`
-	OfferingId  string    `json:"offeringId,omitempty"`
-	PriceId     string    `json:"priceId,omitempty"`
-	Weekdays    []*string `json:"weekdays,omitempty"`
+	DateRangeId param.Opt[string] `json:"dateRangeId,omitzero"`
+	Id          string            `json:"id"`
+	OfferingId  string            `json:"offeringId"`
+	PriceId     string            `json:"priceId"`
+	Weekdays    []*string         `json:"weekdays,omitzero"`
 }
 
 func (*InsertResourceRateOverridesObjectInput) GetGraphQLType() string {

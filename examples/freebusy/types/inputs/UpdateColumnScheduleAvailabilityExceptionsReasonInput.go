@@ -2,9 +2,13 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // UpdateColumnScheduleAvailabilityExceptionsReasonInput is the UpdateColumnScheduleAvailabilityExceptionsReasonInput input type.
 type UpdateColumnScheduleAvailabilityExceptionsReasonInput struct {
-	Set *string `json:"set,omitempty"`
+	Set param.Opt[string] `json:"set,omitzero"`
 }
 
 func (*UpdateColumnScheduleAvailabilityExceptionsReasonInput) GetGraphQLType() string {

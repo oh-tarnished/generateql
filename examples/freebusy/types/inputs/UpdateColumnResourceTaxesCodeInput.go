@@ -4,7 +4,7 @@ package inputs
 
 // UpdateColumnResourceTaxesCodeInput is the UpdateColumnResourceTaxesCodeInput input type.
 type UpdateColumnResourceTaxesCodeInput struct {
-	Set string `json:"set,omitempty"`
+	Set string `json:"set"`
 }
 
 func (*UpdateColumnResourceTaxesCodeInput) GetGraphQLType() string {

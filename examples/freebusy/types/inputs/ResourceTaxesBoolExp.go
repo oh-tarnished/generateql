@@ -4,15 +4,15 @@ package inputs
 
 // ResourceTaxesBoolExp is the ResourceTaxesBoolExp input type.
 type ResourceTaxesBoolExp struct {
-	And              []ResourceTaxesBoolExp    `json:"_and,omitempty"`
-	Not              *ResourceTaxesBoolExp     `json:"_not,omitempty"`
-	Or               []ResourceTaxesBoolExp    `json:"_or,omitempty"`
-	Code             *TextBoolExp              `json:"code,omitempty"`
-	DisplayName      *TextBoolExp              `json:"displayName,omitempty"`
-	Id               *TextBoolExp              `json:"id,omitempty"`
-	OfferingId       *TextBoolExp              `json:"offeringId,omitempty"`
-	Percent          *Float8BoolExp            `json:"percent,omitempty"`
-	ResourceOffering *ResourceOfferingsBoolExp `json:"resourceOffering,omitempty"`
+	And              []ResourceTaxesBoolExp   `json:"_and,omitzero"`
+	Not              ResourceTaxesBoolExp     `json:"_not,omitzero"`
+	Or               []ResourceTaxesBoolExp   `json:"_or,omitzero"`
+	Code             TextBoolExp              `json:"code,omitzero"`
+	DisplayName      TextBoolExp              `json:"displayName,omitzero"`
+	Id               TextBoolExp              `json:"id,omitzero"`
+	OfferingId       TextBoolExp              `json:"offeringId,omitzero"`
+	Percent          Float8BoolExp            `json:"percent,omitzero"`
+	ResourceOffering ResourceOfferingsBoolExp `json:"resourceOffering,omitzero"`
 }
 
 func (*ResourceTaxesBoolExp) GetGraphQLType() string { return "ResourceTaxesBoolExp" }

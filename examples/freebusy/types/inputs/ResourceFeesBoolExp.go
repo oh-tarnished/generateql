@@ -4,19 +4,19 @@ package inputs
 
 // ResourceFeesBoolExp is the ResourceFeesBoolExp input type.
 type ResourceFeesBoolExp struct {
-	And              []ResourceFeesBoolExp       `json:"_and,omitempty"`
-	Not              *ResourceFeesBoolExp        `json:"_not,omitempty"`
-	Or               []ResourceFeesBoolExp       `json:"_or,omitempty"`
-	AmountId         *TextBoolExp                `json:"amountId,omitempty"`
-	BookingMoney     *BookingMoneysBoolExp       `json:"bookingMoney,omitempty"`
-	Code             *TextBoolExp                `json:"code,omitempty"`
-	DisplayName      *TextBoolExp                `json:"displayName,omitempty"`
-	Id               *TextBoolExp                `json:"id,omitempty"`
-	OfferingId       *TextBoolExp                `json:"offeringId,omitempty"`
-	Percent          *Int4BoolExp                `json:"percent,omitempty"`
-	PricingUnit      *ResourcePricingUnitBoolExp `json:"pricingUnit,omitempty"`
-	ResourceOffering *ResourceOfferingsBoolExp   `json:"resourceOffering,omitempty"`
-	Taxable          *BoolBoolExp                `json:"taxable,omitempty"`
+	And              []ResourceFeesBoolExp      `json:"_and,omitzero"`
+	Not              ResourceFeesBoolExp        `json:"_not,omitzero"`
+	Or               []ResourceFeesBoolExp      `json:"_or,omitzero"`
+	AmountId         TextBoolExp                `json:"amountId,omitzero"`
+	BookingMoney     BookingMoneysBoolExp       `json:"bookingMoney,omitzero"`
+	Code             TextBoolExp                `json:"code,omitzero"`
+	DisplayName      TextBoolExp                `json:"displayName,omitzero"`
+	Id               TextBoolExp                `json:"id,omitzero"`
+	OfferingId       TextBoolExp                `json:"offeringId,omitzero"`
+	Percent          Int4BoolExp                `json:"percent,omitzero"`
+	PricingUnit      ResourcePricingUnitBoolExp `json:"pricingUnit,omitzero"`
+	ResourceOffering ResourceOfferingsBoolExp   `json:"resourceOffering,omitzero"`
+	Taxable          BoolBoolExp                `json:"taxable,omitzero"`
 }
 
 func (*ResourceFeesBoolExp) GetGraphQLType() string { return "ResourceFeesBoolExp" }

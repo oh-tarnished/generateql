@@ -4,7 +4,7 @@ package inputs
 
 // UpdateColumnResourceRateOverridesIdInput is the UpdateColumnResourceRateOverridesIdInput input type.
 type UpdateColumnResourceRateOverridesIdInput struct {
-	Set string `json:"set,omitempty"`
+	Set string `json:"set"`
 }
 
 func (*UpdateColumnResourceRateOverridesIdInput) GetGraphQLType() string {

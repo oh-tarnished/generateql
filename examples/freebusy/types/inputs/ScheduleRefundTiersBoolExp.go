@@ -4,14 +4,14 @@ package inputs
 
 // ScheduleRefundTiersBoolExp is the ScheduleRefundTiersBoolExp input type.
 type ScheduleRefundTiersBoolExp struct {
-	And                        []ScheduleRefundTiersBoolExp         `json:"_and,omitempty"`
-	Not                        *ScheduleRefundTiersBoolExp          `json:"_not,omitempty"`
-	Or                         []ScheduleRefundTiersBoolExp         `json:"_or,omitempty"`
-	CancellationPolicyId       *TextBoolExp                         `json:"cancellationPolicyId,omitempty"`
-	Cutoff                     *TextBoolExp                         `json:"cutoff,omitempty"`
-	Id                         *TextBoolExp                         `json:"id,omitempty"`
-	RefundPercent              *Int4BoolExp                         `json:"refundPercent,omitempty"`
-	ScheduleCancellationPolicy *ScheduleCancellationPoliciesBoolExp `json:"scheduleCancellationPolicy,omitempty"`
+	And                        []ScheduleRefundTiersBoolExp        `json:"_and,omitzero"`
+	Not                        ScheduleRefundTiersBoolExp          `json:"_not,omitzero"`
+	Or                         []ScheduleRefundTiersBoolExp        `json:"_or,omitzero"`
+	CancellationPolicyId       TextBoolExp                         `json:"cancellationPolicyId,omitzero"`
+	Cutoff                     TextBoolExp                         `json:"cutoff,omitzero"`
+	Id                         TextBoolExp                         `json:"id,omitzero"`
+	RefundPercent              Int4BoolExp                         `json:"refundPercent,omitzero"`
+	ScheduleCancellationPolicy ScheduleCancellationPoliciesBoolExp `json:"scheduleCancellationPolicy,omitzero"`
 }
 
 func (*ScheduleRefundTiersBoolExp) GetGraphQLType() string { return "ScheduleRefundTiersBoolExp" }

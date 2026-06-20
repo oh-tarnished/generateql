@@ -4,15 +4,15 @@ package inputs
 
 // UpdateScheduleAvailabilityExceptionsByIdUpdateColumnsInput is the UpdateScheduleAvailabilityExceptionsByIdUpdateColumnsInput input type.
 type UpdateScheduleAvailabilityExceptionsByIdUpdateColumnsInput struct {
-	CreateTime  *UpdateColumnScheduleAvailabilityExceptionsCreateTimeInput  `json:"createTime,omitempty"`
-	DateRangeId *UpdateColumnScheduleAvailabilityExceptionsDateRangeIdInput `json:"dateRangeId,omitempty"`
-	Id          *UpdateColumnScheduleAvailabilityExceptionsIdInput          `json:"id,omitempty"`
-	Kind        *UpdateColumnScheduleAvailabilityExceptionsKindInput        `json:"kind,omitempty"`
-	Name        *UpdateColumnScheduleAvailabilityExceptionsNameInput        `json:"name,omitempty"`
-	Reason      *UpdateColumnScheduleAvailabilityExceptionsReasonInput      `json:"reason,omitempty"`
-	ResourceId  *UpdateColumnScheduleAvailabilityExceptionsResourceIdInput  `json:"resourceId,omitempty"`
-	SpanCase    *UpdateColumnScheduleAvailabilityExceptionsSpanCaseInput    `json:"spanCase,omitempty"`
-	WindowId    *UpdateColumnScheduleAvailabilityExceptionsWindowIdInput    `json:"windowId,omitempty"`
+	CreateTime  UpdateColumnScheduleAvailabilityExceptionsCreateTimeInput  `json:"createTime,omitzero"`
+	DateRangeId UpdateColumnScheduleAvailabilityExceptionsDateRangeIdInput `json:"dateRangeId,omitzero"`
+	Id          UpdateColumnScheduleAvailabilityExceptionsIdInput          `json:"id,omitzero"`
+	Kind        UpdateColumnScheduleAvailabilityExceptionsKindInput        `json:"kind,omitzero"`
+	Name        UpdateColumnScheduleAvailabilityExceptionsNameInput        `json:"name,omitzero"`
+	Reason      UpdateColumnScheduleAvailabilityExceptionsReasonInput      `json:"reason,omitzero"`
+	ResourceId  UpdateColumnScheduleAvailabilityExceptionsResourceIdInput  `json:"resourceId,omitzero"`
+	SpanCase    UpdateColumnScheduleAvailabilityExceptionsSpanCaseInput    `json:"spanCase,omitzero"`
+	WindowId    UpdateColumnScheduleAvailabilityExceptionsWindowIdInput    `json:"windowId,omitzero"`
 }
 
 func (*UpdateScheduleAvailabilityExceptionsByIdUpdateColumnsInput) GetGraphQLType() string {

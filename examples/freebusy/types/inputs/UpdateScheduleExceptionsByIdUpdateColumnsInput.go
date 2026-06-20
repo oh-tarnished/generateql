@@ -4,9 +4,9 @@ package inputs
 
 // UpdateScheduleExceptionsByIdUpdateColumnsInput is the UpdateScheduleExceptionsByIdUpdateColumnsInput input type.
 type UpdateScheduleExceptionsByIdUpdateColumnsInput struct {
-	AvailabilityExceptionId *UpdateColumnScheduleExceptionsAvailabilityExceptionIdInput `json:"availabilityExceptionId,omitempty"`
-	Id                      *UpdateColumnScheduleExceptionsIdInput                      `json:"id,omitempty"`
-	ScheduleId              *UpdateColumnScheduleExceptionsScheduleIdInput              `json:"scheduleId,omitempty"`
+	AvailabilityExceptionId UpdateColumnScheduleExceptionsAvailabilityExceptionIdInput `json:"availabilityExceptionId,omitzero"`
+	Id                      UpdateColumnScheduleExceptionsIdInput                      `json:"id,omitzero"`
+	ScheduleId              UpdateColumnScheduleExceptionsScheduleIdInput              `json:"scheduleId,omitzero"`
 }
 
 func (*UpdateScheduleExceptionsByIdUpdateColumnsInput) GetGraphQLType() string {

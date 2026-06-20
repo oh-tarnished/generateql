@@ -4,32 +4,32 @@ package inputs
 
 // UpdateBookingResourceByIdUpdateColumnsInput is the UpdateBookingResourceByIdUpdateColumnsInput input type.
 type UpdateBookingResourceByIdUpdateColumnsInput struct {
-	AssignedUnit   *UpdateColumnBookingResourceAssignedUnitInput   `json:"assignedUnit,omitempty"`
-	Attributes     *UpdateColumnBookingResourceAttributesInput     `json:"attributes,omitempty"`
-	CancelReason   *UpdateColumnBookingResourceCancelReasonInput   `json:"cancelReason,omitempty"`
-	CancelTime     *UpdateColumnBookingResourceCancelTimeInput     `json:"cancelTime,omitempty"`
-	ConfirmTime    *UpdateColumnBookingResourceConfirmTimeInput    `json:"confirmTime,omitempty"`
-	ContactId      *UpdateColumnBookingResourceContactIdInput      `json:"contactId,omitempty"`
-	CreateTime     *UpdateColumnBookingResourceCreateTimeInput     `json:"createTime,omitempty"`
-	Customer       *UpdateColumnBookingResourceCustomerInput       `json:"customer,omitempty"`
-	DiscountId     *UpdateColumnBookingResourceDiscountIdInput     `json:"discountId,omitempty"`
-	Etag           *UpdateColumnBookingResourceEtagInput           `json:"etag,omitempty"`
-	HoldExpireTime *UpdateColumnBookingResourceHoldExpireTimeInput `json:"holdExpireTime,omitempty"`
-	HoldTtl        *UpdateColumnBookingResourceHoldTtlInput        `json:"holdTtl,omitempty"`
-	Id             *UpdateColumnBookingResourceIdInput             `json:"id,omitempty"`
-	Name           *UpdateColumnBookingResourceNameInput           `json:"name,omitempty"`
-	Notes          *UpdateColumnBookingResourceNotesInput          `json:"notes,omitempty"`
-	Offering       *UpdateColumnBookingResourceOfferingInput       `json:"offering,omitempty"`
-	PriceId        *UpdateColumnBookingResourcePriceIdInput        `json:"priceId,omitempty"`
-	PromoCode      *UpdateColumnBookingResourcePromoCodeInput      `json:"promoCode,omitempty"`
-	RefundAmountId *UpdateColumnBookingResourceRefundAmountIdInput `json:"refundAmountId,omitempty"`
-	RefundPercent  *UpdateColumnBookingResourceRefundPercentInput  `json:"refundPercent,omitempty"`
-	Resource       *UpdateColumnBookingResourceResourceInput       `json:"resource,omitempty"`
-	State          *UpdateColumnBookingResourceStateInput          `json:"state,omitempty"`
-	TotalId        *UpdateColumnBookingResourceTotalIdInput        `json:"totalId,omitempty"`
-	Units          *UpdateColumnBookingResourceUnitsInput          `json:"units,omitempty"`
-	UpdateTime     *UpdateColumnBookingResourceUpdateTimeInput     `json:"updateTime,omitempty"`
-	WindowId       *UpdateColumnBookingResourceWindowIdInput       `json:"windowId,omitempty"`
+	AssignedUnit   UpdateColumnBookingResourceAssignedUnitInput   `json:"assignedUnit,omitzero"`
+	Attributes     UpdateColumnBookingResourceAttributesInput     `json:"attributes,omitzero"`
+	CancelReason   UpdateColumnBookingResourceCancelReasonInput   `json:"cancelReason,omitzero"`
+	CancelTime     UpdateColumnBookingResourceCancelTimeInput     `json:"cancelTime,omitzero"`
+	ConfirmTime    UpdateColumnBookingResourceConfirmTimeInput    `json:"confirmTime,omitzero"`
+	ContactId      UpdateColumnBookingResourceContactIdInput      `json:"contactId,omitzero"`
+	CreateTime     UpdateColumnBookingResourceCreateTimeInput     `json:"createTime,omitzero"`
+	Customer       UpdateColumnBookingResourceCustomerInput       `json:"customer,omitzero"`
+	DiscountId     UpdateColumnBookingResourceDiscountIdInput     `json:"discountId,omitzero"`
+	Etag           UpdateColumnBookingResourceEtagInput           `json:"etag,omitzero"`
+	HoldExpireTime UpdateColumnBookingResourceHoldExpireTimeInput `json:"holdExpireTime,omitzero"`
+	HoldTtl        UpdateColumnBookingResourceHoldTtlInput        `json:"holdTtl,omitzero"`
+	Id             UpdateColumnBookingResourceIdInput             `json:"id,omitzero"`
+	Name           UpdateColumnBookingResourceNameInput           `json:"name,omitzero"`
+	Notes          UpdateColumnBookingResourceNotesInput          `json:"notes,omitzero"`
+	Offering       UpdateColumnBookingResourceOfferingInput       `json:"offering,omitzero"`
+	PriceId        UpdateColumnBookingResourcePriceIdInput        `json:"priceId,omitzero"`
+	PromoCode      UpdateColumnBookingResourcePromoCodeInput      `json:"promoCode,omitzero"`
+	RefundAmountId UpdateColumnBookingResourceRefundAmountIdInput `json:"refundAmountId,omitzero"`
+	RefundPercent  UpdateColumnBookingResourceRefundPercentInput  `json:"refundPercent,omitzero"`
+	Resource       UpdateColumnBookingResourceResourceInput       `json:"resource,omitzero"`
+	State          UpdateColumnBookingResourceStateInput          `json:"state,omitzero"`
+	TotalId        UpdateColumnBookingResourceTotalIdInput        `json:"totalId,omitzero"`
+	Units          UpdateColumnBookingResourceUnitsInput          `json:"units,omitzero"`
+	UpdateTime     UpdateColumnBookingResourceUpdateTimeInput     `json:"updateTime,omitzero"`
+	WindowId       UpdateColumnBookingResourceWindowIdInput       `json:"windowId,omitzero"`
 }
 
 func (*UpdateBookingResourceByIdUpdateColumnsInput) GetGraphQLType() string {

@@ -2,19 +2,23 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // Int4BoolExp is the Int4BoolExp input type.
 type Int4BoolExp struct {
-	And    []Int4BoolExp `json:"_and,omitempty"`
-	Eq     *int32        `json:"_eq,omitempty"`
-	Gt     *int32        `json:"_gt,omitempty"`
-	Gte    *int32        `json:"_gte,omitempty"`
-	In     []int32       `json:"_in,omitempty"`
-	IsNull *bool         `json:"_is_null,omitempty"`
-	Lt     *int32        `json:"_lt,omitempty"`
-	Lte    *int32        `json:"_lte,omitempty"`
-	Neq    *int32        `json:"_neq,omitempty"`
-	Not    *Int4BoolExp  `json:"_not,omitempty"`
-	Or     []Int4BoolExp `json:"_or,omitempty"`
+	And    []Int4BoolExp    `json:"_and,omitzero"`
+	Eq     param.Opt[int32] `json:"_eq,omitzero"`
+	Gt     param.Opt[int32] `json:"_gt,omitzero"`
+	Gte    param.Opt[int32] `json:"_gte,omitzero"`
+	In     []int32          `json:"_in,omitzero"`
+	IsNull param.Opt[bool]  `json:"_is_null,omitzero"`
+	Lt     param.Opt[int32] `json:"_lt,omitzero"`
+	Lte    param.Opt[int32] `json:"_lte,omitzero"`
+	Neq    param.Opt[int32] `json:"_neq,omitzero"`
+	Not    Int4BoolExp      `json:"_not,omitzero"`
+	Or     []Int4BoolExp    `json:"_or,omitzero"`
 }
 
 func (*Int4BoolExp) GetGraphQLType() string { return "Int4BoolExp" }

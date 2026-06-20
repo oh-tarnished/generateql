@@ -2,9 +2,13 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // UpdateColumnScheduleResourceBuffersIdInput is the UpdateColumnScheduleResourceBuffersIdInput input type.
 type UpdateColumnScheduleResourceBuffersIdInput struct {
-	Set *string `json:"set,omitempty"`
+	Set param.Opt[string] `json:"set,omitzero"`
 }
 
 func (*UpdateColumnScheduleResourceBuffersIdInput) GetGraphQLType() string {

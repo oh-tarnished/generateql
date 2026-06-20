@@ -4,7 +4,7 @@ package inputs
 
 // UpdateColumnResourceEntityTagsInput is the UpdateColumnResourceEntityTagsInput input type.
 type UpdateColumnResourceEntityTagsInput struct {
-	Set []*string `json:"set,omitempty"`
+	Set []*string `json:"set,omitzero"`
 }
 
 func (*UpdateColumnResourceEntityTagsInput) GetGraphQLType() string {

@@ -2,14 +2,18 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // InsertBookingPriceComponentsObjectInput is the InsertBookingPriceComponentsObjectInput input type.
 type InsertBookingPriceComponentsObjectInput struct {
-	AmountId    *string `json:"amountId,omitempty"`
-	BookingId   string  `json:"bookingId,omitempty"`
-	Code        *string `json:"code,omitempty"`
-	DisplayName *string `json:"displayName,omitempty"`
-	Id          string  `json:"id,omitempty"`
-	Type        *string `json:"type,omitempty"`
+	AmountId    param.Opt[string] `json:"amountId,omitzero"`
+	BookingId   string            `json:"bookingId"`
+	Code        param.Opt[string] `json:"code,omitzero"`
+	DisplayName param.Opt[string] `json:"displayName,omitzero"`
+	Id          string            `json:"id"`
+	Type        param.Opt[string] `json:"type,omitzero"`
 }
 
 func (*InsertBookingPriceComponentsObjectInput) GetGraphQLType() string {

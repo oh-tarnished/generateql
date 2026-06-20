@@ -4,18 +4,18 @@ package inputs
 
 // UpdateResourceOfferingsByIdUpdateColumnsInput is the UpdateResourceOfferingsByIdUpdateColumnsInput input type.
 type UpdateResourceOfferingsByIdUpdateColumnsInput struct {
-	CreateTime  *UpdateColumnResourceOfferingsCreateTimeInput  `json:"createTime,omitempty"`
-	Description *UpdateColumnResourceOfferingsDescriptionInput `json:"description,omitempty"`
-	DisplayName *UpdateColumnResourceOfferingsDisplayNameInput `json:"displayName,omitempty"`
-	Duration    *UpdateColumnResourceOfferingsDurationInput    `json:"duration,omitempty"`
-	Etag        *UpdateColumnResourceOfferingsEtagInput        `json:"etag,omitempty"`
-	Id          *UpdateColumnResourceOfferingsIdInput          `json:"id,omitempty"`
-	Name        *UpdateColumnResourceOfferingsNameInput        `json:"name,omitempty"`
-	PriceId     *UpdateColumnResourceOfferingsPriceIdInput     `json:"priceId,omitempty"`
-	PricingUnit *UpdateColumnResourceOfferingsPricingUnitInput `json:"pricingUnit,omitempty"`
-	ResourceId  *UpdateColumnResourceOfferingsResourceIdInput  `json:"resourceId,omitempty"`
-	State       *UpdateColumnResourceOfferingsStateInput       `json:"state,omitempty"`
-	UpdateTime  *UpdateColumnResourceOfferingsUpdateTimeInput  `json:"updateTime,omitempty"`
+	CreateTime  UpdateColumnResourceOfferingsCreateTimeInput  `json:"createTime,omitzero"`
+	Description UpdateColumnResourceOfferingsDescriptionInput `json:"description,omitzero"`
+	DisplayName UpdateColumnResourceOfferingsDisplayNameInput `json:"displayName,omitzero"`
+	Duration    UpdateColumnResourceOfferingsDurationInput    `json:"duration,omitzero"`
+	Etag        UpdateColumnResourceOfferingsEtagInput        `json:"etag,omitzero"`
+	Id          UpdateColumnResourceOfferingsIdInput          `json:"id,omitzero"`
+	Name        UpdateColumnResourceOfferingsNameInput        `json:"name,omitzero"`
+	PriceId     UpdateColumnResourceOfferingsPriceIdInput     `json:"priceId,omitzero"`
+	PricingUnit UpdateColumnResourceOfferingsPricingUnitInput `json:"pricingUnit,omitzero"`
+	ResourceId  UpdateColumnResourceOfferingsResourceIdInput  `json:"resourceId,omitzero"`
+	State       UpdateColumnResourceOfferingsStateInput       `json:"state,omitzero"`
+	UpdateTime  UpdateColumnResourceOfferingsUpdateTimeInput  `json:"updateTime,omitzero"`
 }
 
 func (*UpdateResourceOfferingsByIdUpdateColumnsInput) GetGraphQLType() string {

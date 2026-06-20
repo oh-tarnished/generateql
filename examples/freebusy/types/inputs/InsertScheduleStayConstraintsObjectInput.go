@@ -2,15 +2,19 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // InsertScheduleStayConstraintsObjectInput is the InsertScheduleStayConstraintsObjectInput input type.
 type InsertScheduleStayConstraintsObjectInput struct {
-	AdvanceMaxDays   *int32    `json:"advanceMaxDays,omitempty"`
-	AdvanceMinDays   *int32    `json:"advanceMinDays,omitempty"`
-	CheckinWeekdays  []*string `json:"checkinWeekdays,omitempty"`
-	CheckoutWeekdays []*string `json:"checkoutWeekdays,omitempty"`
-	Id               string    `json:"id,omitempty"`
-	MaxNights        *int32    `json:"maxNights,omitempty"`
-	MinNights        *int32    `json:"minNights,omitempty"`
+	AdvanceMaxDays   param.Opt[int32] `json:"advanceMaxDays,omitzero"`
+	AdvanceMinDays   param.Opt[int32] `json:"advanceMinDays,omitzero"`
+	CheckinWeekdays  []*string        `json:"checkinWeekdays,omitzero"`
+	CheckoutWeekdays []*string        `json:"checkoutWeekdays,omitzero"`
+	Id               string           `json:"id"`
+	MaxNights        param.Opt[int32] `json:"maxNights,omitzero"`
+	MinNights        param.Opt[int32] `json:"minNights,omitzero"`
 }
 
 func (*InsertScheduleStayConstraintsObjectInput) GetGraphQLType() string {

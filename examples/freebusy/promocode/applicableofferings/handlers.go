@@ -4,51 +4,52 @@ package applicableofferings
 
 import (
 	"context"
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/inputs"
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/schema"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/inputs"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/schema"
+	"github.com/oh-tarnished/generateql/runtime/go/param"
 	"github.com/oh-tarnished/generateql/runtime/go/runtime"
 )
 
 // ListParams holds the optional arguments for List.
 type ListParams struct {
-	Limit   *int
-	Offset  *int
-	OrderBy *[]inputs.PromocodeApplicableOfferingsOrderByExp
-	Where   *inputs.PromocodeApplicableOfferingsBoolExp
+	Limit   param.Opt[int]
+	Offset  param.Opt[int]
+	OrderBy []inputs.PromocodeApplicableOfferingsOrderByExp
+	Where   inputs.PromocodeApplicableOfferingsBoolExp
 }
 
 // AggregateParams holds the optional arguments for Aggregate.
 type AggregateParams struct {
-	FilterInput *inputs.PromocodeApplicableOfferingsFilterInput
+	FilterInput inputs.PromocodeApplicableOfferingsFilterInput
 }
 
 // DeleteByIdParams holds the optional arguments for DeleteById.
 type DeleteByIdParams struct {
-	PreCheck *inputs.PromocodeApplicableOfferingsBoolExp
+	PreCheck inputs.PromocodeApplicableOfferingsBoolExp
 }
 
 // InsertParams holds the optional arguments for Insert.
 type InsertParams struct {
-	PostCheck *inputs.PromocodeApplicableOfferingsBoolExp
+	PostCheck inputs.PromocodeApplicableOfferingsBoolExp
 }
 
 // UpdateByIdParams holds the optional arguments for UpdateById.
 type UpdateByIdParams struct {
-	PostCheck *inputs.PromocodeApplicableOfferingsBoolExp
-	PreCheck  *inputs.PromocodeApplicableOfferingsBoolExp
+	PostCheck inputs.PromocodeApplicableOfferingsBoolExp
+	PreCheck  inputs.PromocodeApplicableOfferingsBoolExp
 }
 
 // OnListParams holds the optional arguments for OnList.
 type OnListParams struct {
-	Limit   *int
-	Offset  *int
-	OrderBy *[]inputs.PromocodeApplicableOfferingsOrderByExp
-	Where   *inputs.PromocodeApplicableOfferingsBoolExp
+	Limit   param.Opt[int]
+	Offset  param.Opt[int]
+	OrderBy []inputs.PromocodeApplicableOfferingsOrderByExp
+	Where   inputs.PromocodeApplicableOfferingsBoolExp
 }
 
 // OnAggregateParams holds the optional arguments for OnAggregate.
 type OnAggregateParams struct {
-	FilterInput *inputs.PromocodeApplicableOfferingsFilterInput
+	FilterInput inputs.PromocodeApplicableOfferingsFilterInput
 }
 
 // QueryHandler runs PromocodeApplicableOfferings query operations.

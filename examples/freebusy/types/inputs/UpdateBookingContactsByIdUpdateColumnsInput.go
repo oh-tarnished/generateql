@@ -4,10 +4,10 @@ package inputs
 
 // UpdateBookingContactsByIdUpdateColumnsInput is the UpdateBookingContactsByIdUpdateColumnsInput input type.
 type UpdateBookingContactsByIdUpdateColumnsInput struct {
-	DisplayName *UpdateColumnBookingContactsDisplayNameInput `json:"displayName,omitempty"`
-	Email       *UpdateColumnBookingContactsEmailInput       `json:"email,omitempty"`
-	Id          *UpdateColumnBookingContactsIdInput          `json:"id,omitempty"`
-	PhoneNumber *UpdateColumnBookingContactsPhoneNumberInput `json:"phoneNumber,omitempty"`
+	DisplayName UpdateColumnBookingContactsDisplayNameInput `json:"displayName,omitzero"`
+	Email       UpdateColumnBookingContactsEmailInput       `json:"email,omitzero"`
+	Id          UpdateColumnBookingContactsIdInput          `json:"id,omitzero"`
+	PhoneNumber UpdateColumnBookingContactsPhoneNumberInput `json:"phoneNumber,omitzero"`
 }
 
 func (*UpdateBookingContactsByIdUpdateColumnsInput) GetGraphQLType() string {

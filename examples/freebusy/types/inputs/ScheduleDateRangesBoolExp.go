@@ -4,14 +4,14 @@ package inputs
 
 // ScheduleDateRangesBoolExp is the ScheduleDateRangesBoolExp input type.
 type ScheduleDateRangesBoolExp struct {
-	And                            []ScheduleDateRangesBoolExp            `json:"_and,omitempty"`
-	Not                            *ScheduleDateRangesBoolExp             `json:"_not,omitempty"`
-	Or                             []ScheduleDateRangesBoolExp            `json:"_or,omitempty"`
-	EndDate                        *TimestampBoolExp                      `json:"endDate,omitempty"`
-	Id                             *TextBoolExp                           `json:"id,omitempty"`
-	ResourceRateOverrides          *ResourceRateOverridesBoolExp          `json:"resourceRateOverrides,omitempty"`
-	ScheduleAvailabilityExceptions *ScheduleAvailabilityExceptionsBoolExp `json:"scheduleAvailabilityExceptions,omitempty"`
-	StartDate                      *TimestampBoolExp                      `json:"startDate,omitempty"`
+	And                            []ScheduleDateRangesBoolExp           `json:"_and,omitzero"`
+	Not                            ScheduleDateRangesBoolExp             `json:"_not,omitzero"`
+	Or                             []ScheduleDateRangesBoolExp           `json:"_or,omitzero"`
+	EndDate                        TimestampBoolExp                      `json:"endDate,omitzero"`
+	Id                             TextBoolExp                           `json:"id,omitzero"`
+	ResourceRateOverrides          ResourceRateOverridesBoolExp          `json:"resourceRateOverrides,omitzero"`
+	ScheduleAvailabilityExceptions ScheduleAvailabilityExceptionsBoolExp `json:"scheduleAvailabilityExceptions,omitzero"`
+	StartDate                      TimestampBoolExp                      `json:"startDate,omitzero"`
 }
 
 func (*ScheduleDateRangesBoolExp) GetGraphQLType() string { return "ScheduleDateRangesBoolExp" }

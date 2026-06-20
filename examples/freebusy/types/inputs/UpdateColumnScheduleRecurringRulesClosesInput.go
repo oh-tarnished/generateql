@@ -2,9 +2,13 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // UpdateColumnScheduleRecurringRulesClosesInput is the UpdateColumnScheduleRecurringRulesClosesInput input type.
 type UpdateColumnScheduleRecurringRulesClosesInput struct {
-	Set *string `json:"set,omitempty"`
+	Set param.Opt[string] `json:"set,omitzero"`
 }
 
 func (*UpdateColumnScheduleRecurringRulesClosesInput) GetGraphQLType() string {

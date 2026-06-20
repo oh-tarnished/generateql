@@ -2,12 +2,16 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // InsertBookingContactsObjectInput is the InsertBookingContactsObjectInput input type.
 type InsertBookingContactsObjectInput struct {
-	DisplayName *string `json:"displayName,omitempty"`
-	Email       *string `json:"email,omitempty"`
-	Id          string  `json:"id,omitempty"`
-	PhoneNumber *string `json:"phoneNumber,omitempty"`
+	DisplayName param.Opt[string] `json:"displayName,omitzero"`
+	Email       param.Opt[string] `json:"email,omitzero"`
+	Id          string            `json:"id"`
+	PhoneNumber param.Opt[string] `json:"phoneNumber,omitzero"`
 }
 
 func (*InsertBookingContactsObjectInput) GetGraphQLType() string {

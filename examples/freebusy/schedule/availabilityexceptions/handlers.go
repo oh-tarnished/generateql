@@ -4,51 +4,52 @@ package availabilityexceptions
 
 import (
 	"context"
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/inputs"
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/schema"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/inputs"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/schema"
+	"github.com/oh-tarnished/generateql/runtime/go/param"
 	"github.com/oh-tarnished/generateql/runtime/go/runtime"
 )
 
 // ListParams holds the optional arguments for List.
 type ListParams struct {
-	Limit   *int
-	Offset  *int
-	OrderBy *[]inputs.ScheduleAvailabilityExceptionsOrderByExp
-	Where   *inputs.ScheduleAvailabilityExceptionsBoolExp
+	Limit   param.Opt[int]
+	Offset  param.Opt[int]
+	OrderBy []inputs.ScheduleAvailabilityExceptionsOrderByExp
+	Where   inputs.ScheduleAvailabilityExceptionsBoolExp
 }
 
 // AggregateParams holds the optional arguments for Aggregate.
 type AggregateParams struct {
-	FilterInput *inputs.ScheduleAvailabilityExceptionsFilterInput
+	FilterInput inputs.ScheduleAvailabilityExceptionsFilterInput
 }
 
 // DeleteByIdParams holds the optional arguments for DeleteById.
 type DeleteByIdParams struct {
-	PreCheck *inputs.ScheduleAvailabilityExceptionsBoolExp
+	PreCheck inputs.ScheduleAvailabilityExceptionsBoolExp
 }
 
 // InsertParams holds the optional arguments for Insert.
 type InsertParams struct {
-	PostCheck *inputs.ScheduleAvailabilityExceptionsBoolExp
+	PostCheck inputs.ScheduleAvailabilityExceptionsBoolExp
 }
 
 // UpdateByIdParams holds the optional arguments for UpdateById.
 type UpdateByIdParams struct {
-	PostCheck *inputs.ScheduleAvailabilityExceptionsBoolExp
-	PreCheck  *inputs.ScheduleAvailabilityExceptionsBoolExp
+	PostCheck inputs.ScheduleAvailabilityExceptionsBoolExp
+	PreCheck  inputs.ScheduleAvailabilityExceptionsBoolExp
 }
 
 // OnListParams holds the optional arguments for OnList.
 type OnListParams struct {
-	Limit   *int
-	Offset  *int
-	OrderBy *[]inputs.ScheduleAvailabilityExceptionsOrderByExp
-	Where   *inputs.ScheduleAvailabilityExceptionsBoolExp
+	Limit   param.Opt[int]
+	Offset  param.Opt[int]
+	OrderBy []inputs.ScheduleAvailabilityExceptionsOrderByExp
+	Where   inputs.ScheduleAvailabilityExceptionsBoolExp
 }
 
 // OnAggregateParams holds the optional arguments for OnAggregate.
 type OnAggregateParams struct {
-	FilterInput *inputs.ScheduleAvailabilityExceptionsFilterInput
+	FilterInput inputs.ScheduleAvailabilityExceptionsFilterInput
 }
 
 // QueryHandler runs ScheduleAvailabilityExceptions query operations.

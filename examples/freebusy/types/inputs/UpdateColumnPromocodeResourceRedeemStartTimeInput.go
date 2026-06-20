@@ -2,9 +2,13 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // UpdateColumnPromocodeResourceRedeemStartTimeInput is the UpdateColumnPromocodeResourceRedeemStartTimeInput input type.
 type UpdateColumnPromocodeResourceRedeemStartTimeInput struct {
-	Set *string `json:"set,omitempty"`
+	Set param.Opt[string] `json:"set,omitzero"`
 }
 
 func (*UpdateColumnPromocodeResourceRedeemStartTimeInput) GetGraphQLType() string {

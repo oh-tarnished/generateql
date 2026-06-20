@@ -2,9 +2,13 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // UpdateColumnResourceOfferingsPricingUnitInput is the UpdateColumnResourceOfferingsPricingUnitInput input type.
 type UpdateColumnResourceOfferingsPricingUnitInput struct {
-	Set *string `json:"set,omitempty"`
+	Set param.Opt[string] `json:"set,omitzero"`
 }
 
 func (*UpdateColumnResourceOfferingsPricingUnitInput) GetGraphQLType() string {

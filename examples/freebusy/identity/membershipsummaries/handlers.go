@@ -4,51 +4,52 @@ package membershipsummaries
 
 import (
 	"context"
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/inputs"
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/schema"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/inputs"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/schema"
+	"github.com/oh-tarnished/generateql/runtime/go/param"
 	"github.com/oh-tarnished/generateql/runtime/go/runtime"
 )
 
 // ListParams holds the optional arguments for List.
 type ListParams struct {
-	Limit   *int
-	Offset  *int
-	OrderBy *[]inputs.IdentityMembershipSummariesOrderByExp
-	Where   *inputs.IdentityMembershipSummariesBoolExp
+	Limit   param.Opt[int]
+	Offset  param.Opt[int]
+	OrderBy []inputs.IdentityMembershipSummariesOrderByExp
+	Where   inputs.IdentityMembershipSummariesBoolExp
 }
 
 // AggregateParams holds the optional arguments for Aggregate.
 type AggregateParams struct {
-	FilterInput *inputs.IdentityMembershipSummariesFilterInput
+	FilterInput inputs.IdentityMembershipSummariesFilterInput
 }
 
 // DeleteByIdParams holds the optional arguments for DeleteById.
 type DeleteByIdParams struct {
-	PreCheck *inputs.IdentityMembershipSummariesBoolExp
+	PreCheck inputs.IdentityMembershipSummariesBoolExp
 }
 
 // InsertParams holds the optional arguments for Insert.
 type InsertParams struct {
-	PostCheck *inputs.IdentityMembershipSummariesBoolExp
+	PostCheck inputs.IdentityMembershipSummariesBoolExp
 }
 
 // UpdateByIdParams holds the optional arguments for UpdateById.
 type UpdateByIdParams struct {
-	PostCheck *inputs.IdentityMembershipSummariesBoolExp
-	PreCheck  *inputs.IdentityMembershipSummariesBoolExp
+	PostCheck inputs.IdentityMembershipSummariesBoolExp
+	PreCheck  inputs.IdentityMembershipSummariesBoolExp
 }
 
 // OnListParams holds the optional arguments for OnList.
 type OnListParams struct {
-	Limit   *int
-	Offset  *int
-	OrderBy *[]inputs.IdentityMembershipSummariesOrderByExp
-	Where   *inputs.IdentityMembershipSummariesBoolExp
+	Limit   param.Opt[int]
+	Offset  param.Opt[int]
+	OrderBy []inputs.IdentityMembershipSummariesOrderByExp
+	Where   inputs.IdentityMembershipSummariesBoolExp
 }
 
 // OnAggregateParams holds the optional arguments for OnAggregate.
 type OnAggregateParams struct {
-	FilterInput *inputs.IdentityMembershipSummariesFilterInput
+	FilterInput inputs.IdentityMembershipSummariesFilterInput
 }
 
 // QueryHandler runs IdentityMembershipSummaries query operations.

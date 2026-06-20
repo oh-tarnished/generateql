@@ -4,7 +4,7 @@ package inputs
 
 // UpdateColumnBookingTimeWindowsStartTimeInput is the UpdateColumnBookingTimeWindowsStartTimeInput input type.
 type UpdateColumnBookingTimeWindowsStartTimeInput struct {
-	Set string `json:"set,omitempty"`
+	Set string `json:"set"`
 }
 
 func (*UpdateColumnBookingTimeWindowsStartTimeInput) GetGraphQLType() string {

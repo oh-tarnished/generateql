@@ -2,12 +2,16 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // PromocodeApplicableResourcesFilterInput is the PromocodeApplicableResourcesFilterInput input type.
 type PromocodeApplicableResourcesFilterInput struct {
-	Limit   *int                                     `json:"limit,omitempty"`
-	Offset  *int                                     `json:"offset,omitempty"`
-	OrderBy []PromocodeApplicableResourcesOrderByExp `json:"order_by,omitempty"`
-	Where   *PromocodeApplicableResourcesBoolExp     `json:"where,omitempty"`
+	Limit   param.Opt[int]                           `json:"limit,omitzero"`
+	Offset  param.Opt[int]                           `json:"offset,omitzero"`
+	OrderBy []PromocodeApplicableResourcesOrderByExp `json:"order_by,omitzero"`
+	Where   PromocodeApplicableResourcesBoolExp      `json:"where,omitzero"`
 }
 
 func (*PromocodeApplicableResourcesFilterInput) GetGraphQLType() string {

@@ -4,18 +4,18 @@ package inputs
 
 // UpdateOrganisationMembersByIdUpdateColumnsInput is the UpdateOrganisationMembersByIdUpdateColumnsInput input type.
 type UpdateOrganisationMembersByIdUpdateColumnsInput struct {
-	CreateTime     *UpdateColumnOrganisationMembersCreateTimeInput     `json:"createTime,omitempty"`
-	DisplayName    *UpdateColumnOrganisationMembersDisplayNameInput    `json:"displayName,omitempty"`
-	Email          *UpdateColumnOrganisationMembersEmailInput          `json:"email,omitempty"`
-	Etag           *UpdateColumnOrganisationMembersEtagInput           `json:"etag,omitempty"`
-	Id             *UpdateColumnOrganisationMembersIdInput             `json:"id,omitempty"`
-	Inviter        *UpdateColumnOrganisationMembersInviterInput        `json:"inviter,omitempty"`
-	Name           *UpdateColumnOrganisationMembersNameInput           `json:"name,omitempty"`
-	OrganisationId *UpdateColumnOrganisationMembersOrganisationIdInput `json:"organisationId,omitempty"`
-	Role           *UpdateColumnOrganisationMembersRoleInput           `json:"role,omitempty"`
-	State          *UpdateColumnOrganisationMembersStateInput          `json:"state,omitempty"`
-	UpdateTime     *UpdateColumnOrganisationMembersUpdateTimeInput     `json:"updateTime,omitempty"`
-	User           *UpdateColumnOrganisationMembersUserInput           `json:"user,omitempty"`
+	CreateTime     UpdateColumnOrganisationMembersCreateTimeInput     `json:"createTime,omitzero"`
+	DisplayName    UpdateColumnOrganisationMembersDisplayNameInput    `json:"displayName,omitzero"`
+	Email          UpdateColumnOrganisationMembersEmailInput          `json:"email,omitzero"`
+	Etag           UpdateColumnOrganisationMembersEtagInput           `json:"etag,omitzero"`
+	Id             UpdateColumnOrganisationMembersIdInput             `json:"id,omitzero"`
+	Inviter        UpdateColumnOrganisationMembersInviterInput        `json:"inviter,omitzero"`
+	Name           UpdateColumnOrganisationMembersNameInput           `json:"name,omitzero"`
+	OrganisationId UpdateColumnOrganisationMembersOrganisationIdInput `json:"organisationId,omitzero"`
+	Role           UpdateColumnOrganisationMembersRoleInput           `json:"role,omitzero"`
+	State          UpdateColumnOrganisationMembersStateInput          `json:"state,omitzero"`
+	UpdateTime     UpdateColumnOrganisationMembersUpdateTimeInput     `json:"updateTime,omitzero"`
+	User           UpdateColumnOrganisationMembersUserInput           `json:"user,omitzero"`
 }
 
 func (*UpdateOrganisationMembersByIdUpdateColumnsInput) GetGraphQLType() string {

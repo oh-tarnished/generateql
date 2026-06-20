@@ -2,12 +2,16 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // IdentityUsersFilterInput is the IdentityUsersFilterInput input type.
 type IdentityUsersFilterInput struct {
-	Limit   *int                      `json:"limit,omitempty"`
-	Offset  *int                      `json:"offset,omitempty"`
-	OrderBy []IdentityUsersOrderByExp `json:"order_by,omitempty"`
-	Where   *IdentityUsersBoolExp     `json:"where,omitempty"`
+	Limit   param.Opt[int]            `json:"limit,omitzero"`
+	Offset  param.Opt[int]            `json:"offset,omitzero"`
+	OrderBy []IdentityUsersOrderByExp `json:"order_by,omitzero"`
+	Where   IdentityUsersBoolExp      `json:"where,omitzero"`
 }
 
 func (*IdentityUsersFilterInput) GetGraphQLType() string { return "IdentityUsersFilterInput" }

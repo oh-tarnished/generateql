@@ -4,24 +4,24 @@ package inputs
 
 // OrganisationMembersBoolExp is the OrganisationMembersBoolExp input type.
 type OrganisationMembersBoolExp struct {
-	And                  []OrganisationMembersBoolExp         `json:"_and,omitempty"`
-	Not                  *OrganisationMembersBoolExp          `json:"_not,omitempty"`
-	Or                   []OrganisationMembersBoolExp         `json:"_or,omitempty"`
-	CreateTime           *TimestampBoolExp                    `json:"createTime,omitempty"`
-	DisplayName          *TextBoolExp                         `json:"displayName,omitempty"`
-	Email                *TextBoolExp                         `json:"email,omitempty"`
-	Etag                 *TextBoolExp                         `json:"etag,omitempty"`
-	Id                   *TextBoolExp                         `json:"id,omitempty"`
-	IdentityUser         *IdentityUsersBoolExp                `json:"identityUser,omitempty"`
-	IdentityUserByUser   *IdentityUsersBoolExp                `json:"identityUserByUser,omitempty"`
-	Inviter              *TextBoolExp                         `json:"inviter,omitempty"`
-	Name                 *TextBoolExp                         `json:"name,omitempty"`
-	OrganisationId       *TextBoolExp                         `json:"organisationId,omitempty"`
-	OrganisationResource *OrganisationResourceBoolExp         `json:"organisationResource,omitempty"`
-	Role                 *OrganisationOrganisationRoleBoolExp `json:"role,omitempty"`
-	State                *OrganisationMemberStateBoolExp      `json:"state,omitempty"`
-	UpdateTime           *TimestampBoolExp                    `json:"updateTime,omitempty"`
-	User                 *TextBoolExp                         `json:"user,omitempty"`
+	And                  []OrganisationMembersBoolExp        `json:"_and,omitzero"`
+	Not                  OrganisationMembersBoolExp          `json:"_not,omitzero"`
+	Or                   []OrganisationMembersBoolExp        `json:"_or,omitzero"`
+	CreateTime           TimestampBoolExp                    `json:"createTime,omitzero"`
+	DisplayName          TextBoolExp                         `json:"displayName,omitzero"`
+	Email                TextBoolExp                         `json:"email,omitzero"`
+	Etag                 TextBoolExp                         `json:"etag,omitzero"`
+	Id                   TextBoolExp                         `json:"id,omitzero"`
+	IdentityUser         IdentityUsersBoolExp                `json:"identityUser,omitzero"`
+	IdentityUserByUser   IdentityUsersBoolExp                `json:"identityUserByUser,omitzero"`
+	Inviter              TextBoolExp                         `json:"inviter,omitzero"`
+	Name                 TextBoolExp                         `json:"name,omitzero"`
+	OrganisationId       TextBoolExp                         `json:"organisationId,omitzero"`
+	OrganisationResource OrganisationResourceBoolExp         `json:"organisationResource,omitzero"`
+	Role                 OrganisationOrganisationRoleBoolExp `json:"role,omitzero"`
+	State                OrganisationMemberStateBoolExp      `json:"state,omitzero"`
+	UpdateTime           TimestampBoolExp                    `json:"updateTime,omitzero"`
+	User                 TextBoolExp                         `json:"user,omitzero"`
 }
 
 func (*OrganisationMembersBoolExp) GetGraphQLType() string { return "OrganisationMembersBoolExp" }

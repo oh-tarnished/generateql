@@ -4,51 +4,52 @@ package offeringslink
 
 import (
 	"context"
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/inputs"
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/schema"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/inputs"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/schema"
+	"github.com/oh-tarnished/generateql/runtime/go/param"
 	"github.com/oh-tarnished/generateql/runtime/go/runtime"
 )
 
 // ListParams holds the optional arguments for List.
 type ListParams struct {
-	Limit   *int
-	Offset  *int
-	OrderBy *[]inputs.ResourceOfferingsLinkOrderByExp
-	Where   *inputs.ResourceOfferingsLinkBoolExp
+	Limit   param.Opt[int]
+	Offset  param.Opt[int]
+	OrderBy []inputs.ResourceOfferingsLinkOrderByExp
+	Where   inputs.ResourceOfferingsLinkBoolExp
 }
 
 // AggregateParams holds the optional arguments for Aggregate.
 type AggregateParams struct {
-	FilterInput *inputs.ResourceOfferingsLinkFilterInput
+	FilterInput inputs.ResourceOfferingsLinkFilterInput
 }
 
 // DeleteByIdParams holds the optional arguments for DeleteById.
 type DeleteByIdParams struct {
-	PreCheck *inputs.ResourceOfferingsLinkBoolExp
+	PreCheck inputs.ResourceOfferingsLinkBoolExp
 }
 
 // InsertParams holds the optional arguments for Insert.
 type InsertParams struct {
-	PostCheck *inputs.ResourceOfferingsLinkBoolExp
+	PostCheck inputs.ResourceOfferingsLinkBoolExp
 }
 
 // UpdateByIdParams holds the optional arguments for UpdateById.
 type UpdateByIdParams struct {
-	PostCheck *inputs.ResourceOfferingsLinkBoolExp
-	PreCheck  *inputs.ResourceOfferingsLinkBoolExp
+	PostCheck inputs.ResourceOfferingsLinkBoolExp
+	PreCheck  inputs.ResourceOfferingsLinkBoolExp
 }
 
 // OnListParams holds the optional arguments for OnList.
 type OnListParams struct {
-	Limit   *int
-	Offset  *int
-	OrderBy *[]inputs.ResourceOfferingsLinkOrderByExp
-	Where   *inputs.ResourceOfferingsLinkBoolExp
+	Limit   param.Opt[int]
+	Offset  param.Opt[int]
+	OrderBy []inputs.ResourceOfferingsLinkOrderByExp
+	Where   inputs.ResourceOfferingsLinkBoolExp
 }
 
 // OnAggregateParams holds the optional arguments for OnAggregate.
 type OnAggregateParams struct {
-	FilterInput *inputs.ResourceOfferingsLinkFilterInput
+	FilterInput inputs.ResourceOfferingsLinkFilterInput
 }
 
 // QueryHandler runs ResourceOfferingsLink query operations.

@@ -4,7 +4,7 @@ package inputs
 
 // UpdateColumnScheduleStayConstraintsCheckinWeekdaysInput is the UpdateColumnScheduleStayConstraintsCheckinWeekdaysInput input type.
 type UpdateColumnScheduleStayConstraintsCheckinWeekdaysInput struct {
-	Set []*string `json:"set,omitempty"`
+	Set []*string `json:"set,omitzero"`
 }
 
 func (*UpdateColumnScheduleStayConstraintsCheckinWeekdaysInput) GetGraphQLType() string {

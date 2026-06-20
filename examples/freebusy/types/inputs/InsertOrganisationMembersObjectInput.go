@@ -2,20 +2,24 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // InsertOrganisationMembersObjectInput is the InsertOrganisationMembersObjectInput input type.
 type InsertOrganisationMembersObjectInput struct {
-	CreateTime     *string `json:"createTime,omitempty"`
-	DisplayName    *string `json:"displayName,omitempty"`
-	Email          string  `json:"email,omitempty"`
-	Etag           *string `json:"etag,omitempty"`
-	Id             string  `json:"id,omitempty"`
-	Inviter        *string `json:"inviter,omitempty"`
-	Name           string  `json:"name,omitempty"`
-	OrganisationId string  `json:"organisationId,omitempty"`
-	Role           *string `json:"role,omitempty"`
-	State          *string `json:"state,omitempty"`
-	UpdateTime     string  `json:"updateTime,omitempty"`
-	User           *string `json:"user,omitempty"`
+	CreateTime     param.Opt[string] `json:"createTime,omitzero"`
+	DisplayName    param.Opt[string] `json:"displayName,omitzero"`
+	Email          string            `json:"email"`
+	Etag           param.Opt[string] `json:"etag,omitzero"`
+	Id             string            `json:"id"`
+	Inviter        param.Opt[string] `json:"inviter,omitzero"`
+	Name           string            `json:"name"`
+	OrganisationId string            `json:"organisationId"`
+	Role           param.Opt[string] `json:"role,omitzero"`
+	State          param.Opt[string] `json:"state,omitzero"`
+	UpdateTime     string            `json:"updateTime"`
+	User           param.Opt[string] `json:"user,omitzero"`
 }
 
 func (*InsertOrganisationMembersObjectInput) GetGraphQLType() string {

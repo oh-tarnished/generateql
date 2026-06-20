@@ -4,14 +4,14 @@ package inputs
 
 // UpdatePrismaMigrationsByIdUpdateColumnsInput is the UpdatePrismaMigrationsByIdUpdateColumnsInput input type.
 type UpdatePrismaMigrationsByIdUpdateColumnsInput struct {
-	AppliedStepsCount *UpdateColumnPrismaMigrationsAppliedStepsCountInput `json:"appliedStepsCount,omitempty"`
-	Checksum          *UpdateColumnPrismaMigrationsChecksumInput          `json:"checksum,omitempty"`
-	FinishedAt        *UpdateColumnPrismaMigrationsFinishedAtInput        `json:"finishedAt,omitempty"`
-	Id                *UpdateColumnPrismaMigrationsIdInput                `json:"id,omitempty"`
-	Logs              *UpdateColumnPrismaMigrationsLogsInput              `json:"logs,omitempty"`
-	MigrationName     *UpdateColumnPrismaMigrationsMigrationNameInput     `json:"migrationName,omitempty"`
-	RolledBackAt      *UpdateColumnPrismaMigrationsRolledBackAtInput      `json:"rolledBackAt,omitempty"`
-	StartedAt         *UpdateColumnPrismaMigrationsStartedAtInput         `json:"startedAt,omitempty"`
+	AppliedStepsCount UpdateColumnPrismaMigrationsAppliedStepsCountInput `json:"appliedStepsCount,omitzero"`
+	Checksum          UpdateColumnPrismaMigrationsChecksumInput          `json:"checksum,omitzero"`
+	FinishedAt        UpdateColumnPrismaMigrationsFinishedAtInput        `json:"finishedAt,omitzero"`
+	Id                UpdateColumnPrismaMigrationsIdInput                `json:"id,omitzero"`
+	Logs              UpdateColumnPrismaMigrationsLogsInput              `json:"logs,omitzero"`
+	MigrationName     UpdateColumnPrismaMigrationsMigrationNameInput     `json:"migrationName,omitzero"`
+	RolledBackAt      UpdateColumnPrismaMigrationsRolledBackAtInput      `json:"rolledBackAt,omitzero"`
+	StartedAt         UpdateColumnPrismaMigrationsStartedAtInput         `json:"startedAt,omitzero"`
 }
 
 func (*UpdatePrismaMigrationsByIdUpdateColumnsInput) GetGraphQLType() string {

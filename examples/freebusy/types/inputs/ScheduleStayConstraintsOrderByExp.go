@@ -3,16 +3,17 @@
 package inputs
 
 import (
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/enums"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/enums"
+	"github.com/oh-tarnished/generateql/runtime/go/param"
 )
 
 // ScheduleStayConstraintsOrderByExp is the ScheduleStayConstraintsOrderByExp input type.
 type ScheduleStayConstraintsOrderByExp struct {
-	AdvanceMaxDays *enums.OrderBy `json:"advanceMaxDays,omitempty"`
-	AdvanceMinDays *enums.OrderBy `json:"advanceMinDays,omitempty"`
-	Id             *enums.OrderBy `json:"id,omitempty"`
-	MaxNights      *enums.OrderBy `json:"maxNights,omitempty"`
-	MinNights      *enums.OrderBy `json:"minNights,omitempty"`
+	AdvanceMaxDays param.Opt[enums.OrderBy] `json:"advanceMaxDays,omitzero"`
+	AdvanceMinDays param.Opt[enums.OrderBy] `json:"advanceMinDays,omitzero"`
+	Id             param.Opt[enums.OrderBy] `json:"id,omitzero"`
+	MaxNights      param.Opt[enums.OrderBy] `json:"maxNights,omitzero"`
+	MinNights      param.Opt[enums.OrderBy] `json:"minNights,omitzero"`
 }
 
 func (*ScheduleStayConstraintsOrderByExp) GetGraphQLType() string {

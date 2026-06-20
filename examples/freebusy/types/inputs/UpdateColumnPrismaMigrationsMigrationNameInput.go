@@ -4,7 +4,7 @@ package inputs
 
 // UpdateColumnPrismaMigrationsMigrationNameInput is the UpdateColumnPrismaMigrationsMigrationNameInput input type.
 type UpdateColumnPrismaMigrationsMigrationNameInput struct {
-	Set string `json:"set,omitempty"`
+	Set string `json:"set"`
 }
 
 func (*UpdateColumnPrismaMigrationsMigrationNameInput) GetGraphQLType() string {

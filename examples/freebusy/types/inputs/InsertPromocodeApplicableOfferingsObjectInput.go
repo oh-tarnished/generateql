@@ -4,9 +4,9 @@ package inputs
 
 // InsertPromocodeApplicableOfferingsObjectInput is the InsertPromocodeApplicableOfferingsObjectInput input type.
 type InsertPromocodeApplicableOfferingsObjectInput struct {
-	Id          string `json:"id,omitempty"`
-	OfferingId  string `json:"offeringId,omitempty"`
-	PromoCodeId string `json:"promoCodeId,omitempty"`
+	Id          string `json:"id"`
+	OfferingId  string `json:"offeringId"`
+	PromoCodeId string `json:"promoCodeId"`
 }
 
 func (*InsertPromocodeApplicableOfferingsObjectInput) GetGraphQLType() string {

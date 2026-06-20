@@ -4,33 +4,33 @@ package inputs
 
 // PromocodeResourceBoolExp is the PromocodeResourceBoolExp input type.
 type PromocodeResourceBoolExp struct {
-	And                          []PromocodeResourceBoolExp           `json:"_and,omitempty"`
-	Not                          *PromocodeResourceBoolExp            `json:"_not,omitempty"`
-	Or                           []PromocodeResourceBoolExp           `json:"_or,omitempty"`
-	AmountOffId                  *TextBoolExp                         `json:"amountOffId,omitempty"`
-	BookingMoney                 *BookingMoneysBoolExp                `json:"bookingMoney,omitempty"`
-	BookingMoneyByMinSubtotalId  *BookingMoneysBoolExp                `json:"bookingMoneyByMinSubtotalId,omitempty"`
-	BookingResources             *BookingResourceBoolExp              `json:"bookingResources,omitempty"`
-	Code                         *TextBoolExp                         `json:"code,omitempty"`
-	CreateTime                   *TimestampBoolExp                    `json:"createTime,omitempty"`
-	Description                  *TextBoolExp                         `json:"description,omitempty"`
-	Disabled                     *BoolBoolExp                         `json:"disabled,omitempty"`
-	DiscountType                 *PromocodeDiscountTypeBoolExp        `json:"discountType,omitempty"`
-	DisplayName                  *TextBoolExp                         `json:"displayName,omitempty"`
-	Etag                         *TextBoolExp                         `json:"etag,omitempty"`
-	Id                           *TextBoolExp                         `json:"id,omitempty"`
-	MaxRedemptions               *Int8BoolExp                         `json:"maxRedemptions,omitempty"`
-	MinSubtotalId                *TextBoolExp                         `json:"minSubtotalId,omitempty"`
-	Name                         *TextBoolExp                         `json:"name,omitempty"`
-	PerCustomerLimit             *Int4BoolExp                         `json:"perCustomerLimit,omitempty"`
-	PercentOff                   *Int4BoolExp                         `json:"percentOff,omitempty"`
-	PromocodeApplicableOfferings *PromocodeApplicableOfferingsBoolExp `json:"promocodeApplicableOfferings,omitempty"`
-	PromocodeApplicableResources *PromocodeApplicableResourcesBoolExp `json:"promocodeApplicableResources,omitempty"`
-	RedeemEndTime                *TimestampBoolExp                    `json:"redeemEndTime,omitempty"`
-	RedeemStartTime              *TimestampBoolExp                    `json:"redeemStartTime,omitempty"`
-	RedemptionCount              *Int8BoolExp                         `json:"redemptionCount,omitempty"`
-	State                        *PromocodePromoCodeStateBoolExp      `json:"state,omitempty"`
-	UpdateTime                   *TimestampBoolExp                    `json:"updateTime,omitempty"`
+	And                          []PromocodeResourceBoolExp          `json:"_and,omitzero"`
+	Not                          PromocodeResourceBoolExp            `json:"_not,omitzero"`
+	Or                           []PromocodeResourceBoolExp          `json:"_or,omitzero"`
+	AmountOffId                  TextBoolExp                         `json:"amountOffId,omitzero"`
+	BookingMoney                 BookingMoneysBoolExp                `json:"bookingMoney,omitzero"`
+	BookingMoneyByMinSubtotalId  BookingMoneysBoolExp                `json:"bookingMoneyByMinSubtotalId,omitzero"`
+	BookingResources             BookingResourceBoolExp              `json:"bookingResources,omitzero"`
+	Code                         TextBoolExp                         `json:"code,omitzero"`
+	CreateTime                   TimestampBoolExp                    `json:"createTime,omitzero"`
+	Description                  TextBoolExp                         `json:"description,omitzero"`
+	Disabled                     BoolBoolExp                         `json:"disabled,omitzero"`
+	DiscountType                 PromocodeDiscountTypeBoolExp        `json:"discountType,omitzero"`
+	DisplayName                  TextBoolExp                         `json:"displayName,omitzero"`
+	Etag                         TextBoolExp                         `json:"etag,omitzero"`
+	Id                           TextBoolExp                         `json:"id,omitzero"`
+	MaxRedemptions               Int8BoolExp                         `json:"maxRedemptions,omitzero"`
+	MinSubtotalId                TextBoolExp                         `json:"minSubtotalId,omitzero"`
+	Name                         TextBoolExp                         `json:"name,omitzero"`
+	PerCustomerLimit             Int4BoolExp                         `json:"perCustomerLimit,omitzero"`
+	PercentOff                   Int4BoolExp                         `json:"percentOff,omitzero"`
+	PromocodeApplicableOfferings PromocodeApplicableOfferingsBoolExp `json:"promocodeApplicableOfferings,omitzero"`
+	PromocodeApplicableResources PromocodeApplicableResourcesBoolExp `json:"promocodeApplicableResources,omitzero"`
+	RedeemEndTime                TimestampBoolExp                    `json:"redeemEndTime,omitzero"`
+	RedeemStartTime              TimestampBoolExp                    `json:"redeemStartTime,omitzero"`
+	RedemptionCount              Int8BoolExp                         `json:"redemptionCount,omitzero"`
+	State                        PromocodePromoCodeStateBoolExp      `json:"state,omitzero"`
+	UpdateTime                   TimestampBoolExp                    `json:"updateTime,omitzero"`
 }
 
 func (*PromocodeResourceBoolExp) GetGraphQLType() string { return "PromocodeResourceBoolExp" }

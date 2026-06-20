@@ -3,17 +3,18 @@
 package inputs
 
 import (
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/enums"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/enums"
+	"github.com/oh-tarnished/generateql/runtime/go/param"
 )
 
 // ScheduleBufferSettingsOrderByExp is the ScheduleBufferSettingsOrderByExp input type.
 type ScheduleBufferSettingsOrderByExp struct {
-	EndDelta   *enums.OrderBy `json:"endDelta,omitempty"`
-	Gap        *enums.OrderBy `json:"gap,omitempty"`
-	Id         *enums.OrderBy `json:"id,omitempty"`
-	MaxAdvance *enums.OrderBy `json:"maxAdvance,omitempty"`
-	MinNotice  *enums.OrderBy `json:"minNotice,omitempty"`
-	StartDelta *enums.OrderBy `json:"startDelta,omitempty"`
+	EndDelta   param.Opt[enums.OrderBy] `json:"endDelta,omitzero"`
+	Gap        param.Opt[enums.OrderBy] `json:"gap,omitzero"`
+	Id         param.Opt[enums.OrderBy] `json:"id,omitzero"`
+	MaxAdvance param.Opt[enums.OrderBy] `json:"maxAdvance,omitzero"`
+	MinNotice  param.Opt[enums.OrderBy] `json:"minNotice,omitzero"`
+	StartDelta param.Opt[enums.OrderBy] `json:"startDelta,omitzero"`
 }
 
 func (*ScheduleBufferSettingsOrderByExp) GetGraphQLType() string {

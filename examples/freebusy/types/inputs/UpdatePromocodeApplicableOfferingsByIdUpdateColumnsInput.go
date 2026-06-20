@@ -4,9 +4,9 @@ package inputs
 
 // UpdatePromocodeApplicableOfferingsByIdUpdateColumnsInput is the UpdatePromocodeApplicableOfferingsByIdUpdateColumnsInput input type.
 type UpdatePromocodeApplicableOfferingsByIdUpdateColumnsInput struct {
-	Id          *UpdateColumnPromocodeApplicableOfferingsIdInput          `json:"id,omitempty"`
-	OfferingId  *UpdateColumnPromocodeApplicableOfferingsOfferingIdInput  `json:"offeringId,omitempty"`
-	PromoCodeId *UpdateColumnPromocodeApplicableOfferingsPromoCodeIdInput `json:"promoCodeId,omitempty"`
+	Id          UpdateColumnPromocodeApplicableOfferingsIdInput          `json:"id,omitzero"`
+	OfferingId  UpdateColumnPromocodeApplicableOfferingsOfferingIdInput  `json:"offeringId,omitzero"`
+	PromoCodeId UpdateColumnPromocodeApplicableOfferingsPromoCodeIdInput `json:"promoCodeId,omitzero"`
 }
 
 func (*UpdatePromocodeApplicableOfferingsByIdUpdateColumnsInput) GetGraphQLType() string {

@@ -4,22 +4,22 @@ package inputs
 
 // OrganisationResourceBoolExp is the OrganisationResourceBoolExp input type.
 type OrganisationResourceBoolExp struct {
-	And                         []OrganisationResourceBoolExp         `json:"_and,omitempty"`
-	Not                         *OrganisationResourceBoolExp          `json:"_not,omitempty"`
-	Or                          []OrganisationResourceBoolExp         `json:"_or,omitempty"`
-	BillingEmail                *TextBoolExp                          `json:"billingEmail,omitempty"`
-	CreateTime                  *TimestampBoolExp                     `json:"createTime,omitempty"`
-	DisplayName                 *TextBoolExp                          `json:"displayName,omitempty"`
-	Etag                        *TextBoolExp                          `json:"etag,omitempty"`
-	Id                          *TextBoolExp                          `json:"id,omitempty"`
-	IdentityMembershipSummaries *IdentityMembershipSummariesBoolExp   `json:"identityMembershipSummaries,omitempty"`
-	MemberCount                 *Int8BoolExp                          `json:"memberCount,omitempty"`
-	Name                        *TextBoolExp                          `json:"name,omitempty"`
-	OrganisationMembers         *OrganisationMembersBoolExp           `json:"organisationMembers,omitempty"`
-	Settings                    *JsonbBoolExp                         `json:"settings,omitempty"`
-	Slug                        *TextBoolExp                          `json:"slug,omitempty"`
-	State                       *OrganisationOrganisationStateBoolExp `json:"state,omitempty"`
-	UpdateTime                  *TimestampBoolExp                     `json:"updateTime,omitempty"`
+	And                         []OrganisationResourceBoolExp        `json:"_and,omitzero"`
+	Not                         OrganisationResourceBoolExp          `json:"_not,omitzero"`
+	Or                          []OrganisationResourceBoolExp        `json:"_or,omitzero"`
+	BillingEmail                TextBoolExp                          `json:"billingEmail,omitzero"`
+	CreateTime                  TimestampBoolExp                     `json:"createTime,omitzero"`
+	DisplayName                 TextBoolExp                          `json:"displayName,omitzero"`
+	Etag                        TextBoolExp                          `json:"etag,omitzero"`
+	Id                          TextBoolExp                          `json:"id,omitzero"`
+	IdentityMembershipSummaries IdentityMembershipSummariesBoolExp   `json:"identityMembershipSummaries,omitzero"`
+	MemberCount                 Int8BoolExp                          `json:"memberCount,omitzero"`
+	Name                        TextBoolExp                          `json:"name,omitzero"`
+	OrganisationMembers         OrganisationMembersBoolExp           `json:"organisationMembers,omitzero"`
+	Settings                    JsonbBoolExp                         `json:"settings,omitzero"`
+	Slug                        TextBoolExp                          `json:"slug,omitzero"`
+	State                       OrganisationOrganisationStateBoolExp `json:"state,omitzero"`
+	UpdateTime                  TimestampBoolExp                     `json:"updateTime,omitzero"`
 }
 
 func (*OrganisationResourceBoolExp) GetGraphQLType() string { return "OrganisationResourceBoolExp" }

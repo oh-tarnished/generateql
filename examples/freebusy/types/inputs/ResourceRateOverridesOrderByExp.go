@@ -3,18 +3,19 @@
 package inputs
 
 import (
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/enums"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/enums"
+	"github.com/oh-tarnished/generateql/runtime/go/param"
 )
 
 // ResourceRateOverridesOrderByExp is the ResourceRateOverridesOrderByExp input type.
 type ResourceRateOverridesOrderByExp struct {
-	BookingMoney      *BookingMoneysOrderByExp      `json:"bookingMoney,omitempty"`
-	DateRangeId       *enums.OrderBy                `json:"dateRangeId,omitempty"`
-	Id                *enums.OrderBy                `json:"id,omitempty"`
-	OfferingId        *enums.OrderBy                `json:"offeringId,omitempty"`
-	PriceId           *enums.OrderBy                `json:"priceId,omitempty"`
-	ResourceOffering  *ResourceOfferingsOrderByExp  `json:"resourceOffering,omitempty"`
-	ScheduleDateRange *ScheduleDateRangesOrderByExp `json:"scheduleDateRange,omitempty"`
+	BookingMoney      BookingMoneysOrderByExp      `json:"bookingMoney,omitzero"`
+	DateRangeId       param.Opt[enums.OrderBy]     `json:"dateRangeId,omitzero"`
+	Id                param.Opt[enums.OrderBy]     `json:"id,omitzero"`
+	OfferingId        param.Opt[enums.OrderBy]     `json:"offeringId,omitzero"`
+	PriceId           param.Opt[enums.OrderBy]     `json:"priceId,omitzero"`
+	ResourceOffering  ResourceOfferingsOrderByExp  `json:"resourceOffering,omitzero"`
+	ScheduleDateRange ScheduleDateRangesOrderByExp `json:"scheduleDateRange,omitzero"`
 }
 
 func (*ResourceRateOverridesOrderByExp) GetGraphQLType() string {

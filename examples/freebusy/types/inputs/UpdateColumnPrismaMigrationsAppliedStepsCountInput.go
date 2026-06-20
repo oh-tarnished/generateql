@@ -4,7 +4,7 @@ package inputs
 
 // UpdateColumnPrismaMigrationsAppliedStepsCountInput is the UpdateColumnPrismaMigrationsAppliedStepsCountInput input type.
 type UpdateColumnPrismaMigrationsAppliedStepsCountInput struct {
-	Set int32 `json:"set,omitempty"`
+	Set int32 `json:"set"`
 }
 
 func (*UpdateColumnPrismaMigrationsAppliedStepsCountInput) GetGraphQLType() string {

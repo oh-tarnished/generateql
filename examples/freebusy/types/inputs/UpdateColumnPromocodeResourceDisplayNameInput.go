@@ -2,9 +2,13 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // UpdateColumnPromocodeResourceDisplayNameInput is the UpdateColumnPromocodeResourceDisplayNameInput input type.
 type UpdateColumnPromocodeResourceDisplayNameInput struct {
-	Set *string `json:"set,omitempty"`
+	Set param.Opt[string] `json:"set,omitzero"`
 }
 
 func (*UpdateColumnPromocodeResourceDisplayNameInput) GetGraphQLType() string {

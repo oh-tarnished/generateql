@@ -4,16 +4,16 @@ package inputs
 
 // ScheduleBufferSettingsBoolExp is the ScheduleBufferSettingsBoolExp input type.
 type ScheduleBufferSettingsBoolExp struct {
-	And               []ScheduleBufferSettingsBoolExp `json:"_and,omitempty"`
-	Not               *ScheduleBufferSettingsBoolExp  `json:"_not,omitempty"`
-	Or                []ScheduleBufferSettingsBoolExp `json:"_or,omitempty"`
-	EndDelta          *TextBoolExp                    `json:"endDelta,omitempty"`
-	Gap               *TextBoolExp                    `json:"gap,omitempty"`
-	Id                *TextBoolExp                    `json:"id,omitempty"`
-	MaxAdvance        *TextBoolExp                    `json:"maxAdvance,omitempty"`
-	MinNotice         *TextBoolExp                    `json:"minNotice,omitempty"`
-	ScheduleResources *ScheduleResourceBoolExp        `json:"scheduleResources,omitempty"`
-	StartDelta        *TextBoolExp                    `json:"startDelta,omitempty"`
+	And               []ScheduleBufferSettingsBoolExp `json:"_and,omitzero"`
+	Not               ScheduleBufferSettingsBoolExp   `json:"_not,omitzero"`
+	Or                []ScheduleBufferSettingsBoolExp `json:"_or,omitzero"`
+	EndDelta          TextBoolExp                     `json:"endDelta,omitzero"`
+	Gap               TextBoolExp                     `json:"gap,omitzero"`
+	Id                TextBoolExp                     `json:"id,omitzero"`
+	MaxAdvance        TextBoolExp                     `json:"maxAdvance,omitzero"`
+	MinNotice         TextBoolExp                     `json:"minNotice,omitzero"`
+	ScheduleResources ScheduleResourceBoolExp         `json:"scheduleResources,omitzero"`
+	StartDelta        TextBoolExp                     `json:"startDelta,omitzero"`
 }
 
 func (*ScheduleBufferSettingsBoolExp) GetGraphQLType() string { return "ScheduleBufferSettingsBoolExp" }

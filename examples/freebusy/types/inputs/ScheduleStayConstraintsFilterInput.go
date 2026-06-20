@@ -2,12 +2,16 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // ScheduleStayConstraintsFilterInput is the ScheduleStayConstraintsFilterInput input type.
 type ScheduleStayConstraintsFilterInput struct {
-	Limit   *int                                `json:"limit,omitempty"`
-	Offset  *int                                `json:"offset,omitempty"`
-	OrderBy []ScheduleStayConstraintsOrderByExp `json:"order_by,omitempty"`
-	Where   *ScheduleStayConstraintsBoolExp     `json:"where,omitempty"`
+	Limit   param.Opt[int]                      `json:"limit,omitzero"`
+	Offset  param.Opt[int]                      `json:"offset,omitzero"`
+	OrderBy []ScheduleStayConstraintsOrderByExp `json:"order_by,omitzero"`
+	Where   ScheduleStayConstraintsBoolExp      `json:"where,omitzero"`
 }
 
 func (*ScheduleStayConstraintsFilterInput) GetGraphQLType() string {

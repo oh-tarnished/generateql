@@ -2,12 +2,16 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // ResourceTaxesFilterInput is the ResourceTaxesFilterInput input type.
 type ResourceTaxesFilterInput struct {
-	Limit   *int                      `json:"limit,omitempty"`
-	Offset  *int                      `json:"offset,omitempty"`
-	OrderBy []ResourceTaxesOrderByExp `json:"order_by,omitempty"`
-	Where   *ResourceTaxesBoolExp     `json:"where,omitempty"`
+	Limit   param.Opt[int]            `json:"limit,omitzero"`
+	Offset  param.Opt[int]            `json:"offset,omitzero"`
+	OrderBy []ResourceTaxesOrderByExp `json:"order_by,omitzero"`
+	Where   ResourceTaxesBoolExp      `json:"where,omitzero"`
 }
 
 func (*ResourceTaxesFilterInput) GetGraphQLType() string { return "ResourceTaxesFilterInput" }

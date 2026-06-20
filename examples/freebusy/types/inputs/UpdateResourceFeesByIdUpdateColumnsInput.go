@@ -4,14 +4,14 @@ package inputs
 
 // UpdateResourceFeesByIdUpdateColumnsInput is the UpdateResourceFeesByIdUpdateColumnsInput input type.
 type UpdateResourceFeesByIdUpdateColumnsInput struct {
-	AmountId    *UpdateColumnResourceFeesAmountIdInput    `json:"amountId,omitempty"`
-	Code        *UpdateColumnResourceFeesCodeInput        `json:"code,omitempty"`
-	DisplayName *UpdateColumnResourceFeesDisplayNameInput `json:"displayName,omitempty"`
-	Id          *UpdateColumnResourceFeesIdInput          `json:"id,omitempty"`
-	OfferingId  *UpdateColumnResourceFeesOfferingIdInput  `json:"offeringId,omitempty"`
-	Percent     *UpdateColumnResourceFeesPercentInput     `json:"percent,omitempty"`
-	PricingUnit *UpdateColumnResourceFeesPricingUnitInput `json:"pricingUnit,omitempty"`
-	Taxable     *UpdateColumnResourceFeesTaxableInput     `json:"taxable,omitempty"`
+	AmountId    UpdateColumnResourceFeesAmountIdInput    `json:"amountId,omitzero"`
+	Code        UpdateColumnResourceFeesCodeInput        `json:"code,omitzero"`
+	DisplayName UpdateColumnResourceFeesDisplayNameInput `json:"displayName,omitzero"`
+	Id          UpdateColumnResourceFeesIdInput          `json:"id,omitzero"`
+	OfferingId  UpdateColumnResourceFeesOfferingIdInput  `json:"offeringId,omitzero"`
+	Percent     UpdateColumnResourceFeesPercentInput     `json:"percent,omitzero"`
+	PricingUnit UpdateColumnResourceFeesPricingUnitInput `json:"pricingUnit,omitzero"`
+	Taxable     UpdateColumnResourceFeesTaxableInput     `json:"taxable,omitzero"`
 }
 
 func (*UpdateResourceFeesByIdUpdateColumnsInput) GetGraphQLType() string {

@@ -2,9 +2,13 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // UpdateColumnIdentityMembershipSummariesOrganisationInput is the UpdateColumnIdentityMembershipSummariesOrganisationInput input type.
 type UpdateColumnIdentityMembershipSummariesOrganisationInput struct {
-	Set *string `json:"set,omitempty"`
+	Set param.Opt[string] `json:"set,omitzero"`
 }
 
 func (*UpdateColumnIdentityMembershipSummariesOrganisationInput) GetGraphQLType() string {

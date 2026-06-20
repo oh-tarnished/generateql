@@ -2,29 +2,33 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // TextBoolExp is the TextBoolExp input type.
 type TextBoolExp struct {
-	And        []TextBoolExp `json:"_and,omitempty"`
-	Eq         *string       `json:"_eq,omitempty"`
-	Gt         *string       `json:"_gt,omitempty"`
-	Gte        *string       `json:"_gte,omitempty"`
-	Ilike      *string       `json:"_ilike,omitempty"`
-	In         []string      `json:"_in,omitempty"`
-	Iregex     *string       `json:"_iregex,omitempty"`
-	IsNull     *bool         `json:"_is_null,omitempty"`
-	Like       *string       `json:"_like,omitempty"`
-	Lt         *string       `json:"_lt,omitempty"`
-	Lte        *string       `json:"_lte,omitempty"`
-	Neq        *string       `json:"_neq,omitempty"`
-	Nilike     *string       `json:"_nilike,omitempty"`
-	Niregex    *string       `json:"_niregex,omitempty"`
-	Nlike      *string       `json:"_nlike,omitempty"`
-	Not        *TextBoolExp  `json:"_not,omitempty"`
-	Nregex     *string       `json:"_nregex,omitempty"`
-	Or         []TextBoolExp `json:"_or,omitempty"`
-	Regex      *string       `json:"_regex,omitempty"`
-	StartsWith *string       `json:"starts_with,omitempty"`
-	TsMatchTt  *string       `json:"ts_match_tt,omitempty"`
+	And        []TextBoolExp     `json:"_and,omitzero"`
+	Eq         param.Opt[string] `json:"_eq,omitzero"`
+	Gt         param.Opt[string] `json:"_gt,omitzero"`
+	Gte        param.Opt[string] `json:"_gte,omitzero"`
+	Ilike      param.Opt[string] `json:"_ilike,omitzero"`
+	In         []string          `json:"_in,omitzero"`
+	Iregex     param.Opt[string] `json:"_iregex,omitzero"`
+	IsNull     param.Opt[bool]   `json:"_is_null,omitzero"`
+	Like       param.Opt[string] `json:"_like,omitzero"`
+	Lt         param.Opt[string] `json:"_lt,omitzero"`
+	Lte        param.Opt[string] `json:"_lte,omitzero"`
+	Neq        param.Opt[string] `json:"_neq,omitzero"`
+	Nilike     param.Opt[string] `json:"_nilike,omitzero"`
+	Niregex    param.Opt[string] `json:"_niregex,omitzero"`
+	Nlike      param.Opt[string] `json:"_nlike,omitzero"`
+	Not        TextBoolExp       `json:"_not,omitzero"`
+	Nregex     param.Opt[string] `json:"_nregex,omitzero"`
+	Or         []TextBoolExp     `json:"_or,omitzero"`
+	Regex      param.Opt[string] `json:"_regex,omitzero"`
+	StartsWith param.Opt[string] `json:"starts_with,omitzero"`
+	TsMatchTt  param.Opt[string] `json:"ts_match_tt,omitzero"`
 }
 
 func (*TextBoolExp) GetGraphQLType() string { return "TextBoolExp" }

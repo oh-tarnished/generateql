@@ -4,51 +4,52 @@ package entity
 
 import (
 	"context"
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/inputs"
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/schema"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/inputs"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/schema"
+	"github.com/oh-tarnished/generateql/runtime/go/param"
 	"github.com/oh-tarnished/generateql/runtime/go/runtime"
 )
 
 // ListParams holds the optional arguments for List.
 type ListParams struct {
-	Limit   *int
-	Offset  *int
-	OrderBy *[]inputs.ResourceEntityOrderByExp
-	Where   *inputs.ResourceEntityBoolExp
+	Limit   param.Opt[int]
+	Offset  param.Opt[int]
+	OrderBy []inputs.ResourceEntityOrderByExp
+	Where   inputs.ResourceEntityBoolExp
 }
 
 // AggregateParams holds the optional arguments for Aggregate.
 type AggregateParams struct {
-	FilterInput *inputs.ResourceEntityFilterInput
+	FilterInput inputs.ResourceEntityFilterInput
 }
 
 // DeleteByIdParams holds the optional arguments for DeleteById.
 type DeleteByIdParams struct {
-	PreCheck *inputs.ResourceEntityBoolExp
+	PreCheck inputs.ResourceEntityBoolExp
 }
 
 // InsertParams holds the optional arguments for Insert.
 type InsertParams struct {
-	PostCheck *inputs.ResourceEntityBoolExp
+	PostCheck inputs.ResourceEntityBoolExp
 }
 
 // UpdateByIdParams holds the optional arguments for UpdateById.
 type UpdateByIdParams struct {
-	PostCheck *inputs.ResourceEntityBoolExp
-	PreCheck  *inputs.ResourceEntityBoolExp
+	PostCheck inputs.ResourceEntityBoolExp
+	PreCheck  inputs.ResourceEntityBoolExp
 }
 
 // OnListParams holds the optional arguments for OnList.
 type OnListParams struct {
-	Limit   *int
-	Offset  *int
-	OrderBy *[]inputs.ResourceEntityOrderByExp
-	Where   *inputs.ResourceEntityBoolExp
+	Limit   param.Opt[int]
+	Offset  param.Opt[int]
+	OrderBy []inputs.ResourceEntityOrderByExp
+	Where   inputs.ResourceEntityBoolExp
 }
 
 // OnAggregateParams holds the optional arguments for OnAggregate.
 type OnAggregateParams struct {
-	FilterInput *inputs.ResourceEntityFilterInput
+	FilterInput inputs.ResourceEntityFilterInput
 }
 
 // QueryHandler runs ResourceEntity query operations.

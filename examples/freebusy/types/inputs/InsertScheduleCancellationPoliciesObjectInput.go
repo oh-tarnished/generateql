@@ -4,7 +4,7 @@ package inputs
 
 // InsertScheduleCancellationPoliciesObjectInput is the InsertScheduleCancellationPoliciesObjectInput input type.
 type InsertScheduleCancellationPoliciesObjectInput struct {
-	Id string `json:"id,omitempty"`
+	Id string `json:"id"`
 }
 
 func (*InsertScheduleCancellationPoliciesObjectInput) GetGraphQLType() string {

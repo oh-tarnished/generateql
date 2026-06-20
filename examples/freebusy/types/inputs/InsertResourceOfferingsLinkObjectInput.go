@@ -4,9 +4,9 @@ package inputs
 
 // InsertResourceOfferingsLinkObjectInput is the InsertResourceOfferingsLinkObjectInput input type.
 type InsertResourceOfferingsLinkObjectInput struct {
-	Id         string `json:"id,omitempty"`
-	OfferingId string `json:"offeringId,omitempty"`
-	ResourceId string `json:"resourceId,omitempty"`
+	Id         string `json:"id"`
+	OfferingId string `json:"offeringId"`
+	ResourceId string `json:"resourceId"`
 }
 
 func (*InsertResourceOfferingsLinkObjectInput) GetGraphQLType() string {

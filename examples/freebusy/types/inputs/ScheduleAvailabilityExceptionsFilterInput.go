@@ -2,12 +2,16 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // ScheduleAvailabilityExceptionsFilterInput is the ScheduleAvailabilityExceptionsFilterInput input type.
 type ScheduleAvailabilityExceptionsFilterInput struct {
-	Limit   *int                                       `json:"limit,omitempty"`
-	Offset  *int                                       `json:"offset,omitempty"`
-	OrderBy []ScheduleAvailabilityExceptionsOrderByExp `json:"order_by,omitempty"`
-	Where   *ScheduleAvailabilityExceptionsBoolExp     `json:"where,omitempty"`
+	Limit   param.Opt[int]                             `json:"limit,omitzero"`
+	Offset  param.Opt[int]                             `json:"offset,omitzero"`
+	OrderBy []ScheduleAvailabilityExceptionsOrderByExp `json:"order_by,omitzero"`
+	Where   ScheduleAvailabilityExceptionsBoolExp      `json:"where,omitzero"`
 }
 
 func (*ScheduleAvailabilityExceptionsFilterInput) GetGraphQLType() string {

@@ -4,9 +4,9 @@ package inputs
 
 // InsertScheduleExceptionsObjectInput is the InsertScheduleExceptionsObjectInput input type.
 type InsertScheduleExceptionsObjectInput struct {
-	AvailabilityExceptionId string `json:"availabilityExceptionId,omitempty"`
-	Id                      string `json:"id,omitempty"`
-	ScheduleId              string `json:"scheduleId,omitempty"`
+	AvailabilityExceptionId string `json:"availabilityExceptionId"`
+	Id                      string `json:"id"`
+	ScheduleId              string `json:"scheduleId"`
 }
 
 func (*InsertScheduleExceptionsObjectInput) GetGraphQLType() string {

@@ -3,32 +3,33 @@
 package inputs
 
 import (
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/enums"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/enums"
+	"github.com/oh-tarnished/generateql/runtime/go/param"
 )
 
 // PromocodeResourceOrderByExp is the PromocodeResourceOrderByExp input type.
 type PromocodeResourceOrderByExp struct {
-	AmountOffId                 *enums.OrderBy           `json:"amountOffId,omitempty"`
-	BookingMoney                *BookingMoneysOrderByExp `json:"bookingMoney,omitempty"`
-	BookingMoneyByMinSubtotalId *BookingMoneysOrderByExp `json:"bookingMoneyByMinSubtotalId,omitempty"`
-	Code                        *enums.OrderBy           `json:"code,omitempty"`
-	CreateTime                  *enums.OrderBy           `json:"createTime,omitempty"`
-	Description                 *enums.OrderBy           `json:"description,omitempty"`
-	Disabled                    *enums.OrderBy           `json:"disabled,omitempty"`
-	DiscountType                *enums.OrderBy           `json:"discountType,omitempty"`
-	DisplayName                 *enums.OrderBy           `json:"displayName,omitempty"`
-	Etag                        *enums.OrderBy           `json:"etag,omitempty"`
-	Id                          *enums.OrderBy           `json:"id,omitempty"`
-	MaxRedemptions              *enums.OrderBy           `json:"maxRedemptions,omitempty"`
-	MinSubtotalId               *enums.OrderBy           `json:"minSubtotalId,omitempty"`
-	Name                        *enums.OrderBy           `json:"name,omitempty"`
-	PerCustomerLimit            *enums.OrderBy           `json:"perCustomerLimit,omitempty"`
-	PercentOff                  *enums.OrderBy           `json:"percentOff,omitempty"`
-	RedeemEndTime               *enums.OrderBy           `json:"redeemEndTime,omitempty"`
-	RedeemStartTime             *enums.OrderBy           `json:"redeemStartTime,omitempty"`
-	RedemptionCount             *enums.OrderBy           `json:"redemptionCount,omitempty"`
-	State                       *enums.OrderBy           `json:"state,omitempty"`
-	UpdateTime                  *enums.OrderBy           `json:"updateTime,omitempty"`
+	AmountOffId                 param.Opt[enums.OrderBy] `json:"amountOffId,omitzero"`
+	BookingMoney                BookingMoneysOrderByExp  `json:"bookingMoney,omitzero"`
+	BookingMoneyByMinSubtotalId BookingMoneysOrderByExp  `json:"bookingMoneyByMinSubtotalId,omitzero"`
+	Code                        param.Opt[enums.OrderBy] `json:"code,omitzero"`
+	CreateTime                  param.Opt[enums.OrderBy] `json:"createTime,omitzero"`
+	Description                 param.Opt[enums.OrderBy] `json:"description,omitzero"`
+	Disabled                    param.Opt[enums.OrderBy] `json:"disabled,omitzero"`
+	DiscountType                param.Opt[enums.OrderBy] `json:"discountType,omitzero"`
+	DisplayName                 param.Opt[enums.OrderBy] `json:"displayName,omitzero"`
+	Etag                        param.Opt[enums.OrderBy] `json:"etag,omitzero"`
+	Id                          param.Opt[enums.OrderBy] `json:"id,omitzero"`
+	MaxRedemptions              param.Opt[enums.OrderBy] `json:"maxRedemptions,omitzero"`
+	MinSubtotalId               param.Opt[enums.OrderBy] `json:"minSubtotalId,omitzero"`
+	Name                        param.Opt[enums.OrderBy] `json:"name,omitzero"`
+	PerCustomerLimit            param.Opt[enums.OrderBy] `json:"perCustomerLimit,omitzero"`
+	PercentOff                  param.Opt[enums.OrderBy] `json:"percentOff,omitzero"`
+	RedeemEndTime               param.Opt[enums.OrderBy] `json:"redeemEndTime,omitzero"`
+	RedeemStartTime             param.Opt[enums.OrderBy] `json:"redeemStartTime,omitzero"`
+	RedemptionCount             param.Opt[enums.OrderBy] `json:"redemptionCount,omitzero"`
+	State                       param.Opt[enums.OrderBy] `json:"state,omitzero"`
+	UpdateTime                  param.Opt[enums.OrderBy] `json:"updateTime,omitzero"`
 }
 
 func (*PromocodeResourceOrderByExp) GetGraphQLType() string { return "PromocodeResourceOrderByExp" }

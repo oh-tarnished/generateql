@@ -4,7 +4,7 @@ package inputs
 
 // UpdateColumnOrganisationMembersOrganisationIdInput is the UpdateColumnOrganisationMembersOrganisationIdInput input type.
 type UpdateColumnOrganisationMembersOrganisationIdInput struct {
-	Set string `json:"set,omitempty"`
+	Set string `json:"set"`
 }
 
 func (*UpdateColumnOrganisationMembersOrganisationIdInput) GetGraphQLType() string {

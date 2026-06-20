@@ -2,9 +2,13 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // UpdateColumnOrganisationMembersStateInput is the UpdateColumnOrganisationMembersStateInput input type.
 type UpdateColumnOrganisationMembersStateInput struct {
-	Set *string `json:"set,omitempty"`
+	Set param.Opt[string] `json:"set,omitzero"`
 }
 
 func (*UpdateColumnOrganisationMembersStateInput) GetGraphQLType() string {

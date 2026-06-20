@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"os"
+	"path"
 	"strings"
 
 	"github.com/oh-tarnished/generateql/internal/gen/golang"
@@ -46,7 +47,7 @@ func init() {
 	f.StringArrayVar(&flagGenHeaders, "header", nil, "extra request header as 'Key: Value' (repeatable)")
 	f.StringVar(&flagGenSecret, "admin-secret", "", "shortcut for the x-hasura-admin-secret header")
 	f.StringVarP(&flagOutDir, "out", "o", "./generated", "output directory for the generated client")
-	f.StringVar(&flagPackage, "package", "client", "Go package name for the generated root package")
+	f.StringVar(&flagPackage, "package", "", "Go package name for the root package (default: last segment of --go-module + \"ql\", e.g. freebusy -> freebusyql)")
 	f.StringVar(&flagGoModule, "go-module", "", "import path of the generated root package (required; resource packages import <go-module>/types)")
 	f.StringVar(&flagRuntimeMod, "runtime-module", defaultRuntimeModule, "import path of the runtime facade")
 	f.IntVar(&flagMaxDepth, "max-depth", 1, "how many levels of relations to inline into models")
@@ -63,11 +64,19 @@ func runGenerate(cmd *cobra.Command, _ []string) error {
 		return fmt.Errorf("--go-module is required (the import path of the generated package)")
 	}
 
+	pkg := flagPackage
+	if pkg == "" {
+		pkg = path.Base(flagGoModule)
+		if !strings.HasSuffix(pkg, "ql") {
+			pkg += "ql"
+		}
+	}
+
 	model := ir.Build(schema)
 	opts := golang.Options{
 		Schema:        model,
 		OutDir:        flagOutDir,
-		Package:       flagPackage,
+		Package:       pkg,
 		GoModule:      flagGoModule,
 		RuntimeModule: flagRuntimeMod,
 		MaxDepth:      flagMaxDepth,

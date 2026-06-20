@@ -4,51 +4,52 @@ package pricecomponents
 
 import (
 	"context"
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/inputs"
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/schema"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/inputs"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/schema"
+	"github.com/oh-tarnished/generateql/runtime/go/param"
 	"github.com/oh-tarnished/generateql/runtime/go/runtime"
 )
 
 // ListParams holds the optional arguments for List.
 type ListParams struct {
-	Limit   *int
-	Offset  *int
-	OrderBy *[]inputs.BookingPriceComponentsOrderByExp
-	Where   *inputs.BookingPriceComponentsBoolExp
+	Limit   param.Opt[int]
+	Offset  param.Opt[int]
+	OrderBy []inputs.BookingPriceComponentsOrderByExp
+	Where   inputs.BookingPriceComponentsBoolExp
 }
 
 // AggregateParams holds the optional arguments for Aggregate.
 type AggregateParams struct {
-	FilterInput *inputs.BookingPriceComponentsFilterInput
+	FilterInput inputs.BookingPriceComponentsFilterInput
 }
 
 // DeleteByIdParams holds the optional arguments for DeleteById.
 type DeleteByIdParams struct {
-	PreCheck *inputs.BookingPriceComponentsBoolExp
+	PreCheck inputs.BookingPriceComponentsBoolExp
 }
 
 // InsertParams holds the optional arguments for Insert.
 type InsertParams struct {
-	PostCheck *inputs.BookingPriceComponentsBoolExp
+	PostCheck inputs.BookingPriceComponentsBoolExp
 }
 
 // UpdateByIdParams holds the optional arguments for UpdateById.
 type UpdateByIdParams struct {
-	PostCheck *inputs.BookingPriceComponentsBoolExp
-	PreCheck  *inputs.BookingPriceComponentsBoolExp
+	PostCheck inputs.BookingPriceComponentsBoolExp
+	PreCheck  inputs.BookingPriceComponentsBoolExp
 }
 
 // OnListParams holds the optional arguments for OnList.
 type OnListParams struct {
-	Limit   *int
-	Offset  *int
-	OrderBy *[]inputs.BookingPriceComponentsOrderByExp
-	Where   *inputs.BookingPriceComponentsBoolExp
+	Limit   param.Opt[int]
+	Offset  param.Opt[int]
+	OrderBy []inputs.BookingPriceComponentsOrderByExp
+	Where   inputs.BookingPriceComponentsBoolExp
 }
 
 // OnAggregateParams holds the optional arguments for OnAggregate.
 type OnAggregateParams struct {
-	FilterInput *inputs.BookingPriceComponentsFilterInput
+	FilterInput inputs.BookingPriceComponentsFilterInput
 }
 
 // QueryHandler runs BookingPriceComponents query operations.

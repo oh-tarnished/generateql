@@ -4,51 +4,52 @@ package resource
 
 import (
 	"context"
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/inputs"
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/schema"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/inputs"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/schema"
+	"github.com/oh-tarnished/generateql/runtime/go/param"
 	"github.com/oh-tarnished/generateql/runtime/go/runtime"
 )
 
 // ListParams holds the optional arguments for List.
 type ListParams struct {
-	Limit   *int
-	Offset  *int
-	OrderBy *[]inputs.ScheduleResourceOrderByExp
-	Where   *inputs.ScheduleResourceBoolExp
+	Limit   param.Opt[int]
+	Offset  param.Opt[int]
+	OrderBy []inputs.ScheduleResourceOrderByExp
+	Where   inputs.ScheduleResourceBoolExp
 }
 
 // AggregateParams holds the optional arguments for Aggregate.
 type AggregateParams struct {
-	FilterInput *inputs.ScheduleResourceFilterInput
+	FilterInput inputs.ScheduleResourceFilterInput
 }
 
 // DeleteByIdParams holds the optional arguments for DeleteById.
 type DeleteByIdParams struct {
-	PreCheck *inputs.ScheduleResourceBoolExp
+	PreCheck inputs.ScheduleResourceBoolExp
 }
 
 // InsertParams holds the optional arguments for Insert.
 type InsertParams struct {
-	PostCheck *inputs.ScheduleResourceBoolExp
+	PostCheck inputs.ScheduleResourceBoolExp
 }
 
 // UpdateByIdParams holds the optional arguments for UpdateById.
 type UpdateByIdParams struct {
-	PostCheck *inputs.ScheduleResourceBoolExp
-	PreCheck  *inputs.ScheduleResourceBoolExp
+	PostCheck inputs.ScheduleResourceBoolExp
+	PreCheck  inputs.ScheduleResourceBoolExp
 }
 
 // OnListParams holds the optional arguments for OnList.
 type OnListParams struct {
-	Limit   *int
-	Offset  *int
-	OrderBy *[]inputs.ScheduleResourceOrderByExp
-	Where   *inputs.ScheduleResourceBoolExp
+	Limit   param.Opt[int]
+	Offset  param.Opt[int]
+	OrderBy []inputs.ScheduleResourceOrderByExp
+	Where   inputs.ScheduleResourceBoolExp
 }
 
 // OnAggregateParams holds the optional arguments for OnAggregate.
 type OnAggregateParams struct {
-	FilterInput *inputs.ScheduleResourceFilterInput
+	FilterInput inputs.ScheduleResourceFilterInput
 }
 
 // QueryHandler runs ScheduleResource query operations.

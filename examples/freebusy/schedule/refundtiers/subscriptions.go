@@ -4,8 +4,9 @@ package refundtiers
 
 import (
 	"context"
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/schema"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/schema"
 	"github.com/oh-tarnished/generateql/runtime/go/graphql"
+	"github.com/oh-tarnished/generateql/runtime/go/param"
 	"github.com/oh-tarnished/generateql/runtime/go/runtime"
 )
 
@@ -16,16 +17,16 @@ type subscriptionHandler struct {
 func (h *subscriptionHandler) OnList(ctx context.Context, params OnListParams) (*runtime.Subscription, error) {
 	var out []schema.ScheduleRefundTiers
 	args := map[string]any{}
-	if params.Limit != nil {
-		args["limit"] = graphql.VarPtr(params.Limit, "Int")
+	if params.Limit.IsPresent() {
+		args["limit"] = graphql.VarPtr(params.Limit.Value(), "Int")
 	}
-	if params.Offset != nil {
-		args["offset"] = graphql.VarPtr(params.Offset, "Int")
+	if params.Offset.IsPresent() {
+		args["offset"] = graphql.VarPtr(params.Offset.Value(), "Int")
 	}
-	if params.OrderBy != nil {
+	if !param.IsOmitted(params.OrderBy) {
 		args["order_by"] = graphql.VarPtr(params.OrderBy, "[ScheduleRefundTiersOrderByExp!]")
 	}
-	if params.Where != nil {
+	if !param.IsOmitted(params.Where) {
 		args["where"] = graphql.VarPtr(params.Where, "ScheduleRefundTiersBoolExp")
 	}
 	return h.gql.SubscribeFields("scheduleRefundTiers", &out, args)
@@ -34,7 +35,7 @@ func (h *subscriptionHandler) OnList(ctx context.Context, params OnListParams) (
 func (h *subscriptionHandler) OnAggregate(ctx context.Context, params OnAggregateParams) (*runtime.Subscription, error) {
 	var out *schema.ScheduleRefundTiersAggExp
 	args := map[string]any{}
-	if params.FilterInput != nil {
+	if !param.IsOmitted(params.FilterInput) {
 		args["filter_input"] = graphql.VarPtr(params.FilterInput, "ScheduleRefundTiersFilterInput")
 	}
 	return h.gql.SubscribeFields("scheduleRefundTiersAggregate", &out, args)

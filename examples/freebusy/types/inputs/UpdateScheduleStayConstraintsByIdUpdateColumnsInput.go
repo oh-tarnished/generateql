@@ -4,13 +4,13 @@ package inputs
 
 // UpdateScheduleStayConstraintsByIdUpdateColumnsInput is the UpdateScheduleStayConstraintsByIdUpdateColumnsInput input type.
 type UpdateScheduleStayConstraintsByIdUpdateColumnsInput struct {
-	AdvanceMaxDays   *UpdateColumnScheduleStayConstraintsAdvanceMaxDaysInput   `json:"advanceMaxDays,omitempty"`
-	AdvanceMinDays   *UpdateColumnScheduleStayConstraintsAdvanceMinDaysInput   `json:"advanceMinDays,omitempty"`
-	CheckinWeekdays  *UpdateColumnScheduleStayConstraintsCheckinWeekdaysInput  `json:"checkinWeekdays,omitempty"`
-	CheckoutWeekdays *UpdateColumnScheduleStayConstraintsCheckoutWeekdaysInput `json:"checkoutWeekdays,omitempty"`
-	Id               *UpdateColumnScheduleStayConstraintsIdInput               `json:"id,omitempty"`
-	MaxNights        *UpdateColumnScheduleStayConstraintsMaxNightsInput        `json:"maxNights,omitempty"`
-	MinNights        *UpdateColumnScheduleStayConstraintsMinNightsInput        `json:"minNights,omitempty"`
+	AdvanceMaxDays   UpdateColumnScheduleStayConstraintsAdvanceMaxDaysInput   `json:"advanceMaxDays,omitzero"`
+	AdvanceMinDays   UpdateColumnScheduleStayConstraintsAdvanceMinDaysInput   `json:"advanceMinDays,omitzero"`
+	CheckinWeekdays  UpdateColumnScheduleStayConstraintsCheckinWeekdaysInput  `json:"checkinWeekdays,omitzero"`
+	CheckoutWeekdays UpdateColumnScheduleStayConstraintsCheckoutWeekdaysInput `json:"checkoutWeekdays,omitzero"`
+	Id               UpdateColumnScheduleStayConstraintsIdInput               `json:"id,omitzero"`
+	MaxNights        UpdateColumnScheduleStayConstraintsMaxNightsInput        `json:"maxNights,omitzero"`
+	MinNights        UpdateColumnScheduleStayConstraintsMinNightsInput        `json:"minNights,omitzero"`
 }
 
 func (*UpdateScheduleStayConstraintsByIdUpdateColumnsInput) GetGraphQLType() string {

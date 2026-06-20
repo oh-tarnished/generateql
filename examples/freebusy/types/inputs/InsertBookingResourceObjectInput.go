@@ -4,36 +4,37 @@ package inputs
 
 import (
 	"encoding/json"
+	"github.com/oh-tarnished/generateql/runtime/go/param"
 )
 
 // InsertBookingResourceObjectInput is the InsertBookingResourceObjectInput input type.
 type InsertBookingResourceObjectInput struct {
-	AssignedUnit   *string          `json:"assignedUnit,omitempty"`
-	Attributes     *json.RawMessage `json:"attributes,omitempty"`
-	CancelReason   *string          `json:"cancelReason,omitempty"`
-	CancelTime     *string          `json:"cancelTime,omitempty"`
-	ConfirmTime    *string          `json:"confirmTime,omitempty"`
-	ContactId      *string          `json:"contactId,omitempty"`
-	CreateTime     *string          `json:"createTime,omitempty"`
-	Customer       *string          `json:"customer,omitempty"`
-	DiscountId     *string          `json:"discountId,omitempty"`
-	Etag           *string          `json:"etag,omitempty"`
-	HoldExpireTime *string          `json:"holdExpireTime,omitempty"`
-	HoldTtl        *string          `json:"holdTtl,omitempty"`
-	Id             string           `json:"id,omitempty"`
-	Name           string           `json:"name,omitempty"`
-	Notes          *string          `json:"notes,omitempty"`
-	Offering       *string          `json:"offering,omitempty"`
-	PriceId        *string          `json:"priceId,omitempty"`
-	PromoCode      *string          `json:"promoCode,omitempty"`
-	RefundAmountId *string          `json:"refundAmountId,omitempty"`
-	RefundPercent  *int32           `json:"refundPercent,omitempty"`
-	Resource       string           `json:"resource,omitempty"`
-	State          *string          `json:"state,omitempty"`
-	TotalId        *string          `json:"totalId,omitempty"`
-	Units          *int32           `json:"units,omitempty"`
-	UpdateTime     string           `json:"updateTime,omitempty"`
-	WindowId       string           `json:"windowId,omitempty"`
+	AssignedUnit   param.Opt[string] `json:"assignedUnit,omitzero"`
+	Attributes     json.RawMessage   `json:"attributes,omitzero"`
+	CancelReason   param.Opt[string] `json:"cancelReason,omitzero"`
+	CancelTime     param.Opt[string] `json:"cancelTime,omitzero"`
+	ConfirmTime    param.Opt[string] `json:"confirmTime,omitzero"`
+	ContactId      param.Opt[string] `json:"contactId,omitzero"`
+	CreateTime     param.Opt[string] `json:"createTime,omitzero"`
+	Customer       param.Opt[string] `json:"customer,omitzero"`
+	DiscountId     param.Opt[string] `json:"discountId,omitzero"`
+	Etag           param.Opt[string] `json:"etag,omitzero"`
+	HoldExpireTime param.Opt[string] `json:"holdExpireTime,omitzero"`
+	HoldTtl        param.Opt[string] `json:"holdTtl,omitzero"`
+	Id             string            `json:"id"`
+	Name           string            `json:"name"`
+	Notes          param.Opt[string] `json:"notes,omitzero"`
+	Offering       param.Opt[string] `json:"offering,omitzero"`
+	PriceId        param.Opt[string] `json:"priceId,omitzero"`
+	PromoCode      param.Opt[string] `json:"promoCode,omitzero"`
+	RefundAmountId param.Opt[string] `json:"refundAmountId,omitzero"`
+	RefundPercent  param.Opt[int32]  `json:"refundPercent,omitzero"`
+	Resource       string            `json:"resource"`
+	State          param.Opt[string] `json:"state,omitzero"`
+	TotalId        param.Opt[string] `json:"totalId,omitzero"`
+	Units          param.Opt[int32]  `json:"units,omitzero"`
+	UpdateTime     string            `json:"updateTime"`
+	WindowId       string            `json:"windowId"`
 }
 
 func (*InsertBookingResourceObjectInput) GetGraphQLType() string {

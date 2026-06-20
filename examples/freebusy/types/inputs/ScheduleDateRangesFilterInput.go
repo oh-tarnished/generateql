@@ -2,12 +2,16 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // ScheduleDateRangesFilterInput is the ScheduleDateRangesFilterInput input type.
 type ScheduleDateRangesFilterInput struct {
-	Limit   *int                           `json:"limit,omitempty"`
-	Offset  *int                           `json:"offset,omitempty"`
-	OrderBy []ScheduleDateRangesOrderByExp `json:"order_by,omitempty"`
-	Where   *ScheduleDateRangesBoolExp     `json:"where,omitempty"`
+	Limit   param.Opt[int]                 `json:"limit,omitzero"`
+	Offset  param.Opt[int]                 `json:"offset,omitzero"`
+	OrderBy []ScheduleDateRangesOrderByExp `json:"order_by,omitzero"`
+	Where   ScheduleDateRangesBoolExp      `json:"where,omitzero"`
 }
 
 func (*ScheduleDateRangesFilterInput) GetGraphQLType() string { return "ScheduleDateRangesFilterInput" }

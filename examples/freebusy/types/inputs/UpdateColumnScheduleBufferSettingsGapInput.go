@@ -2,9 +2,13 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // UpdateColumnScheduleBufferSettingsGapInput is the UpdateColumnScheduleBufferSettingsGapInput input type.
 type UpdateColumnScheduleBufferSettingsGapInput struct {
-	Set *string `json:"set,omitempty"`
+	Set param.Opt[string] `json:"set,omitzero"`
 }
 
 func (*UpdateColumnScheduleBufferSettingsGapInput) GetGraphQLType() string {

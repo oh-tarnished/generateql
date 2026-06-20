@@ -4,7 +4,7 @@ package inputs
 
 // UpdateColumnScheduleRefundTiersRefundPercentInput is the UpdateColumnScheduleRefundTiersRefundPercentInput input type.
 type UpdateColumnScheduleRefundTiersRefundPercentInput struct {
-	Set int32 `json:"set,omitempty"`
+	Set int32 `json:"set"`
 }
 
 func (*UpdateColumnScheduleRefundTiersRefundPercentInput) GetGraphQLType() string {

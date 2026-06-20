@@ -4,9 +4,9 @@ package inputs
 
 // InsertPromocodeApplicableResourcesObjectInput is the InsertPromocodeApplicableResourcesObjectInput input type.
 type InsertPromocodeApplicableResourcesObjectInput struct {
-	Id          string `json:"id,omitempty"`
-	PromoCodeId string `json:"promoCodeId,omitempty"`
-	ResourceId  string `json:"resourceId,omitempty"`
+	Id          string `json:"id"`
+	PromoCodeId string `json:"promoCodeId"`
+	ResourceId  string `json:"resourceId"`
 }
 
 func (*InsertPromocodeApplicableResourcesObjectInput) GetGraphQLType() string {

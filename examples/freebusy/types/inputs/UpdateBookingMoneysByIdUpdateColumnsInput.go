@@ -4,10 +4,10 @@ package inputs
 
 // UpdateBookingMoneysByIdUpdateColumnsInput is the UpdateBookingMoneysByIdUpdateColumnsInput input type.
 type UpdateBookingMoneysByIdUpdateColumnsInput struct {
-	CurrencyCode *UpdateColumnBookingMoneysCurrencyCodeInput `json:"currencyCode,omitempty"`
-	Id           *UpdateColumnBookingMoneysIdInput           `json:"id,omitempty"`
-	Nanos        *UpdateColumnBookingMoneysNanosInput        `json:"nanos,omitempty"`
-	Units        *UpdateColumnBookingMoneysUnitsInput        `json:"units,omitempty"`
+	CurrencyCode UpdateColumnBookingMoneysCurrencyCodeInput `json:"currencyCode,omitzero"`
+	Id           UpdateColumnBookingMoneysIdInput           `json:"id,omitzero"`
+	Nanos        UpdateColumnBookingMoneysNanosInput        `json:"nanos,omitzero"`
+	Units        UpdateColumnBookingMoneysUnitsInput        `json:"units,omitzero"`
 }
 
 func (*UpdateBookingMoneysByIdUpdateColumnsInput) GetGraphQLType() string {

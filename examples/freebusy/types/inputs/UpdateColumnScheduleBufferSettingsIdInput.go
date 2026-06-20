@@ -4,7 +4,7 @@ package inputs
 
 // UpdateColumnScheduleBufferSettingsIdInput is the UpdateColumnScheduleBufferSettingsIdInput input type.
 type UpdateColumnScheduleBufferSettingsIdInput struct {
-	Set string `json:"set,omitempty"`
+	Set string `json:"set"`
 }
 
 func (*UpdateColumnScheduleBufferSettingsIdInput) GetGraphQLType() string {

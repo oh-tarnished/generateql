@@ -4,16 +4,16 @@ package inputs
 
 // IdentityMembershipSummariesBoolExp is the IdentityMembershipSummariesBoolExp input type.
 type IdentityMembershipSummariesBoolExp struct {
-	And                  []IdentityMembershipSummariesBoolExp `json:"_and,omitempty"`
-	Not                  *IdentityMembershipSummariesBoolExp  `json:"_not,omitempty"`
-	Or                   []IdentityMembershipSummariesBoolExp `json:"_or,omitempty"`
-	Id                   *TextBoolExp                         `json:"id,omitempty"`
-	IdentityUser         *IdentityUsersBoolExp                `json:"identityUser,omitempty"`
-	OrgDisplayName       *TextBoolExp                         `json:"orgDisplayName,omitempty"`
-	Organisation         *TextBoolExp                         `json:"organisation,omitempty"`
-	OrganisationResource *OrganisationResourceBoolExp         `json:"organisationResource,omitempty"`
-	Role                 *TextBoolExp                         `json:"role,omitempty"`
-	UserId               *TextBoolExp                         `json:"userId,omitempty"`
+	And                  []IdentityMembershipSummariesBoolExp `json:"_and,omitzero"`
+	Not                  IdentityMembershipSummariesBoolExp   `json:"_not,omitzero"`
+	Or                   []IdentityMembershipSummariesBoolExp `json:"_or,omitzero"`
+	Id                   TextBoolExp                          `json:"id,omitzero"`
+	IdentityUser         IdentityUsersBoolExp                 `json:"identityUser,omitzero"`
+	OrgDisplayName       TextBoolExp                          `json:"orgDisplayName,omitzero"`
+	Organisation         TextBoolExp                          `json:"organisation,omitzero"`
+	OrganisationResource OrganisationResourceBoolExp          `json:"organisationResource,omitzero"`
+	Role                 TextBoolExp                          `json:"role,omitzero"`
+	UserId               TextBoolExp                          `json:"userId,omitzero"`
 }
 
 func (*IdentityMembershipSummariesBoolExp) GetGraphQLType() string {

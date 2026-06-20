@@ -2,9 +2,13 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // UpdateColumnResourceEntityDescriptionInput is the UpdateColumnResourceEntityDescriptionInput input type.
 type UpdateColumnResourceEntityDescriptionInput struct {
-	Set *string `json:"set,omitempty"`
+	Set param.Opt[string] `json:"set,omitzero"`
 }
 
 func (*UpdateColumnResourceEntityDescriptionInput) GetGraphQLType() string {

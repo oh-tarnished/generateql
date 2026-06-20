@@ -4,11 +4,12 @@ package inputs
 
 import (
 	"github.com/oh-tarnished/generateql/runtime/go/graphql"
+	"github.com/oh-tarnished/generateql/runtime/go/param"
 )
 
 // UpdateColumnOrganisationResourceMemberCountInput is the UpdateColumnOrganisationResourceMemberCountInput input type.
 type UpdateColumnOrganisationResourceMemberCountInput struct {
-	Set *graphql.Int64 `json:"set,omitempty"`
+	Set param.Opt[graphql.Int64] `json:"set,omitzero"`
 }
 
 func (*UpdateColumnOrganisationResourceMemberCountInput) GetGraphQLType() string {

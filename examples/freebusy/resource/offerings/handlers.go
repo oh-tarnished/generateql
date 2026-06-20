@@ -4,51 +4,52 @@ package offerings
 
 import (
 	"context"
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/inputs"
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/schema"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/inputs"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/schema"
+	"github.com/oh-tarnished/generateql/runtime/go/param"
 	"github.com/oh-tarnished/generateql/runtime/go/runtime"
 )
 
 // ListParams holds the optional arguments for List.
 type ListParams struct {
-	Limit   *int
-	Offset  *int
-	OrderBy *[]inputs.ResourceOfferingsOrderByExp
-	Where   *inputs.ResourceOfferingsBoolExp
+	Limit   param.Opt[int]
+	Offset  param.Opt[int]
+	OrderBy []inputs.ResourceOfferingsOrderByExp
+	Where   inputs.ResourceOfferingsBoolExp
 }
 
 // AggregateParams holds the optional arguments for Aggregate.
 type AggregateParams struct {
-	FilterInput *inputs.ResourceOfferingsFilterInput
+	FilterInput inputs.ResourceOfferingsFilterInput
 }
 
 // DeleteByIdParams holds the optional arguments for DeleteById.
 type DeleteByIdParams struct {
-	PreCheck *inputs.ResourceOfferingsBoolExp
+	PreCheck inputs.ResourceOfferingsBoolExp
 }
 
 // InsertParams holds the optional arguments for Insert.
 type InsertParams struct {
-	PostCheck *inputs.ResourceOfferingsBoolExp
+	PostCheck inputs.ResourceOfferingsBoolExp
 }
 
 // UpdateByIdParams holds the optional arguments for UpdateById.
 type UpdateByIdParams struct {
-	PostCheck *inputs.ResourceOfferingsBoolExp
-	PreCheck  *inputs.ResourceOfferingsBoolExp
+	PostCheck inputs.ResourceOfferingsBoolExp
+	PreCheck  inputs.ResourceOfferingsBoolExp
 }
 
 // OnListParams holds the optional arguments for OnList.
 type OnListParams struct {
-	Limit   *int
-	Offset  *int
-	OrderBy *[]inputs.ResourceOfferingsOrderByExp
-	Where   *inputs.ResourceOfferingsBoolExp
+	Limit   param.Opt[int]
+	Offset  param.Opt[int]
+	OrderBy []inputs.ResourceOfferingsOrderByExp
+	Where   inputs.ResourceOfferingsBoolExp
 }
 
 // OnAggregateParams holds the optional arguments for OnAggregate.
 type OnAggregateParams struct {
-	FilterInput *inputs.ResourceOfferingsFilterInput
+	FilterInput inputs.ResourceOfferingsFilterInput
 }
 
 // QueryHandler runs ResourceOfferings query operations.

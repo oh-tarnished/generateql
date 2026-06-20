@@ -4,11 +4,11 @@ package inputs
 
 // UpdateResourceLosDiscountsByIdUpdateColumnsInput is the UpdateResourceLosDiscountsByIdUpdateColumnsInput input type.
 type UpdateResourceLosDiscountsByIdUpdateColumnsInput struct {
-	AmountOffId *UpdateColumnResourceLosDiscountsAmountOffIdInput `json:"amountOffId,omitempty"`
-	Id          *UpdateColumnResourceLosDiscountsIdInput          `json:"id,omitempty"`
-	MinNights   *UpdateColumnResourceLosDiscountsMinNightsInput   `json:"minNights,omitempty"`
-	OfferingId  *UpdateColumnResourceLosDiscountsOfferingIdInput  `json:"offeringId,omitempty"`
-	PercentOff  *UpdateColumnResourceLosDiscountsPercentOffInput  `json:"percentOff,omitempty"`
+	AmountOffId UpdateColumnResourceLosDiscountsAmountOffIdInput `json:"amountOffId,omitzero"`
+	Id          UpdateColumnResourceLosDiscountsIdInput          `json:"id,omitzero"`
+	MinNights   UpdateColumnResourceLosDiscountsMinNightsInput   `json:"minNights,omitzero"`
+	OfferingId  UpdateColumnResourceLosDiscountsOfferingIdInput  `json:"offeringId,omitzero"`
+	PercentOff  UpdateColumnResourceLosDiscountsPercentOffInput  `json:"percentOff,omitzero"`
 }
 
 func (*UpdateResourceLosDiscountsByIdUpdateColumnsInput) GetGraphQLType() string {

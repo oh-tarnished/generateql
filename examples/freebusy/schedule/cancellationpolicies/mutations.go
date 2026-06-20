@@ -4,9 +4,10 @@ package cancellationpolicies
 
 import (
 	"context"
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/inputs"
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/schema"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/inputs"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/schema"
 	"github.com/oh-tarnished/generateql/runtime/go/graphql"
+	"github.com/oh-tarnished/generateql/runtime/go/param"
 	"github.com/oh-tarnished/generateql/runtime/go/runtime"
 )
 
@@ -19,7 +20,7 @@ func (h *mutationHandler) DeleteById(ctx context.Context, keyId string, params D
 	args := map[string]any{
 		"keyId": graphql.Var(keyId, "String1"),
 	}
-	if params.PreCheck != nil {
+	if !param.IsOmitted(params.PreCheck) {
 		args["preCheck"] = graphql.VarPtr(params.PreCheck, "ScheduleCancellationPoliciesBoolExp")
 	}
 	res := <-h.gql.MutateFields("deleteScheduleCancellationPoliciesById", &out, args)
@@ -31,7 +32,7 @@ func (h *mutationHandler) Insert(ctx context.Context, objects []inputs.InsertSch
 	args := map[string]any{
 		"objects": graphql.Var(objects, "[InsertScheduleCancellationPoliciesObjectInput!]"),
 	}
-	if params.PostCheck != nil {
+	if !param.IsOmitted(params.PostCheck) {
 		args["postCheck"] = graphql.VarPtr(params.PostCheck, "ScheduleCancellationPoliciesBoolExp")
 	}
 	res := <-h.gql.MutateFields("insertScheduleCancellationPolicies", &out, args)
@@ -44,10 +45,10 @@ func (h *mutationHandler) UpdateById(ctx context.Context, keyId string, updateCo
 		"keyId":         graphql.Var(keyId, "String1"),
 		"updateColumns": graphql.Var(updateColumns, "UpdateScheduleCancellationPoliciesByIdUpdateColumnsInput"),
 	}
-	if params.PostCheck != nil {
+	if !param.IsOmitted(params.PostCheck) {
 		args["postCheck"] = graphql.VarPtr(params.PostCheck, "ScheduleCancellationPoliciesBoolExp")
 	}
-	if params.PreCheck != nil {
+	if !param.IsOmitted(params.PreCheck) {
 		args["preCheck"] = graphql.VarPtr(params.PreCheck, "ScheduleCancellationPoliciesBoolExp")
 	}
 	res := <-h.gql.MutateFields("updateScheduleCancellationPoliciesById", &out, args)

@@ -4,14 +4,14 @@ package inputs
 
 // BookingContactsBoolExp is the BookingContactsBoolExp input type.
 type BookingContactsBoolExp struct {
-	And              []BookingContactsBoolExp `json:"_and,omitempty"`
-	Not              *BookingContactsBoolExp  `json:"_not,omitempty"`
-	Or               []BookingContactsBoolExp `json:"_or,omitempty"`
-	BookingResources *BookingResourceBoolExp  `json:"bookingResources,omitempty"`
-	DisplayName      *TextBoolExp             `json:"displayName,omitempty"`
-	Email            *TextBoolExp             `json:"email,omitempty"`
-	Id               *TextBoolExp             `json:"id,omitempty"`
-	PhoneNumber      *TextBoolExp             `json:"phoneNumber,omitempty"`
+	And              []BookingContactsBoolExp `json:"_and,omitzero"`
+	Not              BookingContactsBoolExp   `json:"_not,omitzero"`
+	Or               []BookingContactsBoolExp `json:"_or,omitzero"`
+	BookingResources BookingResourceBoolExp   `json:"bookingResources,omitzero"`
+	DisplayName      TextBoolExp              `json:"displayName,omitzero"`
+	Email            TextBoolExp              `json:"email,omitzero"`
+	Id               TextBoolExp              `json:"id,omitzero"`
+	PhoneNumber      TextBoolExp              `json:"phoneNumber,omitzero"`
 }
 
 func (*BookingContactsBoolExp) GetGraphQLType() string { return "BookingContactsBoolExp" }

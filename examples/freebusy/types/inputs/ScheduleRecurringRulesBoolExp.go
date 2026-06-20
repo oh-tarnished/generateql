@@ -4,15 +4,15 @@ package inputs
 
 // ScheduleRecurringRulesBoolExp is the ScheduleRecurringRulesBoolExp input type.
 type ScheduleRecurringRulesBoolExp struct {
-	And              []ScheduleRecurringRulesBoolExp `json:"_and,omitempty"`
-	Not              *ScheduleRecurringRulesBoolExp  `json:"_not,omitempty"`
-	Or               []ScheduleRecurringRulesBoolExp `json:"_or,omitempty"`
-	Closes           *TextBoolExp                    `json:"closes,omitempty"`
-	Id               *TextBoolExp                    `json:"id,omitempty"`
-	Opens            *TextBoolExp                    `json:"opens,omitempty"`
-	Rrule            *TextBoolExp                    `json:"rrule,omitempty"`
-	ScheduleId       *TextBoolExp                    `json:"scheduleId,omitempty"`
-	ScheduleResource *ScheduleResourceBoolExp        `json:"scheduleResource,omitempty"`
+	And              []ScheduleRecurringRulesBoolExp `json:"_and,omitzero"`
+	Not              ScheduleRecurringRulesBoolExp   `json:"_not,omitzero"`
+	Or               []ScheduleRecurringRulesBoolExp `json:"_or,omitzero"`
+	Closes           TextBoolExp                     `json:"closes,omitzero"`
+	Id               TextBoolExp                     `json:"id,omitzero"`
+	Opens            TextBoolExp                     `json:"opens,omitzero"`
+	Rrule            TextBoolExp                     `json:"rrule,omitzero"`
+	ScheduleId       TextBoolExp                     `json:"scheduleId,omitzero"`
+	ScheduleResource ScheduleResourceBoolExp         `json:"scheduleResource,omitzero"`
 }
 
 func (*ScheduleRecurringRulesBoolExp) GetGraphQLType() string { return "ScheduleRecurringRulesBoolExp" }

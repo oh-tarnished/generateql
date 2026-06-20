@@ -4,7 +4,7 @@ package inputs
 
 // UpdateColumnScheduleResourceNameInput is the UpdateColumnScheduleResourceNameInput input type.
 type UpdateColumnScheduleResourceNameInput struct {
-	Set string `json:"set,omitempty"`
+	Set string `json:"set"`
 }
 
 func (*UpdateColumnScheduleResourceNameInput) GetGraphQLType() string {

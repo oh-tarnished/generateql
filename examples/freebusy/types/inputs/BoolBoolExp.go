@@ -2,19 +2,23 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // BoolBoolExp is the BoolBoolExp input type.
 type BoolBoolExp struct {
-	And    []BoolBoolExp `json:"_and,omitempty"`
-	Eq     *bool         `json:"_eq,omitempty"`
-	Gt     *bool         `json:"_gt,omitempty"`
-	Gte    *bool         `json:"_gte,omitempty"`
-	In     []bool        `json:"_in,omitempty"`
-	IsNull *bool         `json:"_is_null,omitempty"`
-	Lt     *bool         `json:"_lt,omitempty"`
-	Lte    *bool         `json:"_lte,omitempty"`
-	Neq    *bool         `json:"_neq,omitempty"`
-	Not    *BoolBoolExp  `json:"_not,omitempty"`
-	Or     []BoolBoolExp `json:"_or,omitempty"`
+	And    []BoolBoolExp   `json:"_and,omitzero"`
+	Eq     param.Opt[bool] `json:"_eq,omitzero"`
+	Gt     param.Opt[bool] `json:"_gt,omitzero"`
+	Gte    param.Opt[bool] `json:"_gte,omitzero"`
+	In     []bool          `json:"_in,omitzero"`
+	IsNull param.Opt[bool] `json:"_is_null,omitzero"`
+	Lt     param.Opt[bool] `json:"_lt,omitzero"`
+	Lte    param.Opt[bool] `json:"_lte,omitzero"`
+	Neq    param.Opt[bool] `json:"_neq,omitzero"`
+	Not    BoolBoolExp     `json:"_not,omitzero"`
+	Or     []BoolBoolExp   `json:"_or,omitzero"`
 }
 
 func (*BoolBoolExp) GetGraphQLType() string { return "BoolBoolExp" }

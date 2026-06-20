@@ -4,23 +4,23 @@ package inputs
 
 // IdentityUsersBoolExp is the IdentityUsersBoolExp input type.
 type IdentityUsersBoolExp struct {
-	And                         []IdentityUsersBoolExp              `json:"_and,omitempty"`
-	Not                         *IdentityUsersBoolExp               `json:"_not,omitempty"`
-	Or                          []IdentityUsersBoolExp              `json:"_or,omitempty"`
-	AvatarUrl                   *TextBoolExp                        `json:"avatarUrl,omitempty"`
-	BookingResources            *BookingResourceBoolExp             `json:"bookingResources,omitempty"`
-	CreateTime                  *TimestampBoolExp                   `json:"createTime,omitempty"`
-	DisplayName                 *TextBoolExp                        `json:"displayName,omitempty"`
-	Email                       *TextBoolExp                        `json:"email,omitempty"`
-	Etag                        *TextBoolExp                        `json:"etag,omitempty"`
-	Id                          *TextBoolExp                        `json:"id,omitempty"`
-	IdentityMembershipSummaries *IdentityMembershipSummariesBoolExp `json:"identityMembershipSummaries,omitempty"`
-	Locale                      *TextBoolExp                        `json:"locale,omitempty"`
-	Name                        *TextBoolExp                        `json:"name,omitempty"`
-	OrganisationMembers         *OrganisationMembersBoolExp         `json:"organisationMembers,omitempty"`
-	OrganisationMembersByUser   *OrganisationMembersBoolExp         `json:"organisationMembersByUser,omitempty"`
-	TimeZone                    *TextBoolExp                        `json:"timeZone,omitempty"`
-	UpdateTime                  *TimestampBoolExp                   `json:"updateTime,omitempty"`
+	And                         []IdentityUsersBoolExp             `json:"_and,omitzero"`
+	Not                         IdentityUsersBoolExp               `json:"_not,omitzero"`
+	Or                          []IdentityUsersBoolExp             `json:"_or,omitzero"`
+	AvatarUrl                   TextBoolExp                        `json:"avatarUrl,omitzero"`
+	BookingResources            BookingResourceBoolExp             `json:"bookingResources,omitzero"`
+	CreateTime                  TimestampBoolExp                   `json:"createTime,omitzero"`
+	DisplayName                 TextBoolExp                        `json:"displayName,omitzero"`
+	Email                       TextBoolExp                        `json:"email,omitzero"`
+	Etag                        TextBoolExp                        `json:"etag,omitzero"`
+	Id                          TextBoolExp                        `json:"id,omitzero"`
+	IdentityMembershipSummaries IdentityMembershipSummariesBoolExp `json:"identityMembershipSummaries,omitzero"`
+	Locale                      TextBoolExp                        `json:"locale,omitzero"`
+	Name                        TextBoolExp                        `json:"name,omitzero"`
+	OrganisationMembers         OrganisationMembersBoolExp         `json:"organisationMembers,omitzero"`
+	OrganisationMembersByUser   OrganisationMembersBoolExp         `json:"organisationMembersByUser,omitzero"`
+	TimeZone                    TextBoolExp                        `json:"timeZone,omitzero"`
+	UpdateTime                  TimestampBoolExp                   `json:"updateTime,omitzero"`
 }
 
 func (*IdentityUsersBoolExp) GetGraphQLType() string { return "IdentityUsersBoolExp" }

@@ -2,14 +2,18 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // InsertScheduleBufferSettingsObjectInput is the InsertScheduleBufferSettingsObjectInput input type.
 type InsertScheduleBufferSettingsObjectInput struct {
-	EndDelta   *string `json:"endDelta,omitempty"`
-	Gap        *string `json:"gap,omitempty"`
-	Id         string  `json:"id,omitempty"`
-	MaxAdvance *string `json:"maxAdvance,omitempty"`
-	MinNotice  *string `json:"minNotice,omitempty"`
-	StartDelta *string `json:"startDelta,omitempty"`
+	EndDelta   param.Opt[string] `json:"endDelta,omitzero"`
+	Gap        param.Opt[string] `json:"gap,omitzero"`
+	Id         string            `json:"id"`
+	MaxAdvance param.Opt[string] `json:"maxAdvance,omitzero"`
+	MinNotice  param.Opt[string] `json:"minNotice,omitzero"`
+	StartDelta param.Opt[string] `json:"startDelta,omitzero"`
 }
 
 func (*InsertScheduleBufferSettingsObjectInput) GetGraphQLType() string {

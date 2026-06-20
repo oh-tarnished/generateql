@@ -4,10 +4,10 @@ package inputs
 
 // UpdateScheduleRefundTiersByIdUpdateColumnsInput is the UpdateScheduleRefundTiersByIdUpdateColumnsInput input type.
 type UpdateScheduleRefundTiersByIdUpdateColumnsInput struct {
-	CancellationPolicyId *UpdateColumnScheduleRefundTiersCancellationPolicyIdInput `json:"cancellationPolicyId,omitempty"`
-	Cutoff               *UpdateColumnScheduleRefundTiersCutoffInput               `json:"cutoff,omitempty"`
-	Id                   *UpdateColumnScheduleRefundTiersIdInput                   `json:"id,omitempty"`
-	RefundPercent        *UpdateColumnScheduleRefundTiersRefundPercentInput        `json:"refundPercent,omitempty"`
+	CancellationPolicyId UpdateColumnScheduleRefundTiersCancellationPolicyIdInput `json:"cancellationPolicyId,omitzero"`
+	Cutoff               UpdateColumnScheduleRefundTiersCutoffInput               `json:"cutoff,omitzero"`
+	Id                   UpdateColumnScheduleRefundTiersIdInput                   `json:"id,omitzero"`
+	RefundPercent        UpdateColumnScheduleRefundTiersRefundPercentInput        `json:"refundPercent,omitzero"`
 }
 
 func (*UpdateScheduleRefundTiersByIdUpdateColumnsInput) GetGraphQLType() string {

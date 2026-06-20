@@ -54,6 +54,9 @@ func (g *generator) typeImports(body string) []string {
 	if strings.Contains(body, "graphql.") {
 		im = append(im, g.graphqlModule())
 	}
+	if strings.Contains(body, "param.") {
+		im = append(im, g.paramModule())
+	}
 	if strings.Contains(body, "enums.") {
 		im = append(im, g.opts.GoModule+"/"+enumsDir)
 	}
@@ -70,4 +73,10 @@ func (g *generator) typeImports(body string) []string {
 // and pointer constructors), a sibling of the runtime facade module.
 func (g *generator) graphqlModule() string {
 	return path.Dir(g.opts.RuntimeModule) + "/graphql"
+}
+
+// paramModule is the import path of the runtime param package (Opt and IsOmitted), a
+// sibling of the runtime facade module.
+func (g *generator) paramModule() string {
+	return path.Dir(g.opts.RuntimeModule) + "/param"
 }

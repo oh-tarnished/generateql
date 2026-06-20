@@ -2,13 +2,17 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // InsertResourceTaxesObjectInput is the InsertResourceTaxesObjectInput input type.
 type InsertResourceTaxesObjectInput struct {
-	Code        string  `json:"code,omitempty"`
-	DisplayName *string `json:"displayName,omitempty"`
-	Id          string  `json:"id,omitempty"`
-	OfferingId  string  `json:"offeringId,omitempty"`
-	Percent     float64 `json:"percent,omitempty"`
+	Code        string            `json:"code"`
+	DisplayName param.Opt[string] `json:"displayName,omitzero"`
+	Id          string            `json:"id"`
+	OfferingId  string            `json:"offeringId"`
+	Percent     float64           `json:"percent"`
 }
 
 func (*InsertResourceTaxesObjectInput) GetGraphQLType() string {

@@ -4,11 +4,11 @@ package inputs
 
 // UpdateResourceTaxesByIdUpdateColumnsInput is the UpdateResourceTaxesByIdUpdateColumnsInput input type.
 type UpdateResourceTaxesByIdUpdateColumnsInput struct {
-	Code        *UpdateColumnResourceTaxesCodeInput        `json:"code,omitempty"`
-	DisplayName *UpdateColumnResourceTaxesDisplayNameInput `json:"displayName,omitempty"`
-	Id          *UpdateColumnResourceTaxesIdInput          `json:"id,omitempty"`
-	OfferingId  *UpdateColumnResourceTaxesOfferingIdInput  `json:"offeringId,omitempty"`
-	Percent     *UpdateColumnResourceTaxesPercentInput     `json:"percent,omitempty"`
+	Code        UpdateColumnResourceTaxesCodeInput        `json:"code,omitzero"`
+	DisplayName UpdateColumnResourceTaxesDisplayNameInput `json:"displayName,omitzero"`
+	Id          UpdateColumnResourceTaxesIdInput          `json:"id,omitzero"`
+	OfferingId  UpdateColumnResourceTaxesOfferingIdInput  `json:"offeringId,omitzero"`
+	Percent     UpdateColumnResourceTaxesPercentInput     `json:"percent,omitzero"`
 }
 
 func (*UpdateResourceTaxesByIdUpdateColumnsInput) GetGraphQLType() string {

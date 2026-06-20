@@ -4,51 +4,52 @@ package stayconstraints
 
 import (
 	"context"
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/inputs"
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/schema"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/inputs"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/schema"
+	"github.com/oh-tarnished/generateql/runtime/go/param"
 	"github.com/oh-tarnished/generateql/runtime/go/runtime"
 )
 
 // ListParams holds the optional arguments for List.
 type ListParams struct {
-	Limit   *int
-	Offset  *int
-	OrderBy *[]inputs.ScheduleStayConstraintsOrderByExp
-	Where   *inputs.ScheduleStayConstraintsBoolExp
+	Limit   param.Opt[int]
+	Offset  param.Opt[int]
+	OrderBy []inputs.ScheduleStayConstraintsOrderByExp
+	Where   inputs.ScheduleStayConstraintsBoolExp
 }
 
 // AggregateParams holds the optional arguments for Aggregate.
 type AggregateParams struct {
-	FilterInput *inputs.ScheduleStayConstraintsFilterInput
+	FilterInput inputs.ScheduleStayConstraintsFilterInput
 }
 
 // DeleteByIdParams holds the optional arguments for DeleteById.
 type DeleteByIdParams struct {
-	PreCheck *inputs.ScheduleStayConstraintsBoolExp
+	PreCheck inputs.ScheduleStayConstraintsBoolExp
 }
 
 // InsertParams holds the optional arguments for Insert.
 type InsertParams struct {
-	PostCheck *inputs.ScheduleStayConstraintsBoolExp
+	PostCheck inputs.ScheduleStayConstraintsBoolExp
 }
 
 // UpdateByIdParams holds the optional arguments for UpdateById.
 type UpdateByIdParams struct {
-	PostCheck *inputs.ScheduleStayConstraintsBoolExp
-	PreCheck  *inputs.ScheduleStayConstraintsBoolExp
+	PostCheck inputs.ScheduleStayConstraintsBoolExp
+	PreCheck  inputs.ScheduleStayConstraintsBoolExp
 }
 
 // OnListParams holds the optional arguments for OnList.
 type OnListParams struct {
-	Limit   *int
-	Offset  *int
-	OrderBy *[]inputs.ScheduleStayConstraintsOrderByExp
-	Where   *inputs.ScheduleStayConstraintsBoolExp
+	Limit   param.Opt[int]
+	Offset  param.Opt[int]
+	OrderBy []inputs.ScheduleStayConstraintsOrderByExp
+	Where   inputs.ScheduleStayConstraintsBoolExp
 }
 
 // OnAggregateParams holds the optional arguments for OnAggregate.
 type OnAggregateParams struct {
-	FilterInput *inputs.ScheduleStayConstraintsFilterInput
+	FilterInput inputs.ScheduleStayConstraintsFilterInput
 }
 
 // QueryHandler runs ScheduleStayConstraints query operations.

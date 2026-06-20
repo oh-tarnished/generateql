@@ -3,25 +3,26 @@
 package inputs
 
 import (
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/enums"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/enums"
+	"github.com/oh-tarnished/generateql/runtime/go/param"
 )
 
 // ResourceOfferingsOrderByExp is the ResourceOfferingsOrderByExp input type.
 type ResourceOfferingsOrderByExp struct {
-	BookingMoney   *BookingMoneysOrderByExp  `json:"bookingMoney,omitempty"`
-	CreateTime     *enums.OrderBy            `json:"createTime,omitempty"`
-	Description    *enums.OrderBy            `json:"description,omitempty"`
-	DisplayName    *enums.OrderBy            `json:"displayName,omitempty"`
-	Duration       *enums.OrderBy            `json:"duration,omitempty"`
-	Etag           *enums.OrderBy            `json:"etag,omitempty"`
-	Id             *enums.OrderBy            `json:"id,omitempty"`
-	Name           *enums.OrderBy            `json:"name,omitempty"`
-	PriceId        *enums.OrderBy            `json:"priceId,omitempty"`
-	PricingUnit    *enums.OrderBy            `json:"pricingUnit,omitempty"`
-	ResourceEntity *ResourceEntityOrderByExp `json:"resourceEntity,omitempty"`
-	ResourceId     *enums.OrderBy            `json:"resourceId,omitempty"`
-	State          *enums.OrderBy            `json:"state,omitempty"`
-	UpdateTime     *enums.OrderBy            `json:"updateTime,omitempty"`
+	BookingMoney   BookingMoneysOrderByExp  `json:"bookingMoney,omitzero"`
+	CreateTime     param.Opt[enums.OrderBy] `json:"createTime,omitzero"`
+	Description    param.Opt[enums.OrderBy] `json:"description,omitzero"`
+	DisplayName    param.Opt[enums.OrderBy] `json:"displayName,omitzero"`
+	Duration       param.Opt[enums.OrderBy] `json:"duration,omitzero"`
+	Etag           param.Opt[enums.OrderBy] `json:"etag,omitzero"`
+	Id             param.Opt[enums.OrderBy] `json:"id,omitzero"`
+	Name           param.Opt[enums.OrderBy] `json:"name,omitzero"`
+	PriceId        param.Opt[enums.OrderBy] `json:"priceId,omitzero"`
+	PricingUnit    param.Opt[enums.OrderBy] `json:"pricingUnit,omitzero"`
+	ResourceEntity ResourceEntityOrderByExp `json:"resourceEntity,omitzero"`
+	ResourceId     param.Opt[enums.OrderBy] `json:"resourceId,omitzero"`
+	State          param.Opt[enums.OrderBy] `json:"state,omitzero"`
+	UpdateTime     param.Opt[enums.OrderBy] `json:"updateTime,omitzero"`
 }
 
 func (*ResourceOfferingsOrderByExp) GetGraphQLType() string { return "ResourceOfferingsOrderByExp" }

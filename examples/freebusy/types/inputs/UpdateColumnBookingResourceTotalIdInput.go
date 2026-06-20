@@ -2,9 +2,13 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // UpdateColumnBookingResourceTotalIdInput is the UpdateColumnBookingResourceTotalIdInput input type.
 type UpdateColumnBookingResourceTotalIdInput struct {
-	Set *string `json:"set,omitempty"`
+	Set param.Opt[string] `json:"set,omitzero"`
 }
 
 func (*UpdateColumnBookingResourceTotalIdInput) GetGraphQLType() string {

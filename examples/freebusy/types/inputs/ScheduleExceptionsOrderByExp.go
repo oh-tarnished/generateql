@@ -3,16 +3,17 @@
 package inputs
 
 import (
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/enums"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/enums"
+	"github.com/oh-tarnished/generateql/runtime/go/param"
 )
 
 // ScheduleExceptionsOrderByExp is the ScheduleExceptionsOrderByExp input type.
 type ScheduleExceptionsOrderByExp struct {
-	AvailabilityExceptionId       *enums.OrderBy                            `json:"availabilityExceptionId,omitempty"`
-	Id                            *enums.OrderBy                            `json:"id,omitempty"`
-	ScheduleAvailabilityException *ScheduleAvailabilityExceptionsOrderByExp `json:"scheduleAvailabilityException,omitempty"`
-	ScheduleId                    *enums.OrderBy                            `json:"scheduleId,omitempty"`
-	ScheduleResource              *ScheduleResourceOrderByExp               `json:"scheduleResource,omitempty"`
+	AvailabilityExceptionId       param.Opt[enums.OrderBy]                 `json:"availabilityExceptionId,omitzero"`
+	Id                            param.Opt[enums.OrderBy]                 `json:"id,omitzero"`
+	ScheduleAvailabilityException ScheduleAvailabilityExceptionsOrderByExp `json:"scheduleAvailabilityException,omitzero"`
+	ScheduleId                    param.Opt[enums.OrderBy]                 `json:"scheduleId,omitzero"`
+	ScheduleResource              ScheduleResourceOrderByExp               `json:"scheduleResource,omitzero"`
 }
 
 func (*ScheduleExceptionsOrderByExp) GetGraphQLType() string { return "ScheduleExceptionsOrderByExp" }

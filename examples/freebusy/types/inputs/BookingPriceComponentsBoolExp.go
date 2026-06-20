@@ -4,17 +4,17 @@ package inputs
 
 // BookingPriceComponentsBoolExp is the BookingPriceComponentsBoolExp input type.
 type BookingPriceComponentsBoolExp struct {
-	And             []BookingPriceComponentsBoolExp `json:"_and,omitempty"`
-	Not             *BookingPriceComponentsBoolExp  `json:"_not,omitempty"`
-	Or              []BookingPriceComponentsBoolExp `json:"_or,omitempty"`
-	AmountId        *TextBoolExp                    `json:"amountId,omitempty"`
-	BookingId       *TextBoolExp                    `json:"bookingId,omitempty"`
-	BookingMoney    *BookingMoneysBoolExp           `json:"bookingMoney,omitempty"`
-	BookingResource *BookingResourceBoolExp         `json:"bookingResource,omitempty"`
-	Code            *TextBoolExp                    `json:"code,omitempty"`
-	DisplayName     *TextBoolExp                    `json:"displayName,omitempty"`
-	Id              *TextBoolExp                    `json:"id,omitempty"`
-	Type            *BookingTypeBoolExp             `json:"type,omitempty"`
+	And             []BookingPriceComponentsBoolExp `json:"_and,omitzero"`
+	Not             BookingPriceComponentsBoolExp   `json:"_not,omitzero"`
+	Or              []BookingPriceComponentsBoolExp `json:"_or,omitzero"`
+	AmountId        TextBoolExp                     `json:"amountId,omitzero"`
+	BookingId       TextBoolExp                     `json:"bookingId,omitzero"`
+	BookingMoney    BookingMoneysBoolExp            `json:"bookingMoney,omitzero"`
+	BookingResource BookingResourceBoolExp          `json:"bookingResource,omitzero"`
+	Code            TextBoolExp                     `json:"code,omitzero"`
+	DisplayName     TextBoolExp                     `json:"displayName,omitzero"`
+	Id              TextBoolExp                     `json:"id,omitzero"`
+	Type            BookingTypeBoolExp              `json:"type,omitzero"`
 }
 
 func (*BookingPriceComponentsBoolExp) GetGraphQLType() string { return "BookingPriceComponentsBoolExp" }

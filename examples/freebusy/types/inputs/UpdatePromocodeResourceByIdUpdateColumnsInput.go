@@ -4,25 +4,25 @@ package inputs
 
 // UpdatePromocodeResourceByIdUpdateColumnsInput is the UpdatePromocodeResourceByIdUpdateColumnsInput input type.
 type UpdatePromocodeResourceByIdUpdateColumnsInput struct {
-	AmountOffId      *UpdateColumnPromocodeResourceAmountOffIdInput      `json:"amountOffId,omitempty"`
-	Code             *UpdateColumnPromocodeResourceCodeInput             `json:"code,omitempty"`
-	CreateTime       *UpdateColumnPromocodeResourceCreateTimeInput       `json:"createTime,omitempty"`
-	Description      *UpdateColumnPromocodeResourceDescriptionInput      `json:"description,omitempty"`
-	Disabled         *UpdateColumnPromocodeResourceDisabledInput         `json:"disabled,omitempty"`
-	DiscountType     *UpdateColumnPromocodeResourceDiscountTypeInput     `json:"discountType,omitempty"`
-	DisplayName      *UpdateColumnPromocodeResourceDisplayNameInput      `json:"displayName,omitempty"`
-	Etag             *UpdateColumnPromocodeResourceEtagInput             `json:"etag,omitempty"`
-	Id               *UpdateColumnPromocodeResourceIdInput               `json:"id,omitempty"`
-	MaxRedemptions   *UpdateColumnPromocodeResourceMaxRedemptionsInput   `json:"maxRedemptions,omitempty"`
-	MinSubtotalId    *UpdateColumnPromocodeResourceMinSubtotalIdInput    `json:"minSubtotalId,omitempty"`
-	Name             *UpdateColumnPromocodeResourceNameInput             `json:"name,omitempty"`
-	PerCustomerLimit *UpdateColumnPromocodeResourcePerCustomerLimitInput `json:"perCustomerLimit,omitempty"`
-	PercentOff       *UpdateColumnPromocodeResourcePercentOffInput       `json:"percentOff,omitempty"`
-	RedeemEndTime    *UpdateColumnPromocodeResourceRedeemEndTimeInput    `json:"redeemEndTime,omitempty"`
-	RedeemStartTime  *UpdateColumnPromocodeResourceRedeemStartTimeInput  `json:"redeemStartTime,omitempty"`
-	RedemptionCount  *UpdateColumnPromocodeResourceRedemptionCountInput  `json:"redemptionCount,omitempty"`
-	State            *UpdateColumnPromocodeResourceStateInput            `json:"state,omitempty"`
-	UpdateTime       *UpdateColumnPromocodeResourceUpdateTimeInput       `json:"updateTime,omitempty"`
+	AmountOffId      UpdateColumnPromocodeResourceAmountOffIdInput      `json:"amountOffId,omitzero"`
+	Code             UpdateColumnPromocodeResourceCodeInput             `json:"code,omitzero"`
+	CreateTime       UpdateColumnPromocodeResourceCreateTimeInput       `json:"createTime,omitzero"`
+	Description      UpdateColumnPromocodeResourceDescriptionInput      `json:"description,omitzero"`
+	Disabled         UpdateColumnPromocodeResourceDisabledInput         `json:"disabled,omitzero"`
+	DiscountType     UpdateColumnPromocodeResourceDiscountTypeInput     `json:"discountType,omitzero"`
+	DisplayName      UpdateColumnPromocodeResourceDisplayNameInput      `json:"displayName,omitzero"`
+	Etag             UpdateColumnPromocodeResourceEtagInput             `json:"etag,omitzero"`
+	Id               UpdateColumnPromocodeResourceIdInput               `json:"id,omitzero"`
+	MaxRedemptions   UpdateColumnPromocodeResourceMaxRedemptionsInput   `json:"maxRedemptions,omitzero"`
+	MinSubtotalId    UpdateColumnPromocodeResourceMinSubtotalIdInput    `json:"minSubtotalId,omitzero"`
+	Name             UpdateColumnPromocodeResourceNameInput             `json:"name,omitzero"`
+	PerCustomerLimit UpdateColumnPromocodeResourcePerCustomerLimitInput `json:"perCustomerLimit,omitzero"`
+	PercentOff       UpdateColumnPromocodeResourcePercentOffInput       `json:"percentOff,omitzero"`
+	RedeemEndTime    UpdateColumnPromocodeResourceRedeemEndTimeInput    `json:"redeemEndTime,omitzero"`
+	RedeemStartTime  UpdateColumnPromocodeResourceRedeemStartTimeInput  `json:"redeemStartTime,omitzero"`
+	RedemptionCount  UpdateColumnPromocodeResourceRedemptionCountInput  `json:"redemptionCount,omitzero"`
+	State            UpdateColumnPromocodeResourceStateInput            `json:"state,omitzero"`
+	UpdateTime       UpdateColumnPromocodeResourceUpdateTimeInput       `json:"updateTime,omitzero"`
 }
 
 func (*UpdatePromocodeResourceByIdUpdateColumnsInput) GetGraphQLType() string {

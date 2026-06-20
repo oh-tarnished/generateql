@@ -4,14 +4,15 @@ package inputs
 
 import (
 	"github.com/oh-tarnished/generateql/runtime/go/graphql"
+	"github.com/oh-tarnished/generateql/runtime/go/param"
 )
 
 // InsertBookingMoneysObjectInput is the InsertBookingMoneysObjectInput input type.
 type InsertBookingMoneysObjectInput struct {
-	CurrencyCode *string        `json:"currencyCode,omitempty"`
-	Id           string         `json:"id,omitempty"`
-	Nanos        *int32         `json:"nanos,omitempty"`
-	Units        *graphql.Int64 `json:"units,omitempty"`
+	CurrencyCode param.Opt[string]        `json:"currencyCode,omitzero"`
+	Id           string                   `json:"id"`
+	Nanos        param.Opt[int32]         `json:"nanos,omitzero"`
+	Units        param.Opt[graphql.Int64] `json:"units,omitzero"`
 }
 
 func (*InsertBookingMoneysObjectInput) GetGraphQLType() string {

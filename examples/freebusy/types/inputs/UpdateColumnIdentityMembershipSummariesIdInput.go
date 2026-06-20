@@ -4,7 +4,7 @@ package inputs
 
 // UpdateColumnIdentityMembershipSummariesIdInput is the UpdateColumnIdentityMembershipSummariesIdInput input type.
 type UpdateColumnIdentityMembershipSummariesIdInput struct {
-	Set string `json:"set,omitempty"`
+	Set string `json:"set"`
 }
 
 func (*UpdateColumnIdentityMembershipSummariesIdInput) GetGraphQLType() string {

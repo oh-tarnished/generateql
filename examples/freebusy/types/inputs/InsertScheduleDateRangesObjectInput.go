@@ -4,9 +4,9 @@ package inputs
 
 // InsertScheduleDateRangesObjectInput is the InsertScheduleDateRangesObjectInput input type.
 type InsertScheduleDateRangesObjectInput struct {
-	EndDate   string `json:"endDate,omitempty"`
-	Id        string `json:"id,omitempty"`
-	StartDate string `json:"startDate,omitempty"`
+	EndDate   string `json:"endDate"`
+	Id        string `json:"id"`
+	StartDate string `json:"startDate"`
 }
 
 func (*InsertScheduleDateRangesObjectInput) GetGraphQLType() string {

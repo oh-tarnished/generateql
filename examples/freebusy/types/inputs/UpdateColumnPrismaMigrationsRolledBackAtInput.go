@@ -2,9 +2,13 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // UpdateColumnPrismaMigrationsRolledBackAtInput is the UpdateColumnPrismaMigrationsRolledBackAtInput input type.
 type UpdateColumnPrismaMigrationsRolledBackAtInput struct {
-	Set *string `json:"set,omitempty"`
+	Set param.Opt[string] `json:"set,omitzero"`
 }
 
 func (*UpdateColumnPrismaMigrationsRolledBackAtInput) GetGraphQLType() string {

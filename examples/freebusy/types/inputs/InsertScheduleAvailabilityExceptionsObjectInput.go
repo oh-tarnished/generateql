@@ -2,17 +2,21 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // InsertScheduleAvailabilityExceptionsObjectInput is the InsertScheduleAvailabilityExceptionsObjectInput input type.
 type InsertScheduleAvailabilityExceptionsObjectInput struct {
-	CreateTime  *string `json:"createTime,omitempty"`
-	DateRangeId *string `json:"dateRangeId,omitempty"`
-	Id          string  `json:"id,omitempty"`
-	Kind        *string `json:"kind,omitempty"`
-	Name        string  `json:"name,omitempty"`
-	Reason      *string `json:"reason,omitempty"`
-	ResourceId  string  `json:"resourceId,omitempty"`
-	SpanCase    *string `json:"spanCase,omitempty"`
-	WindowId    *string `json:"windowId,omitempty"`
+	CreateTime  param.Opt[string] `json:"createTime,omitzero"`
+	DateRangeId param.Opt[string] `json:"dateRangeId,omitzero"`
+	Id          string            `json:"id"`
+	Kind        param.Opt[string] `json:"kind,omitzero"`
+	Name        string            `json:"name"`
+	Reason      param.Opt[string] `json:"reason,omitzero"`
+	ResourceId  string            `json:"resourceId"`
+	SpanCase    param.Opt[string] `json:"spanCase,omitzero"`
+	WindowId    param.Opt[string] `json:"windowId,omitzero"`
 }
 
 func (*InsertScheduleAvailabilityExceptionsObjectInput) GetGraphQLType() string {

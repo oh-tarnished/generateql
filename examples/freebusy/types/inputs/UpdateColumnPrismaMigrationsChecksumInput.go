@@ -4,7 +4,7 @@ package inputs
 
 // UpdateColumnPrismaMigrationsChecksumInput is the UpdateColumnPrismaMigrationsChecksumInput input type.
 type UpdateColumnPrismaMigrationsChecksumInput struct {
-	Set string `json:"set,omitempty"`
+	Set string `json:"set"`
 }
 
 func (*UpdateColumnPrismaMigrationsChecksumInput) GetGraphQLType() string {

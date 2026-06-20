@@ -4,7 +4,7 @@ package inputs
 
 // UpdateColumnResourceEntityTimeZoneInput is the UpdateColumnResourceEntityTimeZoneInput input type.
 type UpdateColumnResourceEntityTimeZoneInput struct {
-	Set string `json:"set,omitempty"`
+	Set string `json:"set"`
 }
 
 func (*UpdateColumnResourceEntityTimeZoneInput) GetGraphQLType() string {

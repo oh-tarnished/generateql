@@ -2,16 +2,20 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // InsertPrismaMigrationsObjectInput is the InsertPrismaMigrationsObjectInput input type.
 type InsertPrismaMigrationsObjectInput struct {
-	AppliedStepsCount *int32  `json:"appliedStepsCount,omitempty"`
-	Checksum          string  `json:"checksum,omitempty"`
-	FinishedAt        *string `json:"finishedAt,omitempty"`
-	Id                string  `json:"id,omitempty"`
-	Logs              *string `json:"logs,omitempty"`
-	MigrationName     string  `json:"migrationName,omitempty"`
-	RolledBackAt      *string `json:"rolledBackAt,omitempty"`
-	StartedAt         *string `json:"startedAt,omitempty"`
+	AppliedStepsCount param.Opt[int32]  `json:"appliedStepsCount,omitzero"`
+	Checksum          string            `json:"checksum"`
+	FinishedAt        param.Opt[string] `json:"finishedAt,omitzero"`
+	Id                string            `json:"id"`
+	Logs              param.Opt[string] `json:"logs,omitzero"`
+	MigrationName     string            `json:"migrationName"`
+	RolledBackAt      param.Opt[string] `json:"rolledBackAt,omitzero"`
+	StartedAt         param.Opt[string] `json:"startedAt,omitzero"`
 }
 
 func (*InsertPrismaMigrationsObjectInput) GetGraphQLType() string {

@@ -3,7 +3,7 @@
 package prisma
 
 import (
-	"github.com/oh-tarnished/generateql/examples/freebusy/prisma/migrations"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/prisma/migrations"
 	"github.com/oh-tarnished/generateql/runtime/go/runtime"
 )
 

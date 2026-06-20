@@ -4,10 +4,10 @@ package inputs
 
 // InsertScheduleRefundTiersObjectInput is the InsertScheduleRefundTiersObjectInput input type.
 type InsertScheduleRefundTiersObjectInput struct {
-	CancellationPolicyId string `json:"cancellationPolicyId,omitempty"`
-	Cutoff               string `json:"cutoff,omitempty"`
-	Id                   string `json:"id,omitempty"`
-	RefundPercent        int32  `json:"refundPercent,omitempty"`
+	CancellationPolicyId string `json:"cancellationPolicyId"`
+	Cutoff               string `json:"cutoff"`
+	Id                   string `json:"id"`
+	RefundPercent        int32  `json:"refundPercent"`
 }
 
 func (*InsertScheduleRefundTiersObjectInput) GetGraphQLType() string {

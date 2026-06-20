@@ -2,14 +2,18 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // InsertScheduleResourceObjectInput is the InsertScheduleResourceObjectInput input type.
 type InsertScheduleResourceObjectInput struct {
-	BuffersId            *string `json:"buffersId,omitempty"`
-	CancellationPolicyId *string `json:"cancellationPolicyId,omitempty"`
-	Etag                 *string `json:"etag,omitempty"`
-	Id                   string  `json:"id,omitempty"`
-	Name                 string  `json:"name,omitempty"`
-	StayConstraintsId    *string `json:"stayConstraintsId,omitempty"`
+	BuffersId            param.Opt[string] `json:"buffersId,omitzero"`
+	CancellationPolicyId param.Opt[string] `json:"cancellationPolicyId,omitzero"`
+	Etag                 param.Opt[string] `json:"etag,omitzero"`
+	Id                   string            `json:"id"`
+	Name                 string            `json:"name"`
+	StayConstraintsId    param.Opt[string] `json:"stayConstraintsId,omitzero"`
 }
 
 func (*InsertScheduleResourceObjectInput) GetGraphQLType() string {

@@ -4,7 +4,7 @@ package inputs
 
 // UpdateColumnResourceTaxesPercentInput is the UpdateColumnResourceTaxesPercentInput input type.
 type UpdateColumnResourceTaxesPercentInput struct {
-	Set float64 `json:"set,omitempty"`
+	Set float64 `json:"set"`
 }
 
 func (*UpdateColumnResourceTaxesPercentInput) GetGraphQLType() string {

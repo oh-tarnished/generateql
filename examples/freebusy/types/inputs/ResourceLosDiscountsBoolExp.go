@@ -4,16 +4,16 @@ package inputs
 
 // ResourceLosDiscountsBoolExp is the ResourceLosDiscountsBoolExp input type.
 type ResourceLosDiscountsBoolExp struct {
-	And              []ResourceLosDiscountsBoolExp `json:"_and,omitempty"`
-	Not              *ResourceLosDiscountsBoolExp  `json:"_not,omitempty"`
-	Or               []ResourceLosDiscountsBoolExp `json:"_or,omitempty"`
-	AmountOffId      *TextBoolExp                  `json:"amountOffId,omitempty"`
-	BookingMoney     *BookingMoneysBoolExp         `json:"bookingMoney,omitempty"`
-	Id               *TextBoolExp                  `json:"id,omitempty"`
-	MinNights        *Int4BoolExp                  `json:"minNights,omitempty"`
-	OfferingId       *TextBoolExp                  `json:"offeringId,omitempty"`
-	PercentOff       *Int4BoolExp                  `json:"percentOff,omitempty"`
-	ResourceOffering *ResourceOfferingsBoolExp     `json:"resourceOffering,omitempty"`
+	And              []ResourceLosDiscountsBoolExp `json:"_and,omitzero"`
+	Not              ResourceLosDiscountsBoolExp   `json:"_not,omitzero"`
+	Or               []ResourceLosDiscountsBoolExp `json:"_or,omitzero"`
+	AmountOffId      TextBoolExp                   `json:"amountOffId,omitzero"`
+	BookingMoney     BookingMoneysBoolExp          `json:"bookingMoney,omitzero"`
+	Id               TextBoolExp                   `json:"id,omitzero"`
+	MinNights        Int4BoolExp                   `json:"minNights,omitzero"`
+	OfferingId       TextBoolExp                   `json:"offeringId,omitzero"`
+	PercentOff       Int4BoolExp                   `json:"percentOff,omitzero"`
+	ResourceOffering ResourceOfferingsBoolExp      `json:"resourceOffering,omitzero"`
 }
 
 func (*ResourceLosDiscountsBoolExp) GetGraphQLType() string { return "ResourceLosDiscountsBoolExp" }

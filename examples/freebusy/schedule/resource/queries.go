@@ -4,8 +4,9 @@ package resource
 
 import (
 	"context"
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/schema"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/schema"
 	"github.com/oh-tarnished/generateql/runtime/go/graphql"
+	"github.com/oh-tarnished/generateql/runtime/go/param"
 	"github.com/oh-tarnished/generateql/runtime/go/runtime"
 )
 
@@ -16,16 +17,16 @@ type queryHandler struct {
 func (h *queryHandler) List(ctx context.Context, params ListParams) ([]schema.ScheduleResource, error) {
 	var out []schema.ScheduleResource
 	args := map[string]any{}
-	if params.Limit != nil {
-		args["limit"] = graphql.VarPtr(params.Limit, "Int")
+	if params.Limit.IsPresent() {
+		args["limit"] = graphql.VarPtr(params.Limit.Value(), "Int")
 	}
-	if params.Offset != nil {
-		args["offset"] = graphql.VarPtr(params.Offset, "Int")
+	if params.Offset.IsPresent() {
+		args["offset"] = graphql.VarPtr(params.Offset.Value(), "Int")
 	}
-	if params.OrderBy != nil {
+	if !param.IsOmitted(params.OrderBy) {
 		args["order_by"] = graphql.VarPtr(params.OrderBy, "[ScheduleResourceOrderByExp!]")
 	}
-	if params.Where != nil {
+	if !param.IsOmitted(params.Where) {
 		args["where"] = graphql.VarPtr(params.Where, "ScheduleResourceBoolExp")
 	}
 	res := <-h.gql.QueryFields("scheduleResource", &out, args)
@@ -35,7 +36,7 @@ func (h *queryHandler) List(ctx context.Context, params ListParams) ([]schema.Sc
 func (h *queryHandler) Aggregate(ctx context.Context, params AggregateParams) (*schema.ScheduleResourceAggExp, error) {
 	var out *schema.ScheduleResourceAggExp
 	args := map[string]any{}
-	if params.FilterInput != nil {
+	if !param.IsOmitted(params.FilterInput) {
 		args["filter_input"] = graphql.VarPtr(params.FilterInput, "ScheduleResourceFilterInput")
 	}
 	res := <-h.gql.QueryFields("scheduleResourceAggregate", &out, args)

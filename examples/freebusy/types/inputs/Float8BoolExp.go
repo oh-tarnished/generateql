@@ -2,19 +2,23 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // Float8BoolExp is the Float8BoolExp input type.
 type Float8BoolExp struct {
-	And    []Float8BoolExp `json:"_and,omitempty"`
-	Eq     *float64        `json:"_eq,omitempty"`
-	Gt     *float64        `json:"_gt,omitempty"`
-	Gte    *float64        `json:"_gte,omitempty"`
-	In     []float64       `json:"_in,omitempty"`
-	IsNull *bool           `json:"_is_null,omitempty"`
-	Lt     *float64        `json:"_lt,omitempty"`
-	Lte    *float64        `json:"_lte,omitempty"`
-	Neq    *float64        `json:"_neq,omitempty"`
-	Not    *Float8BoolExp  `json:"_not,omitempty"`
-	Or     []Float8BoolExp `json:"_or,omitempty"`
+	And    []Float8BoolExp    `json:"_and,omitzero"`
+	Eq     param.Opt[float64] `json:"_eq,omitzero"`
+	Gt     param.Opt[float64] `json:"_gt,omitzero"`
+	Gte    param.Opt[float64] `json:"_gte,omitzero"`
+	In     []float64          `json:"_in,omitzero"`
+	IsNull param.Opt[bool]    `json:"_is_null,omitzero"`
+	Lt     param.Opt[float64] `json:"_lt,omitzero"`
+	Lte    param.Opt[float64] `json:"_lte,omitzero"`
+	Neq    param.Opt[float64] `json:"_neq,omitzero"`
+	Not    Float8BoolExp      `json:"_not,omitzero"`
+	Or     []Float8BoolExp    `json:"_or,omitzero"`
 }
 
 func (*Float8BoolExp) GetGraphQLType() string { return "Float8BoolExp" }

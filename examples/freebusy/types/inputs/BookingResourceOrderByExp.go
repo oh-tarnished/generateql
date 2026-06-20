@@ -3,47 +3,48 @@
 package inputs
 
 import (
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/enums"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/enums"
+	"github.com/oh-tarnished/generateql/runtime/go/param"
 )
 
 // BookingResourceOrderByExp is the BookingResourceOrderByExp input type.
 type BookingResourceOrderByExp struct {
-	AssignedUnit                 *enums.OrderBy                `json:"assignedUnit,omitempty"`
-	Attributes                   *enums.OrderBy                `json:"attributes,omitempty"`
-	BookingContact               *BookingContactsOrderByExp    `json:"bookingContact,omitempty"`
-	BookingMoney                 *BookingMoneysOrderByExp      `json:"bookingMoney,omitempty"`
-	BookingMoneyByPriceId        *BookingMoneysOrderByExp      `json:"bookingMoneyByPriceId,omitempty"`
-	BookingMoneyByRefundAmountId *BookingMoneysOrderByExp      `json:"bookingMoneyByRefundAmountId,omitempty"`
-	BookingMoneyByTotalId        *BookingMoneysOrderByExp      `json:"bookingMoneyByTotalId,omitempty"`
-	BookingTimeWindow            *BookingTimeWindowsOrderByExp `json:"bookingTimeWindow,omitempty"`
-	CancelReason                 *enums.OrderBy                `json:"cancelReason,omitempty"`
-	CancelTime                   *enums.OrderBy                `json:"cancelTime,omitempty"`
-	ConfirmTime                  *enums.OrderBy                `json:"confirmTime,omitempty"`
-	ContactId                    *enums.OrderBy                `json:"contactId,omitempty"`
-	CreateTime                   *enums.OrderBy                `json:"createTime,omitempty"`
-	Customer                     *enums.OrderBy                `json:"customer,omitempty"`
-	DiscountId                   *enums.OrderBy                `json:"discountId,omitempty"`
-	Etag                         *enums.OrderBy                `json:"etag,omitempty"`
-	HoldExpireTime               *enums.OrderBy                `json:"holdExpireTime,omitempty"`
-	HoldTtl                      *enums.OrderBy                `json:"holdTtl,omitempty"`
-	Id                           *enums.OrderBy                `json:"id,omitempty"`
-	IdentityUser                 *IdentityUsersOrderByExp      `json:"identityUser,omitempty"`
-	Name                         *enums.OrderBy                `json:"name,omitempty"`
-	Notes                        *enums.OrderBy                `json:"notes,omitempty"`
-	Offering                     *enums.OrderBy                `json:"offering,omitempty"`
-	PriceId                      *enums.OrderBy                `json:"priceId,omitempty"`
-	PromoCode                    *enums.OrderBy                `json:"promoCode,omitempty"`
-	PromocodeResource            *PromocodeResourceOrderByExp  `json:"promocodeResource,omitempty"`
-	RefundAmountId               *enums.OrderBy                `json:"refundAmountId,omitempty"`
-	RefundPercent                *enums.OrderBy                `json:"refundPercent,omitempty"`
-	Resource                     *enums.OrderBy                `json:"resource,omitempty"`
-	ResourceEntity               *ResourceEntityOrderByExp     `json:"resourceEntity,omitempty"`
-	ResourceOffering             *ResourceOfferingsOrderByExp  `json:"resourceOffering,omitempty"`
-	State                        *enums.OrderBy                `json:"state,omitempty"`
-	TotalId                      *enums.OrderBy                `json:"totalId,omitempty"`
-	Units                        *enums.OrderBy                `json:"units,omitempty"`
-	UpdateTime                   *enums.OrderBy                `json:"updateTime,omitempty"`
-	WindowId                     *enums.OrderBy                `json:"windowId,omitempty"`
+	AssignedUnit                 param.Opt[enums.OrderBy]     `json:"assignedUnit,omitzero"`
+	Attributes                   param.Opt[enums.OrderBy]     `json:"attributes,omitzero"`
+	BookingContact               BookingContactsOrderByExp    `json:"bookingContact,omitzero"`
+	BookingMoney                 BookingMoneysOrderByExp      `json:"bookingMoney,omitzero"`
+	BookingMoneyByPriceId        BookingMoneysOrderByExp      `json:"bookingMoneyByPriceId,omitzero"`
+	BookingMoneyByRefundAmountId BookingMoneysOrderByExp      `json:"bookingMoneyByRefundAmountId,omitzero"`
+	BookingMoneyByTotalId        BookingMoneysOrderByExp      `json:"bookingMoneyByTotalId,omitzero"`
+	BookingTimeWindow            BookingTimeWindowsOrderByExp `json:"bookingTimeWindow,omitzero"`
+	CancelReason                 param.Opt[enums.OrderBy]     `json:"cancelReason,omitzero"`
+	CancelTime                   param.Opt[enums.OrderBy]     `json:"cancelTime,omitzero"`
+	ConfirmTime                  param.Opt[enums.OrderBy]     `json:"confirmTime,omitzero"`
+	ContactId                    param.Opt[enums.OrderBy]     `json:"contactId,omitzero"`
+	CreateTime                   param.Opt[enums.OrderBy]     `json:"createTime,omitzero"`
+	Customer                     param.Opt[enums.OrderBy]     `json:"customer,omitzero"`
+	DiscountId                   param.Opt[enums.OrderBy]     `json:"discountId,omitzero"`
+	Etag                         param.Opt[enums.OrderBy]     `json:"etag,omitzero"`
+	HoldExpireTime               param.Opt[enums.OrderBy]     `json:"holdExpireTime,omitzero"`
+	HoldTtl                      param.Opt[enums.OrderBy]     `json:"holdTtl,omitzero"`
+	Id                           param.Opt[enums.OrderBy]     `json:"id,omitzero"`
+	IdentityUser                 IdentityUsersOrderByExp      `json:"identityUser,omitzero"`
+	Name                         param.Opt[enums.OrderBy]     `json:"name,omitzero"`
+	Notes                        param.Opt[enums.OrderBy]     `json:"notes,omitzero"`
+	Offering                     param.Opt[enums.OrderBy]     `json:"offering,omitzero"`
+	PriceId                      param.Opt[enums.OrderBy]     `json:"priceId,omitzero"`
+	PromoCode                    param.Opt[enums.OrderBy]     `json:"promoCode,omitzero"`
+	PromocodeResource            PromocodeResourceOrderByExp  `json:"promocodeResource,omitzero"`
+	RefundAmountId               param.Opt[enums.OrderBy]     `json:"refundAmountId,omitzero"`
+	RefundPercent                param.Opt[enums.OrderBy]     `json:"refundPercent,omitzero"`
+	Resource                     param.Opt[enums.OrderBy]     `json:"resource,omitzero"`
+	ResourceEntity               ResourceEntityOrderByExp     `json:"resourceEntity,omitzero"`
+	ResourceOffering             ResourceOfferingsOrderByExp  `json:"resourceOffering,omitzero"`
+	State                        param.Opt[enums.OrderBy]     `json:"state,omitzero"`
+	TotalId                      param.Opt[enums.OrderBy]     `json:"totalId,omitzero"`
+	Units                        param.Opt[enums.OrderBy]     `json:"units,omitzero"`
+	UpdateTime                   param.Opt[enums.OrderBy]     `json:"updateTime,omitzero"`
+	WindowId                     param.Opt[enums.OrderBy]     `json:"windowId,omitzero"`
 }
 
 func (*BookingResourceOrderByExp) GetGraphQLType() string { return "BookingResourceOrderByExp" }

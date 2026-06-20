@@ -4,9 +4,9 @@ package inputs
 
 // InsertBookingTimeWindowsObjectInput is the InsertBookingTimeWindowsObjectInput input type.
 type InsertBookingTimeWindowsObjectInput struct {
-	EndTime   string `json:"endTime,omitempty"`
-	Id        string `json:"id,omitempty"`
-	StartTime string `json:"startTime,omitempty"`
+	EndTime   string `json:"endTime"`
+	Id        string `json:"id"`
+	StartTime string `json:"startTime"`
 }
 
 func (*InsertBookingTimeWindowsObjectInput) GetGraphQLType() string {

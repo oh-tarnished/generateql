@@ -4,7 +4,7 @@ package inputs
 
 // UpdateColumnBookingResourceCreateTimeInput is the UpdateColumnBookingResourceCreateTimeInput input type.
 type UpdateColumnBookingResourceCreateTimeInput struct {
-	Set string `json:"set,omitempty"`
+	Set string `json:"set"`
 }
 
 func (*UpdateColumnBookingResourceCreateTimeInput) GetGraphQLType() string {

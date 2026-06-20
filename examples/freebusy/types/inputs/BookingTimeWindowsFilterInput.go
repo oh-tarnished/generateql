@@ -2,12 +2,16 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // BookingTimeWindowsFilterInput is the BookingTimeWindowsFilterInput input type.
 type BookingTimeWindowsFilterInput struct {
-	Limit   *int                           `json:"limit,omitempty"`
-	Offset  *int                           `json:"offset,omitempty"`
-	OrderBy []BookingTimeWindowsOrderByExp `json:"order_by,omitempty"`
-	Where   *BookingTimeWindowsBoolExp     `json:"where,omitempty"`
+	Limit   param.Opt[int]                 `json:"limit,omitzero"`
+	Offset  param.Opt[int]                 `json:"offset,omitzero"`
+	OrderBy []BookingTimeWindowsOrderByExp `json:"order_by,omitzero"`
+	Where   BookingTimeWindowsBoolExp      `json:"where,omitzero"`
 }
 
 func (*BookingTimeWindowsFilterInput) GetGraphQLType() string { return "BookingTimeWindowsFilterInput" }

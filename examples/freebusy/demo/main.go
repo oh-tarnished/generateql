@@ -6,6 +6,9 @@
 //
 // The subscription is filtered to the row this demo creates, so its result set goes
 // 0 -> 1 (insert) -> 1 (update) -> 0 (delete) as the operations run.
+//
+// Note how inputs are built without a single pointer: optional fields take values via
+// freebusyql.String / freebusyql.Opt, and nested filters are plain struct values.
 package main
 
 import (
@@ -15,16 +18,14 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/oh-tarnished/generateql/examples/freebusy"
-	"github.com/oh-tarnished/generateql/examples/freebusy/organisation/resource"
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/inputs"
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/schema"
-	"github.com/oh-tarnished/generateql/runtime/go/graphql"
-	"github.com/oh-tarnished/generateql/runtime/go/runtime"
+	"github.com/oh-tarnished/generateql/examples/freebusyql"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/booking/resource"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/inputs"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/schema"
 )
 
 func main() {
-	svc, err := freebusy.NewFromURL("http://localhost:3280/graphql", nil)
+	svc, err := freebusyql.NewFromURL("http://localhost:3280/graphql", nil)
 	must("connect", err)
 
 	ctx := context.Background()
@@ -32,14 +33,12 @@ func main() {
 	m := svc.Mutation.Organisation.Resource
 
 	id := uuid.New().String()
-	whereID := func() *inputs.OrganisationResourceBoolExp {
-		return graphql.Ptr(inputs.OrganisationResourceBoolExp{
-			Id: &inputs.TextBoolExp{Eq: graphql.String(id)},
-		})
+	where := inputs.OrganisationResourceBoolExp{
+		Id: inputs.TextBoolExp{Eq: freebusyql.String(id)},
 	}
 
 	// ── SUBSCRIBE (live query filtered to this row) ──────────────────────────
-	if sub, err := svc.Subscription.Organisation.Resource.OnList(ctx, resource.OnListParams{Where: whereID()}); err != nil {
+	if sub, err := svc.Subscription.Organisation.Resource.OnList(ctx, resource.OnListParams{Where: where}); err != nil {
 		fmt.Println("SUBSCRIBE  skipped:", err)
 	} else {
 		defer sub.Stop()
@@ -52,8 +51,8 @@ func main() {
 		Id:           id,
 		DisplayName:  "BoB the Builder",
 		Name:         "organisations/" + id,
-		BillingEmail: graphql.String("bob@construction.com"),
-		MemberCount:  graphql.Ptr(graphql.Int64(2)),
+		BillingEmail: freebusyql.String("bob@construction.com"),
+		MemberCount:  freebusyql.Opt(freebusyql.Int64(2)),
 		UpdateTime:   time.Now().UTC().Format(time.RFC3339),
 	}}, resource.InsertParams{})
 	must("insert", err)
@@ -66,7 +65,7 @@ func main() {
 	fmt.Printf("BY_ID      displayName=%q  memberCount=%d\n", row.DisplayName, int64Of(row.MemberCount))
 
 	// ── QUERY: List (filtered) ───────────────────────────────────────────────
-	list, err := q.List(ctx, resource.ListParams{Where: whereID(), Limit: graphql.Int(10)})
+	list, err := q.List(ctx, resource.ListParams{Where: where, Limit: freebusyql.Int(10)})
 	must("list", err)
 	fmt.Printf("LIST       matched=%d\n", len(list))
 
@@ -77,7 +76,7 @@ func main() {
 
 	// ── UPDATE ───────────────────────────────────────────────────────────────
 	upd, err := m.UpdateById(ctx, id, inputs.UpdateOrganisationResourceByIdUpdateColumnsInput{
-		DisplayName: &inputs.UpdateColumnOrganisationResourceDisplayNameInput{Set: "BoB (updated)"},
+		DisplayName: inputs.UpdateColumnOrganisationResourceDisplayNameInput{Set: "BoB (updated)"},
 	}, resource.UpdateByIdParams{})
 	must("update", err)
 	newName := ""
@@ -96,7 +95,7 @@ func main() {
 
 // observe prints each subscription message (the live result-set size) until the
 // stream closes or errors.
-func observe(sub *runtime.Subscription) {
+func observe(sub *freebusyql.Subscription) {
 	for res := range sub.Updates() {
 		if res.Error != nil {
 			fmt.Println("SUBSCRIBE  error:", res.Error)
@@ -108,7 +107,7 @@ func observe(sub *runtime.Subscription) {
 	}
 }
 
-func int64Of(p *graphql.Int64) int64 {
+func int64Of(p *freebusyql.Int64) int64 {
 	if p == nil {
 		return 0
 	}

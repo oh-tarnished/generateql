@@ -2,9 +2,13 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // UpdateColumnResourceOfferingsDurationInput is the UpdateColumnResourceOfferingsDurationInput input type.
 type UpdateColumnResourceOfferingsDurationInput struct {
-	Set *string `json:"set,omitempty"`
+	Set param.Opt[string] `json:"set,omitzero"`
 }
 
 func (*UpdateColumnResourceOfferingsDurationInput) GetGraphQLType() string {

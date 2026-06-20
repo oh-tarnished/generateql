@@ -3,14 +3,15 @@
 package inputs
 
 import (
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/enums"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/enums"
+	"github.com/oh-tarnished/generateql/runtime/go/param"
 )
 
 // ScheduleDateRangesOrderByExp is the ScheduleDateRangesOrderByExp input type.
 type ScheduleDateRangesOrderByExp struct {
-	EndDate   *enums.OrderBy `json:"endDate,omitempty"`
-	Id        *enums.OrderBy `json:"id,omitempty"`
-	StartDate *enums.OrderBy `json:"startDate,omitempty"`
+	EndDate   param.Opt[enums.OrderBy] `json:"endDate,omitzero"`
+	Id        param.Opt[enums.OrderBy] `json:"id,omitzero"`
+	StartDate param.Opt[enums.OrderBy] `json:"startDate,omitzero"`
 }
 
 func (*ScheduleDateRangesOrderByExp) GetGraphQLType() string { return "ScheduleDateRangesOrderByExp" }

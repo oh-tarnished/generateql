@@ -3,16 +3,17 @@
 package inputs
 
 import (
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/enums"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/enums"
+	"github.com/oh-tarnished/generateql/runtime/go/param"
 )
 
 // PromocodeApplicableOfferingsOrderByExp is the PromocodeApplicableOfferingsOrderByExp input type.
 type PromocodeApplicableOfferingsOrderByExp struct {
-	Id                *enums.OrderBy               `json:"id,omitempty"`
-	OfferingId        *enums.OrderBy               `json:"offeringId,omitempty"`
-	PromoCodeId       *enums.OrderBy               `json:"promoCodeId,omitempty"`
-	PromocodeResource *PromocodeResourceOrderByExp `json:"promocodeResource,omitempty"`
-	ResourceOffering  *ResourceOfferingsOrderByExp `json:"resourceOffering,omitempty"`
+	Id                param.Opt[enums.OrderBy]    `json:"id,omitzero"`
+	OfferingId        param.Opt[enums.OrderBy]    `json:"offeringId,omitzero"`
+	PromoCodeId       param.Opt[enums.OrderBy]    `json:"promoCodeId,omitzero"`
+	PromocodeResource PromocodeResourceOrderByExp `json:"promocodeResource,omitzero"`
+	ResourceOffering  ResourceOfferingsOrderByExp `json:"resourceOffering,omitzero"`
 }
 
 func (*PromocodeApplicableOfferingsOrderByExp) GetGraphQLType() string {

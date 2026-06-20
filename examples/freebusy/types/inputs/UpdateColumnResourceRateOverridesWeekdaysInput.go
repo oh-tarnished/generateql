@@ -4,7 +4,7 @@ package inputs
 
 // UpdateColumnResourceRateOverridesWeekdaysInput is the UpdateColumnResourceRateOverridesWeekdaysInput input type.
 type UpdateColumnResourceRateOverridesWeekdaysInput struct {
-	Set []*string `json:"set,omitempty"`
+	Set []*string `json:"set,omitzero"`
 }
 
 func (*UpdateColumnResourceRateOverridesWeekdaysInput) GetGraphQLType() string {

@@ -2,9 +2,13 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // UpdateColumnResourceEntityCapacityInput is the UpdateColumnResourceEntityCapacityInput input type.
 type UpdateColumnResourceEntityCapacityInput struct {
-	Set *int32 `json:"set,omitempty"`
+	Set param.Opt[int32] `json:"set,omitzero"`
 }
 
 func (*UpdateColumnResourceEntityCapacityInput) GetGraphQLType() string {

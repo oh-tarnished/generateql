@@ -4,51 +4,52 @@ package members
 
 import (
 	"context"
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/inputs"
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/schema"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/inputs"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/schema"
+	"github.com/oh-tarnished/generateql/runtime/go/param"
 	"github.com/oh-tarnished/generateql/runtime/go/runtime"
 )
 
 // ListParams holds the optional arguments for List.
 type ListParams struct {
-	Limit   *int
-	Offset  *int
-	OrderBy *[]inputs.OrganisationMembersOrderByExp
-	Where   *inputs.OrganisationMembersBoolExp
+	Limit   param.Opt[int]
+	Offset  param.Opt[int]
+	OrderBy []inputs.OrganisationMembersOrderByExp
+	Where   inputs.OrganisationMembersBoolExp
 }
 
 // AggregateParams holds the optional arguments for Aggregate.
 type AggregateParams struct {
-	FilterInput *inputs.OrganisationMembersFilterInput
+	FilterInput inputs.OrganisationMembersFilterInput
 }
 
 // DeleteByIdParams holds the optional arguments for DeleteById.
 type DeleteByIdParams struct {
-	PreCheck *inputs.OrganisationMembersBoolExp
+	PreCheck inputs.OrganisationMembersBoolExp
 }
 
 // InsertParams holds the optional arguments for Insert.
 type InsertParams struct {
-	PostCheck *inputs.OrganisationMembersBoolExp
+	PostCheck inputs.OrganisationMembersBoolExp
 }
 
 // UpdateByIdParams holds the optional arguments for UpdateById.
 type UpdateByIdParams struct {
-	PostCheck *inputs.OrganisationMembersBoolExp
-	PreCheck  *inputs.OrganisationMembersBoolExp
+	PostCheck inputs.OrganisationMembersBoolExp
+	PreCheck  inputs.OrganisationMembersBoolExp
 }
 
 // OnListParams holds the optional arguments for OnList.
 type OnListParams struct {
-	Limit   *int
-	Offset  *int
-	OrderBy *[]inputs.OrganisationMembersOrderByExp
-	Where   *inputs.OrganisationMembersBoolExp
+	Limit   param.Opt[int]
+	Offset  param.Opt[int]
+	OrderBy []inputs.OrganisationMembersOrderByExp
+	Where   inputs.OrganisationMembersBoolExp
 }
 
 // OnAggregateParams holds the optional arguments for OnAggregate.
 type OnAggregateParams struct {
-	FilterInput *inputs.OrganisationMembersFilterInput
+	FilterInput inputs.OrganisationMembersFilterInput
 }
 
 // QueryHandler runs OrganisationMembers query operations.

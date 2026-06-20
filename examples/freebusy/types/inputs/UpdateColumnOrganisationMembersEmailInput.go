@@ -4,7 +4,7 @@ package inputs
 
 // UpdateColumnOrganisationMembersEmailInput is the UpdateColumnOrganisationMembersEmailInput input type.
 type UpdateColumnOrganisationMembersEmailInput struct {
-	Set string `json:"set,omitempty"`
+	Set string `json:"set"`
 }
 
 func (*UpdateColumnOrganisationMembersEmailInput) GetGraphQLType() string {

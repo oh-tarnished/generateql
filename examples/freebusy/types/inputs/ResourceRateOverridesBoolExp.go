@@ -4,16 +4,16 @@ package inputs
 
 // ResourceRateOverridesBoolExp is the ResourceRateOverridesBoolExp input type.
 type ResourceRateOverridesBoolExp struct {
-	And               []ResourceRateOverridesBoolExp `json:"_and,omitempty"`
-	Not               *ResourceRateOverridesBoolExp  `json:"_not,omitempty"`
-	Or                []ResourceRateOverridesBoolExp `json:"_or,omitempty"`
-	BookingMoney      *BookingMoneysBoolExp          `json:"bookingMoney,omitempty"`
-	DateRangeId       *TextBoolExp                   `json:"dateRangeId,omitempty"`
-	Id                *TextBoolExp                   `json:"id,omitempty"`
-	OfferingId        *TextBoolExp                   `json:"offeringId,omitempty"`
-	PriceId           *TextBoolExp                   `json:"priceId,omitempty"`
-	ResourceOffering  *ResourceOfferingsBoolExp      `json:"resourceOffering,omitempty"`
-	ScheduleDateRange *ScheduleDateRangesBoolExp     `json:"scheduleDateRange,omitempty"`
+	And               []ResourceRateOverridesBoolExp `json:"_and,omitzero"`
+	Not               ResourceRateOverridesBoolExp   `json:"_not,omitzero"`
+	Or                []ResourceRateOverridesBoolExp `json:"_or,omitzero"`
+	BookingMoney      BookingMoneysBoolExp           `json:"bookingMoney,omitzero"`
+	DateRangeId       TextBoolExp                    `json:"dateRangeId,omitzero"`
+	Id                TextBoolExp                    `json:"id,omitzero"`
+	OfferingId        TextBoolExp                    `json:"offeringId,omitzero"`
+	PriceId           TextBoolExp                    `json:"priceId,omitzero"`
+	ResourceOffering  ResourceOfferingsBoolExp       `json:"resourceOffering,omitzero"`
+	ScheduleDateRange ScheduleDateRangesBoolExp      `json:"scheduleDateRange,omitzero"`
 }
 
 func (*ResourceRateOverridesBoolExp) GetGraphQLType() string { return "ResourceRateOverridesBoolExp" }

@@ -2,12 +2,16 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // OrganisationMembersFilterInput is the OrganisationMembersFilterInput input type.
 type OrganisationMembersFilterInput struct {
-	Limit   *int                            `json:"limit,omitempty"`
-	Offset  *int                            `json:"offset,omitempty"`
-	OrderBy []OrganisationMembersOrderByExp `json:"order_by,omitempty"`
-	Where   *OrganisationMembersBoolExp     `json:"where,omitempty"`
+	Limit   param.Opt[int]                  `json:"limit,omitzero"`
+	Offset  param.Opt[int]                  `json:"offset,omitzero"`
+	OrderBy []OrganisationMembersOrderByExp `json:"order_by,omitzero"`
+	Where   OrganisationMembersBoolExp      `json:"where,omitzero"`
 }
 
 func (*OrganisationMembersFilterInput) GetGraphQLType() string {

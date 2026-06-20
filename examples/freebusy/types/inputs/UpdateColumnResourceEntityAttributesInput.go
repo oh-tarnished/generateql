@@ -8,7 +8,7 @@ import (
 
 // UpdateColumnResourceEntityAttributesInput is the UpdateColumnResourceEntityAttributesInput input type.
 type UpdateColumnResourceEntityAttributesInput struct {
-	Set *json.RawMessage `json:"set,omitempty"`
+	Set json.RawMessage `json:"set,omitzero"`
 }
 
 func (*UpdateColumnResourceEntityAttributesInput) GetGraphQLType() string {

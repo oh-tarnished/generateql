@@ -3,8 +3,8 @@
 package identity
 
 import (
-	"github.com/oh-tarnished/generateql/examples/freebusy/identity/membershipsummaries"
-	"github.com/oh-tarnished/generateql/examples/freebusy/identity/users"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/identity/membershipsummaries"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/identity/users"
 	"github.com/oh-tarnished/generateql/runtime/go/runtime"
 )
 

@@ -2,9 +2,13 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // UpdateColumnBookingContactsPhoneNumberInput is the UpdateColumnBookingContactsPhoneNumberInput input type.
 type UpdateColumnBookingContactsPhoneNumberInput struct {
-	Set *string `json:"set,omitempty"`
+	Set param.Opt[string] `json:"set,omitzero"`
 }
 
 func (*UpdateColumnBookingContactsPhoneNumberInput) GetGraphQLType() string {

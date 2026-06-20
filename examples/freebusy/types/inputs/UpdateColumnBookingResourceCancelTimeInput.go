@@ -2,9 +2,13 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // UpdateColumnBookingResourceCancelTimeInput is the UpdateColumnBookingResourceCancelTimeInput input type.
 type UpdateColumnBookingResourceCancelTimeInput struct {
-	Set *string `json:"set,omitempty"`
+	Set param.Opt[string] `json:"set,omitzero"`
 }
 
 func (*UpdateColumnBookingResourceCancelTimeInput) GetGraphQLType() string {

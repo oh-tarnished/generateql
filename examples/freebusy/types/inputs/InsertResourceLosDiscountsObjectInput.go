@@ -2,13 +2,17 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // InsertResourceLosDiscountsObjectInput is the InsertResourceLosDiscountsObjectInput input type.
 type InsertResourceLosDiscountsObjectInput struct {
-	AmountOffId *string `json:"amountOffId,omitempty"`
-	Id          string  `json:"id,omitempty"`
-	MinNights   int32   `json:"minNights,omitempty"`
-	OfferingId  string  `json:"offeringId,omitempty"`
-	PercentOff  *int32  `json:"percentOff,omitempty"`
+	AmountOffId param.Opt[string] `json:"amountOffId,omitzero"`
+	Id          string            `json:"id"`
+	MinNights   int32             `json:"minNights"`
+	OfferingId  string            `json:"offeringId"`
+	PercentOff  param.Opt[int32]  `json:"percentOff,omitzero"`
 }
 
 func (*InsertResourceLosDiscountsObjectInput) GetGraphQLType() string {

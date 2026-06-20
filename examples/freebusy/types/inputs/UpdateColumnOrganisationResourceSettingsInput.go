@@ -8,7 +8,7 @@ import (
 
 // UpdateColumnOrganisationResourceSettingsInput is the UpdateColumnOrganisationResourceSettingsInput input type.
 type UpdateColumnOrganisationResourceSettingsInput struct {
-	Set *json.RawMessage `json:"set,omitempty"`
+	Set json.RawMessage `json:"set,omitzero"`
 }
 
 func (*UpdateColumnOrganisationResourceSettingsInput) GetGraphQLType() string {

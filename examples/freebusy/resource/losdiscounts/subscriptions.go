@@ -4,8 +4,9 @@ package losdiscounts
 
 import (
 	"context"
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/schema"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/schema"
 	"github.com/oh-tarnished/generateql/runtime/go/graphql"
+	"github.com/oh-tarnished/generateql/runtime/go/param"
 	"github.com/oh-tarnished/generateql/runtime/go/runtime"
 )
 
@@ -16,16 +17,16 @@ type subscriptionHandler struct {
 func (h *subscriptionHandler) OnList(ctx context.Context, params OnListParams) (*runtime.Subscription, error) {
 	var out []schema.ResourceLosDiscounts
 	args := map[string]any{}
-	if params.Limit != nil {
-		args["limit"] = graphql.VarPtr(params.Limit, "Int")
+	if params.Limit.IsPresent() {
+		args["limit"] = graphql.VarPtr(params.Limit.Value(), "Int")
 	}
-	if params.Offset != nil {
-		args["offset"] = graphql.VarPtr(params.Offset, "Int")
+	if params.Offset.IsPresent() {
+		args["offset"] = graphql.VarPtr(params.Offset.Value(), "Int")
 	}
-	if params.OrderBy != nil {
+	if !param.IsOmitted(params.OrderBy) {
 		args["order_by"] = graphql.VarPtr(params.OrderBy, "[ResourceLosDiscountsOrderByExp!]")
 	}
-	if params.Where != nil {
+	if !param.IsOmitted(params.Where) {
 		args["where"] = graphql.VarPtr(params.Where, "ResourceLosDiscountsBoolExp")
 	}
 	return h.gql.SubscribeFields("resourceLosDiscounts", &out, args)
@@ -34,7 +35,7 @@ func (h *subscriptionHandler) OnList(ctx context.Context, params OnListParams) (
 func (h *subscriptionHandler) OnAggregate(ctx context.Context, params OnAggregateParams) (*runtime.Subscription, error) {
 	var out *schema.ResourceLosDiscountsAggExp
 	args := map[string]any{}
-	if params.FilterInput != nil {
+	if !param.IsOmitted(params.FilterInput) {
 		args["filter_input"] = graphql.VarPtr(params.FilterInput, "ResourceLosDiscountsFilterInput")
 	}
 	return h.gql.SubscribeFields("resourceLosDiscountsAggregate", &out, args)

@@ -2,19 +2,23 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // ScheduleExceptionKindBoolExp is the ScheduleExceptionKindBoolExp input type.
 type ScheduleExceptionKindBoolExp struct {
-	And    []ScheduleExceptionKindBoolExp `json:"_and,omitempty"`
-	Eq     *string                        `json:"_eq,omitempty"`
-	Gt     *string                        `json:"_gt,omitempty"`
-	Gte    *string                        `json:"_gte,omitempty"`
-	In     []string                       `json:"_in,omitempty"`
-	IsNull *bool                          `json:"_is_null,omitempty"`
-	Lt     *string                        `json:"_lt,omitempty"`
-	Lte    *string                        `json:"_lte,omitempty"`
-	Neq    *string                        `json:"_neq,omitempty"`
-	Not    *ScheduleExceptionKindBoolExp  `json:"_not,omitempty"`
-	Or     []ScheduleExceptionKindBoolExp `json:"_or,omitempty"`
+	And    []ScheduleExceptionKindBoolExp `json:"_and,omitzero"`
+	Eq     param.Opt[string]              `json:"_eq,omitzero"`
+	Gt     param.Opt[string]              `json:"_gt,omitzero"`
+	Gte    param.Opt[string]              `json:"_gte,omitzero"`
+	In     []string                       `json:"_in,omitzero"`
+	IsNull param.Opt[bool]                `json:"_is_null,omitzero"`
+	Lt     param.Opt[string]              `json:"_lt,omitzero"`
+	Lte    param.Opt[string]              `json:"_lte,omitzero"`
+	Neq    param.Opt[string]              `json:"_neq,omitzero"`
+	Not    ScheduleExceptionKindBoolExp   `json:"_not,omitzero"`
+	Or     []ScheduleExceptionKindBoolExp `json:"_or,omitzero"`
 }
 
 func (*ScheduleExceptionKindBoolExp) GetGraphQLType() string { return "ScheduleExceptionKindBoolExp" }

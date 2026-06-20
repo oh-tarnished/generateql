@@ -2,9 +2,13 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // UpdateColumnIdentityUsersTimeZoneInput is the UpdateColumnIdentityUsersTimeZoneInput input type.
 type UpdateColumnIdentityUsersTimeZoneInput struct {
-	Set *string `json:"set,omitempty"`
+	Set param.Opt[string] `json:"set,omitzero"`
 }
 
 func (*UpdateColumnIdentityUsersTimeZoneInput) GetGraphQLType() string {

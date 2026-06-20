@@ -4,30 +4,30 @@ package inputs
 
 // ResourceOfferingsBoolExp is the ResourceOfferingsBoolExp input type.
 type ResourceOfferingsBoolExp struct {
-	And                          []ResourceOfferingsBoolExp           `json:"_and,omitempty"`
-	Not                          *ResourceOfferingsBoolExp            `json:"_not,omitempty"`
-	Or                           []ResourceOfferingsBoolExp           `json:"_or,omitempty"`
-	BookingMoney                 *BookingMoneysBoolExp                `json:"bookingMoney,omitempty"`
-	BookingResources             *BookingResourceBoolExp              `json:"bookingResources,omitempty"`
-	CreateTime                   *TimestampBoolExp                    `json:"createTime,omitempty"`
-	Description                  *TextBoolExp                         `json:"description,omitempty"`
-	DisplayName                  *TextBoolExp                         `json:"displayName,omitempty"`
-	Duration                     *TextBoolExp                         `json:"duration,omitempty"`
-	Etag                         *TextBoolExp                         `json:"etag,omitempty"`
-	Id                           *TextBoolExp                         `json:"id,omitempty"`
-	Name                         *TextBoolExp                         `json:"name,omitempty"`
-	PriceId                      *TextBoolExp                         `json:"priceId,omitempty"`
-	PricingUnit                  *ResourcePricingUnitBoolExp          `json:"pricingUnit,omitempty"`
-	PromocodeApplicableOfferings *PromocodeApplicableOfferingsBoolExp `json:"promocodeApplicableOfferings,omitempty"`
-	ResourceEntity               *ResourceEntityBoolExp               `json:"resourceEntity,omitempty"`
-	ResourceFees                 *ResourceFeesBoolExp                 `json:"resourceFees,omitempty"`
-	ResourceId                   *TextBoolExp                         `json:"resourceId,omitempty"`
-	ResourceLosDiscounts         *ResourceLosDiscountsBoolExp         `json:"resourceLosDiscounts,omitempty"`
-	ResourceOfferingsLinks       *ResourceOfferingsLinkBoolExp        `json:"resourceOfferingsLinks,omitempty"`
-	ResourceRateOverrides        *ResourceRateOverridesBoolExp        `json:"resourceRateOverrides,omitempty"`
-	ResourceTaxes                *ResourceTaxesBoolExp                `json:"resourceTaxes,omitempty"`
-	State                        *ResourceOfferingStateBoolExp        `json:"state,omitempty"`
-	UpdateTime                   *TimestampBoolExp                    `json:"updateTime,omitempty"`
+	And                          []ResourceOfferingsBoolExp          `json:"_and,omitzero"`
+	Not                          ResourceOfferingsBoolExp            `json:"_not,omitzero"`
+	Or                           []ResourceOfferingsBoolExp          `json:"_or,omitzero"`
+	BookingMoney                 BookingMoneysBoolExp                `json:"bookingMoney,omitzero"`
+	BookingResources             BookingResourceBoolExp              `json:"bookingResources,omitzero"`
+	CreateTime                   TimestampBoolExp                    `json:"createTime,omitzero"`
+	Description                  TextBoolExp                         `json:"description,omitzero"`
+	DisplayName                  TextBoolExp                         `json:"displayName,omitzero"`
+	Duration                     TextBoolExp                         `json:"duration,omitzero"`
+	Etag                         TextBoolExp                         `json:"etag,omitzero"`
+	Id                           TextBoolExp                         `json:"id,omitzero"`
+	Name                         TextBoolExp                         `json:"name,omitzero"`
+	PriceId                      TextBoolExp                         `json:"priceId,omitzero"`
+	PricingUnit                  ResourcePricingUnitBoolExp          `json:"pricingUnit,omitzero"`
+	PromocodeApplicableOfferings PromocodeApplicableOfferingsBoolExp `json:"promocodeApplicableOfferings,omitzero"`
+	ResourceEntity               ResourceEntityBoolExp               `json:"resourceEntity,omitzero"`
+	ResourceFees                 ResourceFeesBoolExp                 `json:"resourceFees,omitzero"`
+	ResourceId                   TextBoolExp                         `json:"resourceId,omitzero"`
+	ResourceLosDiscounts         ResourceLosDiscountsBoolExp         `json:"resourceLosDiscounts,omitzero"`
+	ResourceOfferingsLinks       ResourceOfferingsLinkBoolExp        `json:"resourceOfferingsLinks,omitzero"`
+	ResourceRateOverrides        ResourceRateOverridesBoolExp        `json:"resourceRateOverrides,omitzero"`
+	ResourceTaxes                ResourceTaxesBoolExp                `json:"resourceTaxes,omitzero"`
+	State                        ResourceOfferingStateBoolExp        `json:"state,omitzero"`
+	UpdateTime                   TimestampBoolExp                    `json:"updateTime,omitzero"`
 }
 
 func (*ResourceOfferingsBoolExp) GetGraphQLType() string { return "ResourceOfferingsBoolExp" }

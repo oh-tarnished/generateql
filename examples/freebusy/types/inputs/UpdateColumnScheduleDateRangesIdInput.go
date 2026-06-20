@@ -4,7 +4,7 @@ package inputs
 
 // UpdateColumnScheduleDateRangesIdInput is the UpdateColumnScheduleDateRangesIdInput input type.
 type UpdateColumnScheduleDateRangesIdInput struct {
-	Set string `json:"set,omitempty"`
+	Set string `json:"set"`
 }
 
 func (*UpdateColumnScheduleDateRangesIdInput) GetGraphQLType() string {

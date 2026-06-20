@@ -2,9 +2,13 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // UpdateColumnBookingResourceEtagInput is the UpdateColumnBookingResourceEtagInput input type.
 type UpdateColumnBookingResourceEtagInput struct {
-	Set *string `json:"set,omitempty"`
+	Set param.Opt[string] `json:"set,omitzero"`
 }
 
 func (*UpdateColumnBookingResourceEtagInput) GetGraphQLType() string {

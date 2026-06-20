@@ -55,12 +55,18 @@ func (r *renderer) enum(e *ir.Enum) string {
 	return b.String()
 }
 
-// input renders an input-object struct plus a pointer-receiver GetGraphQLType.
+// input renders an input-object struct plus a pointer-receiver GetGraphQLType. Optional
+// fields use param.Opt[T] or value types tagged json:",omitzero" so callers construct
+// inputs without pointers (e.g. {Eq: graphql.String(id)} rather than {Eq: &s}).
 func (r *renderer) input(in *ir.Input) string {
 	var b strings.Builder
 	fmt.Fprintf(&b, "// %s is the %s input type.\ntype %s struct {\n", in.Name, in.Name, in.Name)
 	for _, f := range in.Fields {
-		fmt.Fprintf(&b, "\t%s %s `json:%q`\n", naming.Export(f.Name), r.mapper.GoType(f.Type, qInputs), f.Name+",omitempty")
+		tag := f.Name
+		if !f.Type.NonNull {
+			tag += ",omitzero"
+		}
+		fmt.Fprintf(&b, "\t%s %s `json:%q`\n", naming.Export(f.Name), r.mapper.GoParamType(f.Type, qInputs), tag)
 	}
 	b.WriteString("}\n\n")
 	fmt.Fprintf(&b, "func (*%s) GetGraphQLType() string { return %q }\n", in.Name, in.Name)

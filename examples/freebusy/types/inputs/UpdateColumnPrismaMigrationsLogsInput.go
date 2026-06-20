@@ -2,9 +2,13 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // UpdateColumnPrismaMigrationsLogsInput is the UpdateColumnPrismaMigrationsLogsInput input type.
 type UpdateColumnPrismaMigrationsLogsInput struct {
-	Set *string `json:"set,omitempty"`
+	Set param.Opt[string] `json:"set,omitzero"`
 }
 
 func (*UpdateColumnPrismaMigrationsLogsInput) GetGraphQLType() string {

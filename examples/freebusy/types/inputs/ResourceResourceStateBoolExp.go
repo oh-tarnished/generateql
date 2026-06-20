@@ -2,19 +2,23 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // ResourceResourceStateBoolExp is the ResourceResourceStateBoolExp input type.
 type ResourceResourceStateBoolExp struct {
-	And    []ResourceResourceStateBoolExp `json:"_and,omitempty"`
-	Eq     *string                        `json:"_eq,omitempty"`
-	Gt     *string                        `json:"_gt,omitempty"`
-	Gte    *string                        `json:"_gte,omitempty"`
-	In     []string                       `json:"_in,omitempty"`
-	IsNull *bool                          `json:"_is_null,omitempty"`
-	Lt     *string                        `json:"_lt,omitempty"`
-	Lte    *string                        `json:"_lte,omitempty"`
-	Neq    *string                        `json:"_neq,omitempty"`
-	Not    *ResourceResourceStateBoolExp  `json:"_not,omitempty"`
-	Or     []ResourceResourceStateBoolExp `json:"_or,omitempty"`
+	And    []ResourceResourceStateBoolExp `json:"_and,omitzero"`
+	Eq     param.Opt[string]              `json:"_eq,omitzero"`
+	Gt     param.Opt[string]              `json:"_gt,omitzero"`
+	Gte    param.Opt[string]              `json:"_gte,omitzero"`
+	In     []string                       `json:"_in,omitzero"`
+	IsNull param.Opt[bool]                `json:"_is_null,omitzero"`
+	Lt     param.Opt[string]              `json:"_lt,omitzero"`
+	Lte    param.Opt[string]              `json:"_lte,omitzero"`
+	Neq    param.Opt[string]              `json:"_neq,omitzero"`
+	Not    ResourceResourceStateBoolExp   `json:"_not,omitzero"`
+	Or     []ResourceResourceStateBoolExp `json:"_or,omitzero"`
 }
 
 func (*ResourceResourceStateBoolExp) GetGraphQLType() string { return "ResourceResourceStateBoolExp" }

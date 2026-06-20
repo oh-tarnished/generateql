@@ -2,13 +2,17 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // InsertScheduleRecurringRulesObjectInput is the InsertScheduleRecurringRulesObjectInput input type.
 type InsertScheduleRecurringRulesObjectInput struct {
-	Closes     *string `json:"closes,omitempty"`
-	Id         string  `json:"id,omitempty"`
-	Opens      *string `json:"opens,omitempty"`
-	Rrule      string  `json:"rrule,omitempty"`
-	ScheduleId string  `json:"scheduleId,omitempty"`
+	Closes     param.Opt[string] `json:"closes,omitzero"`
+	Id         string            `json:"id"`
+	Opens      param.Opt[string] `json:"opens,omitzero"`
+	Rrule      string            `json:"rrule"`
+	ScheduleId string            `json:"scheduleId"`
 }
 
 func (*InsertScheduleRecurringRulesObjectInput) GetGraphQLType() string {

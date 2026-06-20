@@ -2,12 +2,16 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // BookingMoneysFilterInput is the BookingMoneysFilterInput input type.
 type BookingMoneysFilterInput struct {
-	Limit   *int                      `json:"limit,omitempty"`
-	Offset  *int                      `json:"offset,omitempty"`
-	OrderBy []BookingMoneysOrderByExp `json:"order_by,omitempty"`
-	Where   *BookingMoneysBoolExp     `json:"where,omitempty"`
+	Limit   param.Opt[int]            `json:"limit,omitzero"`
+	Offset  param.Opt[int]            `json:"offset,omitzero"`
+	OrderBy []BookingMoneysOrderByExp `json:"order_by,omitzero"`
+	Where   BookingMoneysBoolExp      `json:"where,omitzero"`
 }
 
 func (*BookingMoneysFilterInput) GetGraphQLType() string { return "BookingMoneysFilterInput" }

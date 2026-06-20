@@ -3,24 +3,25 @@
 package inputs
 
 import (
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/enums"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/enums"
+	"github.com/oh-tarnished/generateql/runtime/go/param"
 )
 
 // ResourceEntityOrderByExp is the ResourceEntityOrderByExp input type.
 type ResourceEntityOrderByExp struct {
-	Attributes  *enums.OrderBy `json:"attributes,omitempty"`
-	BookingMode *enums.OrderBy `json:"bookingMode,omitempty"`
-	Capacity    *enums.OrderBy `json:"capacity,omitempty"`
-	CreateTime  *enums.OrderBy `json:"createTime,omitempty"`
-	Description *enums.OrderBy `json:"description,omitempty"`
-	DisplayName *enums.OrderBy `json:"displayName,omitempty"`
-	Etag        *enums.OrderBy `json:"etag,omitempty"`
-	Id          *enums.OrderBy `json:"id,omitempty"`
-	Name        *enums.OrderBy `json:"name,omitempty"`
-	State       *enums.OrderBy `json:"state,omitempty"`
-	TimeZone    *enums.OrderBy `json:"timeZone,omitempty"`
-	Type        *enums.OrderBy `json:"type,omitempty"`
-	UpdateTime  *enums.OrderBy `json:"updateTime,omitempty"`
+	Attributes  param.Opt[enums.OrderBy] `json:"attributes,omitzero"`
+	BookingMode param.Opt[enums.OrderBy] `json:"bookingMode,omitzero"`
+	Capacity    param.Opt[enums.OrderBy] `json:"capacity,omitzero"`
+	CreateTime  param.Opt[enums.OrderBy] `json:"createTime,omitzero"`
+	Description param.Opt[enums.OrderBy] `json:"description,omitzero"`
+	DisplayName param.Opt[enums.OrderBy] `json:"displayName,omitzero"`
+	Etag        param.Opt[enums.OrderBy] `json:"etag,omitzero"`
+	Id          param.Opt[enums.OrderBy] `json:"id,omitzero"`
+	Name        param.Opt[enums.OrderBy] `json:"name,omitzero"`
+	State       param.Opt[enums.OrderBy] `json:"state,omitzero"`
+	TimeZone    param.Opt[enums.OrderBy] `json:"timeZone,omitzero"`
+	Type        param.Opt[enums.OrderBy] `json:"type,omitzero"`
+	UpdateTime  param.Opt[enums.OrderBy] `json:"updateTime,omitzero"`
 }
 
 func (*ResourceEntityOrderByExp) GetGraphQLType() string { return "ResourceEntityOrderByExp" }

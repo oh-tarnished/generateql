@@ -3,13 +3,13 @@
 package resource
 
 import (
-	"github.com/oh-tarnished/generateql/examples/freebusy/resource/entity"
-	"github.com/oh-tarnished/generateql/examples/freebusy/resource/fees"
-	"github.com/oh-tarnished/generateql/examples/freebusy/resource/losdiscounts"
-	"github.com/oh-tarnished/generateql/examples/freebusy/resource/offerings"
-	"github.com/oh-tarnished/generateql/examples/freebusy/resource/offeringslink"
-	"github.com/oh-tarnished/generateql/examples/freebusy/resource/rateoverrides"
-	"github.com/oh-tarnished/generateql/examples/freebusy/resource/taxes"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/resource/entity"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/resource/fees"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/resource/losdiscounts"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/resource/offerings"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/resource/offeringslink"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/resource/rateoverrides"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/resource/taxes"
 	"github.com/oh-tarnished/generateql/runtime/go/runtime"
 )
 

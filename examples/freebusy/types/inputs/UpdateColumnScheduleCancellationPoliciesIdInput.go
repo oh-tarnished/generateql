@@ -4,7 +4,7 @@ package inputs
 
 // UpdateColumnScheduleCancellationPoliciesIdInput is the UpdateColumnScheduleCancellationPoliciesIdInput input type.
 type UpdateColumnScheduleCancellationPoliciesIdInput struct {
-	Set string `json:"set,omitempty"`
+	Set string `json:"set"`
 }
 
 func (*UpdateColumnScheduleCancellationPoliciesIdInput) GetGraphQLType() string {

@@ -3,16 +3,17 @@
 package inputs
 
 import (
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/enums"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/enums"
+	"github.com/oh-tarnished/generateql/runtime/go/param"
 )
 
 // ScheduleRefundTiersOrderByExp is the ScheduleRefundTiersOrderByExp input type.
 type ScheduleRefundTiersOrderByExp struct {
-	CancellationPolicyId       *enums.OrderBy                          `json:"cancellationPolicyId,omitempty"`
-	Cutoff                     *enums.OrderBy                          `json:"cutoff,omitempty"`
-	Id                         *enums.OrderBy                          `json:"id,omitempty"`
-	RefundPercent              *enums.OrderBy                          `json:"refundPercent,omitempty"`
-	ScheduleCancellationPolicy *ScheduleCancellationPoliciesOrderByExp `json:"scheduleCancellationPolicy,omitempty"`
+	CancellationPolicyId       param.Opt[enums.OrderBy]               `json:"cancellationPolicyId,omitzero"`
+	Cutoff                     param.Opt[enums.OrderBy]               `json:"cutoff,omitzero"`
+	Id                         param.Opt[enums.OrderBy]               `json:"id,omitzero"`
+	RefundPercent              param.Opt[enums.OrderBy]               `json:"refundPercent,omitzero"`
+	ScheduleCancellationPolicy ScheduleCancellationPoliciesOrderByExp `json:"scheduleCancellationPolicy,omitzero"`
 }
 
 func (*ScheduleRefundTiersOrderByExp) GetGraphQLType() string { return "ScheduleRefundTiersOrderByExp" }

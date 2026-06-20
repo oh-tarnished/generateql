@@ -4,7 +4,7 @@ package inputs
 
 // UpdateColumnScheduleStayConstraintsIdInput is the UpdateColumnScheduleStayConstraintsIdInput input type.
 type UpdateColumnScheduleStayConstraintsIdInput struct {
-	Set string `json:"set,omitempty"`
+	Set string `json:"set"`
 }
 
 func (*UpdateColumnScheduleStayConstraintsIdInput) GetGraphQLType() string {

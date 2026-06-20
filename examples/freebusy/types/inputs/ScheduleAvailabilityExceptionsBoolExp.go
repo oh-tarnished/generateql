@@ -4,22 +4,22 @@ package inputs
 
 // ScheduleAvailabilityExceptionsBoolExp is the ScheduleAvailabilityExceptionsBoolExp input type.
 type ScheduleAvailabilityExceptionsBoolExp struct {
-	And                []ScheduleAvailabilityExceptionsBoolExp       `json:"_and,omitempty"`
-	Not                *ScheduleAvailabilityExceptionsBoolExp        `json:"_not,omitempty"`
-	Or                 []ScheduleAvailabilityExceptionsBoolExp       `json:"_or,omitempty"`
-	BookingTimeWindow  *BookingTimeWindowsBoolExp                    `json:"bookingTimeWindow,omitempty"`
-	CreateTime         *TimestampBoolExp                             `json:"createTime,omitempty"`
-	DateRangeId        *TextBoolExp                                  `json:"dateRangeId,omitempty"`
-	Id                 *TextBoolExp                                  `json:"id,omitempty"`
-	Kind               *ScheduleExceptionKindBoolExp                 `json:"kind,omitempty"`
-	Name               *TextBoolExp                                  `json:"name,omitempty"`
-	Reason             *TextBoolExp                                  `json:"reason,omitempty"`
-	ResourceEntity     *ResourceEntityBoolExp                        `json:"resourceEntity,omitempty"`
-	ResourceId         *TextBoolExp                                  `json:"resourceId,omitempty"`
-	ScheduleDateRange  *ScheduleDateRangesBoolExp                    `json:"scheduleDateRange,omitempty"`
-	ScheduleExceptions *ScheduleExceptionsBoolExp                    `json:"scheduleExceptions,omitempty"`
-	SpanCase           *ScheduleAvailabilityExceptionSpanCaseBoolExp `json:"spanCase,omitempty"`
-	WindowId           *TextBoolExp                                  `json:"windowId,omitempty"`
+	And                []ScheduleAvailabilityExceptionsBoolExp      `json:"_and,omitzero"`
+	Not                ScheduleAvailabilityExceptionsBoolExp        `json:"_not,omitzero"`
+	Or                 []ScheduleAvailabilityExceptionsBoolExp      `json:"_or,omitzero"`
+	BookingTimeWindow  BookingTimeWindowsBoolExp                    `json:"bookingTimeWindow,omitzero"`
+	CreateTime         TimestampBoolExp                             `json:"createTime,omitzero"`
+	DateRangeId        TextBoolExp                                  `json:"dateRangeId,omitzero"`
+	Id                 TextBoolExp                                  `json:"id,omitzero"`
+	Kind               ScheduleExceptionKindBoolExp                 `json:"kind,omitzero"`
+	Name               TextBoolExp                                  `json:"name,omitzero"`
+	Reason             TextBoolExp                                  `json:"reason,omitzero"`
+	ResourceEntity     ResourceEntityBoolExp                        `json:"resourceEntity,omitzero"`
+	ResourceId         TextBoolExp                                  `json:"resourceId,omitzero"`
+	ScheduleDateRange  ScheduleDateRangesBoolExp                    `json:"scheduleDateRange,omitzero"`
+	ScheduleExceptions ScheduleExceptionsBoolExp                    `json:"scheduleExceptions,omitzero"`
+	SpanCase           ScheduleAvailabilityExceptionSpanCaseBoolExp `json:"spanCase,omitzero"`
+	WindowId           TextBoolExp                                  `json:"windowId,omitzero"`
 }
 
 func (*ScheduleAvailabilityExceptionsBoolExp) GetGraphQLType() string {

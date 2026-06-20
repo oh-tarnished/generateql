@@ -4,9 +4,9 @@ package inputs
 
 // UpdateBookingTimeWindowsByIdUpdateColumnsInput is the UpdateBookingTimeWindowsByIdUpdateColumnsInput input type.
 type UpdateBookingTimeWindowsByIdUpdateColumnsInput struct {
-	EndTime   *UpdateColumnBookingTimeWindowsEndTimeInput   `json:"endTime,omitempty"`
-	Id        *UpdateColumnBookingTimeWindowsIdInput        `json:"id,omitempty"`
-	StartTime *UpdateColumnBookingTimeWindowsStartTimeInput `json:"startTime,omitempty"`
+	EndTime   UpdateColumnBookingTimeWindowsEndTimeInput   `json:"endTime,omitzero"`
+	Id        UpdateColumnBookingTimeWindowsIdInput        `json:"id,omitzero"`
+	StartTime UpdateColumnBookingTimeWindowsStartTimeInput `json:"startTime,omitzero"`
 }
 
 func (*UpdateBookingTimeWindowsByIdUpdateColumnsInput) GetGraphQLType() string {

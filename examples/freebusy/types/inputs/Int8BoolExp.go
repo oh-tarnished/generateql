@@ -4,21 +4,22 @@ package inputs
 
 import (
 	"github.com/oh-tarnished/generateql/runtime/go/graphql"
+	"github.com/oh-tarnished/generateql/runtime/go/param"
 )
 
 // Int8BoolExp is the Int8BoolExp input type.
 type Int8BoolExp struct {
-	And    []Int8BoolExp   `json:"_and,omitempty"`
-	Eq     *graphql.Int64  `json:"_eq,omitempty"`
-	Gt     *graphql.Int64  `json:"_gt,omitempty"`
-	Gte    *graphql.Int64  `json:"_gte,omitempty"`
-	In     []graphql.Int64 `json:"_in,omitempty"`
-	IsNull *bool           `json:"_is_null,omitempty"`
-	Lt     *graphql.Int64  `json:"_lt,omitempty"`
-	Lte    *graphql.Int64  `json:"_lte,omitempty"`
-	Neq    *graphql.Int64  `json:"_neq,omitempty"`
-	Not    *Int8BoolExp    `json:"_not,omitempty"`
-	Or     []Int8BoolExp   `json:"_or,omitempty"`
+	And    []Int8BoolExp            `json:"_and,omitzero"`
+	Eq     param.Opt[graphql.Int64] `json:"_eq,omitzero"`
+	Gt     param.Opt[graphql.Int64] `json:"_gt,omitzero"`
+	Gte    param.Opt[graphql.Int64] `json:"_gte,omitzero"`
+	In     []graphql.Int64          `json:"_in,omitzero"`
+	IsNull param.Opt[bool]          `json:"_is_null,omitzero"`
+	Lt     param.Opt[graphql.Int64] `json:"_lt,omitzero"`
+	Lte    param.Opt[graphql.Int64] `json:"_lte,omitzero"`
+	Neq    param.Opt[graphql.Int64] `json:"_neq,omitzero"`
+	Not    Int8BoolExp              `json:"_not,omitzero"`
+	Or     []Int8BoolExp            `json:"_or,omitzero"`
 }
 
 func (*Int8BoolExp) GetGraphQLType() string { return "Int8BoolExp" }

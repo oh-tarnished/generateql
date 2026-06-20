@@ -4,14 +4,14 @@ package inputs
 
 // ResourceOfferingsLinkBoolExp is the ResourceOfferingsLinkBoolExp input type.
 type ResourceOfferingsLinkBoolExp struct {
-	And              []ResourceOfferingsLinkBoolExp `json:"_and,omitempty"`
-	Not              *ResourceOfferingsLinkBoolExp  `json:"_not,omitempty"`
-	Or               []ResourceOfferingsLinkBoolExp `json:"_or,omitempty"`
-	Id               *TextBoolExp                   `json:"id,omitempty"`
-	OfferingId       *TextBoolExp                   `json:"offeringId,omitempty"`
-	ResourceEntity   *ResourceEntityBoolExp         `json:"resourceEntity,omitempty"`
-	ResourceId       *TextBoolExp                   `json:"resourceId,omitempty"`
-	ResourceOffering *ResourceOfferingsBoolExp      `json:"resourceOffering,omitempty"`
+	And              []ResourceOfferingsLinkBoolExp `json:"_and,omitzero"`
+	Not              ResourceOfferingsLinkBoolExp   `json:"_not,omitzero"`
+	Or               []ResourceOfferingsLinkBoolExp `json:"_or,omitzero"`
+	Id               TextBoolExp                    `json:"id,omitzero"`
+	OfferingId       TextBoolExp                    `json:"offeringId,omitzero"`
+	ResourceEntity   ResourceEntityBoolExp          `json:"resourceEntity,omitzero"`
+	ResourceId       TextBoolExp                    `json:"resourceId,omitzero"`
+	ResourceOffering ResourceOfferingsBoolExp       `json:"resourceOffering,omitzero"`
 }
 
 func (*ResourceOfferingsLinkBoolExp) GetGraphQLType() string { return "ResourceOfferingsLinkBoolExp" }

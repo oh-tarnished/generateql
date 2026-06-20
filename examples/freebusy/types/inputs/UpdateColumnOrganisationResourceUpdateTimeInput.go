@@ -4,7 +4,7 @@ package inputs
 
 // UpdateColumnOrganisationResourceUpdateTimeInput is the UpdateColumnOrganisationResourceUpdateTimeInput input type.
 type UpdateColumnOrganisationResourceUpdateTimeInput struct {
-	Set string `json:"set,omitempty"`
+	Set string `json:"set"`
 }
 
 func (*UpdateColumnOrganisationResourceUpdateTimeInput) GetGraphQLType() string {

@@ -4,7 +4,7 @@ package inputs
 
 // UpdateColumnIdentityUsersCreateTimeInput is the UpdateColumnIdentityUsersCreateTimeInput input type.
 type UpdateColumnIdentityUsersCreateTimeInput struct {
-	Set string `json:"set,omitempty"`
+	Set string `json:"set"`
 }
 
 func (*UpdateColumnIdentityUsersCreateTimeInput) GetGraphQLType() string {

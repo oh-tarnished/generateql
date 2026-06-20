@@ -4,8 +4,9 @@ package moneys
 
 import (
 	"context"
-	"github.com/oh-tarnished/generateql/examples/freebusy/types/schema"
+	"github.com/oh-tarnished/generateql/examples/freebusyql/types/schema"
 	"github.com/oh-tarnished/generateql/runtime/go/graphql"
+	"github.com/oh-tarnished/generateql/runtime/go/param"
 	"github.com/oh-tarnished/generateql/runtime/go/runtime"
 )
 
@@ -16,16 +17,16 @@ type queryHandler struct {
 func (h *queryHandler) List(ctx context.Context, params ListParams) ([]schema.BookingMoneys, error) {
 	var out []schema.BookingMoneys
 	args := map[string]any{}
-	if params.Limit != nil {
-		args["limit"] = graphql.VarPtr(params.Limit, "Int")
+	if params.Limit.IsPresent() {
+		args["limit"] = graphql.VarPtr(params.Limit.Value(), "Int")
 	}
-	if params.Offset != nil {
-		args["offset"] = graphql.VarPtr(params.Offset, "Int")
+	if params.Offset.IsPresent() {
+		args["offset"] = graphql.VarPtr(params.Offset.Value(), "Int")
 	}
-	if params.OrderBy != nil {
+	if !param.IsOmitted(params.OrderBy) {
 		args["order_by"] = graphql.VarPtr(params.OrderBy, "[BookingMoneysOrderByExp!]")
 	}
-	if params.Where != nil {
+	if !param.IsOmitted(params.Where) {
 		args["where"] = graphql.VarPtr(params.Where, "BookingMoneysBoolExp")
 	}
 	res := <-h.gql.QueryFields("bookingMoneys", &out, args)
@@ -35,7 +36,7 @@ func (h *queryHandler) List(ctx context.Context, params ListParams) ([]schema.Bo
 func (h *queryHandler) Aggregate(ctx context.Context, params AggregateParams) (*schema.BookingMoneysAggExp, error) {
 	var out *schema.BookingMoneysAggExp
 	args := map[string]any{}
-	if params.FilterInput != nil {
+	if !param.IsOmitted(params.FilterInput) {
 		args["filter_input"] = graphql.VarPtr(params.FilterInput, "BookingMoneysFilterInput")
 	}
 	res := <-h.gql.QueryFields("bookingMoneysAggregate", &out, args)

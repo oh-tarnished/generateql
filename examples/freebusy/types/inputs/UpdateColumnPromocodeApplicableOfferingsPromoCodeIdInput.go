@@ -4,7 +4,7 @@ package inputs
 
 // UpdateColumnPromocodeApplicableOfferingsPromoCodeIdInput is the UpdateColumnPromocodeApplicableOfferingsPromoCodeIdInput input type.
 type UpdateColumnPromocodeApplicableOfferingsPromoCodeIdInput struct {
-	Set string `json:"set,omitempty"`
+	Set string `json:"set"`
 }
 
 func (*UpdateColumnPromocodeApplicableOfferingsPromoCodeIdInput) GetGraphQLType() string {

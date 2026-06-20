@@ -4,7 +4,7 @@ package inputs
 
 // UpdateColumnScheduleRecurringRulesScheduleIdInput is the UpdateColumnScheduleRecurringRulesScheduleIdInput input type.
 type UpdateColumnScheduleRecurringRulesScheduleIdInput struct {
-	Set string `json:"set,omitempty"`
+	Set string `json:"set"`
 }
 
 func (*UpdateColumnScheduleRecurringRulesScheduleIdInput) GetGraphQLType() string {

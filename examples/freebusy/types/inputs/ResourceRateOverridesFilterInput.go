@@ -2,12 +2,16 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // ResourceRateOverridesFilterInput is the ResourceRateOverridesFilterInput input type.
 type ResourceRateOverridesFilterInput struct {
-	Limit   *int                              `json:"limit,omitempty"`
-	Offset  *int                              `json:"offset,omitempty"`
-	OrderBy []ResourceRateOverridesOrderByExp `json:"order_by,omitempty"`
-	Where   *ResourceRateOverridesBoolExp     `json:"where,omitempty"`
+	Limit   param.Opt[int]                    `json:"limit,omitzero"`
+	Offset  param.Opt[int]                    `json:"offset,omitzero"`
+	OrderBy []ResourceRateOverridesOrderByExp `json:"order_by,omitzero"`
+	Where   ResourceRateOverridesBoolExp      `json:"where,omitzero"`
 }
 
 func (*ResourceRateOverridesFilterInput) GetGraphQLType() string {

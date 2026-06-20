@@ -4,14 +4,14 @@ package inputs
 
 // PromocodeApplicableResourcesBoolExp is the PromocodeApplicableResourcesBoolExp input type.
 type PromocodeApplicableResourcesBoolExp struct {
-	And               []PromocodeApplicableResourcesBoolExp `json:"_and,omitempty"`
-	Not               *PromocodeApplicableResourcesBoolExp  `json:"_not,omitempty"`
-	Or                []PromocodeApplicableResourcesBoolExp `json:"_or,omitempty"`
-	Id                *TextBoolExp                          `json:"id,omitempty"`
-	PromoCodeId       *TextBoolExp                          `json:"promoCodeId,omitempty"`
-	PromocodeResource *PromocodeResourceBoolExp             `json:"promocodeResource,omitempty"`
-	ResourceEntity    *ResourceEntityBoolExp                `json:"resourceEntity,omitempty"`
-	ResourceId        *TextBoolExp                          `json:"resourceId,omitempty"`
+	And               []PromocodeApplicableResourcesBoolExp `json:"_and,omitzero"`
+	Not               PromocodeApplicableResourcesBoolExp   `json:"_not,omitzero"`
+	Or                []PromocodeApplicableResourcesBoolExp `json:"_or,omitzero"`
+	Id                TextBoolExp                           `json:"id,omitzero"`
+	PromoCodeId       TextBoolExp                           `json:"promoCodeId,omitzero"`
+	PromocodeResource PromocodeResourceBoolExp              `json:"promocodeResource,omitzero"`
+	ResourceEntity    ResourceEntityBoolExp                 `json:"resourceEntity,omitzero"`
+	ResourceId        TextBoolExp                           `json:"resourceId,omitzero"`
 }
 
 func (*PromocodeApplicableResourcesBoolExp) GetGraphQLType() string {

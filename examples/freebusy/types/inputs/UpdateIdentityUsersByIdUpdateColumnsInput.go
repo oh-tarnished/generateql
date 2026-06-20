@@ -4,16 +4,16 @@ package inputs
 
 // UpdateIdentityUsersByIdUpdateColumnsInput is the UpdateIdentityUsersByIdUpdateColumnsInput input type.
 type UpdateIdentityUsersByIdUpdateColumnsInput struct {
-	AvatarUrl   *UpdateColumnIdentityUsersAvatarUrlInput   `json:"avatarUrl,omitempty"`
-	CreateTime  *UpdateColumnIdentityUsersCreateTimeInput  `json:"createTime,omitempty"`
-	DisplayName *UpdateColumnIdentityUsersDisplayNameInput `json:"displayName,omitempty"`
-	Email       *UpdateColumnIdentityUsersEmailInput       `json:"email,omitempty"`
-	Etag        *UpdateColumnIdentityUsersEtagInput        `json:"etag,omitempty"`
-	Id          *UpdateColumnIdentityUsersIdInput          `json:"id,omitempty"`
-	Locale      *UpdateColumnIdentityUsersLocaleInput      `json:"locale,omitempty"`
-	Name        *UpdateColumnIdentityUsersNameInput        `json:"name,omitempty"`
-	TimeZone    *UpdateColumnIdentityUsersTimeZoneInput    `json:"timeZone,omitempty"`
-	UpdateTime  *UpdateColumnIdentityUsersUpdateTimeInput  `json:"updateTime,omitempty"`
+	AvatarUrl   UpdateColumnIdentityUsersAvatarUrlInput   `json:"avatarUrl,omitzero"`
+	CreateTime  UpdateColumnIdentityUsersCreateTimeInput  `json:"createTime,omitzero"`
+	DisplayName UpdateColumnIdentityUsersDisplayNameInput `json:"displayName,omitzero"`
+	Email       UpdateColumnIdentityUsersEmailInput       `json:"email,omitzero"`
+	Etag        UpdateColumnIdentityUsersEtagInput        `json:"etag,omitzero"`
+	Id          UpdateColumnIdentityUsersIdInput          `json:"id,omitzero"`
+	Locale      UpdateColumnIdentityUsersLocaleInput      `json:"locale,omitzero"`
+	Name        UpdateColumnIdentityUsersNameInput        `json:"name,omitzero"`
+	TimeZone    UpdateColumnIdentityUsersTimeZoneInput    `json:"timeZone,omitzero"`
+	UpdateTime  UpdateColumnIdentityUsersUpdateTimeInput  `json:"updateTime,omitzero"`
 }
 
 func (*UpdateIdentityUsersByIdUpdateColumnsInput) GetGraphQLType() string {

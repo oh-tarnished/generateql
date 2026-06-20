@@ -4,12 +4,12 @@ package inputs
 
 // ScheduleCancellationPoliciesBoolExp is the ScheduleCancellationPoliciesBoolExp input type.
 type ScheduleCancellationPoliciesBoolExp struct {
-	And                 []ScheduleCancellationPoliciesBoolExp `json:"_and,omitempty"`
-	Not                 *ScheduleCancellationPoliciesBoolExp  `json:"_not,omitempty"`
-	Or                  []ScheduleCancellationPoliciesBoolExp `json:"_or,omitempty"`
-	Id                  *TextBoolExp                          `json:"id,omitempty"`
-	ScheduleRefundTiers *ScheduleRefundTiersBoolExp           `json:"scheduleRefundTiers,omitempty"`
-	ScheduleResources   *ScheduleResourceBoolExp              `json:"scheduleResources,omitempty"`
+	And                 []ScheduleCancellationPoliciesBoolExp `json:"_and,omitzero"`
+	Not                 ScheduleCancellationPoliciesBoolExp   `json:"_not,omitzero"`
+	Or                  []ScheduleCancellationPoliciesBoolExp `json:"_or,omitzero"`
+	Id                  TextBoolExp                           `json:"id,omitzero"`
+	ScheduleRefundTiers ScheduleRefundTiersBoolExp            `json:"scheduleRefundTiers,omitzero"`
+	ScheduleResources   ScheduleResourceBoolExp               `json:"scheduleResources,omitzero"`
 }
 
 func (*ScheduleCancellationPoliciesBoolExp) GetGraphQLType() string {

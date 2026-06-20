@@ -2,9 +2,13 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // UpdateColumnBookingMoneysCurrencyCodeInput is the UpdateColumnBookingMoneysCurrencyCodeInput input type.
 type UpdateColumnBookingMoneysCurrencyCodeInput struct {
-	Set *string `json:"set,omitempty"`
+	Set param.Opt[string] `json:"set,omitzero"`
 }
 
 func (*UpdateColumnBookingMoneysCurrencyCodeInput) GetGraphQLType() string {

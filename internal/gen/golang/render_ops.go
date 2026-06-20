@@ -18,7 +18,7 @@ func (r *renderer) paramsType(o op) string {
 	var b strings.Builder
 	fmt.Fprintf(&b, "// %sParams holds the optional arguments for %s.\ntype %sParams struct {\n", o.Name, o.Name, o.Name)
 	for _, a := range opt {
-		fmt.Fprintf(&b, "\t%s %s\n", naming.Export(a.Name), r.mapper.GoArgType(a.Type, qHandler))
+		fmt.Fprintf(&b, "\t%s %s\n", naming.Export(a.Name), r.mapper.GoParamType(a.Type, qHandler))
 	}
 	b.WriteString("}\n")
 	return b.String()
@@ -105,7 +105,13 @@ func (r *renderer) argsBlock(operation *ir.Operation) string {
 	}
 	for _, a := range optionalArgs(operation) {
 		field := naming.Export(a.Name)
-		fmt.Fprintf(&b, "\tif params.%s != nil {\n\t\targs[%q] = graphql.VarPtr(params.%s, %q)\n\t}\n", field, a.Name, field, gqlType(a.Type))
+		if r.mapper.ParamIsOpt(a.Type) {
+			// param.Opt[T]: send the unwrapped value only when the caller set it.
+			fmt.Fprintf(&b, "\tif params.%s.IsPresent() {\n\t\targs[%q] = graphql.VarPtr(params.%s.Value(), %q)\n\t}\n", field, a.Name, field, gqlType(a.Type))
+			continue
+		}
+		// Value type (nested input or slice): omit it while it is still the zero value.
+		fmt.Fprintf(&b, "\tif !param.IsOmitted(params.%s) {\n\t\targs[%q] = graphql.VarPtr(params.%s, %q)\n\t}\n", field, a.Name, field, gqlType(a.Type))
 	}
 	return b.String()
 }

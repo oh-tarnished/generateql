@@ -2,12 +2,16 @@
 
 package inputs
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/param"
+)
+
 // IdentityMembershipSummariesFilterInput is the IdentityMembershipSummariesFilterInput input type.
 type IdentityMembershipSummariesFilterInput struct {
-	Limit   *int                                    `json:"limit,omitempty"`
-	Offset  *int                                    `json:"offset,omitempty"`
-	OrderBy []IdentityMembershipSummariesOrderByExp `json:"order_by,omitempty"`
-	Where   *IdentityMembershipSummariesBoolExp     `json:"where,omitempty"`
+	Limit   param.Opt[int]                          `json:"limit,omitzero"`
+	Offset  param.Opt[int]                          `json:"offset,omitzero"`
+	OrderBy []IdentityMembershipSummariesOrderByExp `json:"order_by,omitzero"`
+	Where   IdentityMembershipSummariesBoolExp      `json:"where,omitzero"`
 }
 
 func (*IdentityMembershipSummariesFilterInput) GetGraphQLType() string {
