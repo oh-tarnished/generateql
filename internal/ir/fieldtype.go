@@ -1,6 +1,6 @@
 package ir
 
-import "github.com/oh-tarnished/generate-ql/internal/introspect"
+import "github.com/oh-tarnished/generateql/internal/introspect"
 
 // resolve flattens a (possibly wrapped) introspection TypeRef into a FieldType,
 // recording whether the outer type is non-null, whether it is a list, and whether

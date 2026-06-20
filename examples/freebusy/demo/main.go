@@ -15,12 +15,12 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/oh-tarnished/generate-ql/examples/freebusy"
-	"github.com/oh-tarnished/generate-ql/examples/freebusy/organisation/resource"
-	"github.com/oh-tarnished/generate-ql/examples/freebusy/types/inputs"
-	"github.com/oh-tarnished/generate-ql/examples/freebusy/types/schema"
-	"github.com/oh-tarnished/generate-ql/runtime/go/graphql"
-	"github.com/oh-tarnished/generate-ql/runtime/go/runtime"
+	"github.com/oh-tarnished/generateql/examples/freebusy"
+	"github.com/oh-tarnished/generateql/examples/freebusy/organisation/resource"
+	"github.com/oh-tarnished/generateql/examples/freebusy/types/inputs"
+	"github.com/oh-tarnished/generateql/examples/freebusy/types/schema"
+	"github.com/oh-tarnished/generateql/runtime/go/graphql"
+	"github.com/oh-tarnished/generateql/runtime/go/runtime"
 )
 
 func main() {

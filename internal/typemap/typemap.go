@@ -2,24 +2,25 @@
 package typemap
 
 import (
-	"github.com/oh-tarnished/generate-ql/internal/ir"
+	"github.com/oh-tarnished/generateql/internal/ir"
 )
 
 // defaultScalars maps known GraphQL scalar names to Go types. It covers the standard
 // scalars plus the Prisma/Grafbase-style scalars seen on the target engine.
 var defaultScalars = map[string]string{
-	"ID":          "string",
-	"String":      "string",
-	"String1":     "string",
-	"Boolean":     "bool",
-	"Boolean1":    "bool",
-	"Int":         "int",
-	"Int32":       "int32",
-	"Int64":       "graphql.Int64", // engine serializes 64-bit ints as strings; flexible scalar
+	"ID":       "string",
+	"String":   "string",
+	"String1":  "string",
+	"Boolean":  "bool",
+	"Boolean1": "bool",
+	"Int":      "int",
+	"Int32":    "int32",
+	"Int64":    "graphql.Int64", // engine serializes 64-bit ints as strings; flexible scalar
 
-	"Float":       "float64",
-	"Float64":     "float64",
-	"Bigdecimal":  "string",
+	"Float":      "float64",
+	"Float64":    "float64",
+	"Bigdecimal": "graphql.Bigdecimal", // engine returns it as string or number; flexible scalar
+
 	"Json":        "json.RawMessage",
 	"Timestamp":   "string",
 	"Timestamptz": "string",

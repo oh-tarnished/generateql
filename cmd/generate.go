@@ -6,15 +6,15 @@ import (
 	"os"
 	"strings"
 
-	"github.com/oh-tarnished/generate-ql/internal/gen/golang"
-	"github.com/oh-tarnished/generate-ql/internal/introspect"
-	"github.com/oh-tarnished/generate-ql/internal/ir"
+	"github.com/oh-tarnished/generateql/internal/gen/golang"
+	"github.com/oh-tarnished/generateql/internal/introspect"
+	"github.com/oh-tarnished/generateql/internal/ir"
 	"github.com/spf13/cobra"
 )
 
 // defaultRuntimeModule is the import path of the Go runtime facade that generated
 // clients depend on.
-const defaultRuntimeModule = "github.com/oh-tarnished/generate-ql/runtime/go/runtime"
+const defaultRuntimeModule = "github.com/oh-tarnished/generateql/runtime/go/runtime"
 
 var generateCmd = &cobra.Command{
 	Use:   "generate",

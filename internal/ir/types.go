@@ -8,9 +8,9 @@ package ir
 
 // Schema is the normalized schema. Maps are keyed by GraphQL type name.
 type Schema struct {
-	Objects   map[string]*Object
-	Enums     map[string]*Enum
-	Inputs    map[string]*Input
+	Objects       map[string]*Object
+	Enums         map[string]*Enum
+	Inputs        map[string]*Input
 	Scalars       map[string]bool
 	Queries       []*Operation
 	Mutations     []*Operation

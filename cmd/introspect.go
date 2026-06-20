@@ -7,7 +7,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/oh-tarnished/generate-ql/internal/introspect"
+	"github.com/oh-tarnished/generateql/internal/introspect"
 	"github.com/spf13/cobra"
 )
 

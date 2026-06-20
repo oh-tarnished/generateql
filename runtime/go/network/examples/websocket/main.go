@@ -12,7 +12,7 @@ import (
 
 	"github.com/gorilla/websocket"
 	_ "github.com/joho/godotenv/autoload"
-	"github.com/oh-tarnished/generate-ql/runtime/go/network"
+	"github.com/oh-tarnished/generateql/runtime/go/network"
 )
 
 func main() {

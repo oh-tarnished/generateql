@@ -1,17 +1,17 @@
 module github.com/oh-tarnished/generateql/examples/freebusy
 
-go 1.25.0
+go 1.26.4
 
 require (
 	github.com/google/uuid v1.6.0
-	github.com/oh-tarnished/generateql/runtime/go v0.0.0
+	github.com/oh-tarnished/generateql v0.0.0
 )
 
 require (
 	github.com/coder/websocket v1.8.14 // indirect
-	github.com/gorilla/websocket v1.5.4-0.20250319132907-e064f32e3674 // indirect
+	github.com/gorilla/websocket v1.5.3 // indirect
 	github.com/hasura/go-graphql-client v0.16.0 // indirect
-	golang.org/x/net v0.26.0 // indirect
 )
 
-replace github.com/oh-tarnished/generateql/runtime/go => ../../runtime/go
+// The runtime lives in the single generateql module one directory up.
+replace github.com/oh-tarnished/generateql => ../..

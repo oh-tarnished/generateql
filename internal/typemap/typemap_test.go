@@ -3,7 +3,7 @@ package typemap
 import (
 	"testing"
 
-	"github.com/oh-tarnished/generate-ql/internal/ir"
+	"github.com/oh-tarnished/generateql/internal/ir"
 )
 
 // TestGoTypeElemNullability verifies that list element nullability is honored:

@@ -3,7 +3,7 @@ package ir
 import (
 	"strings"
 
-	"github.com/oh-tarnished/generate-ql/internal/introspect"
+	"github.com/oh-tarnished/generateql/internal/introspect"
 )
 
 // Build normalizes an introspection Schema into the IR, classifying types, resolving

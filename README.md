@@ -53,7 +53,7 @@ Requires Go 1.25+.
 
 ```bash
 # build the CLI
-go build -o generate-ql .
+go build -o generateql .
 
 # or run without installing
 go run . <command> [flags]
@@ -87,7 +87,7 @@ import (
 
     "github.com/me/myapp/client"
     "github.com/me/myapp/client/prisma/migrations"
-    "github.com/oh-tarnished/generate-ql/runtime/go/graphql"
+    "github.com/oh-tarnished/generateql/runtime/go/graphql"
 )
 
 func main() {
@@ -201,7 +201,7 @@ svc, err := client.New(runtime.ConnectionOptions{
 
 ## CLI reference
 
-### `generate-ql introspect`
+### `generateql introspect`
 
 Fetch a server's introspection schema and print it (or write it to a file) for caching.
 
@@ -212,7 +212,7 @@ Fetch a server's introspection schema and print it (or write it to a file) for c
 | `--header` | Extra request header as `'Key: Value'` (repeatable) |
 | `-o, --out` | Write schema JSON to this file (default: stdout) |
 
-### `generate-ql generate`
+### `generateql generate`
 
 Generate the Go client from a live endpoint or a cached schema.
 
@@ -223,7 +223,7 @@ Generate the Go client from a live endpoint or a cached schema.
 | `--go-module` | — | **Required.** Import path of the generated root package |
 | `-o, --out` | `./generated` | Output directory |
 | `--package` | `client` | Go package name for the generated root package |
-| `--runtime-module` | `github.com/oh-tarnished/generate-ql/runtime/go/runtime` | Import path of the runtime facade |
+| `--runtime-module` | `github.com/oh-tarnished/generateql/runtime/go/runtime` | Import path of the runtime facade |
 | `--max-depth` | `1` | How many levels of relations to inline into models |
 | `--scalar` | — | Scalar override as `GraphQLName=GoType` (repeatable) |
 | `--admin-secret` | — | Shortcut for the `x-hasura-admin-secret` header |
@@ -295,29 +295,48 @@ At runtime, pass headers to `NewFromURL(url, headers)` or `New(ConnectionOptions
 
 ## The runtime
 
-`runtime/go` is a single module with two import surfaces:
+The generator and runtime live in one module (`github.com/oh-tarnished/generateql`).
+Generated clients import two packages from it:
 
 - **`.../runtime/go/runtime`** — the facade the generated code targets. Re-exports the
   network client: `NewConnection`, `ConnectionOptions`, `URLOptions`, `GraphQLClient`,
   `Subscription`, scalar/scheme/client-type constants.
-- **`.../runtime/go/graphql`** — pointer/scalar helpers (`Ptr`, `Int`, `String`, ...).
+- **`.../runtime/go/graphql`** — pointer constructors and engine-tolerant scalar types
+  (below).
 - **`.../runtime/go/network`** — the underlying transport: a factory (`NewConnection`) that
   switches between GraphQL, HTTP, and WebSocket clients. The GraphQL client is built on
-  [`hasura/go-graphql-client`](https://github.com/hasura/go-graphql-client) and drives
-  operations from Go struct tags.
+  [`hasura/go-graphql-client`](https://github.com/hasura/go-graphql-client).
 
-Generated clients only need the `runtime` facade (and `graphql` for helpers).
+### The `graphql` helper package
+
+- Pointer constructors for optional args: `Ptr[T]`, `Int`, `Int32`, `Float64`, `Bool`,
+  `String`, `JSON`.
+- **Tolerant scalar types** for engines that vary their JSON encoding: `Int64` and
+  `Bigdecimal` decode from a JSON **string or number** (engines often serialize 64-bit
+  ints / decimals as strings for precision, but return aggregates as numbers).
+- `Var(value, gqlType)` / `VarPtr(...)` wrap an argument with its exact GraphQL type so
+  the library declares the right variable type for engine-specific scalars (e.g.
+  `String1!`), not the Go-kind default (`String!`).
 
 ### Subscriptions
 
 Subscription methods return a `*runtime.Subscription`; read decoded messages from its
-`Updates()` channel and call `Stop()` to end it. Subscriptions use the WebSocket transport
-(`graphql-ws`) — point the endpoint at a `ws://`/`wss://` URL when opening them.
+`Updates()` channel and call `Stop()` to end it. The runtime uses the modern
+**`graphql-transport-ws`** subprotocol (go-graphql-client's `GraphQLWS`); the ws/wss URL
+is derived from the endpoint automatically. Live-query engines push the current result
+set on connect and again on every change.
 
 ---
 
 ## Notes & limitations
 
+- **Optional arguments are omitted, not nulled.** A nil optional arg is left out of the
+  operation entirely rather than sent as `arg: null` — many engines reject an explicit
+  null for filter/check arguments.
+- **Engine-specific scalars are handled at runtime.** `Int64`/`Bigdecimal` use tolerant
+  types (string-or-number); every argument is wrapped with its exact GraphQL type so
+  custom scalars like `String1!` declare correctly. Override the Go mapping with
+  `--scalar Name=GoType` when needed.
 - **Generated files stay under 400 lines** — types are split one-per-file; large packages are
   naturally partitioned.
 - **`.proto` output** is on the roadmap, not yet emitted.

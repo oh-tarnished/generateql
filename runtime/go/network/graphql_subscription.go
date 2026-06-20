@@ -41,7 +41,10 @@ func (g *GraphQLClient) SubscribeFields(field string, result any, args map[strin
 		return nil, fmt.Errorf("failed to build subscription URL: %w", err)
 	}
 
-	subClient := graphql.NewSubscriptionClient(fullURL)
+	// Use the modern graphql-transport-ws protocol (go-graphql-client's GraphQLWS),
+	// which most current engines speak; the library otherwise defaults to the legacy
+	// subscriptions-transport-ws protocol.
+	subClient := graphql.NewSubscriptionClient(fullURL).WithProtocol(graphql.GraphQLWS)
 	if len(g.Headers) > 0 {
 		header := http.Header{}
 		for k, v := range g.Headers {

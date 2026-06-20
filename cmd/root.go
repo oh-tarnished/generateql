@@ -1,4 +1,4 @@
-// Package cmd implements the generate-ql command-line interface.
+// Package cmd implements the generateql command-line interface.
 package cmd
 
 import (
@@ -10,11 +10,11 @@ import (
 // rootCmd is the base command. Subcommands (introspect, generate) are registered
 // from their own files via init().
 var rootCmd = &cobra.Command{
-	Use:   "generate-ql",
+	Use:   "generateql",
 	Short: "Generate typed GraphQL clients from a live endpoint",
-	Long: `generate-ql introspects a GraphQL endpoint and generates a fully typed client
+	Long: `generateql introspects a GraphQL endpoint and generates a fully typed client
 — models plus query, mutation, and subscription functions per resource — that runs on
-top of the oh-tarnished network runtime. Optional protobuf output is also supported.`,
+top of the oh-tarnished network runtime.`,
 }
 
 // Execute runs the root command. It is called by main and exits non-zero on error.

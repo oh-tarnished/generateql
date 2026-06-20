@@ -11,9 +11,9 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/oh-tarnished/generate-ql/internal/ir"
-	"github.com/oh-tarnished/generate-ql/internal/naming"
-	"github.com/oh-tarnished/generate-ql/internal/typemap"
+	"github.com/oh-tarnished/generateql/internal/ir"
+	"github.com/oh-tarnished/generateql/internal/naming"
+	"github.com/oh-tarnished/generateql/internal/typemap"
 )
 
 // Renderer builds model bodies for a schema.

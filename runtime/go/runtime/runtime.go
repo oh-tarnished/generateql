@@ -12,7 +12,7 @@
 //	gql, _ := conn.AsGraphQLConnectionType()
 package runtime
 
-import "github.com/oh-tarnished/generate-ql/runtime/go/network"
+import "github.com/oh-tarnished/generateql/runtime/go/network"
 
 // Transport, connection, and result types re-exported from the network package.
 type (

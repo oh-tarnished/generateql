@@ -5,7 +5,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/oh-tarnished/generate-ql/runtime/go/network"
+	"github.com/oh-tarnished/generateql/runtime/go/network"
 )
 
 // This version uses GraphQL variables (proper GraphQL approach)

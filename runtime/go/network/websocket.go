@@ -93,12 +93,17 @@ func (ws *WebSocketClient) Close() error {
 }
 
 // Reconnect closes the current connection (if any) and calls Connect with the same
-// ConnectionOptions.
+// ConnectionOptions. The current state is read under the lock before Close/Connect
+// (which take the lock themselves), avoiding a data race with a concurrent Close.
 func (ws *WebSocketClient) Reconnect() error {
-	if ws.conn != nil {
+	ws.mu.RLock()
+	open := ws.conn != nil
+	opts := ws.ConnectionOptions
+	ws.mu.RUnlock()
+	if open {
 		_ = ws.Close()
 	}
-	return ws.Connect(ws.ConnectionOptions)
+	return ws.Connect(opts)
 }
 
 // SetAutoReconnect enables or disables automatic reconnection in Listen. When enabled,
