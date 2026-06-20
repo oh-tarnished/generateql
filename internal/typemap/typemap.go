@@ -24,6 +24,9 @@ var defaultScalars = map[string]string{
 	"Json":        "json.RawMessage",
 	"Timestamp":   "string",
 	"Timestamptz": "string",
+
+	// OrderBy (sort direction) is provided by the runtime graphql package, not generated.
+	"OrderBy": "graphql.OrderBy",
 }
 
 // Mapper resolves Go types for IR field types, honoring user scalar overrides.

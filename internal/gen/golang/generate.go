@@ -37,10 +37,11 @@ type fileData struct {
 
 // generator holds shared state across the write_*.go output passes.
 type generator struct {
-	opts    Options
-	tmpl    *template.Template
-	r       *renderer
-	domains []*domainGen
+	opts      Options
+	tmpl      *template.Template
+	r         *renderer
+	domains   []*domainGen
+	domSchema map[string][]*ir.Object // domain -> models its operations return
 }
 
 // Generate renders the full Go client into Options.OutDir: the shared type packages,
@@ -49,6 +50,12 @@ func Generate(opts Options) error {
 	tmpl, err := template.ParseFS(templatesFS, "templates/file.go.tmpl")
 	if err != nil {
 		return fmt.Errorf("failed to parse template: %w", err)
+	}
+	// OrderBy (sort direction) is supplied by the runtime graphql package, so drop it from
+	// the generated enums and treat it as a leaf scalar that maps to graphql.OrderBy.
+	if _, ok := opts.Schema.Enums["OrderBy"]; ok {
+		delete(opts.Schema.Enums, "OrderBy")
+		opts.Schema.Scalars["OrderBy"] = true
 	}
 	mapper := typemap.New(opts.Schema, opts.Scalars)
 	g := &generator{
@@ -61,6 +68,7 @@ func Generate(opts Options) error {
 		},
 	}
 	g.plan()
+	g.domSchema = g.domainObjects()
 
 	if err := g.writeTypes(); err != nil {
 		return err
@@ -77,10 +85,11 @@ func Generate(opts Options) error {
 	return g.writeRoot()
 }
 
-// writeFile renders one Go file through the template, gofmt-formats it, and writes it
-// to <OutDir>/<subdir>/<name>.
+// writeFile renders one Go file through the template, gofmt-formats it, and writes it to
+// <OutDir>/<Package>/<subdir>/<name>. The whole project is nested under a folder named
+// after the service (the root package), so foldername == package == import root.
 func (g *generator) writeFile(subdir, name, pkg string, imports []string, body string) error {
-	dir := filepath.Join(g.opts.OutDir, subdir)
+	dir := filepath.Join(g.opts.OutDir, g.opts.Package, subdir)
 	if err := os.MkdirAll(dir, 0o755); err != nil {
 		return fmt.Errorf("failed to create %s: %w", dir, err)
 	}

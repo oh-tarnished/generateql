@@ -3,35 +3,55 @@ package golang
 import (
 	"path"
 	"strings"
+
+	"github.com/oh-tarnished/generateql/internal/ir"
 )
 
-// Type packages: each generated GraphQL type gets its own file, grouped by kind into
-// separate packages so references stay cycle-free.
-const (
-	modelsDir = "types/schema" // object/row models package, referenced as "schema."
-	inputsDir = "types/inputs"
-	enumsDir  = "types/enums"
-)
+// enumsDir is the shared enums package, referenced as "enums.". Models are written into a
+// per-domain "<domain>/schema" package instead of one global package, and aliased back into
+// the domain aggregator (see writeDomain).
+const enumsDir = "enumsql"
 
-// writeTypes writes one file per GraphQL type, named after the type, into the enums,
-// models (schema), and inputs packages.
+// domainObjects returns, per domain, the model objects that the domain's operations return
+// (rows, responses, aggregates). Because every object inlines its relations, this reachable
+// set is self-contained — no cross-domain references — so each domain's schema package
+// compiles on its own.
+func (g *generator) domainObjects() map[string][]*ir.Object {
+	out := map[string][]*ir.Object{}
+	for _, dg := range g.domains {
+		seen := map[string]*ir.Object{}
+		for _, rg := range dg.reses {
+			for _, set := range [][]op{rg.queries, rg.mutations, rg.subs} {
+				for _, o := range set {
+					if obj, ok := g.opts.Schema.Objects[o.Op.Return.Base]; ok {
+						seen[obj.Name] = obj
+					}
+				}
+			}
+		}
+		for _, name := range sortedKeys(seen) {
+			out[dg.name] = append(out[dg.name], seen[name])
+		}
+	}
+	return out
+}
+
+// writeTypes writes the shared enums package and, per domain, that domain's model objects
+// into "<domain>/schema".
 func (g *generator) writeTypes() error {
 	for _, name := range sortedKeys(g.opts.Schema.Enums) {
 		body := g.r.enum(g.opts.Schema.Enums[name])
-		if err := g.writeFile(enumsDir, typeFile(name), "enums", g.typeImports(body), body); err != nil {
+		if err := g.writeFile(enumsDir, typeFile(name), "enumsql", g.typeImports(body), body); err != nil {
 			return err
 		}
 	}
-	for _, name := range sortedKeys(g.opts.Schema.Objects) {
-		body := g.r.model(g.opts.Schema.Objects[name])
-		if err := g.writeFile(modelsDir, typeFile(name), "schema", g.typeImports(body), body); err != nil {
-			return err
-		}
-	}
-	for _, name := range sortedKeys(g.opts.Schema.Inputs) {
-		body := g.r.input(g.opts.Schema.Inputs[name])
-		if err := g.writeFile(inputsDir, typeFile(name), "inputs", g.typeImports(body), body); err != nil {
-			return err
+	for _, domain := range sortedKeys(g.domSchema) {
+		dir := domain + "/schemaql"
+		for _, obj := range g.domSchema[domain] {
+			body := g.r.model(obj)
+			if err := g.writeFile(dir, typeFile(obj.Name), "schemaql", g.typeImports(body), body); err != nil {
+				return err
+			}
 		}
 	}
 	return nil
@@ -44,8 +64,9 @@ func typeFile(name string) string {
 	return name + ".go"
 }
 
-// typeImports returns the imports a file needs based on the qualified type references
-// and json/graphql usage in its body.
+// typeImports returns the non-schema imports a body needs (json, the runtime graphql
+// helpers, and the shared enums package). The per-domain schema import is resolved by the
+// caller, which knows the domain.
 func (g *generator) typeImports(body string) []string {
 	var im []string
 	if strings.Contains(body, "json.RawMessage") {
@@ -54,29 +75,19 @@ func (g *generator) typeImports(body string) []string {
 	if strings.Contains(body, "graphql.") {
 		im = append(im, g.graphqlModule())
 	}
-	if strings.Contains(body, "param.") {
-		im = append(im, g.paramModule())
-	}
-	if strings.Contains(body, "enums.") {
+	if strings.Contains(body, "enumsql.") {
 		im = append(im, g.opts.GoModule+"/"+enumsDir)
-	}
-	if strings.Contains(body, "inputs.") {
-		im = append(im, g.opts.GoModule+"/"+inputsDir)
-	}
-	if strings.Contains(body, "schema.") {
-		im = append(im, g.opts.GoModule+"/"+modelsDir)
 	}
 	return im
 }
 
-// graphqlModule is the import path of the runtime graphql helper package (scalar types
-// and pointer constructors), a sibling of the runtime facade module.
-func (g *generator) graphqlModule() string {
-	return path.Dir(g.opts.RuntimeModule) + "/graphql"
+// schemaModule is the import path of a domain's model package.
+func (g *generator) schemaModule(domain string) string {
+	return g.opts.GoModule + "/" + domain + "/schemaql"
 }
 
-// paramModule is the import path of the runtime param package (Opt and IsOmitted), a
-// sibling of the runtime facade module.
-func (g *generator) paramModule() string {
-	return path.Dir(g.opts.RuntimeModule) + "/param"
+// graphqlModule is the import path of the runtime graphql helper package (scalar types,
+// predicate DSL, and column helpers), a sibling of the runtime facade module.
+func (g *generator) graphqlModule() string {
+	return path.Dir(g.opts.RuntimeModule) + "/graphql"
 }

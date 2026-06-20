@@ -1,4 +1,4 @@
-module github.com/oh-tarnished/generateql/examples/freebusyql
+module github.com/oh-tarnished/generateql/examples/freebusy
 
 go 1.26.4
 

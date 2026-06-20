@@ -1,11 +1,11 @@
 // Package golang renders a Go client from the IR using an interface/handler
 // architecture grouped by domain. Each resource is its own package exposing
-// Query/Mutation/Subscription interfaces backed by unexported handlers; a shared
-// types package holds models, inputs, and enums; domain and root packages aggregate
-// the handlers so callers write s.Query.<Domain>.<Resource>.<Method>(...).
-//
-// Required (non-null) arguments are positional; nullable arguments are bundled into a
-// generated <Method>Params struct so callers never pass positional nils.
+// Query/Mutation/Subscription interfaces backed by unexported handlers, plus a natural
+// calling surface: a predicate DSL (field handles + And/Or/Not), single-object
+// CreateInput/UpdateInput structs, and chained request builders for optional arguments.
+// A shared schema package holds models and a shared enums package holds enums; domain and
+// root packages aggregate the handlers so callers write
+// s.Query.<Domain>.<Resource>.<Method>(...).
 package golang
 
 import (
@@ -20,12 +20,14 @@ import (
 )
 
 // Qualifiers for referencing generated types from each writing context. Models inline
-// their relations (so they only reference enums); inputs reference enums and other
-// inputs (same package); handler code references all three type packages.
+// their relations, so they only reference enums; resource-package code references models
+// ("schema.") and enums ("enums.") plus the runtime graphql helpers.
+// Generated packages carry a "ql" suffix on their name (protobuf-style: the import path is
+// the folder, the package identifier is <folder>ql), so qualifiers reference schemaql./enumsql.
+// The runtime helper package (graphql.) is not generated and keeps its name.
 var (
-	qModels  = typemap.Qualifier{Enums: "enums."}
-	qInputs  = typemap.Qualifier{Enums: "enums."}
-	qHandler = typemap.Qualifier{Models: "schema.", Inputs: "inputs.", Enums: "enums."}
+	qModels   = typemap.Qualifier{Enums: "enumsql."}
+	qResource = typemap.Qualifier{Models: "schemaql.", Enums: "enumsql."}
 )
 
 // op pairs an operation with its de-duplicated exported method name.
@@ -55,24 +57,6 @@ func (r *renderer) enum(e *ir.Enum) string {
 	return b.String()
 }
 
-// input renders an input-object struct plus a pointer-receiver GetGraphQLType. Optional
-// fields use param.Opt[T] or value types tagged json:",omitzero" so callers construct
-// inputs without pointers (e.g. {Eq: graphql.String(id)} rather than {Eq: &s}).
-func (r *renderer) input(in *ir.Input) string {
-	var b strings.Builder
-	fmt.Fprintf(&b, "// %s is the %s input type.\ntype %s struct {\n", in.Name, in.Name, in.Name)
-	for _, f := range in.Fields {
-		tag := f.Name
-		if !f.Type.NonNull {
-			tag += ",omitzero"
-		}
-		fmt.Fprintf(&b, "\t%s %s `json:%q`\n", naming.Export(f.Name), r.mapper.GoParamType(f.Type, qInputs), tag)
-	}
-	b.WriteString("}\n\n")
-	fmt.Fprintf(&b, "func (*%s) GetGraphQLType() string { return %q }\n", in.Name, in.Name)
-	return b.String()
-}
-
 // model renders an object's model struct, with relations inlined to max depth.
 func (r *renderer) model(o *ir.Object) string {
 	body := r.selection.ModelBody(o)
@@ -89,4 +73,11 @@ func sortedKeys[V any](m map[string]V) []string {
 	}
 	sort.Strings(keys)
 	return keys
+}
+
+// sortedFields returns input fields sorted by name for deterministic output.
+func sortedFields(fields []ir.Field) []ir.Field {
+	out := append([]ir.Field(nil), fields...)
+	sort.Slice(out, func(i, j int) bool { return out[i].Name < out[j].Name })
+	return out
 }

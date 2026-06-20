@@ -40,7 +40,10 @@ func (g *generator) plan() {
 		if rest == "" {
 			rest = res.Name
 		}
-		domain := identifier(rawDomain) // keyword/identifier-safe package name
+		// Generated packages carry a "ql" suffix (protobuf-style: foldername == package name
+		// == import segment, e.g. organisationql, resourceql), keeping them visually distinct
+		// from hand-written packages.
+		domain := identifier(rawDomain) + "ql"
 		dg, ok := byDomain[domain]
 		if !ok {
 			dg = &domainGen{
@@ -55,7 +58,7 @@ func (g *generator) plan() {
 		// Dedup within the domain so distinct resource names never collide on a package
 		// directory or aggregator field (which would overwrite files or emit a duplicate
 		// struct field).
-		pkg := uniqueName(identifier(rest), dg.usedPkg)
+		pkg := uniqueName(identifier(rest), dg.usedPkg) + "ql"
 		dg.reses = append(dg.reses, &resGen{
 			res:        res,
 			domain:     domain,
@@ -95,22 +98,13 @@ func splitDomain(name string) (domain, rest string) {
 	return strings.ToLower(string(runes[:i])), string(runes[i:])
 }
 
-// opShortName shortens a root field name within its resource package (e.g.
-// "bookingContacts" -> "List", "insertBookingContacts" -> "Insert"). Subscriptions
-// get an "On" prefix.
+// opShortName maps a root field name to a friendly CRUD method within its resource
+// package: list -> "Find", byId -> "Get", insertX -> "Create", updateXById -> "Update",
+// deleteXById -> "Delete". Subscriptions get an "On" prefix (OnFind/OnGet).
 func opShortName(operation *ir.Operation, resource string) string {
 	switch operation.Kind {
 	case "mutation":
-		for _, verb := range []string{"insert", "update", "delete", "upsert"} {
-			if strings.HasPrefix(operation.Name, verb) {
-				rest := strings.TrimPrefix(operation.Name[len(verb):], resource)
-				if rest == "" {
-					return naming.Export(verb)
-				}
-				return naming.Export(verb) + naming.Export(rest)
-			}
-		}
-		return naming.Export(operation.Name)
+		return mutationShort(operation.Name, resource)
 	case "subscription":
 		return "On" + queryShort(operation.Name, lowerFirst(resource))
 	default:
@@ -120,11 +114,33 @@ func opShortName(operation *ir.Operation, resource string) string {
 
 func queryShort(name, resCamel string) string {
 	if strings.HasPrefix(name, resCamel) {
-		rest := name[len(resCamel):]
-		if rest == "" {
-			return "List"
+		switch rest := name[len(resCamel):]; rest {
+		case "":
+			return "Find"
+		case "ById":
+			return "Get"
+		default:
+			return naming.Export(rest)
 		}
-		return naming.Export(rest)
+	}
+	return naming.Export(name)
+}
+
+// mutationShort maps insert/update/delete root fields to CRUD verbs, dropping the trailing
+// key suffix (e.g. "updateXById" -> "Update", "insertX" -> "Create").
+func mutationShort(name, resource string) string {
+	verbs := []struct{ prefix, friendly string }{
+		{"insert", "Create"}, {"update", "Update"}, {"delete", "Delete"}, {"upsert", "Upsert"},
+	}
+	for _, v := range verbs {
+		if strings.HasPrefix(name, v.prefix) {
+			rest := strings.TrimPrefix(name[len(v.prefix):], resource)
+			rest = strings.TrimPrefix(rest, "ById")
+			if rest == "" {
+				return v.friendly
+			}
+			return v.friendly + naming.Export(rest)
+		}
 	}
 	return naming.Export(name)
 }

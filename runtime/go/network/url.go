@@ -46,6 +46,27 @@ func buildFullURL(urlOptions URLOptions, pathIndex int) (string, error) {
 	return u.String(), nil
 }
 
+// URLFromStd converts a parsed *url.URL into URLOptions: scheme, host, and a single path
+// (defaulting to "/"), with any query parameters copied into Params. It lets generated
+// clients connect using the standard library's url.Parse output directly.
+func URLFromStd(u *url.URL) URLOptions {
+	opts := URLOptions{Scheme: URLScheme(u.Scheme), Host: u.Host}
+	path := u.Path
+	if path == "" {
+		path = "/"
+	}
+	opts.Paths = []string{path}
+	if q := u.Query(); len(q) > 0 {
+		opts.Params = make(map[string]string, len(q))
+		for key, values := range q {
+			if len(values) > 0 {
+				opts.Params[key] = values[0]
+			}
+		}
+	}
+	return opts
+}
+
 // websocketURL derives a ws/wss URLOptions copy from an http/https URLOptions,
 // used to open a subscription transport against the same host and path.
 func websocketURL(in URLOptions) URLOptions {

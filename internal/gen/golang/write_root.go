@@ -15,10 +15,19 @@ func (g *generator) writeDomains() error {
 	return nil
 }
 
-// writeDomain writes a domain package aggregating its resources' handlers.
+// writeDomain writes a domain package aggregating its resources' handlers and aliasing the
+// domain's model types (so callers read results via <domain>.<Model> with one import).
 func (g *generator) writeDomain(dg *domainGen) error {
 	var b strings.Builder
 	imports := map[string]bool{g.opts.RuntimeModule: true}
+	if objs := g.domSchema[dg.name]; len(objs) > 0 {
+		imports[g.schemaModule(dg.name)] = true
+		b.WriteString("// Model type aliases for this domain, re-exported from its schema package.\n")
+		for _, obj := range objs {
+			fmt.Fprintf(&b, "type %s = schemaql.%s\n", obj.Name, obj.Name)
+		}
+		b.WriteByte('\n')
+	}
 	for _, spec := range kindSpecs() {
 		members := domainMembers(dg, spec.pick)
 		if len(members) == 0 {
@@ -78,32 +87,20 @@ func (g *generator) writeRoot() error {
 		b.WriteString("\t\t},\n")
 	}
 	b.WriteString("\t}, nil\n}\n\n")
-	b.WriteString(serviceFromURL)
+	b.WriteString(serviceConnect)
 
 	return g.writeFile("", "service.go", g.opts.Package, sortedKeys(imports), b.String())
 }
 
-// serviceFromURL is the source of the NewFromURL convenience constructor.
-const serviceFromURL = `// NewFromURL connects using a full endpoint URL (e.g.
-// "http://localhost:3280/graphql") and optional request headers, instead of a manual
-// ConnectionOptions. Pass nil headers when none are needed.
-func NewFromURL(endpoint string, headers map[string]string) (*Service, error) {
-	u, err := url.Parse(endpoint)
-	if err != nil {
-		return nil, err
+// serviceConnect is the source of the Connect convenience constructor.
+const serviceConnect = `// Connect dials the GraphQL endpoint at u (e.g. url.Parse("http://localhost:3280/graphql")).
+// Request headers are optional; pass one map only if the endpoint needs them.
+func Connect(u *url.URL, headers ...map[string]string) (*Service, error) {
+	var h map[string]string
+	if len(headers) > 0 {
+		h = headers[0]
 	}
-	scheme := runtime.HTTPS
-	if u.Scheme == "http" {
-		scheme = runtime.HTTP
-	}
-	path := u.Path
-	if path == "" {
-		path = "/"
-	}
-	return New(runtime.ConnectionOptions{
-		URL:     runtime.URLOptions{Scheme: scheme, Host: u.Host, Paths: []string{path}},
-		Headers: headers,
-	})
+	return New(runtime.ConnectionOptions{URL: runtime.URLFromStd(u), Headers: h})
 }
 `
 

@@ -12,7 +12,11 @@
 //	gql, _ := conn.AsGraphQLConnectionType()
 package runtime
 
-import "github.com/oh-tarnished/generateql/runtime/go/network"
+import (
+	"net/url"
+
+	"github.com/oh-tarnished/generateql/runtime/go/network"
+)
 
 // Transport, connection, and result types re-exported from the network package.
 type (
@@ -53,4 +57,10 @@ const (
 // NewConnection creates a network client of the given type using the factory.
 func NewConnection(clientType ClientType) (*Network, error) {
 	return network.NewConnection(clientType)
+}
+
+// URLFromStd converts a parsed *url.URL into URLOptions for ConnectionOptions, so
+// generated clients can connect straight from url.Parse output.
+func URLFromStd(u *url.URL) URLOptions {
+	return network.URLFromStd(u)
 }

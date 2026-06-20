@@ -1,0 +1,163 @@
+package golang
+
+import (
+	"fmt"
+	"strings"
+
+	"github.com/oh-tarnished/generateql/internal/ir"
+	"github.com/oh-tarnished/generateql/internal/naming"
+)
+
+// isBoolExp reports whether base names a GraphQL boolean-expression input (it has the
+// _and/_or/_not combinators). Both row filters and per-column comparisons qualify.
+func (r *renderer) isBoolExp(base string) bool {
+	in, ok := r.schema.Inputs[base]
+	if !ok {
+		return false
+	}
+	for _, f := range in.Fields {
+		if f.Name == "_and" || f.Name == "_or" || f.Name == "_not" {
+			return true
+		}
+	}
+	return false
+}
+
+// isOrderBy reports whether base names an order-by input (every field is an enum, i.e. a
+// direction), distinguishing it from an insert-object list.
+func (r *renderer) isOrderBy(base string) bool {
+	in, ok := r.schema.Inputs[base]
+	if !ok || len(in.Fields) == 0 {
+		return false
+	}
+	for _, f := range in.Fields {
+		// Order-by fields are the sort-direction enum (a generated enum, or the runtime
+		// graphql.OrderBy when that enum is provided by the runtime).
+		if !r.mapper.IsEnum(f.Type.Base) && r.mapper.LeafGoType(f.Type.Base) != "graphql.OrderBy" {
+			return false
+		}
+	}
+	return true
+}
+
+// argByPredicate finds, across a resource's operations, the first arg whose type matches
+// pred, returning its base type name (used to locate the BoolExp / insert / update types).
+func (rg *resGen) findArg(pred func(ir.Arg) bool) (ir.Arg, bool) {
+	for _, set := range [][]op{rg.queries, rg.mutations, rg.subs} {
+		for _, o := range set {
+			for _, a := range o.Op.Args {
+				if pred(a) {
+					return a, true
+				}
+			}
+		}
+	}
+	return ir.Arg{}, false
+}
+
+// boolExpType returns the resource's row BoolExp type (a non-comparison BoolExp used as a
+// where/check argument — i.e. one without an _eq field), or "" if absent.
+func (r *renderer) boolExpType(rg *resGen) string {
+	a, ok := rg.findArg(func(a ir.Arg) bool {
+		return r.isBoolExp(a.Type.Base) && !r.hasField(a.Type.Base, "_eq")
+	})
+	if !ok {
+		return ""
+	}
+	return a.Type.Base
+}
+
+// containsBoolExp reports whether an input nests a BoolExp field (so it is a filter or
+// aggregate wrapper, e.g. filter_input, rather than an update-columns patch).
+func (r *renderer) containsBoolExp(base string) bool {
+	in, ok := r.schema.Inputs[base]
+	if !ok {
+		return false
+	}
+	for _, f := range in.Fields {
+		if r.isBoolExp(f.Type.Base) {
+			return true
+		}
+	}
+	return false
+}
+
+// insertObjectType returns the insert mutation's object-list element input type.
+func (r *renderer) insertObjectType(rg *resGen) string {
+	for _, o := range rg.mutations {
+		if !strings.HasPrefix(o.Op.Name, "insert") {
+			continue
+		}
+		for _, a := range o.Op.Args {
+			if a.Type.List && r.mapper.IsInput(a.Type.Base) && !r.isOrderBy(a.Type.Base) {
+				return a.Type.Base
+			}
+		}
+	}
+	return ""
+}
+
+// updateColumnsType returns the update mutation's update-columns input type.
+func (r *renderer) updateColumnsType(rg *resGen) string {
+	for _, o := range rg.mutations {
+		if !strings.HasPrefix(o.Op.Name, "update") {
+			continue
+		}
+		for _, a := range o.Op.Args {
+			if !a.Type.List && r.mapper.IsInput(a.Type.Base) && !r.isBoolExp(a.Type.Base) && !r.containsBoolExp(a.Type.Base) {
+				return a.Type.Base
+			}
+		}
+	}
+	return ""
+}
+
+func (r *renderer) hasField(base, name string) bool {
+	in, ok := r.schema.Inputs[base]
+	if !ok {
+		return false
+	}
+	for _, f := range in.Fields {
+		if f.Name == name {
+			return true
+		}
+	}
+	return false
+}
+
+// renderInputStruct renders CreateInput (from the insert object input) and UpdateInput
+// (from the update_columns input, each column flattened to its set operand) for a resource.
+func (r *renderer) renderInputStruct(name, doc string, fields []ir.Field, setOperand bool) string {
+	if len(fields) == 0 {
+		return ""
+	}
+	var b strings.Builder
+	fmt.Fprintf(&b, "// %s\ntype %s struct {\n", doc, name)
+	for _, f := range sortedFields(fields) {
+		goType := r.mapper.GoParamType(f.Type, qResource)
+		tag := f.Name
+		if setOperand {
+			goType = r.columnSetType(f.Type.Base)
+			tag += ",omitzero"
+		} else if !f.Type.NonNull {
+			tag += ",omitzero"
+		}
+		fmt.Fprintf(&b, "\t%s %s `json:%q`\n", naming.Export(f.Name), goType, tag)
+	}
+	b.WriteString("}\n")
+	return b.String()
+}
+
+// columnSetType resolves an update-column input to its "set" operand Go type.
+func (r *renderer) columnSetType(colBase string) string {
+	in, ok := r.schema.Inputs[colBase]
+	if !ok || len(in.Fields) == 0 {
+		return "string"
+	}
+	for _, f := range in.Fields {
+		if f.Name == "set" || f.Name == "_set" {
+			return r.mapper.GoParamType(f.Type, qResource)
+		}
+	}
+	return r.mapper.GoParamType(in.Fields[0].Type, qResource)
+}
