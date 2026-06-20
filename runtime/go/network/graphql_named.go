@@ -36,7 +36,7 @@ func (g *GraphQLClient) execFields(mutation bool, field string, result any, args
 			return
 		}
 		rv := reflect.ValueOf(result)
-		if rv.Kind() != reflect.Ptr {
+		if rv.Kind() != reflect.Pointer {
 			resultChan <- GraphQLResult{Error: fmt.Errorf("result must be a pointer")}
 			return
 		}

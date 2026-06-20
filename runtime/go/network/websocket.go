@@ -64,7 +64,7 @@ func (ws *WebSocketClient) Connect(opts ConnectionOptions) error {
 
 	conn, resp, err := ws.dialer.Dial(fullURL, convertToHTTPHeader(opts.Headers))
 	if resp != nil && resp.Body != nil {
-		defer resp.Body.Close()
+		defer func() { _ = resp.Body.Close() }()
 	}
 	if err != nil {
 		return fmt.Errorf("failed to dial WebSocket at %s: %w", opts.URL.Host, err)

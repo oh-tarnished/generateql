@@ -67,7 +67,7 @@ func TestHTTPConnect_HEAD405FallsBackToGET(t *testing.T) {
 		if r.Method == http.MethodGet {
 			getCalled = true
 			w.WriteHeader(http.StatusOK)
-			w.Write([]byte("ok"))
+			_, _ = w.Write([]byte("ok"))
 			return
 		}
 		w.WriteHeader(http.StatusMethodNotAllowed)
@@ -135,88 +135,72 @@ func TestHTTPConnect_FailsWhenUnreachable(t *testing.T) {
 }
 
 func TestHTTPClientRequestWithContext(t *testing.T) {
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+		_, _ = w.Write([]byte(`{"ok":true}`))
+	}))
+	defer server.Close()
+
 	client := &HTTPClient{}
-	opts := ConnectionOptions{
-		URL:     URLOptions{Scheme: HTTPS, Host: "httpbin.org", Paths: []string{"/get"}},
-		Timeout: 10 * time.Second,
-	}
+	opts := ConnectionOptions{URL: urlOptionsFromServerURL(t, server.URL), Timeout: 5 * time.Second}
+	assert.NoError(t, client.Connect(opts))
 
-	err := client.Connect(opts)
-	assert.Nil(t, err, "Expected no error while connecting HTTP client")
-
-	ctx := context.Background()
-	result := client.Request(ctx, GET, opts.URL, nil, nil, 0, 0)
-	response := <-result
-
-	// This test may fail if no internet connection, but structure is correct
-	if response.Error != nil {
-		t.Logf("Request failed (expected if no internet): %v", response.Error)
-	} else {
-		assert.NotNil(t, response.Data, "Expected response data")
-	}
+	response := <-client.Request(context.Background(), GET, opts.URL, nil, nil, 0, 0)
+	assert.NoError(t, response.Error)
+	assert.NotNil(t, response.Data, "Expected response data")
 }
 
 func TestHTTPClientRequestSync(t *testing.T) {
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+		_, _ = w.Write([]byte("ok"))
+	}))
+	defer server.Close()
+
 	client := &HTTPClient{}
-	opts := ConnectionOptions{
-		URL:     URLOptions{Scheme: HTTPS, Host: "httpbin.org", Paths: []string{"/status/200"}},
-		Timeout: 10 * time.Second,
-	}
+	opts := ConnectionOptions{URL: urlOptionsFromServerURL(t, server.URL), Timeout: 5 * time.Second}
+	assert.NoError(t, client.Connect(opts))
 
-	err := client.Connect(opts)
-	assert.Nil(t, err, "Expected no error while connecting HTTP client")
-
-	ctx := context.Background()
-	data, err := client.RequestSync(ctx, GET, opts.URL, nil, nil, 0, 0)
-
-	// This test may fail if no internet connection
-	if err != nil {
-		t.Logf("Request failed (expected if no internet): %v", err)
-	} else {
-		assert.NotNil(t, data, "Expected response data")
-	}
+	data, err := client.RequestSync(context.Background(), GET, opts.URL, nil, nil, 0, 0)
+	assert.NoError(t, err)
+	assert.NotNil(t, data, "Expected response data")
 }
 
 func TestHTTPClientWithRetries(t *testing.T) {
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
+		_, _ = w.Write([]byte("ok"))
+	}))
+	defer server.Close()
+
 	client := &HTTPClient{}
-	opts := ConnectionOptions{
-		URL:        URLOptions{Scheme: HTTPS, Host: "httpbin.org", Paths: []string{"/delay/1"}},
-		Timeout:    10 * time.Second,
-		RetryDelay: 1 * time.Second,
-	}
+	opts := ConnectionOptions{URL: urlOptionsFromServerURL(t, server.URL), Timeout: 5 * time.Second, RetryDelay: 10 * time.Millisecond}
+	assert.NoError(t, client.Connect(opts))
 
-	err := client.Connect(opts)
-	assert.Nil(t, err, "Expected no error while connecting HTTP client")
-
-	ctx := context.Background()
-	result := client.Request(ctx, GET, opts.URL, nil, nil, 0, 2)
-	response := <-result
-
-	// This test may fail if no internet connection
-	if response.Error != nil {
-		t.Logf("Request failed (expected if no internet): %v", response.Error)
-	} else {
-		assert.NotNil(t, response.Data, "Expected response data after retries")
-	}
+	response := <-client.Request(context.Background(), GET, opts.URL, nil, nil, 0, 2)
+	assert.NoError(t, response.Error)
+	assert.NotNil(t, response.Data, "Expected response data after retries")
 }
 
 func TestHTTPClientContextCancellation(t *testing.T) {
+	// Slow on the actual GET; the HEAD connectivity check stays fast so Connect succeeds.
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == http.MethodGet {
+			select {
+			case <-time.After(5 * time.Second):
+			case <-r.Context().Done():
+			}
+			return
+		}
+		w.WriteHeader(http.StatusOK)
+	}))
+	defer server.Close()
+
 	client := &HTTPClient{}
-	opts := ConnectionOptions{
-		URL:     URLOptions{Scheme: HTTPS, Host: "httpbin.org", Paths: []string{"/delay/10"}},
-		Timeout: 30 * time.Second,
-	}
+	opts := ConnectionOptions{URL: urlOptionsFromServerURL(t, server.URL), Timeout: 30 * time.Second}
+	assert.NoError(t, client.Connect(opts))
 
-	err := client.Connect(opts)
-	assert.Nil(t, err, "Expected no error while connecting HTTP client")
-
-	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 200*time.Millisecond)
 	defer cancel()
 
-	result := client.Request(ctx, GET, opts.URL, nil, nil, 0, 0)
-	response := <-result
-
-	// Should timeout or fail due to context cancellation
+	response := <-client.Request(ctx, GET, opts.URL, nil, nil, 0, 0)
 	assert.NotNil(t, response.Error, "Expected error due to context timeout")
 }
 

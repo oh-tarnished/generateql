@@ -48,13 +48,13 @@ func runIntrospect(cmd *cobra.Command, _ []string) error {
 		return fmt.Errorf("failed to encode schema: %w", err)
 	}
 	if flagOutput == "" {
-		fmt.Fprintln(cmd.OutOrStdout(), string(out))
+		_, _ = fmt.Fprintln(cmd.OutOrStdout(), string(out))
 		return nil
 	}
 	if err := os.WriteFile(flagOutput, out, 0o644); err != nil {
 		return fmt.Errorf("failed to write %s: %w", flagOutput, err)
 	}
-	fmt.Fprintf(cmd.OutOrStderr(), "wrote schema to %s\n", flagOutput)
+	_, _ = fmt.Fprintf(cmd.OutOrStderr(), "wrote schema to %s\n", flagOutput)
 	return nil
 }
 

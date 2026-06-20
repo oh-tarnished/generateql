@@ -1,377 +1,258 @@
 # GenerateQL
 
-Generate a fully-typed Go client from a live GraphQL endpoint.
+**Turn a GraphQL endpoint into a typed, idiomatic Go SDK — like `protoc`, but for GraphQL.**
 
-GenerateQL introspects a GraphQL server (Hasura, Grafbase/DDN, Prisma-backed engines,
-anything that supports standard introspection), and emits idiomatic Go: typed models,
-input/enum types, and one function per query, mutation, and subscription — organized
-into clean per-domain packages and backed by a small transport runtime.
+GenerateQL introspects any GraphQL server with standard introspection (Hasura, Grafbase /
+Hasura DDN, Prisma-backed engines, …) and emits a self-contained Go **library**: typed models,
+a fluent **predicate DSL** for filters, single-object create/update inputs, and one method per
+query, mutation, and subscription — in clean per-domain packages on a small transport runtime.
 
-No hand-written GraphQL strings, no hand-written struct tags. Point it at a URL, get a
-typed client.
+No hand-written query strings, no struct tags, no pointers in your call sites.
 
----
+```go
+svc, _ := freebusyql.Connect(u)                       // *url.URL in
+
+ins, _ := svc.Mutation.Organisation.Resource.Create(ctx, resourceql.CreateInput{
+    Id: id, DisplayName: "BoB the Builder", Name: "organisations/" + id, MemberCount: 2,
+})
+
+rows, _ := svc.Query.Organisation.Resource.Find(ctx, resourceql.Find().
+    Where(resourceql.And(resourceql.Id.Eq(id), resourceql.MemberCount.Gt(1))).
+    OrderBy(resourceql.DisplayName.Desc()).
+    Limit(10))
+```
 
 ## Why
 
-If you work against a GraphQL DB layer you normally either hand-write query strings and
-struct tags, or hand-maintain a client. Both drift from the schema. GenerateQL makes the
-schema the source of truth:
+Hand-written GraphQL strings and client code drift from the schema. GenerateQL makes the
+**schema the source of truth**:
 
-- **Typed end to end** — every table/type becomes a Go struct; every root field becomes a
-  typed function. Wrong field names or types fail at compile time.
-- **Idiomatic surface** — `svc.Query.Booking.Contacts.List(ctx, ...)`, not string building.
-- **Convention-agnostic** — families (`X` / `XById` / `XAggregate`, `insertX` / `updateXById`
-  / `deleteXById`) are detected from introspection, not hardcoded to one engine.
-- **Regenerate freely** — re-run on schema changes; the output is deterministic and
-  `gofmt`-clean.
+- **Typed end to end** — every row is a struct, every root field a method; mistakes fail at compile time.
+- **Natural call sites** — `svc.Query.Booking.Contacts.Find(ctx, …)` with native values and a predicate DSL — never raw `inputs.*` or pointers.
+- **Convention-agnostic** — CRUD/aggregate families and filterable columns are *derived from introspection*, not hardcoded to one engine.
+- **Reproducible** — deterministic, `gofmt`-clean output that ships with the exact `schema.json` it was built from.
 
----
+## What you get
+
+A protobuf-style **library folder** dropped into *your* module — GenerateQL never writes a
+`go.mod`; you own that:
+
+```text
+yourmodule/                     ← your go.mod + code
+└── freebusyql/                 ← GENERATED (named after the service)
+    ├── service.go  field.go    package freebusyql → Connect, Service, Subscription, Int64
+    ├── schema.json             the introspection schema it was built from
+    ├── organisationql/
+    │   ├── organisationql.go   domain aggregator + model aliases
+    │   ├── resourceql/         handlers · predicates · request builders · Create/UpdateInput · models
+    │   └── schemaql/           row-model structs
+    └── bookingql/ scheduleql/ identityql/ promocodeql/ prismaql/
+```
+
+Every generated package name carries a `ql` suffix (foldername == package == import segment),
+distinguishing generated code from yours — the convention `protoc-gen-go` uses with `pb`.
 
 ## How it works
 
-```text
-introspect ──> IR ──> selection + typemap ──> Go code generator ──> typed client
- (HTTP POST)   (normalized,   (depth-bounded   (per-domain packages)
-               grouped)        struct shapes)
+GenerateQL is a small compiler: it parses the introspection response into a normalized
+**IR (the AST)**, runs analysis passes over it, and renders Go.
+
+```mermaid
+flowchart LR
+    EP["endpoint / cached schema.json"] -->|"__schema query"| INTRO[introspect]
+    INTRO -->|raw JSON| IR["ir.Build → IR / AST"]
+    IR --> PLAN[plan: domains · ql pkgs · CRUD names]
+    IR --> TM[typemap: GraphQL → Go]
+    IR --> SEL[selection: depth-bounded models]
+    IR --> PRED[predicates: filterable columns]
+    PLAN --> GEN[Go renderer]
+    TM --> GEN
+    SEL --> GEN
+    PRED --> GEN
+    GEN -->|gofmt| OUT["typed library + schema.json"]
+    IR --> OUT
 ```
 
-1. **Introspect** the endpoint (standard `__schema` query).
-2. Normalize into a language-agnostic **IR**: objects, inputs, enums, scalars, and root
-   operations grouped per resource.
-3. Map GraphQL types to Go and build depth-bounded selection structs.
-4. Render Go packages and `gofmt` them.
+`ir.Build` flattens the introspection wrappers into a language-agnostic shape (each type
+reference is a flat `FieldType`; operations are grouped per **resource** — the row object they
+act on) so the generator never re-parses GraphQL:
 
-Generated code runs on the **runtime** in this repo (`runtime/go`), a transport-agnostic
-client (GraphQL / HTTP / WebSocket) exposed through a small facade.
+```mermaid
+flowchart TD
+    S[ir.Schema] --> O["Objects (models · responses · aggregates)"]
+    S --> I["Inputs (BoolExp · OrderByExp · Insert/Update)"]
+    S --> E[Enums] --> SC[Scalars]
+    S --> R["Resources: ops grouped by row type"]
+    R --> Q[Queries: list · byId · aggregate]
+    R --> M[Mutations: insert · update · delete]
+    R --> SUB[Subscriptions]
+```
 
----
+Analysis passes (all engine-agnostic, derived from the AST):
+
+- **plan** — groups resources by *domain*, assigns `ql` package names, maps root fields to CRUD verbs (`list→Find`, `byId→Get`, `insertX→Create`, `updateXById→Update`, `deleteXById→Delete`, subscriptions→`On*`).
+- **typemap** — GraphQL scalars → Go; nullable inputs become native values tagged `json:",omitzero"` (presence without pointers, Go 1.24+).
+- **selection** — models as nested structs with relations inlined to `--max-depth`, cycle-safe via a per-branch visited set.
+- **predicates** — resolves each filterable column's `_eq` operand to a Go family and emits a typed field handle; relations become composable predicate functions. No `BoolExp` leaks out.
+
+The renderer emits per-resource packages, per-domain aggregators, the root `Service`, and a
+`schema.json` dump, then `gofmt`s everything. Generated code runs on the **runtime**
+(`runtime/go`) — a transport-agnostic GraphQL / HTTP / WebSocket client behind a small facade.
 
 ## Install
 
-Requires Go 1.25+.
+Requires **Go 1.24+** (the generated code uses `encoding/json`'s `omitzero`).
 
 ```bash
-# build the CLI
-go build -o generateql .
-
-# or run without installing
-go run . <command> [flags]
+brew install oh-tarnished/tap/generateql                              # Homebrew
+go install github.com/oh-tarnished/generateql/cmd/generateql@latest   # Go
+# or from source: go build -o generateql ./cmd/generateql
 ```
-
----
 
 ## Quick start
 
-```bash
-# 1. (optional) cache the schema so you don't re-query on every generate
-go run . introspect --endpoint http://localhost:3280/graphql -o schema.json
+The fastest path is a config file checked into your project — `generateql.yaml`:
 
-# 2. generate a client
-go run . generate \
-  --schema schema.json \
-  --out ./client \
-  --package myapp \
-  --go-module github.com/me/myapp/client \
-  --max-depth 1
+```yaml
+endpoint: http://localhost:3280/graphql      # live introspection…
+# schema: schema.json                        # …or a cached introspection JSON
+lang: go
+go-module: github.com/me/app/freebusyql      # import path of the generated package
+out: .                                        # library written to ./freebusyql/
+max-depth: 1
+# admin-secret: "$HASURA_ADMIN_SECRET"
+# headers: ["Authorization: Bearer <token>"]
+# scalars: ["Timestamptz=time.Time"]
 ```
 
-Then use it:
+```bash
+generateql generate          # auto-detects generateql.yaml, introspects, writes ./freebusyql/
+```
+
+`generate` **auto-introspects**: with `endpoint` it runs the introspection query live; with
+`schema` it reads the cached JSON. Every flag is also a config key (flags override config):
+
+```bash
+generateql generate --endpoint http://localhost:3280/graphql --go-module github.com/me/app/freebusyql
+```
+
+A complete runnable example lives in [`examples/freebusy`](examples/freebusy): config, generated
+library, and a `main.go` exercising the full CRUD + a live subscription.
+
+## Using the client
+
+Two imports — the **client** (`Connect`, `Service`, `Subscription`, `Int64`) and the
+**resource** you operate on (builders, predicate DSL, `Create`/`UpdateInput`, model aliases):
 
 ```go
-package main
-
 import (
-    "context"
-    "fmt"
-
-    "github.com/me/myapp/client"
-    "github.com/me/myapp/client/prisma/migrations"
-    "github.com/oh-tarnished/generateql/runtime/go/graphql"
+    "github.com/me/app/freebusyql"
+    "github.com/me/app/freebusyql/organisationql/resourceql"
 )
 
-func main() {
-    svc, err := client.NewFromURL("http://localhost:3280/graphql", nil)
-    if err != nil {
-        panic(err)
-    }
+u, _ := url.Parse("http://localhost:3280/graphql")
+svc, _ := freebusyql.Connect(u)                                   // headers optional: Connect(u, map[string]string{...})
+q := svc.Query.Organisation.Resource
+m := svc.Mutation.Organisation.Resource
 
-    rows, err := svc.Query.Prisma.Migrations.List(
-        context.Background(),
-        migrations.ListParams{Limit: graphql.Int(5)},
-    )
-    if err != nil {
-        panic(err)
-    }
-    fmt.Printf("%d rows\n", len(rows))
+// CRUD — native fields, single object, no pointers
+ins, _ := m.Create(ctx, resourceql.CreateInput{Id: id, DisplayName: "BoB", MemberCount: 2})
+row, _ := q.Get(ctx, id)                                          // *OrganisationResource
+upd, _ := m.Update(ctx, id, resourceql.UpdateInput{DisplayName: "BoB (updated)"})
+del, _ := m.Delete(ctx, id)
+
+// Filter — predicate DSL (And/Or/Not, relations, ordering)
+rows, _ := q.Find(ctx, resourceql.Find().
+    Where(resourceql.And(resourceql.Id.Eq(id), resourceql.DisplayName.Like("Bob%"))).
+    OrderBy(resourceql.DisplayName.Desc()).Limit(10))
+rows, _ = q.Find(ctx, resourceql.Find().Where(
+    resourceql.OrganisationMembers(membersql.Email.Eq("a@b.com"))))   // filter across a relation
+agg, _ := q.Aggregate(ctx, resourceql.Aggregate().Where(resourceql.Id.Eq(id)))
+
+// Subscribe — graphql-transport-ws; pushes the result set on connect and on change
+sub, _ := svc.Subscription.Organisation.Resource.OnFind(ctx, resourceql.OnFind().Where(resourceql.Id.Eq(id)))
+defer sub.Stop()
+for res := range sub.Updates() {
+    rows, _ := res.Response.(*[]resourceql.OrganisationResource)
+    _ = rows
 }
 ```
 
-A complete, runnable example lives in [`examples/freebusy`](examples/freebusy) (generated
-client + `demo/`).
-
----
-
-## Generated code
-
-### Layout
-
-Resources are grouped by **domain** (the first word of the type name), so you get a handful
-of top-level folders instead of dozens:
-
-```text
-client/
-  service.go               Service + New + NewFromURL + aggregators
-  booking/
-    booking.go             domain aggregator (Query/Mutation/Subscription)
-    contacts/
-      handlers.go          Params structs + Query/Mutation/Subscription interfaces + constructors
-      queries.go           queryHandler implementation
-      mutations.go         mutationHandler implementation
-      subscriptions.go     subscriptionHandler implementation
-    moneys/ ...
-  schedule/ resource/ promocode/ identity/ organisation/ prisma/
-  types/
-    schema/                row models, one file per type (BookingContacts.go, ...)
-    inputs/                *BoolExp, *OrderByExp, Insert*Input, ... one file per type
-    enums/                 OrderBy.go, ...
-```
-
-- **One file per schema type**, named after the type (e.g. `BookingContacts.go`).
-- **Three type packages** — `schema` (output models), `inputs`, `enums` — kept separate but
-  cycle-free (models inline their relations; inputs reference only inputs + enums).
-
-### Calling operations
-
-The `Service` exposes three aggregators, each nested `domain → resource → method`:
-
-```go
-svc.Query.Booking.Contacts.List(ctx, contacts.ListParams{...})
-svc.Query.Booking.Contacts.ById(ctx, "id-123")
-svc.Mutation.Booking.Contacts.Insert(ctx, objects, contacts.InsertParams{...})
-svc.Mutation.Booking.Contacts.UpdateById(ctx, keyId, cols, contacts.UpdateByIdParams{...})
-svc.Subscription.Booking.Contacts.OnList(ctx, contacts.OnListParams{...}) // -> *runtime.Subscription
-```
-
-Method names are shortened within the resource: `List`, `ById`, `Aggregate`, `Insert`,
-`UpdateById`, `DeleteById`, and `On*` for subscriptions.
-
-### Required vs optional arguments
-
-Required (non-null) arguments are **positional**; nullable arguments are bundled into a
-generated `<Method>Params` struct, so you never pass positional `nil`s:
-
-```go
-type ListParams struct {
-    Limit   *int
-    Offset  *int
-    OrderBy *[]inputs.BookingContactsOrderByExp
-    Where   *inputs.BookingContactsBoolExp
-}
-
-rows, _ := svc.Query.Booking.Contacts.List(ctx, contacts.ListParams{
-    Where: graphql.Ptr(inputs.BookingContactsBoolExp{ /* ... */ }),
-    Limit: graphql.Int(20),
-})
-```
-
-Use the [`graphql`](runtime/go/graphql) helper package for the pointers:
-`graphql.Int`, `graphql.String`, `graphql.Bool`, `graphql.Int32`, `graphql.Int64`,
-`graphql.Float64`, `graphql.JSON`, and the generic `graphql.Ptr[T]` (for enums/inputs).
-
-### Connecting
-
-```go
-// easy path: just a URL (+ optional headers)
-svc, err := client.NewFromURL("https://api.example.com/graphql",
-    map[string]string{"x-hasura-admin-secret": "secret"})
-
-// full control
-svc, err := client.New(runtime.ConnectionOptions{
-    URL:     runtime.URLOptions{Scheme: runtime.HTTPS, Host: "api.example.com", Paths: []string{"/graphql"}},
-    Headers: map[string]string{"Authorization": "Bearer ..."},
-    Timeout: 15 * time.Second,
-})
-```
-
-> `runtime.HTTP`/`HTTPS` is just the URL scheme of the GraphQL endpoint (GraphQL travels
-> over HTTP) — the client itself is the GraphQL client, not a REST client.
-
----
-
-## CLI reference
-
-### `generateql introspect`
-
-Fetch a server's introspection schema and print it (or write it to a file) for caching.
-
-| Flag | Description |
-|------|-------------|
-| `--endpoint` | GraphQL endpoint URL (required), e.g. `http://localhost:3280/graphql` |
-| `--admin-secret` | Shortcut for the `x-hasura-admin-secret` header |
-| `--header` | Extra request header as `'Key: Value'` (repeatable) |
-| `-o, --out` | Write schema JSON to this file (default: stdout) |
-
-### `generateql generate`
-
-Generate the Go client from a live endpoint or a cached schema.
-
-| Flag | Default | Description |
-|------|---------|-------------|
-| `--endpoint` | — | GraphQL endpoint URL (used when `--schema` is not set) |
-| `--schema` | — | Path to a cached introspection JSON file |
-| `--go-module` | — | **Required.** Import path of the generated root package |
-| `-o, --out` | `./generated` | Output directory |
-| `--package` | `client` | Go package name for the generated root package |
-| `--runtime-module` | `github.com/oh-tarnished/generateql/runtime/go/runtime` | Import path of the runtime facade |
-| `--max-depth` | `1` | How many levels of relations to inline into models |
-| `--scalar` | — | Scalar override as `GraphQLName=GoType` (repeatable) |
-| `--admin-secret` | — | Shortcut for the `x-hasura-admin-secret` header |
-| `--header` | — | Extra request header as `'Key: Value'` (repeatable) |
-
----
+Operators: `Eq` / `Neq` / `In` / `IsNull` on all; `Gt` / `Gte` / `Lt` / `Lte` on strings &
+numbers; `Like` / `ILike` / `Regex` on strings; `Asc()` / `Desc()` to order. Optional input
+fields use `omitzero` — an unset field is omitted (a deliberate zero/empty is treated as unset;
+filters keep full fidelity through the DSL).
 
 ## Configuration
 
-### `--go-module` (required)
+`generateql.yaml` is auto-detected in the working directory (or `--config <path>`); flags
+override config, relative paths resolve against the working directory.
 
-The import path under which the generated code will live. The generator emits multiple
-packages that import each other (resource packages import `<go-module>/types/schema`,
-`/types/inputs`, `/types/enums`), so it must know the absolute import path. It should match
-the module + subpath where you write the output. Example: output `--out ./client` inside
-module `github.com/me/app` → `--go-module github.com/me/app/client`.
+| Key / Flag | Default | Description |
+| --- | --- | --- |
+| `endpoint` / `--endpoint` | — | GraphQL URL to **introspect live** (when `schema` is unset) |
+| `schema` / `--schema` | — | Cached introspection JSON (skips the network) |
+| `lang` / `--lang` | `go` | Target language (only `go` today) |
+| `go-module` / `--go-module` | — | **Required.** Import path of the generated root package |
+| `out` / `--out` | `.` | Parent dir; library written to `<out>/<package>/` |
+| `package` / `--package` | derived | Root package name (last segment of `go-module`, `+ql` if missing) |
+| `max-depth` / `--max-depth` | `1` | Relation levels inlined into models (0 = scalars only) |
+| `runtime-module` / `--runtime-module` | repo runtime | Import path of the runtime facade |
+| `scalars` / `--scalar` | — | Scalar override `GraphQLName=GoType` (repeatable) |
+| `admin-secret` / `--admin-secret` | — | Shortcut for the `x-hasura-admin-secret` header |
+| `headers` / `--header` | — | Extra request header `Key: Value` (repeatable) |
 
-### `--runtime-module`
+**`--go-module`** is the absolute import path the generated cross-importing packages live
+under (e.g. `--out ./gen` in module `github.com/me/app` → `github.com/me/app/gen/freebusyql`).
 
-Import path of the runtime facade the generated client calls. Defaults to the runtime in
-this repo. Point it at your own vendored/forked copy if you relocate the runtime.
-
-### `--max-depth`
-
-Controls how deep relationships are inlined into a model:
-
-- `0` — scalar fields only.
-- `1` (default) — scalars + each direct relation's scalars.
-- `n` — relations expanded `n` levels.
-
-Selection is expressed as nested Go structs; a per-branch visited set makes it cycle-safe,
-so deeply cyclic schemas never recurse forever. Higher depth = richer single-call results,
-but larger generated structs and queries.
-
-### Scalar mapping & `--scalar`
-
-Default GraphQL scalar → Go type mapping (unknown scalars fall back to `string`):
+**Scalar mapping** (override via `--scalar Timestamptz=time.Time`):
 
 | GraphQL | Go |
-|---------|-----|
-| `ID`, `String`, `String1`, `Bigdecimal`, `Timestamp`, `Timestamptz` | `string` |
-| `Boolean`, `Boolean1` | `bool` |
-| `Int` | `int` |
-| `Int32` | `int32` |
-| `Int64` | `int64` |
-| `Float`, `Float64` | `float64` |
+| --- | --- |
+| `ID` / `String` / `String1` / `Timestamp` / `Timestamptz` | `string` |
+| `Boolean` / `Boolean1` | `bool` |
+| `Int` / `Int32` | `int` / `int32` |
+| `Int64` / `Bigdecimal` | `graphql.Int64` / `graphql.Bigdecimal` (string-or-number tolerant) |
+| `Float` / `Float64` | `float64` |
 | `Json` | `json.RawMessage` |
+| `OrderBy` | `graphql.OrderBy` (runtime-provided; not generated) |
 
-Override or add mappings with repeatable `--scalar`:
+## CLI
 
-```bash
---scalar Timestamptz=time.Time --scalar Bigdecimal=decimal.Decimal
-```
+- **`generateql introspect --endpoint <url> [-o schema.json]`** — fetch and cache a schema.
+- **`generateql generate`** — generate the library (see the configuration table for all flags).
 
-(You're responsible for the corresponding imports/marshaling in those types.)
-
-### Authentication
-
-Both commands accept auth via either flag:
-
-```bash
---admin-secret "$HASURA_ADMIN_SECRET"          # sets x-hasura-admin-secret
---header "Authorization: Bearer $TOKEN"        # any header, repeatable
-```
-
-At runtime, pass headers to `NewFromURL(url, headers)` or `New(ConnectionOptions{Headers: ...})`.
-
----
+Both accept `--admin-secret` and repeatable `--header "Key: Value"` for auth.
 
 ## The runtime
 
-The generator and runtime live in one module (`github.com/oh-tarnished/generateql`).
-Generated clients import two packages from it:
+Generator and runtime are one module (`github.com/oh-tarnished/generateql`). Generated clients
+import three packages from it:
 
-- **`.../runtime/go/runtime`** — the facade the generated code targets. Re-exports the
-  network client: `NewConnection`, `ConnectionOptions`, `URLOptions`, `GraphQLClient`,
-  `Subscription`, scalar/scheme/client-type constants.
-- **`.../runtime/go/graphql`** — pointer constructors and engine-tolerant scalar types
-  (below).
-- **`.../runtime/go/network`** — the underlying transport: a factory (`NewConnection`) that
-  switches between GraphQL, HTTP, and WebSocket clients. The GraphQL client is built on
-  [`hasura/go-graphql-client`](https://github.com/hasura/go-graphql-client).
+- **`runtime/go/runtime`** — the facade the generated code targets (connection plumbing, `Subscription`, `URLFromStd`).
+- **`runtime/go/graphql`** — predicate DSL primitives (`Predicate`, field handles, `And/Or/Not`, `Relation`, `OrderTerm`, `OrderBy`, `SetColumns`, `IsOmitted`) and tolerant scalars: `Int64` / `Bigdecimal` decode from a JSON **string or number** (engines serialize big ints/decimals as strings for precision but return aggregates as numbers).
+- **`runtime/go/network`** — the transport factory (GraphQL / HTTP / WebSocket), built on [`hasura/go-graphql-client`](https://github.com/hasura/go-graphql-client).
 
-### The `graphql` helper package
+## Design notes
 
-- Pointer constructors for optional args: `Ptr[T]`, `Int`, `Int32`, `Float64`, `Bool`,
-  `String`, `JSON`.
-- **Tolerant scalar types** for engines that vary their JSON encoding: `Int64` and
-  `Bigdecimal` decode from a JSON **string or number** (engines often serialize 64-bit
-  ints / decimals as strings for precision, but return aggregates as numbers).
-- `Var(value, gqlType)` / `VarPtr(...)` wrap an argument with its exact GraphQL type so
-  the library declares the right variable type for engine-specific scalars (e.g.
-  `String1!`), not the Go-kind default (`String!`).
-
-### Subscriptions
-
-Subscription methods return a `*runtime.Subscription`; read decoded messages from its
-`Updates()` channel and call `Stop()` to end it. The runtime uses the modern
-**`graphql-transport-ws`** subprotocol (go-graphql-client's `GraphQLWS`); the ws/wss URL
-is derived from the endpoint automatically. Live-query engines push the current result
-set on connect and again on every change.
-
----
-
-## Notes & limitations
-
-- **Optional arguments are omitted, not nulled.** A nil optional arg is left out of the
-  operation entirely rather than sent as `arg: null` — many engines reject an explicit
-  null for filter/check arguments.
-- **Engine-specific scalars are handled at runtime.** `Int64`/`Bigdecimal` use tolerant
-  types (string-or-number); every argument is wrapped with its exact GraphQL type so
-  custom scalars like `String1!` declare correctly. Override the Go mapping with
-  `--scalar Name=GoType` when needed.
-- **Generated files stay under 400 lines** — types are split one-per-file; large packages are
-  naturally partitioned.
-- **`.proto` output** is on the roadmap, not yet emitted.
-- File names use the exact PascalCase type name (no underscores) on purpose: snake_case names
-  ending in a GOOS/GOARCH word (e.g. `..._windows.go`) would be silently excluded by the Go
-  toolchain.
-- Other languages (Python, TypeScript, Rust) share the same IR and are planned; today the
-  generator emits Go.
-
----
+- **Native over pointers** — optional fields are native values + `omitzero`; no `&`/`Opt`/`Ptr` at call sites. Cost: a deliberate zero/empty/null on a nullable field can't be sent (treated as unset); filters keep fidelity via the DSL.
+- **No `inputs` package** — `BoolExp`→predicate DSL, `Insert*Input`→`CreateInput`, `UpdateColumns`→native `UpdateInput` (flattened to `{set: …}` via `graphql.SetColumns`).
+- **Optional args are omitted, not nulled** — many engines reject explicit `null` for filter/check args.
+- **Deferred today**: `distinct_on`, jsonb / `_inc` update operators, aggregate options beyond `where`.
+- **Roadmap**: `.proto` output and Python / TypeScript / Rust targets — the IR is language-agnostic; today the generator emits Go (`--lang go`).
 
 ## Repository layout
 
 ```text
-.
-├── cmd/                 Cobra CLI (introspect, generate)
-├── internal/
-│   ├── introspect/      fetch + decode introspection JSON
-│   ├── ir/              normalized schema + resource grouping
-│   ├── selection/       depth-bounded model rendering
-│   ├── typemap/         GraphQL -> Go type mapping
-│   ├── naming/          identifier helpers
-│   └── gen/golang/      the Go code generator + templates
-├── runtime/go/          transport runtime (network) + facade + graphql helpers
-└── examples/freebusy/   a generated client + runnable demo
+cmd/generateql/   CLI binary entrypoint        internal/ir/         normalized schema (AST)
+cmd/*.go          Cobra commands + config      internal/selection/  depth-bounded models
+internal/introspect/  fetch + decode schema    internal/typemap/    GraphQL → Go mapping
+internal/gen/golang/  the Go code generator    runtime/go/          runtime + DSL + scalars
+examples/freebusy/    config + generated library + demo
 ```
-
----
 
 ## License
 
-Copyright © 2026 oh-tarnished.
-
-Licensed under the **Apache License, Version 2.0**. You may not use this project except in
-compliance with the License; you may obtain a copy at
-<http://www.apache.org/licenses/LICENSE-2.0>. See the [LICENSE](LICENSE) file for the full
-terms. Unless required by applicable law or agreed to in writing, the software is
-distributed on an "AS IS" BASIS, without warranties or conditions of any kind.
+Copyright © 2026 oh-tarnished. Licensed under the **Apache License, Version 2.0**; see
+[LICENSE](LICENSE). Obtain a copy at <http://www.apache.org/licenses/LICENSE-2.0>. Distributed
+on an "AS IS" BASIS, without warranties or conditions of any kind.

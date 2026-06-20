@@ -24,7 +24,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to create network connection: %v", err)
 	}
-	defer netConn.Close()
+	defer func() { _ = netConn.Close() }()
 
 	// Example 1: Simple echo connection
 	example1_SimpleEcho(netConn)
@@ -84,7 +84,7 @@ func example1_SimpleEcho(netConn *network.Network) {
 	fmt.Println("   SUCCESS: Echo successful!")
 
 	// Close connection
-	wsClient.Close()
+	_ = wsClient.Close()
 }
 
 // Example 2: Auto-reconnection
@@ -152,7 +152,7 @@ func example2_AutoReconnection(netConn *network.Network) {
 	}
 
 	fmt.Printf("   SUCCESS: Received %d messages total\n\n", messageCount)
-	wsClient.Close()
+	_ = wsClient.Close()
 }
 
 // Example 3: Graceful shutdown with signal handling
@@ -240,5 +240,5 @@ func example3_GracefulShutdown(netConn *network.Network) {
 	}
 
 	fmt.Printf("    Total messages received: %d\n\n", messageCount)
-	wsClient.Close()
+	_ = wsClient.Close()
 }

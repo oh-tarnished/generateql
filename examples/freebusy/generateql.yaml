@@ -1,0 +1,18 @@
+# generateql config — run `generateql generate` from this directory (no flags needed).
+# Paths are relative to the working directory.
+
+# Introspect a live endpoint:
+#   endpoint: http://localhost:3280/graphql
+#   admin-secret: ""            # or use headers below
+# ...or use a cached introspection JSON (skips the network):
+schema: schema.json
+
+lang: go
+go-module: github.com/oh-tarnished/generateql/examples/freebusy/freebusyql
+out: .            # the library is written to ./freebusyql/
+max-depth: 1
+
+# headers:
+#   - "Authorization: Bearer <token>"
+# scalars:
+#   - "MyScalar=string"

@@ -31,7 +31,7 @@ func (s *Subscription) Stop() error { return s.client.Close() }
 // returned Subscription's Updates channel. Headers are sent on the WebSocket handshake.
 func (g *GraphQLClient) SubscribeFields(field string, result any, args map[string]interface{}) (*Subscription, error) {
 	rv := reflect.ValueOf(result)
-	if rv.Kind() != reflect.Ptr {
+	if rv.Kind() != reflect.Pointer {
 		return nil, fmt.Errorf("result must be a pointer")
 	}
 	resultType := rv.Type().Elem()

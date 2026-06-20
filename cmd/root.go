@@ -2,6 +2,7 @@
 package cmd
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/spf13/cobra"
@@ -11,14 +12,16 @@ import (
 // from their own files via init().
 var rootCmd = &cobra.Command{
 	Use:   "generateql",
-	Short: "Generate typed GraphQL clients from a live endpoint",
-	Long: `generateql introspects a GraphQL endpoint and generates a fully typed client
-— models plus query, mutation, and subscription functions per resource — that runs on
-top of the oh-tarnished network runtime.`,
+	Short: "Generate a typed Go GraphQL client library from an endpoint",
+	Long: `generateql introspects a GraphQL endpoint (or a cached schema) and generates a
+typed Go client library — row models, a predicate DSL for filters, native create/update
+inputs, and one method per query, mutation, and subscription — running on the oh-tarnished
+runtime.`,
 }
 
-// Execute runs the root command. It is called by main and exits non-zero on error.
-func Execute() {
+// Execute runs the root command with the given build metadata, exiting non-zero on error.
+func Execute(version, commit, date string) {
+	rootCmd.Version = fmt.Sprintf("%s (commit %s, built %s)", version, commit, date)
 	if err := rootCmd.Execute(); err != nil {
 		os.Exit(1)
 	}

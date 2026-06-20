@@ -103,7 +103,7 @@ func TestGraphQLConnect_ConnectivitySuccess(t *testing.T) {
 		assert.Contains(t, req.Query, "__typename", "Default connectivity query should contain __typename")
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`{"data":{"__typename":"Query"}}`))
+		_, _ = w.Write([]byte(`{"data":{"__typename":"Query"}}`))
 	}))
 	defer server.Close()
 
@@ -120,7 +120,7 @@ func TestGraphQLConnect_ConnectivitySuccess(t *testing.T) {
 func TestGraphQLConnect_ConnectivityFailure(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte("error"))
+		_, _ = w.Write([]byte("error"))
 	}))
 	defer server.Close()
 
@@ -147,7 +147,7 @@ func TestGraphQLConnect_CustomConnectivityQuery(t *testing.T) {
 		receivedQuery = req.Query
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(`{"data":{"__schema":{"queryType":{"name":"Query"}}}}`))
+		_, _ = w.Write([]byte(`{"data":{"__schema":{"queryType":{"name":"Query"}}}}`))
 	}))
 	defer server.Close()
 
@@ -166,7 +166,7 @@ func TestGraphQLConnect_CustomConnectivityQuery(t *testing.T) {
 func TestGraphQLReconnect_SkipConnectivityCheck(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
-		w.Write([]byte(`{"data":{"__typename":"Query"}}`))
+		_, _ = w.Write([]byte(`{"data":{"__typename":"Query"}}`))
 	}))
 	defer server.Close()
 

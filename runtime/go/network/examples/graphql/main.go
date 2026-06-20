@@ -19,7 +19,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to create network connection: %v", err)
 	}
-	defer netConn.Close()
+	defer func() { _ = netConn.Close() }()
 
 	// Configure connection to gqlgen GraphQL server
 	opts := network.ConnectionOptions{

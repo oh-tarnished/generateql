@@ -47,7 +47,7 @@ func BuildGraphQLArgs(variables map[string]interface{}) string {
 // of that struct. Returns nil if response is not a pointer to a struct.
 func buildDynamicMutation(mutationName, args string, response interface{}) interface{} {
 	responseVal := reflect.ValueOf(response)
-	if responseVal.Kind() != reflect.Ptr {
+	if responseVal.Kind() != reflect.Pointer {
 		return nil
 	}
 	responseType := responseVal.Elem().Type()
