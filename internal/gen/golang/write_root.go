@@ -52,7 +52,7 @@ func (g *generator) writeDomain(dg *domainGen) error {
 // constructors.
 func (g *generator) writeRoot() error {
 	var b strings.Builder
-	imports := map[string]bool{g.opts.RuntimeModule: true, "net/url": true, "context": true}
+	imports := map[string]bool{g.opts.RuntimeModule: true, "net/url": true, "context": true, "fmt": true}
 
 	b.WriteString("// Service is a typed GraphQL client. Access operations via\n")
 	b.WriteString("// s.Query.<Domain>.<Resource>, s.Mutation..., and s.Subscription....\n")
@@ -119,17 +119,20 @@ func rawMethod(spec kindSpec) string {
 		return ""
 	}
 	return fmt.Sprintf(`// %s runs an arbitrary GraphQL %s string with optional variables and returns the decoded
-// JSON response — an escape hatch for %ss the typed API does not cover.
+// JSON response — an escape hatch for %s the typed API does not cover.
 func (h %s) %s(ctx context.Context, %s string, variables map[string]any) (map[string]any, error) {
 	res := <-h.gql.%s(ctx, %s, variables)
 	if res.Error != nil {
 		return nil, res.Error
 	}
-	out, _ := res.Response.(map[string]any)
+	out, ok := res.Response.(map[string]any)
+	if !ok {
+		return nil, fmt.Errorf("unexpected raw response type %%T", res.Response)
+	}
 	return out, nil
 }
 
-`, spec.rawMethod, spec.rawNoun, spec.rawNoun, spec.iface, spec.rawMethod, spec.rawNoun, spec.rawCall, spec.rawNoun)
+`, spec.rawMethod, spec.rawNoun, spec.rawPlural, spec.iface, spec.rawMethod, spec.rawNoun, spec.rawCall, spec.rawNoun)
 }
 
 // kindSpec describes one operation kind's aggregator naming. rawMethod/rawCall, when set,
@@ -144,14 +147,15 @@ type kindSpec struct {
 	pick      func(*resGen) []op
 	rawMethod string // escape-hatch method name, e.g. "QueryRaw" ("" = none)
 	rawCall   string // runtime GraphQLClient method, e.g. "ExecuteRawQuery"
-	rawNoun   string // wording in the doc comment, e.g. "query"
+	rawNoun   string // singular wording in the doc comment, e.g. "query"
+	rawPlural string // plural wording in the doc comment, e.g. "queries"
 }
 
 func kindSpecs() []kindSpec {
 	return []kindSpec{
-		{"Query", "QueryHandler", "query", "NewQuery", func(r *resGen) []op { return r.queries }, "QueryRaw", "ExecuteRawQuery", "query"},
-		{"Mutation", "MutationHandler", "mutation", "NewMutation", func(r *resGen) []op { return r.mutations }, "ExecuteRaw", "ExecRawMutation", "mutation"},
-		{"Subscription", "SubscriptionHandler", "subscription", "NewSubscription", func(r *resGen) []op { return r.subs }, "", "", ""},
+		{"Query", "QueryHandler", "query", "NewQuery", func(r *resGen) []op { return r.queries }, "QueryRaw", "ExecuteRawQuery", "query", "queries"},
+		{"Mutation", "MutationHandler", "mutation", "NewMutation", func(r *resGen) []op { return r.mutations }, "ExecuteRaw", "ExecRawMutation", "mutation", "mutations"},
+		{"Subscription", "SubscriptionHandler", "subscription", "NewSubscription", func(r *resGen) []op { return r.subs }, "", "", "", ""},
 	}
 }
 

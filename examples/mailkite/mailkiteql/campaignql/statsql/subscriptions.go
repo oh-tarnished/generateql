@@ -32,7 +32,7 @@ func (h *subscriptionHandler) OnList(ctx context.Context, req ...*OnListRequest)
 	if !graphql.IsOmitted(r.where) {
 		args["where"] = graphql.VarPtr(r.where, "CampaignStatsBoolExp")
 	}
-	return h.gql.SubscribeFields("campaignStats", &out, args)
+	return h.gql.SubscribeFields(ctx, "campaignStats", &out, args)
 }
 
 func (h *subscriptionHandler) OnAggregate(ctx context.Context, req ...*OnAggregateRequest) (*runtime.Subscription, error) {
@@ -58,12 +58,12 @@ func (h *subscriptionHandler) OnAggregate(ctx context.Context, req ...*OnAggrega
 	if len(filterInput) > 0 {
 		args["filter_input"] = graphql.VarPtr(filterInput, "CampaignStatsFilterInput")
 	}
-	return h.gql.SubscribeFields("campaignStatsAggregate", &out, args)
+	return h.gql.SubscribeFields(ctx, "campaignStatsAggregate", &out, args)
 }
 
 func (h *subscriptionHandler) OnGet(ctx context.Context, id string) (*runtime.Subscription, error) {
 	var out *schemaql.CampaignStats
 	args := map[string]any{}
 	args["id"] = graphql.Var(id, "String1")
-	return h.gql.SubscribeFields("campaignStatsById", &out, args)
+	return h.gql.SubscribeFields(ctx, "campaignStatsById", &out, args)
 }

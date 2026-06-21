@@ -1,13 +1,10 @@
 # generateql config — run `generateql generate` from this directory (no flags needed).
 # Paths are relative to the working directory.
 
-# Auto-introspect a live endpoint (the default workflow):
+# Auto-introspect a live endpoint:
 endpoint: http://localhost:3280/graphql
 #   admin-secret: ""            # or use headers below
-
-# ...or generate offline from the cached introspection JSON (skips the network).
-# Uncomment to use it; when set, `schema` wins over `endpoint`.
-#   schema: schema.json
+#   schema: path/to/schema.json # ...or generate offline from a cached introspection JSON
 
 lang: go
 go-module: github.com/oh-tarnished/generateql/examples/mailkite/mailkiteql

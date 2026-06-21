@@ -32,7 +32,7 @@ func (h *subscriptionHandler) OnList(ctx context.Context, req ...*OnListRequest)
 	if !graphql.IsOmitted(r.where) {
 		args["where"] = graphql.VarPtr(r.where, "PromocodeApplicableResourcesBoolExp")
 	}
-	return h.gql.SubscribeFields("promocodeApplicableResources", &out, args)
+	return h.gql.SubscribeFields(ctx, "promocodeApplicableResources", &out, args)
 }
 
 func (h *subscriptionHandler) OnAggregate(ctx context.Context, req ...*OnAggregateRequest) (*runtime.Subscription, error) {
@@ -58,12 +58,12 @@ func (h *subscriptionHandler) OnAggregate(ctx context.Context, req ...*OnAggrega
 	if len(filterInput) > 0 {
 		args["filter_input"] = graphql.VarPtr(filterInput, "PromocodeApplicableResourcesFilterInput")
 	}
-	return h.gql.SubscribeFields("promocodeApplicableResourcesAggregate", &out, args)
+	return h.gql.SubscribeFields(ctx, "promocodeApplicableResourcesAggregate", &out, args)
 }
 
 func (h *subscriptionHandler) OnGet(ctx context.Context, id string) (*runtime.Subscription, error) {
 	var out *schemaql.PromocodeApplicableResources
 	args := map[string]any{}
 	args["id"] = graphql.Var(id, "String1")
-	return h.gql.SubscribeFields("promocodeApplicableResourcesById", &out, args)
+	return h.gql.SubscribeFields(ctx, "promocodeApplicableResourcesById", &out, args)
 }

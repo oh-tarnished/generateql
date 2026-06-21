@@ -2,6 +2,7 @@
 package network
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 	"reflect"
@@ -29,7 +30,9 @@ func (s *Subscription) Stop() error { return s.client.Close() }
 // sent as null). result must be a pointer to the typed selection; each server message
 // is decoded into a fresh value of that type and delivered (as Response) on the
 // returned Subscription's Updates channel. Headers are sent on the WebSocket handshake.
-func (g *GraphQLClient) SubscribeFields(field string, result any, args map[string]interface{}) (*Subscription, error) {
+// Cancelling ctx stops the subscription (equivalent to calling Stop); Stop still works
+// independently.
+func (g *GraphQLClient) SubscribeFields(ctx context.Context, field string, result any, args map[string]interface{}) (*Subscription, error) {
 	rv := reflect.ValueOf(result)
 	if rv.Kind() != reflect.Pointer {
 		return nil, fmt.Errorf("result must be a pointer")
@@ -61,12 +64,26 @@ func (g *GraphQLClient) SubscribeFields(field string, result any, args map[strin
 		return nil, fmt.Errorf("failed to start subscription: %w", err)
 	}
 
+	done := make(chan struct{})
 	go func() {
 		defer close(sub.updates)
+		defer close(done)
 		if runErr := subClient.Run(); runErr != nil {
 			sub.updates <- GraphQLResult{Error: fmt.Errorf("subscription stopped: %w", runErr)}
 		}
 	}()
+
+	// Stop the subscription when ctx is cancelled. The watcher also exits when the
+	// subscription ends on its own (done closed), so it never outlives the stream.
+	if ctx != nil {
+		go func() {
+			select {
+			case <-ctx.Done():
+				_ = subClient.Close()
+			case <-done:
+			}
+		}()
+	}
 
 	return sub, nil
 }

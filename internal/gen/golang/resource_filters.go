@@ -16,13 +16,18 @@ func (r *renderer) renderPredicates(rg *resGen) (body string, usesEnums bool) {
 		return "", false
 	}
 	// Field handles and relation filters share package scope with the And/Or/Not combinators,
-	// the operation builders (List/Get/Find/Create/...) and CreateInput/UpdateInput, so a
-	// column named e.g. "list" must not shadow them. Seed the used-set with those reserved
-	// names; colliding handles get a deterministic numeric suffix.
+	// the operation builders (List/Get/Find/Create/...), their <Method>Request types, the
+	// CreateInput/UpdateInput structs, and the resource's model-alias types — so a column named
+	// e.g. "list" or "listRequest" must not shadow any of them. Seed the used-set with those
+	// reserved names; colliding handles get a deterministic numeric suffix.
 	used := map[string]bool{"And": true, "Or": true, "Not": true, "CreateInput": true, "UpdateInput": true}
 	for _, set := range [][]op{rg.queries, rg.mutations, rg.subs} {
 		for _, o := range set {
 			used[o.Name] = true
+			used[o.Name+"Request"] = true
+			if obj, ok := r.schema.Objects[o.Op.Return.Base]; ok {
+				used[obj.Name] = true // model alias re-exported into this package
+			}
 		}
 	}
 	type fv struct{ name, expr string }

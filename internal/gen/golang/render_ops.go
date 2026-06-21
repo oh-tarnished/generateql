@@ -81,7 +81,7 @@ func (r *renderer) method(recv string, o op) string {
 	b.WriteString(r.argsBlock(o))
 	switch o.Op.Kind {
 	case "subscription":
-		fmt.Fprintf(&b, "\treturn h.gql.SubscribeFields(%q, &out, args)\n}\n", o.Op.Name)
+		fmt.Fprintf(&b, "\treturn h.gql.SubscribeFields(ctx, %q, &out, args)\n}\n", o.Op.Name)
 		return b.String()
 	case "mutation":
 		fmt.Fprintf(&b, "\tres := <-h.gql.MutateFields(ctx, %q, &out, args)\n", o.Op.Name)
@@ -100,8 +100,8 @@ func (r *renderer) findOneMethod(recv string, o op) string {
 	fmt.Fprintf(&b, "func (h *%s) %s {\n", recv, r.signature(o))
 	fmt.Fprintf(&b, "\tvar out %s\n", listGo)
 	b.WriteString(r.argsBlock(o))
-	if opHasArg(o, "limit") {
-		b.WriteString("\targs[\"limit\"] = graphql.VarPtr(1, \"Int\")\n")
+	if lt := limitGQLType(r.classify(o)); lt != "" {
+		fmt.Fprintf(&b, "\targs[\"limit\"] = graphql.VarPtr(1, %q)\n", lt)
 	}
 	fmt.Fprintf(&b, "\tres := <-h.gql.QueryFields(ctx, %q, &out, args)\n", o.Op.Name)
 	b.WriteString("\tif res.Error != nil {\n\t\treturn nil, res.Error\n\t}\n")
@@ -127,14 +127,16 @@ func usedSpecs(o op, specs []argSpec) []argSpec {
 	return out
 }
 
-// opHasArg reports whether the operation declares an argument named name.
-func opHasArg(o op, name string) bool {
-	for _, a := range o.Op.Args {
-		if a.Name == name {
-			return true
+// limitGQLType returns the GraphQL variable type of the operation's "limit" argument, or ""
+// when it has none. The Find companion uses it so its forced limit=1 variable is declared with
+// the same type the List method derives (e.g. Int, Int32), not a hard-coded "Int".
+func limitGQLType(specs []argSpec) string {
+	for _, s := range specs {
+		if s.argName == "limit" {
+			return s.gqlType
 		}
 	}
-	return false
+	return ""
 }
 
 // argsBlock renders the variables-map construction. Required args are set unconditionally
