@@ -4,6 +4,7 @@ package freebusyql
 
 import (
 	"context"
+	"fmt"
 	"github.com/oh-tarnished/generateql/examples/freebusy/freebusyql/bookingql"
 	"github.com/oh-tarnished/generateql/examples/freebusy/freebusyql/identityql"
 	"github.com/oh-tarnished/generateql/examples/freebusy/freebusyql/organisationql"
@@ -36,13 +37,16 @@ type QueryHandler struct {
 }
 
 // QueryRaw runs an arbitrary GraphQL query string with optional variables and returns the decoded
-// JSON response — an escape hatch for querys the typed API does not cover.
+// JSON response — an escape hatch for queries the typed API does not cover.
 func (h QueryHandler) QueryRaw(ctx context.Context, query string, variables map[string]any) (map[string]any, error) {
 	res := <-h.gql.ExecuteRawQuery(ctx, query, variables)
 	if res.Error != nil {
 		return nil, res.Error
 	}
-	out, _ := res.Response.(map[string]any)
+	out, ok := res.Response.(map[string]any)
+	if !ok {
+		return nil, fmt.Errorf("unexpected raw response type %T", res.Response)
+	}
 	return out, nil
 }
 
@@ -65,7 +69,10 @@ func (h MutationHandler) ExecuteRaw(ctx context.Context, mutation string, variab
 	if res.Error != nil {
 		return nil, res.Error
 	}
-	out, _ := res.Response.(map[string]any)
+	out, ok := res.Response.(map[string]any)
+	if !ok {
+		return nil, fmt.Errorf("unexpected raw response type %T", res.Response)
+	}
 	return out, nil
 }
 
