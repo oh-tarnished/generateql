@@ -12,6 +12,10 @@ func (r *renderer) iface(name, doc string, ops []op) string {
 	var b strings.Builder
 	fmt.Fprintf(&b, "// %s\ntype %s interface {\n", doc, name)
 	for _, o := range ops {
+		if o.FindOne {
+			fmt.Fprintf(&b, "\t// %s runs the %q query and returns the first match, or nil if none.\n\t%s\n", o.Name, o.Op.Name, r.signature(o))
+			continue
+		}
 		fmt.Fprintf(&b, "\t// %s runs the %q %s.\n\t%s\n", o.Name, o.Op.Name, o.Op.Kind, r.signature(o))
 	}
 	b.WriteString("}\n")
@@ -45,18 +49,31 @@ func (r *renderer) signature(o op) string {
 			parts = append(parts, s.goName+" "+s.goType)
 		}
 	}
-	if len(optionalSpecs(specs)) > 0 {
-		parts = append(parts, "req ...*"+o.Name+"Request")
+	if len(optionalSpecs(usedSpecs(o, specs))) > 0 {
+		parts = append(parts, "req ...*"+o.requestName()+"Request")
 	}
 	join := strings.Join(parts, ", ")
-	if o.Op.Kind == "subscription" {
+	switch {
+	case o.Op.Kind == "subscription":
 		return fmt.Sprintf("%s(%s) (*runtime.Subscription, error)", o.Name, join)
+	case o.FindOne:
+		return fmt.Sprintf("%s(%s) (%s, error)", o.Name, join, r.findOneReturn(o))
+	default:
+		return fmt.Sprintf("%s(%s) (%s, error)", o.Name, join, r.mapper.GoType(o.Op.Return, qResource))
 	}
-	return fmt.Sprintf("%s(%s) (%s, error)", o.Name, join, r.mapper.GoType(o.Op.Return, qResource))
+}
+
+// findOneReturn is the FindOne return type: a pointer to the list query's element row
+// (e.g. []schemaql.BounceResource -> *schemaql.BounceResource).
+func (r *renderer) findOneReturn(o op) string {
+	return r.mapper.GoType(ir.FieldType{Base: o.Op.Return.Base}, qResource)
 }
 
 // method renders the concrete handler method implementing op.
 func (r *renderer) method(recv string, o op) string {
+	if o.FindOne {
+		return r.findOneMethod(recv, o)
+	}
 	retGo := r.mapper.GoType(o.Op.Return, qResource)
 	var b strings.Builder
 	fmt.Fprintf(&b, "func (h *%s) %s {\n", recv, r.signature(o))
@@ -67,12 +84,57 @@ func (r *renderer) method(recv string, o op) string {
 		fmt.Fprintf(&b, "\treturn h.gql.SubscribeFields(%q, &out, args)\n}\n", o.Op.Name)
 		return b.String()
 	case "mutation":
-		fmt.Fprintf(&b, "\tres := <-h.gql.MutateFields(%q, &out, args)\n", o.Op.Name)
+		fmt.Fprintf(&b, "\tres := <-h.gql.MutateFields(ctx, %q, &out, args)\n", o.Op.Name)
 	default:
-		fmt.Fprintf(&b, "\tres := <-h.gql.QueryFields(%q, &out, args)\n", o.Op.Name)
+		fmt.Fprintf(&b, "\tres := <-h.gql.QueryFields(ctx, %q, &out, args)\n", o.Op.Name)
 	}
 	b.WriteString("\treturn out, res.Error\n}\n")
 	return b.String()
+}
+
+// findOneMethod renders the Find companion: it runs the list query (forcing limit 1 when the
+// query supports it) and returns the first row, or nil when none match.
+func (r *renderer) findOneMethod(recv string, o op) string {
+	listGo := r.mapper.GoType(o.Op.Return, qResource) // []Row
+	var b strings.Builder
+	fmt.Fprintf(&b, "func (h *%s) %s {\n", recv, r.signature(o))
+	fmt.Fprintf(&b, "\tvar out %s\n", listGo)
+	b.WriteString(r.argsBlock(o))
+	if opHasArg(o, "limit") {
+		b.WriteString("\targs[\"limit\"] = graphql.VarPtr(1, \"Int\")\n")
+	}
+	fmt.Fprintf(&b, "\tres := <-h.gql.QueryFields(ctx, %q, &out, args)\n", o.Op.Name)
+	b.WriteString("\tif res.Error != nil {\n\t\treturn nil, res.Error\n\t}\n")
+	b.WriteString("\tif len(out) == 0 {\n\t\treturn nil, nil\n\t}\n")
+	b.WriteString("\treturn &out[0], nil\n}\n")
+	return b.String()
+}
+
+// usedSpecs returns the specs argsBlock actually renders for o. A FindOne op hard-codes
+// limit to 1, so it drops the limit spec — keeping the signature's request parameter and the
+// body's local request variable in agreement about whether either is needed.
+func usedSpecs(o op, specs []argSpec) []argSpec {
+	if !o.FindOne {
+		return specs
+	}
+	out := make([]argSpec, 0, len(specs))
+	for _, s := range specs {
+		if s.argName == "limit" {
+			continue
+		}
+		out = append(out, s)
+	}
+	return out
+}
+
+// opHasArg reports whether the operation declares an argument named name.
+func opHasArg(o op, name string) bool {
+	for _, a := range o.Op.Args {
+		if a.Name == name {
+			return true
+		}
+	}
+	return false
 }
 
 // argsBlock renders the variables-map construction. Required args are set unconditionally
@@ -81,12 +143,16 @@ func (r *renderer) method(recv string, o op) string {
 func (r *renderer) argsBlock(o op) string {
 	specs := r.classify(o)
 	var b strings.Builder
-	if len(optionalSpecs(specs)) > 0 {
-		fmt.Fprintf(&b, "\tvar r %sRequest\n\tif len(req) > 0 && req[0] != nil {\n\t\tr = *req[0]\n\t}\n", o.Name)
+	if len(optionalSpecs(usedSpecs(o, specs))) > 0 {
+		fmt.Fprintf(&b, "\tvar r %sRequest\n\tif len(req) > 0 && req[0] != nil {\n\t\tr = *req[0]\n\t}\n", o.requestName())
 	}
 	b.WriteString("\targs := map[string]any{}\n")
 	for _, s := range specs {
 		if s.parent != "" {
+			continue
+		}
+		// Find forces limit to 1 after this block, so it omits the caller's limit entirely.
+		if o.FindOne && s.argName == "limit" {
 			continue
 		}
 		switch s.role {

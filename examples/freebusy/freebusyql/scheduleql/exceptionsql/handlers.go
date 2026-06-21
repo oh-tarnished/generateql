@@ -10,8 +10,10 @@ import (
 
 // QueryHandler runs ScheduleExceptions query operations.
 type QueryHandler interface {
-	// Find runs the "scheduleExceptions" query.
-	Find(ctx context.Context, obj CreateInput, req ...*FindRequest) ([]schemaql.ScheduleExceptions, error)
+	// List runs the "scheduleExceptions" query.
+	List(ctx context.Context, req ...*ListRequest) ([]schemaql.ScheduleExceptions, error)
+	// Find runs the "scheduleExceptions" query and returns the first match, or nil if none.
+	Find(ctx context.Context, req ...*ListRequest) (*schemaql.ScheduleExceptions, error)
 	// Aggregate runs the "scheduleExceptionsAggregate" query.
 	Aggregate(ctx context.Context, req ...*AggregateRequest) (*schemaql.ScheduleExceptionsAggExp, error)
 	// Get runs the "scheduleExceptionsById" query.
@@ -36,8 +38,8 @@ func NewMutation(gql *runtime.GraphQLClient) MutationHandler { return &mutationH
 
 // SubscriptionHandler runs ScheduleExceptions subscription operations.
 type SubscriptionHandler interface {
-	// OnFind runs the "scheduleExceptions" subscription.
-	OnFind(ctx context.Context, obj CreateInput, req ...*OnFindRequest) (*runtime.Subscription, error)
+	// OnList runs the "scheduleExceptions" subscription.
+	OnList(ctx context.Context, req ...*OnListRequest) (*runtime.Subscription, error)
 	// OnAggregate runs the "scheduleExceptionsAggregate" subscription.
 	OnAggregate(ctx context.Context, req ...*OnAggregateRequest) (*runtime.Subscription, error)
 	// OnGet runs the "scheduleExceptionsById" subscription.

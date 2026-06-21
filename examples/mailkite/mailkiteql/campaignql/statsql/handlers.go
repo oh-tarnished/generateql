@@ -10,8 +10,10 @@ import (
 
 // QueryHandler runs CampaignStats query operations.
 type QueryHandler interface {
-	// Find runs the "campaignStats" query.
-	Find(ctx context.Context, req ...*FindRequest) ([]schemaql.CampaignStats, error)
+	// List runs the "campaignStats" query.
+	List(ctx context.Context, req ...*ListRequest) ([]schemaql.CampaignStats, error)
+	// Find runs the "campaignStats" query and returns the first match, or nil if none.
+	Find(ctx context.Context, req ...*ListRequest) (*schemaql.CampaignStats, error)
 	// Aggregate runs the "campaignStatsAggregate" query.
 	Aggregate(ctx context.Context, req ...*AggregateRequest) (*schemaql.CampaignStatsAggExp, error)
 	// Get runs the "campaignStatsById" query.
@@ -36,8 +38,8 @@ func NewMutation(gql *runtime.GraphQLClient) MutationHandler { return &mutationH
 
 // SubscriptionHandler runs CampaignStats subscription operations.
 type SubscriptionHandler interface {
-	// OnFind runs the "campaignStats" subscription.
-	OnFind(ctx context.Context, req ...*OnFindRequest) (*runtime.Subscription, error)
+	// OnList runs the "campaignStats" subscription.
+	OnList(ctx context.Context, req ...*OnListRequest) (*runtime.Subscription, error)
 	// OnAggregate runs the "campaignStatsAggregate" subscription.
 	OnAggregate(ctx context.Context, req ...*OnAggregateRequest) (*runtime.Subscription, error)
 	// OnGet runs the "campaignStatsById" subscription.

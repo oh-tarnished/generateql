@@ -10,8 +10,10 @@ import (
 
 // QueryHandler runs ScheduleCancellationPolicies query operations.
 type QueryHandler interface {
-	// Find runs the "scheduleCancellationPolicies" query.
-	Find(ctx context.Context, req ...*FindRequest) ([]schemaql.ScheduleCancellationPolicies, error)
+	// List runs the "scheduleCancellationPolicies" query.
+	List(ctx context.Context, req ...*ListRequest) ([]schemaql.ScheduleCancellationPolicies, error)
+	// Find runs the "scheduleCancellationPolicies" query and returns the first match, or nil if none.
+	Find(ctx context.Context, req ...*ListRequest) (*schemaql.ScheduleCancellationPolicies, error)
 	// Aggregate runs the "scheduleCancellationPoliciesAggregate" query.
 	Aggregate(ctx context.Context, req ...*AggregateRequest) (*schemaql.ScheduleCancellationPoliciesAggExp, error)
 	// Get runs the "scheduleCancellationPoliciesById" query.
@@ -36,8 +38,8 @@ func NewMutation(gql *runtime.GraphQLClient) MutationHandler { return &mutationH
 
 // SubscriptionHandler runs ScheduleCancellationPolicies subscription operations.
 type SubscriptionHandler interface {
-	// OnFind runs the "scheduleCancellationPolicies" subscription.
-	OnFind(ctx context.Context, req ...*OnFindRequest) (*runtime.Subscription, error)
+	// OnList runs the "scheduleCancellationPolicies" subscription.
+	OnList(ctx context.Context, req ...*OnListRequest) (*runtime.Subscription, error)
 	// OnAggregate runs the "scheduleCancellationPoliciesAggregate" subscription.
 	OnAggregate(ctx context.Context, req ...*OnAggregateRequest) (*runtime.Subscription, error)
 	// OnGet runs the "scheduleCancellationPoliciesById" subscription.

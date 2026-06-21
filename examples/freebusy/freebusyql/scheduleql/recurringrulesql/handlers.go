@@ -10,8 +10,10 @@ import (
 
 // QueryHandler runs ScheduleRecurringRules query operations.
 type QueryHandler interface {
-	// Find runs the "scheduleRecurringRules" query.
-	Find(ctx context.Context, obj CreateInput, req ...*FindRequest) ([]schemaql.ScheduleRecurringRules, error)
+	// List runs the "scheduleRecurringRules" query.
+	List(ctx context.Context, req ...*ListRequest) ([]schemaql.ScheduleRecurringRules, error)
+	// Find runs the "scheduleRecurringRules" query and returns the first match, or nil if none.
+	Find(ctx context.Context, req ...*ListRequest) (*schemaql.ScheduleRecurringRules, error)
 	// Aggregate runs the "scheduleRecurringRulesAggregate" query.
 	Aggregate(ctx context.Context, req ...*AggregateRequest) (*schemaql.ScheduleRecurringRulesAggExp, error)
 	// Get runs the "scheduleRecurringRulesById" query.
@@ -36,8 +38,8 @@ func NewMutation(gql *runtime.GraphQLClient) MutationHandler { return &mutationH
 
 // SubscriptionHandler runs ScheduleRecurringRules subscription operations.
 type SubscriptionHandler interface {
-	// OnFind runs the "scheduleRecurringRules" subscription.
-	OnFind(ctx context.Context, obj CreateInput, req ...*OnFindRequest) (*runtime.Subscription, error)
+	// OnList runs the "scheduleRecurringRules" subscription.
+	OnList(ctx context.Context, req ...*OnListRequest) (*runtime.Subscription, error)
 	// OnAggregate runs the "scheduleRecurringRulesAggregate" subscription.
 	OnAggregate(ctx context.Context, req ...*OnAggregateRequest) (*runtime.Subscription, error)
 	// OnGet runs the "scheduleRecurringRulesById" subscription.

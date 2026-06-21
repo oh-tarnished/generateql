@@ -11,7 +11,7 @@ import (
 var (
 	CreateTime      = graphql.StringField{Col: "createTime"}
 	Id              = graphql.StringField{Col: "id"}
-	List            = graphql.StringField{Col: "list"}
+	List2           = graphql.StringField{Col: "list"}
 	ListDisplayName = graphql.StringField{Col: "listDisplayName"}
 	State           = graphql.StringField{Col: "state"}
 	SubscriberId    = graphql.StringField{Col: "subscriberId"}

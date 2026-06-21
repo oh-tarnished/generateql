@@ -6,30 +6,35 @@ import (
 	"github.com/oh-tarnished/generateql/runtime/go/graphql"
 )
 
-// FindRequest carries the optional arguments for Find.
-type FindRequest struct {
-	limit  int
-	offset int
-	where  graphql.Predicate
+// ListRequest carries the optional arguments for List.
+type ListRequest struct {
+	limit   int
+	offset  int
+	orderBy []graphql.OrderTerm
+	where   graphql.Predicate
 }
 
-// Find starts a builder for the optional arguments of Find.
-func Find() *FindRequest { return &FindRequest{} }
+// List starts a builder for the optional arguments of List.
+func List() *ListRequest { return &ListRequest{} }
 
 // Limit sets the limit argument.
-func (r *FindRequest) Limit(v int) *FindRequest { r.limit = v; return r }
+func (r *ListRequest) Limit(v int) *ListRequest { r.limit = v; return r }
 
 // Offset sets the offset argument.
-func (r *FindRequest) Offset(v int) *FindRequest { r.offset = v; return r }
+func (r *ListRequest) Offset(v int) *ListRequest { r.offset = v; return r }
+
+// OrderBy sets the result ordering.
+func (r *ListRequest) OrderBy(v ...graphql.OrderTerm) *ListRequest { r.orderBy = v; return r }
 
 // Where sets the where argument.
-func (r *FindRequest) Where(v graphql.Predicate) *FindRequest { r.where = v; return r }
+func (r *ListRequest) Where(v graphql.Predicate) *ListRequest { r.where = v; return r }
 
 // AggregateRequest carries the optional arguments for Aggregate.
 type AggregateRequest struct {
-	limit  int
-	offset int
-	where  graphql.Predicate
+	limit   int
+	offset  int
+	orderBy []graphql.OrderTerm
+	where   graphql.Predicate
 }
 
 // Aggregate starts a builder for the optional arguments of Aggregate.
@@ -40,6 +45,9 @@ func (r *AggregateRequest) Limit(v int) *AggregateRequest { r.limit = v; return 
 
 // Offset sets the offset argument.
 func (r *AggregateRequest) Offset(v int) *AggregateRequest { r.offset = v; return r }
+
+// OrderBy sets the result ordering.
+func (r *AggregateRequest) OrderBy(v ...graphql.OrderTerm) *AggregateRequest { r.orderBy = v; return r }
 
 // Where sets the where argument.
 func (r *AggregateRequest) Where(v graphql.Predicate) *AggregateRequest { r.where = v; return r }
@@ -81,30 +89,35 @@ func (r *UpdateRequest) PostCheck(v graphql.Predicate) *UpdateRequest { r.postCh
 // PreCheck sets the preCheck argument.
 func (r *UpdateRequest) PreCheck(v graphql.Predicate) *UpdateRequest { r.preCheck = v; return r }
 
-// OnFindRequest carries the optional arguments for OnFind.
-type OnFindRequest struct {
-	limit  int
-	offset int
-	where  graphql.Predicate
+// OnListRequest carries the optional arguments for OnList.
+type OnListRequest struct {
+	limit   int
+	offset  int
+	orderBy []graphql.OrderTerm
+	where   graphql.Predicate
 }
 
-// OnFind starts a builder for the optional arguments of OnFind.
-func OnFind() *OnFindRequest { return &OnFindRequest{} }
+// OnList starts a builder for the optional arguments of OnList.
+func OnList() *OnListRequest { return &OnListRequest{} }
 
 // Limit sets the limit argument.
-func (r *OnFindRequest) Limit(v int) *OnFindRequest { r.limit = v; return r }
+func (r *OnListRequest) Limit(v int) *OnListRequest { r.limit = v; return r }
 
 // Offset sets the offset argument.
-func (r *OnFindRequest) Offset(v int) *OnFindRequest { r.offset = v; return r }
+func (r *OnListRequest) Offset(v int) *OnListRequest { r.offset = v; return r }
+
+// OrderBy sets the result ordering.
+func (r *OnListRequest) OrderBy(v ...graphql.OrderTerm) *OnListRequest { r.orderBy = v; return r }
 
 // Where sets the where argument.
-func (r *OnFindRequest) Where(v graphql.Predicate) *OnFindRequest { r.where = v; return r }
+func (r *OnListRequest) Where(v graphql.Predicate) *OnListRequest { r.where = v; return r }
 
 // OnAggregateRequest carries the optional arguments for OnAggregate.
 type OnAggregateRequest struct {
-	limit  int
-	offset int
-	where  graphql.Predicate
+	limit   int
+	offset  int
+	orderBy []graphql.OrderTerm
+	where   graphql.Predicate
 }
 
 // OnAggregate starts a builder for the optional arguments of OnAggregate.
@@ -115,6 +128,12 @@ func (r *OnAggregateRequest) Limit(v int) *OnAggregateRequest { r.limit = v; ret
 
 // Offset sets the offset argument.
 func (r *OnAggregateRequest) Offset(v int) *OnAggregateRequest { r.offset = v; return r }
+
+// OrderBy sets the result ordering.
+func (r *OnAggregateRequest) OrderBy(v ...graphql.OrderTerm) *OnAggregateRequest {
+	r.orderBy = v
+	return r
+}
 
 // Where sets the where argument.
 func (r *OnAggregateRequest) Where(v graphql.Predicate) *OnAggregateRequest { r.where = v; return r }

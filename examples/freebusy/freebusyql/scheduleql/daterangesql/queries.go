@@ -13,9 +13,9 @@ type queryHandler struct {
 	gql *runtime.GraphQLClient
 }
 
-func (h *queryHandler) Find(ctx context.Context, req ...*FindRequest) ([]schemaql.ScheduleDateRanges, error) {
+func (h *queryHandler) List(ctx context.Context, req ...*ListRequest) ([]schemaql.ScheduleDateRanges, error) {
 	var out []schemaql.ScheduleDateRanges
-	var r FindRequest
+	var r ListRequest
 	if len(req) > 0 && req[0] != nil {
 		r = *req[0]
 	}
@@ -32,8 +32,35 @@ func (h *queryHandler) Find(ctx context.Context, req ...*FindRequest) ([]schemaq
 	if !graphql.IsOmitted(r.where) {
 		args["where"] = graphql.VarPtr(r.where, "ScheduleDateRangesBoolExp")
 	}
-	res := <-h.gql.QueryFields("scheduleDateRanges", &out, args)
+	res := <-h.gql.QueryFields(ctx, "scheduleDateRanges", &out, args)
 	return out, res.Error
+}
+
+func (h *queryHandler) Find(ctx context.Context, req ...*ListRequest) (*schemaql.ScheduleDateRanges, error) {
+	var out []schemaql.ScheduleDateRanges
+	var r ListRequest
+	if len(req) > 0 && req[0] != nil {
+		r = *req[0]
+	}
+	args := map[string]any{}
+	if !graphql.IsOmitted(r.offset) {
+		args["offset"] = graphql.VarPtr(r.offset, "Int")
+	}
+	if !graphql.IsOmitted(r.orderBy) {
+		args["order_by"] = graphql.VarPtr(r.orderBy, "[ScheduleDateRangesOrderByExp!]")
+	}
+	if !graphql.IsOmitted(r.where) {
+		args["where"] = graphql.VarPtr(r.where, "ScheduleDateRangesBoolExp")
+	}
+	args["limit"] = graphql.VarPtr(1, "Int")
+	res := <-h.gql.QueryFields(ctx, "scheduleDateRanges", &out, args)
+	if res.Error != nil {
+		return nil, res.Error
+	}
+	if len(out) == 0 {
+		return nil, nil
+	}
+	return &out[0], nil
 }
 
 func (h *queryHandler) Aggregate(ctx context.Context, req ...*AggregateRequest) (*schemaql.ScheduleDateRangesAggExp, error) {
@@ -59,7 +86,7 @@ func (h *queryHandler) Aggregate(ctx context.Context, req ...*AggregateRequest) 
 	if len(filterInput) > 0 {
 		args["filter_input"] = graphql.VarPtr(filterInput, "ScheduleDateRangesFilterInput")
 	}
-	res := <-h.gql.QueryFields("scheduleDateRangesAggregate", &out, args)
+	res := <-h.gql.QueryFields(ctx, "scheduleDateRangesAggregate", &out, args)
 	return out, res.Error
 }
 
@@ -67,6 +94,6 @@ func (h *queryHandler) Get(ctx context.Context, id string) (*schemaql.ScheduleDa
 	var out *schemaql.ScheduleDateRanges
 	args := map[string]any{}
 	args["id"] = graphql.Var(id, "String1")
-	res := <-h.gql.QueryFields("scheduleDateRangesById", &out, args)
+	res := <-h.gql.QueryFields(ctx, "scheduleDateRangesById", &out, args)
 	return out, res.Error
 }

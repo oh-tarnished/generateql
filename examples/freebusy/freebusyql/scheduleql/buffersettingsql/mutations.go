@@ -24,7 +24,7 @@ func (h *mutationHandler) Delete(ctx context.Context, keyId string, req ...*Dele
 	if !graphql.IsOmitted(r.preCheck) {
 		args["preCheck"] = graphql.VarPtr(r.preCheck, "ScheduleBufferSettingsBoolExp")
 	}
-	res := <-h.gql.MutateFields("deleteScheduleBufferSettingsById", &out, args)
+	res := <-h.gql.MutateFields(ctx, "deleteScheduleBufferSettingsById", &out, args)
 	return out, res.Error
 }
 
@@ -39,7 +39,7 @@ func (h *mutationHandler) Create(ctx context.Context, obj CreateInput, req ...*C
 	if !graphql.IsOmitted(r.postCheck) {
 		args["postCheck"] = graphql.VarPtr(r.postCheck, "ScheduleBufferSettingsBoolExp")
 	}
-	res := <-h.gql.MutateFields("insertScheduleBufferSettings", &out, args)
+	res := <-h.gql.MutateFields(ctx, "insertScheduleBufferSettings", &out, args)
 	return out, res.Error
 }
 
@@ -58,6 +58,6 @@ func (h *mutationHandler) Update(ctx context.Context, keyId string, patch Update
 		args["preCheck"] = graphql.VarPtr(r.preCheck, "ScheduleBufferSettingsBoolExp")
 	}
 	args["updateColumns"] = graphql.Var(graphql.SetColumns(patch), "UpdateScheduleBufferSettingsByIdUpdateColumnsInput")
-	res := <-h.gql.MutateFields("updateScheduleBufferSettingsById", &out, args)
+	res := <-h.gql.MutateFields(ctx, "updateScheduleBufferSettingsById", &out, args)
 	return out, res.Error
 }

@@ -24,7 +24,7 @@ func (h *mutationHandler) Delete(ctx context.Context, keyId string, req ...*Dele
 	if !graphql.IsOmitted(r.preCheck) {
 		args["preCheck"] = graphql.VarPtr(r.preCheck, "ScheduleDateRangesBoolExp")
 	}
-	res := <-h.gql.MutateFields("deleteScheduleDateRangesById", &out, args)
+	res := <-h.gql.MutateFields(ctx, "deleteScheduleDateRangesById", &out, args)
 	return out, res.Error
 }
 
@@ -39,7 +39,7 @@ func (h *mutationHandler) Create(ctx context.Context, obj CreateInput, req ...*C
 	if !graphql.IsOmitted(r.postCheck) {
 		args["postCheck"] = graphql.VarPtr(r.postCheck, "ScheduleDateRangesBoolExp")
 	}
-	res := <-h.gql.MutateFields("insertScheduleDateRanges", &out, args)
+	res := <-h.gql.MutateFields(ctx, "insertScheduleDateRanges", &out, args)
 	return out, res.Error
 }
 
@@ -58,6 +58,6 @@ func (h *mutationHandler) Update(ctx context.Context, keyId string, patch Update
 		args["preCheck"] = graphql.VarPtr(r.preCheck, "ScheduleDateRangesBoolExp")
 	}
 	args["updateColumns"] = graphql.Var(graphql.SetColumns(patch), "UpdateScheduleDateRangesByIdUpdateColumnsInput")
-	res := <-h.gql.MutateFields("updateScheduleDateRangesById", &out, args)
+	res := <-h.gql.MutateFields(ctx, "updateScheduleDateRangesById", &out, args)
 	return out, res.Error
 }

@@ -10,8 +10,10 @@ import (
 
 // QueryHandler runs PromocodeApplicableResources query operations.
 type QueryHandler interface {
-	// Find runs the "promocodeApplicableResources" query.
-	Find(ctx context.Context, obj CreateInput, req ...*FindRequest) ([]schemaql.PromocodeApplicableResources, error)
+	// List runs the "promocodeApplicableResources" query.
+	List(ctx context.Context, req ...*ListRequest) ([]schemaql.PromocodeApplicableResources, error)
+	// Find runs the "promocodeApplicableResources" query and returns the first match, or nil if none.
+	Find(ctx context.Context, req ...*ListRequest) (*schemaql.PromocodeApplicableResources, error)
 	// Aggregate runs the "promocodeApplicableResourcesAggregate" query.
 	Aggregate(ctx context.Context, req ...*AggregateRequest) (*schemaql.PromocodeApplicableResourcesAggExp, error)
 	// Get runs the "promocodeApplicableResourcesById" query.
@@ -36,8 +38,8 @@ func NewMutation(gql *runtime.GraphQLClient) MutationHandler { return &mutationH
 
 // SubscriptionHandler runs PromocodeApplicableResources subscription operations.
 type SubscriptionHandler interface {
-	// OnFind runs the "promocodeApplicableResources" subscription.
-	OnFind(ctx context.Context, obj CreateInput, req ...*OnFindRequest) (*runtime.Subscription, error)
+	// OnList runs the "promocodeApplicableResources" subscription.
+	OnList(ctx context.Context, req ...*OnListRequest) (*runtime.Subscription, error)
 	// OnAggregate runs the "promocodeApplicableResourcesAggregate" subscription.
 	OnAggregate(ctx context.Context, req ...*OnAggregateRequest) (*runtime.Subscription, error)
 	// OnGet runs the "promocodeApplicableResourcesById" subscription.

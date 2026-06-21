@@ -10,8 +10,10 @@ import (
 
 // QueryHandler runs CampaignResource query operations.
 type QueryHandler interface {
-	// Find runs the "campaignResource" query.
-	Find(ctx context.Context, obj CreateInput, req ...*FindRequest) ([]schemaql.CampaignResource, error)
+	// List runs the "campaignResource" query.
+	List(ctx context.Context, req ...*ListRequest) ([]schemaql.CampaignResource, error)
+	// Find runs the "campaignResource" query and returns the first match, or nil if none.
+	Find(ctx context.Context, req ...*ListRequest) (*schemaql.CampaignResource, error)
 	// Aggregate runs the "campaignResourceAggregate" query.
 	Aggregate(ctx context.Context, req ...*AggregateRequest) (*schemaql.CampaignResourceAggExp, error)
 	// Get runs the "campaignResourceById" query.
@@ -36,8 +38,8 @@ func NewMutation(gql *runtime.GraphQLClient) MutationHandler { return &mutationH
 
 // SubscriptionHandler runs CampaignResource subscription operations.
 type SubscriptionHandler interface {
-	// OnFind runs the "campaignResource" subscription.
-	OnFind(ctx context.Context, obj CreateInput, req ...*OnFindRequest) (*runtime.Subscription, error)
+	// OnList runs the "campaignResource" subscription.
+	OnList(ctx context.Context, req ...*OnListRequest) (*runtime.Subscription, error)
 	// OnAggregate runs the "campaignResourceAggregate" subscription.
 	OnAggregate(ctx context.Context, req ...*OnAggregateRequest) (*runtime.Subscription, error)
 	// OnGet runs the "campaignResourceById" subscription.

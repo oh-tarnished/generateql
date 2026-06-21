@@ -10,8 +10,10 @@ import (
 
 // QueryHandler runs BookingContacts query operations.
 type QueryHandler interface {
-	// Find runs the "bookingContacts" query.
-	Find(ctx context.Context, req ...*FindRequest) ([]schemaql.BookingContacts, error)
+	// List runs the "bookingContacts" query.
+	List(ctx context.Context, req ...*ListRequest) ([]schemaql.BookingContacts, error)
+	// Find runs the "bookingContacts" query and returns the first match, or nil if none.
+	Find(ctx context.Context, req ...*ListRequest) (*schemaql.BookingContacts, error)
 	// Aggregate runs the "bookingContactsAggregate" query.
 	Aggregate(ctx context.Context, req ...*AggregateRequest) (*schemaql.BookingContactsAggExp, error)
 	// Get runs the "bookingContactsById" query.
@@ -36,8 +38,8 @@ func NewMutation(gql *runtime.GraphQLClient) MutationHandler { return &mutationH
 
 // SubscriptionHandler runs BookingContacts subscription operations.
 type SubscriptionHandler interface {
-	// OnFind runs the "bookingContacts" subscription.
-	OnFind(ctx context.Context, req ...*OnFindRequest) (*runtime.Subscription, error)
+	// OnList runs the "bookingContacts" subscription.
+	OnList(ctx context.Context, req ...*OnListRequest) (*runtime.Subscription, error)
 	// OnAggregate runs the "bookingContactsAggregate" subscription.
 	OnAggregate(ctx context.Context, req ...*OnAggregateRequest) (*runtime.Subscription, error)
 	// OnGet runs the "bookingContactsById" subscription.

@@ -77,12 +77,21 @@ func (g *generator) plan() {
 	}
 }
 
-// pairOps assigns each operation a short, unique method name within its kind.
+// listMethod is the method name for a resource's plural list query (where/order/limit).
+const listMethod = "List"
+
+// pairOps assigns each operation a short, unique method name within its kind. The list
+// query additionally gets a Find companion that returns the first match (see op.FindOne).
 func pairOps(ops []*ir.Operation, resource string) []op {
 	used := map[string]bool{}
 	out := make([]op, 0, len(ops))
 	for _, o := range ops {
-		out = append(out, op{Op: o, Name: uniqueName(opShortName(o, resource), used)})
+		short := opShortName(o, resource)
+		name := uniqueName(short, used)
+		out = append(out, op{Op: o, Name: name})
+		if o.Kind == "query" && short == listMethod {
+			out = append(out, op{Op: o, Name: uniqueName("Find", used), FindOne: true, ListName: name})
+		}
 	}
 	return out
 }
@@ -116,7 +125,7 @@ func queryShort(name, resCamel string) string {
 	if strings.HasPrefix(name, resCamel) {
 		switch rest := name[len(resCamel):]; rest {
 		case "":
-			return "Find"
+			return listMethod
 		case "ById":
 			return "Get"
 		default:

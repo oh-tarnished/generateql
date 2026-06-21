@@ -24,7 +24,7 @@ func (h *mutationHandler) Delete(ctx context.Context, keyId string, req ...*Dele
 	if !graphql.IsOmitted(r.preCheck) {
 		args["preCheck"] = graphql.VarPtr(r.preCheck, "BookingMoneysBoolExp")
 	}
-	res := <-h.gql.MutateFields("deleteBookingMoneysById", &out, args)
+	res := <-h.gql.MutateFields(ctx, "deleteBookingMoneysById", &out, args)
 	return out, res.Error
 }
 
@@ -39,7 +39,7 @@ func (h *mutationHandler) Create(ctx context.Context, obj CreateInput, req ...*C
 	if !graphql.IsOmitted(r.postCheck) {
 		args["postCheck"] = graphql.VarPtr(r.postCheck, "BookingMoneysBoolExp")
 	}
-	res := <-h.gql.MutateFields("insertBookingMoneys", &out, args)
+	res := <-h.gql.MutateFields(ctx, "insertBookingMoneys", &out, args)
 	return out, res.Error
 }
 
@@ -58,6 +58,6 @@ func (h *mutationHandler) Update(ctx context.Context, keyId string, patch Update
 		args["preCheck"] = graphql.VarPtr(r.preCheck, "BookingMoneysBoolExp")
 	}
 	args["updateColumns"] = graphql.Var(graphql.SetColumns(patch), "UpdateBookingMoneysByIdUpdateColumnsInput")
-	res := <-h.gql.MutateFields("updateBookingMoneysById", &out, args)
+	res := <-h.gql.MutateFields(ctx, "updateBookingMoneysById", &out, args)
 	return out, res.Error
 }

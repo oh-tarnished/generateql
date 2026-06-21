@@ -30,10 +30,23 @@ var (
 	qResource = typemap.Qualifier{Models: "schemaql.", Enums: "enumsql."}
 )
 
-// op pairs an operation with its de-duplicated exported method name.
+// op pairs an operation with its de-duplicated exported method name. The list query also
+// produces a second op (FindOne) that reuses the list operation but returns the first match
+// as a single pointer; ListName carries the sibling List method whose request type it shares.
 type op struct {
-	Op   *ir.Operation
-	Name string
+	Op       *ir.Operation
+	Name     string
+	FindOne  bool   // render a "first match" wrapper returning *Row instead of []Row
+	ListName string // sibling List method (and request type) a FindOne op reuses
+}
+
+// requestName is the operation whose <Name>Request type this op uses. A FindOne op shares
+// the sibling List request rather than declaring its own identical one.
+func (o op) requestName() string {
+	if o.FindOne {
+		return o.ListName
+	}
+	return o.Name
 }
 
 // renderer turns IR elements into Go source fragments.

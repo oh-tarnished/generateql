@@ -10,8 +10,10 @@ import (
 
 // QueryHandler runs OrganisationMembers query operations.
 type QueryHandler interface {
-	// Find runs the "organisationMembers" query.
-	Find(ctx context.Context, obj CreateInput, req ...*FindRequest) ([]schemaql.OrganisationMembers, error)
+	// List runs the "organisationMembers" query.
+	List(ctx context.Context, req ...*ListRequest) ([]schemaql.OrganisationMembers, error)
+	// Find runs the "organisationMembers" query and returns the first match, or nil if none.
+	Find(ctx context.Context, req ...*ListRequest) (*schemaql.OrganisationMembers, error)
 	// Aggregate runs the "organisationMembersAggregate" query.
 	Aggregate(ctx context.Context, req ...*AggregateRequest) (*schemaql.OrganisationMembersAggExp, error)
 	// Get runs the "organisationMembersById" query.
@@ -36,8 +38,8 @@ func NewMutation(gql *runtime.GraphQLClient) MutationHandler { return &mutationH
 
 // SubscriptionHandler runs OrganisationMembers subscription operations.
 type SubscriptionHandler interface {
-	// OnFind runs the "organisationMembers" subscription.
-	OnFind(ctx context.Context, obj CreateInput, req ...*OnFindRequest) (*runtime.Subscription, error)
+	// OnList runs the "organisationMembers" subscription.
+	OnList(ctx context.Context, req ...*OnListRequest) (*runtime.Subscription, error)
 	// OnAggregate runs the "organisationMembersAggregate" subscription.
 	OnAggregate(ctx context.Context, req ...*OnAggregateRequest) (*runtime.Subscription, error)
 	// OnGet runs the "organisationMembersById" subscription.

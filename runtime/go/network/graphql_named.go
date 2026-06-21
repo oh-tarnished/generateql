@@ -14,20 +14,22 @@ import (
 	"strings"
 )
 
-// QueryFields runs a query selecting result under field with the given arguments.
-// result must be a pointer to the typed result; it is filled on success.
-func (g *GraphQLClient) QueryFields(field string, result any, args map[string]interface{}) <-chan GraphQLResult {
-	return g.execFields(false, field, result, args)
+// QueryFields runs a query selecting result under field with the given arguments. ctx
+// carries cancellation/deadline and tracing through to the transport (bounded by g.Timeout);
+// result must be a pointer to the typed result and is filled on success.
+func (g *GraphQLClient) QueryFields(ctx context.Context, field string, result any, args map[string]interface{}) <-chan GraphQLResult {
+	return g.execFields(ctx, false, field, result, args)
 }
 
-// MutateFields runs a mutation selecting result under field with the given arguments.
-func (g *GraphQLClient) MutateFields(field string, result any, args map[string]interface{}) <-chan GraphQLResult {
-	return g.execFields(true, field, result, args)
+// MutateFields runs a mutation selecting result under field with the given arguments. ctx is
+// propagated to the transport (see QueryFields).
+func (g *GraphQLClient) MutateFields(ctx context.Context, field string, result any, args map[string]interface{}) <-chan GraphQLResult {
+	return g.execFields(ctx, true, field, result, args)
 }
 
 // execFields builds a single-field operation struct with a dynamic graphql tag, runs
 // it, and copies the decoded field back into result.
-func (g *GraphQLClient) execFields(mutation bool, field string, result any, args map[string]interface{}) <-chan GraphQLResult {
+func (g *GraphQLClient) execFields(ctx context.Context, mutation bool, field string, result any, args map[string]interface{}) <-chan GraphQLResult {
 	resultChan := make(chan GraphQLResult, 1)
 	go func() {
 		defer close(resultChan)
@@ -42,7 +44,7 @@ func (g *GraphQLClient) execFields(mutation bool, field string, result any, args
 		}
 		wrapper := newOpStruct(field, rv.Type().Elem(), args)
 
-		ctx, cancel := context.WithTimeout(context.Background(), g.Timeout)
+		ctx, cancel := context.WithTimeout(ctx, g.Timeout)
 		defer cancel()
 
 		var err error

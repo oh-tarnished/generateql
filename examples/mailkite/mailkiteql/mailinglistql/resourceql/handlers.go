@@ -10,8 +10,10 @@ import (
 
 // QueryHandler runs MailinglistResource query operations.
 type QueryHandler interface {
-	// Find runs the "mailinglistResource" query.
-	Find(ctx context.Context, req ...*FindRequest) ([]schemaql.MailinglistResource, error)
+	// List runs the "mailinglistResource" query.
+	List(ctx context.Context, req ...*ListRequest) ([]schemaql.MailinglistResource, error)
+	// Find runs the "mailinglistResource" query and returns the first match, or nil if none.
+	Find(ctx context.Context, req ...*ListRequest) (*schemaql.MailinglistResource, error)
 	// Aggregate runs the "mailinglistResourceAggregate" query.
 	Aggregate(ctx context.Context, req ...*AggregateRequest) (*schemaql.MailinglistResourceAggExp, error)
 	// Get runs the "mailinglistResourceById" query.
@@ -36,8 +38,8 @@ func NewMutation(gql *runtime.GraphQLClient) MutationHandler { return &mutationH
 
 // SubscriptionHandler runs MailinglistResource subscription operations.
 type SubscriptionHandler interface {
-	// OnFind runs the "mailinglistResource" subscription.
-	OnFind(ctx context.Context, req ...*OnFindRequest) (*runtime.Subscription, error)
+	// OnList runs the "mailinglistResource" subscription.
+	OnList(ctx context.Context, req ...*OnListRequest) (*runtime.Subscription, error)
 	// OnAggregate runs the "mailinglistResourceAggregate" subscription.
 	OnAggregate(ctx context.Context, req ...*OnAggregateRequest) (*runtime.Subscription, error)
 	// OnGet runs the "mailinglistResourceById" subscription.

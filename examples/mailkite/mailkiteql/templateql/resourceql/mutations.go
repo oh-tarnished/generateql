@@ -24,7 +24,7 @@ func (h *mutationHandler) Delete(ctx context.Context, keyId string, req ...*Dele
 	if !graphql.IsOmitted(r.preCheck) {
 		args["preCheck"] = graphql.VarPtr(r.preCheck, "TemplateResourceBoolExp")
 	}
-	res := <-h.gql.MutateFields("deleteTemplateResourceById", &out, args)
+	res := <-h.gql.MutateFields(ctx, "deleteTemplateResourceById", &out, args)
 	return out, res.Error
 }
 
@@ -39,7 +39,7 @@ func (h *mutationHandler) Create(ctx context.Context, obj CreateInput, req ...*C
 	if !graphql.IsOmitted(r.postCheck) {
 		args["postCheck"] = graphql.VarPtr(r.postCheck, "TemplateResourceBoolExp")
 	}
-	res := <-h.gql.MutateFields("insertTemplateResource", &out, args)
+	res := <-h.gql.MutateFields(ctx, "insertTemplateResource", &out, args)
 	return out, res.Error
 }
 
@@ -58,6 +58,6 @@ func (h *mutationHandler) Update(ctx context.Context, keyId string, patch Update
 		args["preCheck"] = graphql.VarPtr(r.preCheck, "TemplateResourceBoolExp")
 	}
 	args["updateColumns"] = graphql.Var(graphql.SetColumns(patch), "UpdateTemplateResourceByIdUpdateColumnsInput")
-	res := <-h.gql.MutateFields("updateTemplateResourceById", &out, args)
+	res := <-h.gql.MutateFields(ctx, "updateTemplateResourceById", &out, args)
 	return out, res.Error
 }

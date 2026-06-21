@@ -13,9 +13,9 @@ type queryHandler struct {
 	gql *runtime.GraphQLClient
 }
 
-func (h *queryHandler) Find(ctx context.Context, req ...*FindRequest) ([]schemaql.ScheduleStayConstraints, error) {
+func (h *queryHandler) List(ctx context.Context, req ...*ListRequest) ([]schemaql.ScheduleStayConstraints, error) {
 	var out []schemaql.ScheduleStayConstraints
-	var r FindRequest
+	var r ListRequest
 	if len(req) > 0 && req[0] != nil {
 		r = *req[0]
 	}
@@ -32,8 +32,35 @@ func (h *queryHandler) Find(ctx context.Context, req ...*FindRequest) ([]schemaq
 	if !graphql.IsOmitted(r.where) {
 		args["where"] = graphql.VarPtr(r.where, "ScheduleStayConstraintsBoolExp")
 	}
-	res := <-h.gql.QueryFields("scheduleStayConstraints", &out, args)
+	res := <-h.gql.QueryFields(ctx, "scheduleStayConstraints", &out, args)
 	return out, res.Error
+}
+
+func (h *queryHandler) Find(ctx context.Context, req ...*ListRequest) (*schemaql.ScheduleStayConstraints, error) {
+	var out []schemaql.ScheduleStayConstraints
+	var r ListRequest
+	if len(req) > 0 && req[0] != nil {
+		r = *req[0]
+	}
+	args := map[string]any{}
+	if !graphql.IsOmitted(r.offset) {
+		args["offset"] = graphql.VarPtr(r.offset, "Int")
+	}
+	if !graphql.IsOmitted(r.orderBy) {
+		args["order_by"] = graphql.VarPtr(r.orderBy, "[ScheduleStayConstraintsOrderByExp!]")
+	}
+	if !graphql.IsOmitted(r.where) {
+		args["where"] = graphql.VarPtr(r.where, "ScheduleStayConstraintsBoolExp")
+	}
+	args["limit"] = graphql.VarPtr(1, "Int")
+	res := <-h.gql.QueryFields(ctx, "scheduleStayConstraints", &out, args)
+	if res.Error != nil {
+		return nil, res.Error
+	}
+	if len(out) == 0 {
+		return nil, nil
+	}
+	return &out[0], nil
 }
 
 func (h *queryHandler) Aggregate(ctx context.Context, req ...*AggregateRequest) (*schemaql.ScheduleStayConstraintsAggExp, error) {
@@ -59,7 +86,7 @@ func (h *queryHandler) Aggregate(ctx context.Context, req ...*AggregateRequest) 
 	if len(filterInput) > 0 {
 		args["filter_input"] = graphql.VarPtr(filterInput, "ScheduleStayConstraintsFilterInput")
 	}
-	res := <-h.gql.QueryFields("scheduleStayConstraintsAggregate", &out, args)
+	res := <-h.gql.QueryFields(ctx, "scheduleStayConstraintsAggregate", &out, args)
 	return out, res.Error
 }
 
@@ -67,6 +94,6 @@ func (h *queryHandler) Get(ctx context.Context, id string) (*schemaql.ScheduleSt
 	var out *schemaql.ScheduleStayConstraints
 	args := map[string]any{}
 	args["id"] = graphql.Var(id, "String1")
-	res := <-h.gql.QueryFields("scheduleStayConstraintsById", &out, args)
+	res := <-h.gql.QueryFields(ctx, "scheduleStayConstraintsById", &out, args)
 	return out, res.Error
 }

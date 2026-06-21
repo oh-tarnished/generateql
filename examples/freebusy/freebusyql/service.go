@@ -3,6 +3,7 @@
 package freebusyql
 
 import (
+	"context"
 	"github.com/oh-tarnished/generateql/examples/freebusy/freebusyql/bookingql"
 	"github.com/oh-tarnished/generateql/examples/freebusy/freebusyql/identityql"
 	"github.com/oh-tarnished/generateql/examples/freebusy/freebusyql/organisationql"
@@ -24,6 +25,7 @@ type Service struct {
 
 // QueryHandler groups every domain's query handlers.
 type QueryHandler struct {
+	gql          *runtime.GraphQLClient
 	Booking      bookingql.QueryHandler
 	Identity     identityql.QueryHandler
 	Organisation organisationql.QueryHandler
@@ -33,8 +35,20 @@ type QueryHandler struct {
 	Schedule     scheduleql.QueryHandler
 }
 
+// QueryRaw runs an arbitrary GraphQL query string with optional variables and returns the decoded
+// JSON response — an escape hatch for querys the typed API does not cover.
+func (h QueryHandler) QueryRaw(ctx context.Context, query string, variables map[string]any) (map[string]any, error) {
+	res := <-h.gql.ExecuteRawQuery(ctx, query, variables)
+	if res.Error != nil {
+		return nil, res.Error
+	}
+	out, _ := res.Response.(map[string]any)
+	return out, nil
+}
+
 // MutationHandler groups every domain's mutation handlers.
 type MutationHandler struct {
+	gql          *runtime.GraphQLClient
 	Booking      bookingql.MutationHandler
 	Identity     identityql.MutationHandler
 	Organisation organisationql.MutationHandler
@@ -42,6 +56,17 @@ type MutationHandler struct {
 	Promocode    promocodeql.MutationHandler
 	Resource     resourceql.MutationHandler
 	Schedule     scheduleql.MutationHandler
+}
+
+// ExecuteRaw runs an arbitrary GraphQL mutation string with optional variables and returns the decoded
+// JSON response — an escape hatch for mutations the typed API does not cover.
+func (h MutationHandler) ExecuteRaw(ctx context.Context, mutation string, variables map[string]any) (map[string]any, error) {
+	res := <-h.gql.ExecRawMutation(ctx, mutation, variables)
+	if res.Error != nil {
+		return nil, res.Error
+	}
+	out, _ := res.Response.(map[string]any)
+	return out, nil
 }
 
 // SubscriptionHandler groups every domain's subscription handlers.
@@ -70,6 +95,7 @@ func New(opts runtime.ConnectionOptions) (*Service, error) {
 	}
 	return &Service{
 		Query: QueryHandler{
+			gql:          gql,
 			Booking:      bookingql.NewQuery(gql),
 			Identity:     identityql.NewQuery(gql),
 			Organisation: organisationql.NewQuery(gql),
@@ -79,6 +105,7 @@ func New(opts runtime.ConnectionOptions) (*Service, error) {
 			Schedule:     scheduleql.NewQuery(gql),
 		},
 		Mutation: MutationHandler{
+			gql:          gql,
 			Booking:      bookingql.NewMutation(gql),
 			Identity:     identityql.NewMutation(gql),
 			Organisation: organisationql.NewMutation(gql),

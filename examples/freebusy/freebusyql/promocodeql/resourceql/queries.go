@@ -13,9 +13,9 @@ type queryHandler struct {
 	gql *runtime.GraphQLClient
 }
 
-func (h *queryHandler) Find(ctx context.Context, obj CreateInput, req ...*FindRequest) ([]schemaql.PromocodeResource, error) {
+func (h *queryHandler) List(ctx context.Context, req ...*ListRequest) ([]schemaql.PromocodeResource, error) {
 	var out []schemaql.PromocodeResource
-	var r FindRequest
+	var r ListRequest
 	if len(req) > 0 && req[0] != nil {
 		r = *req[0]
 	}
@@ -26,12 +26,41 @@ func (h *queryHandler) Find(ctx context.Context, obj CreateInput, req ...*FindRe
 	if !graphql.IsOmitted(r.offset) {
 		args["offset"] = graphql.VarPtr(r.offset, "Int")
 	}
-	args["order_by"] = graphql.Var([]CreateInput{obj}, "[PromocodeResourceOrderByExp!]")
+	if !graphql.IsOmitted(r.orderBy) {
+		args["order_by"] = graphql.VarPtr(r.orderBy, "[PromocodeResourceOrderByExp!]")
+	}
 	if !graphql.IsOmitted(r.where) {
 		args["where"] = graphql.VarPtr(r.where, "PromocodeResourceBoolExp")
 	}
-	res := <-h.gql.QueryFields("promocodeResource", &out, args)
+	res := <-h.gql.QueryFields(ctx, "promocodeResource", &out, args)
 	return out, res.Error
+}
+
+func (h *queryHandler) Find(ctx context.Context, req ...*ListRequest) (*schemaql.PromocodeResource, error) {
+	var out []schemaql.PromocodeResource
+	var r ListRequest
+	if len(req) > 0 && req[0] != nil {
+		r = *req[0]
+	}
+	args := map[string]any{}
+	if !graphql.IsOmitted(r.offset) {
+		args["offset"] = graphql.VarPtr(r.offset, "Int")
+	}
+	if !graphql.IsOmitted(r.orderBy) {
+		args["order_by"] = graphql.VarPtr(r.orderBy, "[PromocodeResourceOrderByExp!]")
+	}
+	if !graphql.IsOmitted(r.where) {
+		args["where"] = graphql.VarPtr(r.where, "PromocodeResourceBoolExp")
+	}
+	args["limit"] = graphql.VarPtr(1, "Int")
+	res := <-h.gql.QueryFields(ctx, "promocodeResource", &out, args)
+	if res.Error != nil {
+		return nil, res.Error
+	}
+	if len(out) == 0 {
+		return nil, nil
+	}
+	return &out[0], nil
 }
 
 func (h *queryHandler) Aggregate(ctx context.Context, req ...*AggregateRequest) (*schemaql.PromocodeResourceAggExp, error) {
@@ -48,13 +77,16 @@ func (h *queryHandler) Aggregate(ctx context.Context, req ...*AggregateRequest) 
 	if !graphql.IsOmitted(r.offset) {
 		filterInput["offset"] = r.offset
 	}
+	if !graphql.IsOmitted(r.orderBy) {
+		filterInput["order_by"] = r.orderBy
+	}
 	if !graphql.IsOmitted(r.where) {
 		filterInput["where"] = r.where
 	}
 	if len(filterInput) > 0 {
 		args["filter_input"] = graphql.VarPtr(filterInput, "PromocodeResourceFilterInput")
 	}
-	res := <-h.gql.QueryFields("promocodeResourceAggregate", &out, args)
+	res := <-h.gql.QueryFields(ctx, "promocodeResourceAggregate", &out, args)
 	return out, res.Error
 }
 
@@ -62,6 +94,6 @@ func (h *queryHandler) Get(ctx context.Context, id string) (*schemaql.PromocodeR
 	var out *schemaql.PromocodeResource
 	args := map[string]any{}
 	args["id"] = graphql.Var(id, "String1")
-	res := <-h.gql.QueryFields("promocodeResourceById", &out, args)
+	res := <-h.gql.QueryFields(ctx, "promocodeResourceById", &out, args)
 	return out, res.Error
 }

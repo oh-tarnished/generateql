@@ -10,8 +10,10 @@ import (
 
 // QueryHandler runs BounceResource query operations.
 type QueryHandler interface {
-	// Find runs the "bounceResource" query.
-	Find(ctx context.Context, obj CreateInput, req ...*FindRequest) ([]schemaql.BounceResource, error)
+	// List runs the "bounceResource" query.
+	List(ctx context.Context, req ...*ListRequest) ([]schemaql.BounceResource, error)
+	// Find runs the "bounceResource" query and returns the first match, or nil if none.
+	Find(ctx context.Context, req ...*ListRequest) (*schemaql.BounceResource, error)
 	// Aggregate runs the "bounceResourceAggregate" query.
 	Aggregate(ctx context.Context, req ...*AggregateRequest) (*schemaql.BounceResourceAggExp, error)
 	// Get runs the "bounceResourceById" query.
@@ -36,8 +38,8 @@ func NewMutation(gql *runtime.GraphQLClient) MutationHandler { return &mutationH
 
 // SubscriptionHandler runs BounceResource subscription operations.
 type SubscriptionHandler interface {
-	// OnFind runs the "bounceResource" subscription.
-	OnFind(ctx context.Context, obj CreateInput, req ...*OnFindRequest) (*runtime.Subscription, error)
+	// OnList runs the "bounceResource" subscription.
+	OnList(ctx context.Context, req ...*OnListRequest) (*runtime.Subscription, error)
 	// OnAggregate runs the "bounceResourceAggregate" subscription.
 	OnAggregate(ctx context.Context, req ...*OnAggregateRequest) (*runtime.Subscription, error)
 	// OnGet runs the "bounceResourceById" subscription.

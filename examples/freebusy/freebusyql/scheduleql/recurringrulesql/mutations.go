@@ -24,7 +24,7 @@ func (h *mutationHandler) Delete(ctx context.Context, keyId string, req ...*Dele
 	if !graphql.IsOmitted(r.preCheck) {
 		args["preCheck"] = graphql.VarPtr(r.preCheck, "ScheduleRecurringRulesBoolExp")
 	}
-	res := <-h.gql.MutateFields("deleteScheduleRecurringRulesById", &out, args)
+	res := <-h.gql.MutateFields(ctx, "deleteScheduleRecurringRulesById", &out, args)
 	return out, res.Error
 }
 
@@ -39,7 +39,7 @@ func (h *mutationHandler) Create(ctx context.Context, obj CreateInput, req ...*C
 	if !graphql.IsOmitted(r.postCheck) {
 		args["postCheck"] = graphql.VarPtr(r.postCheck, "ScheduleRecurringRulesBoolExp")
 	}
-	res := <-h.gql.MutateFields("insertScheduleRecurringRules", &out, args)
+	res := <-h.gql.MutateFields(ctx, "insertScheduleRecurringRules", &out, args)
 	return out, res.Error
 }
 
@@ -58,6 +58,6 @@ func (h *mutationHandler) Update(ctx context.Context, keyId string, patch Update
 		args["preCheck"] = graphql.VarPtr(r.preCheck, "ScheduleRecurringRulesBoolExp")
 	}
 	args["updateColumns"] = graphql.Var(graphql.SetColumns(patch), "UpdateScheduleRecurringRulesByIdUpdateColumnsInput")
-	res := <-h.gql.MutateFields("updateScheduleRecurringRulesById", &out, args)
+	res := <-h.gql.MutateFields(ctx, "updateScheduleRecurringRulesById", &out, args)
 	return out, res.Error
 }

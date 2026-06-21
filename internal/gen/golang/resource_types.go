@@ -23,17 +23,33 @@ func (r *renderer) isBoolExp(base string) bool {
 	return false
 }
 
-// isOrderBy reports whether base names an order-by input (every field is an enum, i.e. a
-// direction), distinguishing it from an insert-object list.
+// isOrderBy reports whether base names an order-by input, distinguishing it from an
+// insert-object list. Every field is either the sort-direction (a generated enum, or the
+// runtime graphql.OrderBy when that enum is provided by the runtime) or a nested relation's
+// order-by input (e.g. BounceResourceOrderByExp.campaignResource: CampaignResourceOrderByExp),
+// which an insert object never is.
 func (r *renderer) isOrderBy(base string) bool {
+	return r.isOrderByExp(base, map[string]bool{})
+}
+
+// isOrderByExp is the recursive worker for isOrderBy; seen guards against cyclic relation
+// order-by inputs (a relation that orders back through the originating type).
+func (r *renderer) isOrderByExp(base string, seen map[string]bool) bool {
 	in, ok := r.schema.Inputs[base]
 	if !ok || len(in.Fields) == 0 {
 		return false
 	}
+	if seen[base] {
+		return true // already on the validation stack — accept to break the cycle
+	}
+	seen[base] = true
 	for _, f := range in.Fields {
-		// Order-by fields are the sort-direction enum (a generated enum, or the runtime
-		// graphql.OrderBy when that enum is provided by the runtime).
-		if !r.mapper.IsEnum(f.Type.Base) && r.mapper.LeafGoType(f.Type.Base) != "graphql.OrderBy" {
+		switch {
+		case r.mapper.IsEnum(f.Type.Base) || r.mapper.LeafGoType(f.Type.Base) == "graphql.OrderBy":
+			// sort direction
+		case !f.Type.List && r.mapper.IsInput(f.Type.Base) && r.isOrderByExp(f.Type.Base, seen):
+			// nested relation order-by
+		default:
 			return false
 		}
 	}

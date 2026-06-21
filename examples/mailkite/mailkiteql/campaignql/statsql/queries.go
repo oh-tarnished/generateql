@@ -13,9 +13,9 @@ type queryHandler struct {
 	gql *runtime.GraphQLClient
 }
 
-func (h *queryHandler) Find(ctx context.Context, req ...*FindRequest) ([]schemaql.CampaignStats, error) {
+func (h *queryHandler) List(ctx context.Context, req ...*ListRequest) ([]schemaql.CampaignStats, error) {
 	var out []schemaql.CampaignStats
-	var r FindRequest
+	var r ListRequest
 	if len(req) > 0 && req[0] != nil {
 		r = *req[0]
 	}
@@ -32,8 +32,35 @@ func (h *queryHandler) Find(ctx context.Context, req ...*FindRequest) ([]schemaq
 	if !graphql.IsOmitted(r.where) {
 		args["where"] = graphql.VarPtr(r.where, "CampaignStatsBoolExp")
 	}
-	res := <-h.gql.QueryFields("campaignStats", &out, args)
+	res := <-h.gql.QueryFields(ctx, "campaignStats", &out, args)
 	return out, res.Error
+}
+
+func (h *queryHandler) Find(ctx context.Context, req ...*ListRequest) (*schemaql.CampaignStats, error) {
+	var out []schemaql.CampaignStats
+	var r ListRequest
+	if len(req) > 0 && req[0] != nil {
+		r = *req[0]
+	}
+	args := map[string]any{}
+	if !graphql.IsOmitted(r.offset) {
+		args["offset"] = graphql.VarPtr(r.offset, "Int")
+	}
+	if !graphql.IsOmitted(r.orderBy) {
+		args["order_by"] = graphql.VarPtr(r.orderBy, "[CampaignStatsOrderByExp!]")
+	}
+	if !graphql.IsOmitted(r.where) {
+		args["where"] = graphql.VarPtr(r.where, "CampaignStatsBoolExp")
+	}
+	args["limit"] = graphql.VarPtr(1, "Int")
+	res := <-h.gql.QueryFields(ctx, "campaignStats", &out, args)
+	if res.Error != nil {
+		return nil, res.Error
+	}
+	if len(out) == 0 {
+		return nil, nil
+	}
+	return &out[0], nil
 }
 
 func (h *queryHandler) Aggregate(ctx context.Context, req ...*AggregateRequest) (*schemaql.CampaignStatsAggExp, error) {
@@ -59,7 +86,7 @@ func (h *queryHandler) Aggregate(ctx context.Context, req ...*AggregateRequest) 
 	if len(filterInput) > 0 {
 		args["filter_input"] = graphql.VarPtr(filterInput, "CampaignStatsFilterInput")
 	}
-	res := <-h.gql.QueryFields("campaignStatsAggregate", &out, args)
+	res := <-h.gql.QueryFields(ctx, "campaignStatsAggregate", &out, args)
 	return out, res.Error
 }
 
@@ -67,6 +94,6 @@ func (h *queryHandler) Get(ctx context.Context, id string) (*schemaql.CampaignSt
 	var out *schemaql.CampaignStats
 	args := map[string]any{}
 	args["id"] = graphql.Var(id, "String1")
-	res := <-h.gql.QueryFields("campaignStatsById", &out, args)
+	res := <-h.gql.QueryFields(ctx, "campaignStatsById", &out, args)
 	return out, res.Error
 }

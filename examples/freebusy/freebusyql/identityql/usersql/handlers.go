@@ -10,8 +10,10 @@ import (
 
 // QueryHandler runs IdentityUsers query operations.
 type QueryHandler interface {
-	// Find runs the "identityUsers" query.
-	Find(ctx context.Context, req ...*FindRequest) ([]schemaql.IdentityUsers, error)
+	// List runs the "identityUsers" query.
+	List(ctx context.Context, req ...*ListRequest) ([]schemaql.IdentityUsers, error)
+	// Find runs the "identityUsers" query and returns the first match, or nil if none.
+	Find(ctx context.Context, req ...*ListRequest) (*schemaql.IdentityUsers, error)
 	// Aggregate runs the "identityUsersAggregate" query.
 	Aggregate(ctx context.Context, req ...*AggregateRequest) (*schemaql.IdentityUsersAggExp, error)
 	// Get runs the "identityUsersById" query.
@@ -36,8 +38,8 @@ func NewMutation(gql *runtime.GraphQLClient) MutationHandler { return &mutationH
 
 // SubscriptionHandler runs IdentityUsers subscription operations.
 type SubscriptionHandler interface {
-	// OnFind runs the "identityUsers" subscription.
-	OnFind(ctx context.Context, req ...*OnFindRequest) (*runtime.Subscription, error)
+	// OnList runs the "identityUsers" subscription.
+	OnList(ctx context.Context, req ...*OnListRequest) (*runtime.Subscription, error)
 	// OnAggregate runs the "identityUsersAggregate" subscription.
 	OnAggregate(ctx context.Context, req ...*OnAggregateRequest) (*runtime.Subscription, error)
 	// OnGet runs the "identityUsersById" subscription.

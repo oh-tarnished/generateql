@@ -10,8 +10,10 @@ import (
 
 // QueryHandler runs ResourceLosDiscounts query operations.
 type QueryHandler interface {
-	// Find runs the "resourceLosDiscounts" query.
-	Find(ctx context.Context, obj CreateInput, req ...*FindRequest) ([]schemaql.ResourceLosDiscounts, error)
+	// List runs the "resourceLosDiscounts" query.
+	List(ctx context.Context, req ...*ListRequest) ([]schemaql.ResourceLosDiscounts, error)
+	// Find runs the "resourceLosDiscounts" query and returns the first match, or nil if none.
+	Find(ctx context.Context, req ...*ListRequest) (*schemaql.ResourceLosDiscounts, error)
 	// Aggregate runs the "resourceLosDiscountsAggregate" query.
 	Aggregate(ctx context.Context, req ...*AggregateRequest) (*schemaql.ResourceLosDiscountsAggExp, error)
 	// Get runs the "resourceLosDiscountsById" query.
@@ -36,8 +38,8 @@ func NewMutation(gql *runtime.GraphQLClient) MutationHandler { return &mutationH
 
 // SubscriptionHandler runs ResourceLosDiscounts subscription operations.
 type SubscriptionHandler interface {
-	// OnFind runs the "resourceLosDiscounts" subscription.
-	OnFind(ctx context.Context, obj CreateInput, req ...*OnFindRequest) (*runtime.Subscription, error)
+	// OnList runs the "resourceLosDiscounts" subscription.
+	OnList(ctx context.Context, req ...*OnListRequest) (*runtime.Subscription, error)
 	// OnAggregate runs the "resourceLosDiscountsAggregate" subscription.
 	OnAggregate(ctx context.Context, req ...*OnAggregateRequest) (*runtime.Subscription, error)
 	// OnGet runs the "resourceLosDiscountsById" subscription.

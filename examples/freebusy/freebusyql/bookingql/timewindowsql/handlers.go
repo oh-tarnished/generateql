@@ -10,8 +10,10 @@ import (
 
 // QueryHandler runs BookingTimeWindows query operations.
 type QueryHandler interface {
-	// Find runs the "bookingTimeWindows" query.
-	Find(ctx context.Context, req ...*FindRequest) ([]schemaql.BookingTimeWindows, error)
+	// List runs the "bookingTimeWindows" query.
+	List(ctx context.Context, req ...*ListRequest) ([]schemaql.BookingTimeWindows, error)
+	// Find runs the "bookingTimeWindows" query and returns the first match, or nil if none.
+	Find(ctx context.Context, req ...*ListRequest) (*schemaql.BookingTimeWindows, error)
 	// Aggregate runs the "bookingTimeWindowsAggregate" query.
 	Aggregate(ctx context.Context, req ...*AggregateRequest) (*schemaql.BookingTimeWindowsAggExp, error)
 	// Get runs the "bookingTimeWindowsById" query.
@@ -36,8 +38,8 @@ func NewMutation(gql *runtime.GraphQLClient) MutationHandler { return &mutationH
 
 // SubscriptionHandler runs BookingTimeWindows subscription operations.
 type SubscriptionHandler interface {
-	// OnFind runs the "bookingTimeWindows" subscription.
-	OnFind(ctx context.Context, req ...*OnFindRequest) (*runtime.Subscription, error)
+	// OnList runs the "bookingTimeWindows" subscription.
+	OnList(ctx context.Context, req ...*OnListRequest) (*runtime.Subscription, error)
 	// OnAggregate runs the "bookingTimeWindowsAggregate" subscription.
 	OnAggregate(ctx context.Context, req ...*OnAggregateRequest) (*runtime.Subscription, error)
 	// OnGet runs the "bookingTimeWindowsById" subscription.

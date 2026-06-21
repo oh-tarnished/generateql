@@ -3,6 +3,7 @@
 package mailkiteql
 
 import (
+	"context"
 	"github.com/oh-tarnished/generateql/examples/mailkite/mailkiteql/bounceql"
 	"github.com/oh-tarnished/generateql/examples/mailkite/mailkiteql/campaignql"
 	"github.com/oh-tarnished/generateql/examples/mailkite/mailkiteql/mailinglistql"
@@ -24,6 +25,7 @@ type Service struct {
 
 // QueryHandler groups every domain's query handlers.
 type QueryHandler struct {
+	gql         *runtime.GraphQLClient
 	Bounce      bounceql.QueryHandler
 	Campaign    campaignql.QueryHandler
 	Mailinglist mailinglistql.QueryHandler
@@ -33,8 +35,20 @@ type QueryHandler struct {
 	Template    templateql.QueryHandler
 }
 
+// QueryRaw runs an arbitrary GraphQL query string with optional variables and returns the decoded
+// JSON response — an escape hatch for querys the typed API does not cover.
+func (h QueryHandler) QueryRaw(ctx context.Context, query string, variables map[string]any) (map[string]any, error) {
+	res := <-h.gql.ExecuteRawQuery(ctx, query, variables)
+	if res.Error != nil {
+		return nil, res.Error
+	}
+	out, _ := res.Response.(map[string]any)
+	return out, nil
+}
+
 // MutationHandler groups every domain's mutation handlers.
 type MutationHandler struct {
+	gql         *runtime.GraphQLClient
 	Bounce      bounceql.MutationHandler
 	Campaign    campaignql.MutationHandler
 	Mailinglist mailinglistql.MutationHandler
@@ -42,6 +56,17 @@ type MutationHandler struct {
 	Prisma      prismaql.MutationHandler
 	Subscriber  subscriberql.MutationHandler
 	Template    templateql.MutationHandler
+}
+
+// ExecuteRaw runs an arbitrary GraphQL mutation string with optional variables and returns the decoded
+// JSON response — an escape hatch for mutations the typed API does not cover.
+func (h MutationHandler) ExecuteRaw(ctx context.Context, mutation string, variables map[string]any) (map[string]any, error) {
+	res := <-h.gql.ExecRawMutation(ctx, mutation, variables)
+	if res.Error != nil {
+		return nil, res.Error
+	}
+	out, _ := res.Response.(map[string]any)
+	return out, nil
 }
 
 // SubscriptionHandler groups every domain's subscription handlers.
@@ -70,6 +95,7 @@ func New(opts runtime.ConnectionOptions) (*Service, error) {
 	}
 	return &Service{
 		Query: QueryHandler{
+			gql:         gql,
 			Bounce:      bounceql.NewQuery(gql),
 			Campaign:    campaignql.NewQuery(gql),
 			Mailinglist: mailinglistql.NewQuery(gql),
@@ -79,6 +105,7 @@ func New(opts runtime.ConnectionOptions) (*Service, error) {
 			Template:    templateql.NewQuery(gql),
 		},
 		Mutation: MutationHandler{
+			gql:         gql,
 			Bounce:      bounceql.NewMutation(gql),
 			Campaign:    campaignql.NewMutation(gql),
 			Mailinglist: mailinglistql.NewMutation(gql),

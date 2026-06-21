@@ -19,11 +19,12 @@ func main() {
 	if err != nil {
 		log.Fatalf("failed to connect to Hasura: %v", err)
 	}
-	resp, err := hasura.Query.Bounce.Resource.Find(context.Background(), resourceql.CreateInput{})
+	resp, err := hasura.Mutation.Bounce.Resource.Create(context.Background(), resourceql.CreateInput{})
 	if err != nil {
 		log.Fatalf("failed to execute query: %v", err)
 	}
-	for _, r := range resp {
+	log.Printf("created %d resource(s)", resp.AffectedRows)
+	for _, r := range resp.Returning {
 		log.Printf("Resource: %s", r.Name)
 	}
 

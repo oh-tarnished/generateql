@@ -10,8 +10,10 @@ import (
 
 // QueryHandler runs MediaResource query operations.
 type QueryHandler interface {
-	// Find runs the "mediaResource" query.
-	Find(ctx context.Context, req ...*FindRequest) ([]schemaql.MediaResource, error)
+	// List runs the "mediaResource" query.
+	List(ctx context.Context, req ...*ListRequest) ([]schemaql.MediaResource, error)
+	// Find runs the "mediaResource" query and returns the first match, or nil if none.
+	Find(ctx context.Context, req ...*ListRequest) (*schemaql.MediaResource, error)
 	// Aggregate runs the "mediaResourceAggregate" query.
 	Aggregate(ctx context.Context, req ...*AggregateRequest) (*schemaql.MediaResourceAggExp, error)
 	// Get runs the "mediaResourceById" query.
@@ -36,8 +38,8 @@ func NewMutation(gql *runtime.GraphQLClient) MutationHandler { return &mutationH
 
 // SubscriptionHandler runs MediaResource subscription operations.
 type SubscriptionHandler interface {
-	// OnFind runs the "mediaResource" subscription.
-	OnFind(ctx context.Context, req ...*OnFindRequest) (*runtime.Subscription, error)
+	// OnList runs the "mediaResource" subscription.
+	OnList(ctx context.Context, req ...*OnListRequest) (*runtime.Subscription, error)
 	// OnAggregate runs the "mediaResourceAggregate" subscription.
 	OnAggregate(ctx context.Context, req ...*OnAggregateRequest) (*runtime.Subscription, error)
 	// OnGet runs the "mediaResourceById" subscription.

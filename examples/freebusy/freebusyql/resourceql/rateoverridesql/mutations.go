@@ -24,7 +24,7 @@ func (h *mutationHandler) Delete(ctx context.Context, keyId string, req ...*Dele
 	if !graphql.IsOmitted(r.preCheck) {
 		args["preCheck"] = graphql.VarPtr(r.preCheck, "ResourceRateOverridesBoolExp")
 	}
-	res := <-h.gql.MutateFields("deleteResourceRateOverridesById", &out, args)
+	res := <-h.gql.MutateFields(ctx, "deleteResourceRateOverridesById", &out, args)
 	return out, res.Error
 }
 
@@ -39,7 +39,7 @@ func (h *mutationHandler) Create(ctx context.Context, obj CreateInput, req ...*C
 	if !graphql.IsOmitted(r.postCheck) {
 		args["postCheck"] = graphql.VarPtr(r.postCheck, "ResourceRateOverridesBoolExp")
 	}
-	res := <-h.gql.MutateFields("insertResourceRateOverrides", &out, args)
+	res := <-h.gql.MutateFields(ctx, "insertResourceRateOverrides", &out, args)
 	return out, res.Error
 }
 
@@ -58,6 +58,6 @@ func (h *mutationHandler) Update(ctx context.Context, keyId string, patch Update
 		args["preCheck"] = graphql.VarPtr(r.preCheck, "ResourceRateOverridesBoolExp")
 	}
 	args["updateColumns"] = graphql.Var(graphql.SetColumns(patch), "UpdateResourceRateOverridesByIdUpdateColumnsInput")
-	res := <-h.gql.MutateFields("updateResourceRateOverridesById", &out, args)
+	res := <-h.gql.MutateFields(ctx, "updateResourceRateOverridesById", &out, args)
 	return out, res.Error
 }

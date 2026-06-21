@@ -10,8 +10,10 @@ import (
 
 // QueryHandler runs BookingMoneys query operations.
 type QueryHandler interface {
-	// Find runs the "bookingMoneys" query.
-	Find(ctx context.Context, req ...*FindRequest) ([]schemaql.BookingMoneys, error)
+	// List runs the "bookingMoneys" query.
+	List(ctx context.Context, req ...*ListRequest) ([]schemaql.BookingMoneys, error)
+	// Find runs the "bookingMoneys" query and returns the first match, or nil if none.
+	Find(ctx context.Context, req ...*ListRequest) (*schemaql.BookingMoneys, error)
 	// Aggregate runs the "bookingMoneysAggregate" query.
 	Aggregate(ctx context.Context, req ...*AggregateRequest) (*schemaql.BookingMoneysAggExp, error)
 	// Get runs the "bookingMoneysById" query.
@@ -36,8 +38,8 @@ func NewMutation(gql *runtime.GraphQLClient) MutationHandler { return &mutationH
 
 // SubscriptionHandler runs BookingMoneys subscription operations.
 type SubscriptionHandler interface {
-	// OnFind runs the "bookingMoneys" subscription.
-	OnFind(ctx context.Context, req ...*OnFindRequest) (*runtime.Subscription, error)
+	// OnList runs the "bookingMoneys" subscription.
+	OnList(ctx context.Context, req ...*OnListRequest) (*runtime.Subscription, error)
 	// OnAggregate runs the "bookingMoneysAggregate" subscription.
 	OnAggregate(ctx context.Context, req ...*OnAggregateRequest) (*runtime.Subscription, error)
 	// OnGet runs the "bookingMoneysById" subscription.

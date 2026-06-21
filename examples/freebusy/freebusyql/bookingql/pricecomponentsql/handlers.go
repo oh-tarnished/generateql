@@ -10,8 +10,10 @@ import (
 
 // QueryHandler runs BookingPriceComponents query operations.
 type QueryHandler interface {
-	// Find runs the "bookingPriceComponents" query.
-	Find(ctx context.Context, obj CreateInput, req ...*FindRequest) ([]schemaql.BookingPriceComponents, error)
+	// List runs the "bookingPriceComponents" query.
+	List(ctx context.Context, req ...*ListRequest) ([]schemaql.BookingPriceComponents, error)
+	// Find runs the "bookingPriceComponents" query and returns the first match, or nil if none.
+	Find(ctx context.Context, req ...*ListRequest) (*schemaql.BookingPriceComponents, error)
 	// Aggregate runs the "bookingPriceComponentsAggregate" query.
 	Aggregate(ctx context.Context, req ...*AggregateRequest) (*schemaql.BookingPriceComponentsAggExp, error)
 	// Get runs the "bookingPriceComponentsById" query.
@@ -36,8 +38,8 @@ func NewMutation(gql *runtime.GraphQLClient) MutationHandler { return &mutationH
 
 // SubscriptionHandler runs BookingPriceComponents subscription operations.
 type SubscriptionHandler interface {
-	// OnFind runs the "bookingPriceComponents" subscription.
-	OnFind(ctx context.Context, obj CreateInput, req ...*OnFindRequest) (*runtime.Subscription, error)
+	// OnList runs the "bookingPriceComponents" subscription.
+	OnList(ctx context.Context, req ...*OnListRequest) (*runtime.Subscription, error)
 	// OnAggregate runs the "bookingPriceComponentsAggregate" subscription.
 	OnAggregate(ctx context.Context, req ...*OnAggregateRequest) (*runtime.Subscription, error)
 	// OnGet runs the "bookingPriceComponentsById" subscription.

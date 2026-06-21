@@ -13,9 +13,9 @@ type subscriptionHandler struct {
 	gql *runtime.GraphQLClient
 }
 
-func (h *subscriptionHandler) OnFind(ctx context.Context, req ...*OnFindRequest) (*runtime.Subscription, error) {
+func (h *subscriptionHandler) OnList(ctx context.Context, req ...*OnListRequest) (*runtime.Subscription, error) {
 	var out []schemaql.SubscriberResource
-	var r OnFindRequest
+	var r OnListRequest
 	if len(req) > 0 && req[0] != nil {
 		r = *req[0]
 	}

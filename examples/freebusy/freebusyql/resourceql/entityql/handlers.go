@@ -10,8 +10,10 @@ import (
 
 // QueryHandler runs ResourceEntity query operations.
 type QueryHandler interface {
-	// Find runs the "resourceEntity" query.
-	Find(ctx context.Context, req ...*FindRequest) ([]schemaql.ResourceEntity, error)
+	// List runs the "resourceEntity" query.
+	List(ctx context.Context, req ...*ListRequest) ([]schemaql.ResourceEntity, error)
+	// Find runs the "resourceEntity" query and returns the first match, or nil if none.
+	Find(ctx context.Context, req ...*ListRequest) (*schemaql.ResourceEntity, error)
 	// Aggregate runs the "resourceEntityAggregate" query.
 	Aggregate(ctx context.Context, req ...*AggregateRequest) (*schemaql.ResourceEntityAggExp, error)
 	// Get runs the "resourceEntityById" query.
@@ -36,8 +38,8 @@ func NewMutation(gql *runtime.GraphQLClient) MutationHandler { return &mutationH
 
 // SubscriptionHandler runs ResourceEntity subscription operations.
 type SubscriptionHandler interface {
-	// OnFind runs the "resourceEntity" subscription.
-	OnFind(ctx context.Context, req ...*OnFindRequest) (*runtime.Subscription, error)
+	// OnList runs the "resourceEntity" subscription.
+	OnList(ctx context.Context, req ...*OnListRequest) (*runtime.Subscription, error)
 	// OnAggregate runs the "resourceEntityAggregate" subscription.
 	OnAggregate(ctx context.Context, req ...*OnAggregateRequest) (*runtime.Subscription, error)
 	// OnGet runs the "resourceEntityById" subscription.

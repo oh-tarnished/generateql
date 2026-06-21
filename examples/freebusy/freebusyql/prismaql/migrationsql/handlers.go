@@ -10,8 +10,10 @@ import (
 
 // QueryHandler runs PrismaMigrations query operations.
 type QueryHandler interface {
-	// Find runs the "prismaMigrations" query.
-	Find(ctx context.Context, req ...*FindRequest) ([]schemaql.PrismaMigrations, error)
+	// List runs the "prismaMigrations" query.
+	List(ctx context.Context, req ...*ListRequest) ([]schemaql.PrismaMigrations, error)
+	// Find runs the "prismaMigrations" query and returns the first match, or nil if none.
+	Find(ctx context.Context, req ...*ListRequest) (*schemaql.PrismaMigrations, error)
 	// Aggregate runs the "prismaMigrationsAggregate" query.
 	Aggregate(ctx context.Context, req ...*AggregateRequest) (*schemaql.PrismaMigrationsAggExp, error)
 	// Get runs the "prismaMigrationsById" query.
@@ -36,8 +38,8 @@ func NewMutation(gql *runtime.GraphQLClient) MutationHandler { return &mutationH
 
 // SubscriptionHandler runs PrismaMigrations subscription operations.
 type SubscriptionHandler interface {
-	// OnFind runs the "prismaMigrations" subscription.
-	OnFind(ctx context.Context, req ...*OnFindRequest) (*runtime.Subscription, error)
+	// OnList runs the "prismaMigrations" subscription.
+	OnList(ctx context.Context, req ...*OnListRequest) (*runtime.Subscription, error)
 	// OnAggregate runs the "prismaMigrationsAggregate" subscription.
 	OnAggregate(ctx context.Context, req ...*OnAggregateRequest) (*runtime.Subscription, error)
 	// OnGet runs the "prismaMigrationsById" subscription.
