@@ -41,6 +41,7 @@ var (
 	flagScalars     []string
 	flagLang        string
 	flagConfig      string
+	flagDumpSchema  bool
 )
 
 func init() {
@@ -58,6 +59,7 @@ func init() {
 	f.StringVar(&flagRuntimeMod, "runtime-module", defaultRuntimeModule, "import path of the runtime facade")
 	f.IntVar(&flagMaxDepth, "max-depth", 1, "how many levels of relations to inline into models")
 	f.StringArrayVar(&flagScalars, "scalar", nil, "scalar override as 'GraphQLName=GoType' (repeatable)")
+	f.BoolVar(&flagDumpSchema, "dump-schema", false, "also write the introspection schema as <package>/schema.json")
 }
 
 func runGenerate(cmd *cobra.Command, _ []string) error {
@@ -98,8 +100,10 @@ func runGenerate(cmd *cobra.Command, _ []string) error {
 	if err := golang.Generate(opts); err != nil {
 		return err
 	}
-	if err := dumpSchema(schema, filepath.Join(flagOutDir, pkg)); err != nil {
-		return err
+	if flagDumpSchema {
+		if err := dumpSchema(schema, filepath.Join(flagOutDir, pkg)); err != nil {
+			return err
+		}
 	}
 	_, _ = fmt.Fprintf(cmd.OutOrStderr(), "generated %d objects, %d queries, %d mutations, %d subscriptions into %s\n",
 		len(model.Objects), len(model.Queries), len(model.Mutations), len(model.Subscriptions), filepath.Join(flagOutDir, pkg))

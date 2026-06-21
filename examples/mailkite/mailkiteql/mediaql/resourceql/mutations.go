@@ -24,7 +24,7 @@ func (h *mutationHandler) Delete(ctx context.Context, keyId string, req ...*Dele
 	if !graphql.IsOmitted(r.preCheck) {
 		args["preCheck"] = graphql.VarPtr(r.preCheck, "MediaResourceBoolExp")
 	}
-	res := <-h.gql.MutateFields("deleteMediaResourceById", &out, args)
+	res := <-h.gql.MutateFields(ctx, "deleteMediaResourceById", &out, args)
 	return out, res.Error
 }
 
@@ -39,7 +39,7 @@ func (h *mutationHandler) Create(ctx context.Context, obj CreateInput, req ...*C
 	if !graphql.IsOmitted(r.postCheck) {
 		args["postCheck"] = graphql.VarPtr(r.postCheck, "MediaResourceBoolExp")
 	}
-	res := <-h.gql.MutateFields("insertMediaResource", &out, args)
+	res := <-h.gql.MutateFields(ctx, "insertMediaResource", &out, args)
 	return out, res.Error
 }
 
@@ -58,6 +58,6 @@ func (h *mutationHandler) Update(ctx context.Context, keyId string, patch Update
 		args["preCheck"] = graphql.VarPtr(r.preCheck, "MediaResourceBoolExp")
 	}
 	args["updateColumns"] = graphql.Var(graphql.SetColumns(patch), "UpdateMediaResourceByIdUpdateColumnsInput")
-	res := <-h.gql.MutateFields("updateMediaResourceById", &out, args)
+	res := <-h.gql.MutateFields(ctx, "updateMediaResourceById", &out, args)
 	return out, res.Error
 }

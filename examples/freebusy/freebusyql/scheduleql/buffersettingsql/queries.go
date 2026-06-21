@@ -13,9 +13,9 @@ type queryHandler struct {
 	gql *runtime.GraphQLClient
 }
 
-func (h *queryHandler) Find(ctx context.Context, req ...*FindRequest) ([]schemaql.ScheduleBufferSettings, error) {
+func (h *queryHandler) List(ctx context.Context, req ...*ListRequest) ([]schemaql.ScheduleBufferSettings, error) {
 	var out []schemaql.ScheduleBufferSettings
-	var r FindRequest
+	var r ListRequest
 	if len(req) > 0 && req[0] != nil {
 		r = *req[0]
 	}
@@ -32,8 +32,35 @@ func (h *queryHandler) Find(ctx context.Context, req ...*FindRequest) ([]schemaq
 	if !graphql.IsOmitted(r.where) {
 		args["where"] = graphql.VarPtr(r.where, "ScheduleBufferSettingsBoolExp")
 	}
-	res := <-h.gql.QueryFields("scheduleBufferSettings", &out, args)
+	res := <-h.gql.QueryFields(ctx, "scheduleBufferSettings", &out, args)
 	return out, res.Error
+}
+
+func (h *queryHandler) Find(ctx context.Context, req ...*ListRequest) (*schemaql.ScheduleBufferSettings, error) {
+	var out []schemaql.ScheduleBufferSettings
+	var r ListRequest
+	if len(req) > 0 && req[0] != nil {
+		r = *req[0]
+	}
+	args := map[string]any{}
+	if !graphql.IsOmitted(r.offset) {
+		args["offset"] = graphql.VarPtr(r.offset, "Int")
+	}
+	if !graphql.IsOmitted(r.orderBy) {
+		args["order_by"] = graphql.VarPtr(r.orderBy, "[ScheduleBufferSettingsOrderByExp!]")
+	}
+	if !graphql.IsOmitted(r.where) {
+		args["where"] = graphql.VarPtr(r.where, "ScheduleBufferSettingsBoolExp")
+	}
+	args["limit"] = graphql.VarPtr(1, "Int")
+	res := <-h.gql.QueryFields(ctx, "scheduleBufferSettings", &out, args)
+	if res.Error != nil {
+		return nil, res.Error
+	}
+	if len(out) == 0 {
+		return nil, nil
+	}
+	return &out[0], nil
 }
 
 func (h *queryHandler) Aggregate(ctx context.Context, req ...*AggregateRequest) (*schemaql.ScheduleBufferSettingsAggExp, error) {
@@ -59,7 +86,7 @@ func (h *queryHandler) Aggregate(ctx context.Context, req ...*AggregateRequest) 
 	if len(filterInput) > 0 {
 		args["filter_input"] = graphql.VarPtr(filterInput, "ScheduleBufferSettingsFilterInput")
 	}
-	res := <-h.gql.QueryFields("scheduleBufferSettingsAggregate", &out, args)
+	res := <-h.gql.QueryFields(ctx, "scheduleBufferSettingsAggregate", &out, args)
 	return out, res.Error
 }
 
@@ -67,6 +94,6 @@ func (h *queryHandler) Get(ctx context.Context, id string) (*schemaql.ScheduleBu
 	var out *schemaql.ScheduleBufferSettings
 	args := map[string]any{}
 	args["id"] = graphql.Var(id, "String1")
-	res := <-h.gql.QueryFields("scheduleBufferSettingsById", &out, args)
+	res := <-h.gql.QueryFields(ctx, "scheduleBufferSettingsById", &out, args)
 	return out, res.Error
 }

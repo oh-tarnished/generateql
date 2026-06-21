@@ -8,9 +8,10 @@ import (
 )
 
 // ExecuteRawQuery sends a raw GraphQL query (or mutation) string with optional
-// variables and returns the response as a map[string]interface{}. The returned
-// channel receives one GraphQLResult whose Response is the parsed JSON map.
-func (g *GraphQLClient) ExecuteRawQuery(query string, variables map[string]interface{}) <-chan GraphQLResult {
+// variables and returns the response as a map[string]interface{}. ctx carries
+// cancellation/deadline and tracing through to the transport (bounded by g.Timeout). The
+// returned channel receives one GraphQLResult whose Response is the parsed JSON map.
+func (g *GraphQLClient) ExecuteRawQuery(ctx context.Context, query string, variables map[string]interface{}) <-chan GraphQLResult {
 	resultChan := make(chan GraphQLResult, 1)
 	go func() {
 		defer close(resultChan)
@@ -18,7 +19,7 @@ func (g *GraphQLClient) ExecuteRawQuery(query string, variables map[string]inter
 			resultChan <- GraphQLResult{Error: fmt.Errorf("GraphQL client is not initialized")}
 			return
 		}
-		ctx, cancel := context.WithTimeout(context.Background(), g.Timeout)
+		ctx, cancel := context.WithTimeout(ctx, g.Timeout)
 		defer cancel()
 		raw, err := g.client.ExecRaw(ctx, query, variables)
 		if err != nil {
@@ -36,9 +37,10 @@ func (g *GraphQLClient) ExecuteRawQuery(query string, variables map[string]inter
 }
 
 // ExecRawMutation sends a raw GraphQL mutation string (mutation must be a string at
-// runtime) with optional variables and returns the response as a map. The channel
-// receives one GraphQLResult whose Response is the parsed JSON map.
-func (g *GraphQLClient) ExecRawMutation(mutation any, variables map[string]interface{}) <-chan GraphQLResult {
+// runtime) with optional variables and returns the response as a map. ctx carries
+// cancellation/deadline and tracing through to the transport (bounded by g.Timeout). The
+// channel receives one GraphQLResult whose Response is the parsed JSON map.
+func (g *GraphQLClient) ExecRawMutation(ctx context.Context, mutation any, variables map[string]interface{}) <-chan GraphQLResult {
 	resultChan := make(chan GraphQLResult, 1)
 	go func() {
 		defer close(resultChan)
@@ -51,7 +53,7 @@ func (g *GraphQLClient) ExecRawMutation(mutation any, variables map[string]inter
 			resultChan <- GraphQLResult{Error: fmt.Errorf("mutation must be a string")}
 			return
 		}
-		ctx, cancel := context.WithTimeout(context.Background(), g.Timeout)
+		ctx, cancel := context.WithTimeout(ctx, g.Timeout)
 		defer cancel()
 		raw, err := g.client.MutateRaw(ctx, mutationStr, variables)
 		if err != nil {

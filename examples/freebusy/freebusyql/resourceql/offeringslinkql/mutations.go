@@ -24,7 +24,7 @@ func (h *mutationHandler) Delete(ctx context.Context, keyId string, req ...*Dele
 	if !graphql.IsOmitted(r.preCheck) {
 		args["preCheck"] = graphql.VarPtr(r.preCheck, "ResourceOfferingsLinkBoolExp")
 	}
-	res := <-h.gql.MutateFields("deleteResourceOfferingsLinkById", &out, args)
+	res := <-h.gql.MutateFields(ctx, "deleteResourceOfferingsLinkById", &out, args)
 	return out, res.Error
 }
 
@@ -39,7 +39,7 @@ func (h *mutationHandler) Create(ctx context.Context, obj CreateInput, req ...*C
 	if !graphql.IsOmitted(r.postCheck) {
 		args["postCheck"] = graphql.VarPtr(r.postCheck, "ResourceOfferingsLinkBoolExp")
 	}
-	res := <-h.gql.MutateFields("insertResourceOfferingsLink", &out, args)
+	res := <-h.gql.MutateFields(ctx, "insertResourceOfferingsLink", &out, args)
 	return out, res.Error
 }
 
@@ -58,6 +58,6 @@ func (h *mutationHandler) Update(ctx context.Context, keyId string, patch Update
 		args["preCheck"] = graphql.VarPtr(r.preCheck, "ResourceOfferingsLinkBoolExp")
 	}
 	args["updateColumns"] = graphql.Var(graphql.SetColumns(patch), "UpdateResourceOfferingsLinkByIdUpdateColumnsInput")
-	res := <-h.gql.MutateFields("updateResourceOfferingsLinkById", &out, args)
+	res := <-h.gql.MutateFields(ctx, "updateResourceOfferingsLinkById", &out, args)
 	return out, res.Error
 }

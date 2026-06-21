@@ -52,7 +52,7 @@ func (g *generator) writeDomain(dg *domainGen) error {
 // constructors.
 func (g *generator) writeRoot() error {
 	var b strings.Builder
-	imports := map[string]bool{g.opts.RuntimeModule: true, "net/url": true}
+	imports := map[string]bool{g.opts.RuntimeModule: true, "net/url": true, "context": true}
 
 	b.WriteString("// Service is a typed GraphQL client. Access operations via\n")
 	b.WriteString("// s.Query.<Domain>.<Resource>, s.Mutation..., and s.Subscription....\n")
@@ -60,6 +60,9 @@ func (g *generator) writeRoot() error {
 
 	for _, spec := range kindSpecs() {
 		fmt.Fprintf(&b, "// %s groups every domain's %s handlers.\ntype %s struct {\n", spec.iface, spec.verb, spec.iface)
+		if spec.rawMethod != "" {
+			b.WriteString("\tgql *runtime.GraphQLClient\n")
+		}
 		for _, dg := range g.domains {
 			if len(domainMembers(dg, spec.pick)) == 0 {
 				continue
@@ -68,6 +71,7 @@ func (g *generator) writeRoot() error {
 			imports[dg.importPath] = true
 		}
 		b.WriteString("}\n\n")
+		b.WriteString(rawMethod(spec))
 	}
 
 	b.WriteString("// New connects to the endpoint described by opts and returns a Service.\n")
@@ -78,6 +82,9 @@ func (g *generator) writeRoot() error {
 	b.WriteString("\treturn &Service{\n")
 	for _, spec := range kindSpecs() {
 		fmt.Fprintf(&b, "\t\t%s: %s{\n", spec.field, spec.iface)
+		if spec.rawMethod != "" {
+			b.WriteString("\t\t\tgql: gql,\n")
+		}
 		for _, dg := range g.domains {
 			if len(domainMembers(dg, spec.pick)) == 0 {
 				continue
@@ -104,20 +111,47 @@ func Connect(u *url.URL, headers ...map[string]string) (*Service, error) {
 }
 `
 
-// kindSpec describes one operation kind's aggregator naming.
+// rawMethod renders the raw escape-hatch method for an aggregator (e.g. QueryRaw on
+// QueryHandler), or "" when the kind has none. It runs an arbitrary operation string with
+// optional variables and returns the decoded JSON response map.
+func rawMethod(spec kindSpec) string {
+	if spec.rawMethod == "" {
+		return ""
+	}
+	return fmt.Sprintf(`// %s runs an arbitrary GraphQL %s string with optional variables and returns the decoded
+// JSON response — an escape hatch for %ss the typed API does not cover.
+func (h %s) %s(ctx context.Context, %s string, variables map[string]any) (map[string]any, error) {
+	res := <-h.gql.%s(ctx, %s, variables)
+	if res.Error != nil {
+		return nil, res.Error
+	}
+	out, _ := res.Response.(map[string]any)
+	return out, nil
+}
+
+`, spec.rawMethod, spec.rawNoun, spec.rawNoun, spec.iface, spec.rawMethod, spec.rawNoun, spec.rawCall, spec.rawNoun)
+}
+
+// kindSpec describes one operation kind's aggregator naming. rawMethod/rawCall, when set,
+// add a raw escape-hatch method (e.g. QueryRaw) to the top-level aggregator, backed by the
+// named runtime GraphQLClient call, so callers can run arbitrary operations the typed API
+// does not cover.
 type kindSpec struct {
-	field string // Service field: "Query"
-	iface string // aggregator/interface type: "QueryHandler"
-	verb  string // "query"
-	ctor  string // "NewQuery"
-	pick  func(*resGen) []op
+	field     string // Service field: "Query"
+	iface     string // aggregator/interface type: "QueryHandler"
+	verb      string // "query"
+	ctor      string // "NewQuery"
+	pick      func(*resGen) []op
+	rawMethod string // escape-hatch method name, e.g. "QueryRaw" ("" = none)
+	rawCall   string // runtime GraphQLClient method, e.g. "ExecuteRawQuery"
+	rawNoun   string // wording in the doc comment, e.g. "query"
 }
 
 func kindSpecs() []kindSpec {
 	return []kindSpec{
-		{"Query", "QueryHandler", "query", "NewQuery", func(r *resGen) []op { return r.queries }},
-		{"Mutation", "MutationHandler", "mutation", "NewMutation", func(r *resGen) []op { return r.mutations }},
-		{"Subscription", "SubscriptionHandler", "subscription", "NewSubscription", func(r *resGen) []op { return r.subs }},
+		{"Query", "QueryHandler", "query", "NewQuery", func(r *resGen) []op { return r.queries }, "QueryRaw", "ExecuteRawQuery", "query"},
+		{"Mutation", "MutationHandler", "mutation", "NewMutation", func(r *resGen) []op { return r.mutations }, "ExecuteRaw", "ExecRawMutation", "mutation"},
+		{"Subscription", "SubscriptionHandler", "subscription", "NewSubscription", func(r *resGen) []op { return r.subs }, "", "", ""},
 	}
 }
 

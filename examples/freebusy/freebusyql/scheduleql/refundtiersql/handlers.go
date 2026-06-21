@@ -10,8 +10,10 @@ import (
 
 // QueryHandler runs ScheduleRefundTiers query operations.
 type QueryHandler interface {
-	// Find runs the "scheduleRefundTiers" query.
-	Find(ctx context.Context, obj CreateInput, req ...*FindRequest) ([]schemaql.ScheduleRefundTiers, error)
+	// List runs the "scheduleRefundTiers" query.
+	List(ctx context.Context, req ...*ListRequest) ([]schemaql.ScheduleRefundTiers, error)
+	// Find runs the "scheduleRefundTiers" query and returns the first match, or nil if none.
+	Find(ctx context.Context, req ...*ListRequest) (*schemaql.ScheduleRefundTiers, error)
 	// Aggregate runs the "scheduleRefundTiersAggregate" query.
 	Aggregate(ctx context.Context, req ...*AggregateRequest) (*schemaql.ScheduleRefundTiersAggExp, error)
 	// Get runs the "scheduleRefundTiersById" query.
@@ -36,8 +38,8 @@ func NewMutation(gql *runtime.GraphQLClient) MutationHandler { return &mutationH
 
 // SubscriptionHandler runs ScheduleRefundTiers subscription operations.
 type SubscriptionHandler interface {
-	// OnFind runs the "scheduleRefundTiers" subscription.
-	OnFind(ctx context.Context, obj CreateInput, req ...*OnFindRequest) (*runtime.Subscription, error)
+	// OnList runs the "scheduleRefundTiers" subscription.
+	OnList(ctx context.Context, req ...*OnListRequest) (*runtime.Subscription, error)
 	// OnAggregate runs the "scheduleRefundTiersAggregate" subscription.
 	OnAggregate(ctx context.Context, req ...*OnAggregateRequest) (*runtime.Subscription, error)
 	// OnGet runs the "scheduleRefundTiersById" subscription.

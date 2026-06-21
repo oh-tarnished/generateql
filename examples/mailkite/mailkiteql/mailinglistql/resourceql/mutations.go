@@ -24,7 +24,7 @@ func (h *mutationHandler) Delete(ctx context.Context, keyId string, req ...*Dele
 	if !graphql.IsOmitted(r.preCheck) {
 		args["preCheck"] = graphql.VarPtr(r.preCheck, "MailinglistResourceBoolExp")
 	}
-	res := <-h.gql.MutateFields("deleteMailinglistResourceById", &out, args)
+	res := <-h.gql.MutateFields(ctx, "deleteMailinglistResourceById", &out, args)
 	return out, res.Error
 }
 
@@ -39,7 +39,7 @@ func (h *mutationHandler) Create(ctx context.Context, obj CreateInput, req ...*C
 	if !graphql.IsOmitted(r.postCheck) {
 		args["postCheck"] = graphql.VarPtr(r.postCheck, "MailinglistResourceBoolExp")
 	}
-	res := <-h.gql.MutateFields("insertMailinglistResource", &out, args)
+	res := <-h.gql.MutateFields(ctx, "insertMailinglistResource", &out, args)
 	return out, res.Error
 }
 
@@ -58,6 +58,6 @@ func (h *mutationHandler) Update(ctx context.Context, keyId string, patch Update
 		args["preCheck"] = graphql.VarPtr(r.preCheck, "MailinglistResourceBoolExp")
 	}
 	args["updateColumns"] = graphql.Var(graphql.SetColumns(patch), "UpdateMailinglistResourceByIdUpdateColumnsInput")
-	res := <-h.gql.MutateFields("updateMailinglistResourceById", &out, args)
+	res := <-h.gql.MutateFields(ctx, "updateMailinglistResourceById", &out, args)
 	return out, res.Error
 }

@@ -132,6 +132,10 @@ func optionalSpecs(specs []argSpec) []argSpec {
 // requestType renders the chained <Method>Request builder for an operation's optional
 // arguments, or "" when it has none.
 func (r *renderer) requestType(o op) string {
+	// A FindOne op shares the sibling List request type, so it declares none of its own.
+	if o.FindOne {
+		return ""
+	}
 	specs := optionalSpecs(r.classify(o))
 	if len(specs) == 0 {
 		return ""

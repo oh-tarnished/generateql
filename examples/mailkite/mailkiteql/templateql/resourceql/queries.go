@@ -13,9 +13,9 @@ type queryHandler struct {
 	gql *runtime.GraphQLClient
 }
 
-func (h *queryHandler) Find(ctx context.Context, req ...*FindRequest) ([]schemaql.TemplateResource, error) {
+func (h *queryHandler) List(ctx context.Context, req ...*ListRequest) ([]schemaql.TemplateResource, error) {
 	var out []schemaql.TemplateResource
-	var r FindRequest
+	var r ListRequest
 	if len(req) > 0 && req[0] != nil {
 		r = *req[0]
 	}
@@ -32,8 +32,35 @@ func (h *queryHandler) Find(ctx context.Context, req ...*FindRequest) ([]schemaq
 	if !graphql.IsOmitted(r.where) {
 		args["where"] = graphql.VarPtr(r.where, "TemplateResourceBoolExp")
 	}
-	res := <-h.gql.QueryFields("templateResource", &out, args)
+	res := <-h.gql.QueryFields(ctx, "templateResource", &out, args)
 	return out, res.Error
+}
+
+func (h *queryHandler) Find(ctx context.Context, req ...*ListRequest) (*schemaql.TemplateResource, error) {
+	var out []schemaql.TemplateResource
+	var r ListRequest
+	if len(req) > 0 && req[0] != nil {
+		r = *req[0]
+	}
+	args := map[string]any{}
+	if !graphql.IsOmitted(r.offset) {
+		args["offset"] = graphql.VarPtr(r.offset, "Int")
+	}
+	if !graphql.IsOmitted(r.orderBy) {
+		args["order_by"] = graphql.VarPtr(r.orderBy, "[TemplateResourceOrderByExp!]")
+	}
+	if !graphql.IsOmitted(r.where) {
+		args["where"] = graphql.VarPtr(r.where, "TemplateResourceBoolExp")
+	}
+	args["limit"] = graphql.VarPtr(1, "Int")
+	res := <-h.gql.QueryFields(ctx, "templateResource", &out, args)
+	if res.Error != nil {
+		return nil, res.Error
+	}
+	if len(out) == 0 {
+		return nil, nil
+	}
+	return &out[0], nil
 }
 
 func (h *queryHandler) Aggregate(ctx context.Context, req ...*AggregateRequest) (*schemaql.TemplateResourceAggExp, error) {
@@ -59,7 +86,7 @@ func (h *queryHandler) Aggregate(ctx context.Context, req ...*AggregateRequest) 
 	if len(filterInput) > 0 {
 		args["filter_input"] = graphql.VarPtr(filterInput, "TemplateResourceFilterInput")
 	}
-	res := <-h.gql.QueryFields("templateResourceAggregate", &out, args)
+	res := <-h.gql.QueryFields(ctx, "templateResourceAggregate", &out, args)
 	return out, res.Error
 }
 
@@ -67,6 +94,6 @@ func (h *queryHandler) Get(ctx context.Context, id string) (*schemaql.TemplateRe
 	var out *schemaql.TemplateResource
 	args := map[string]any{}
 	args["id"] = graphql.Var(id, "String1")
-	res := <-h.gql.QueryFields("templateResourceById", &out, args)
+	res := <-h.gql.QueryFields(ctx, "templateResourceById", &out, args)
 	return out, res.Error
 }

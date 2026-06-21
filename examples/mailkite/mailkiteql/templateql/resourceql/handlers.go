@@ -10,8 +10,10 @@ import (
 
 // QueryHandler runs TemplateResource query operations.
 type QueryHandler interface {
-	// Find runs the "templateResource" query.
-	Find(ctx context.Context, req ...*FindRequest) ([]schemaql.TemplateResource, error)
+	// List runs the "templateResource" query.
+	List(ctx context.Context, req ...*ListRequest) ([]schemaql.TemplateResource, error)
+	// Find runs the "templateResource" query and returns the first match, or nil if none.
+	Find(ctx context.Context, req ...*ListRequest) (*schemaql.TemplateResource, error)
 	// Aggregate runs the "templateResourceAggregate" query.
 	Aggregate(ctx context.Context, req ...*AggregateRequest) (*schemaql.TemplateResourceAggExp, error)
 	// Get runs the "templateResourceById" query.
@@ -36,8 +38,8 @@ func NewMutation(gql *runtime.GraphQLClient) MutationHandler { return &mutationH
 
 // SubscriptionHandler runs TemplateResource subscription operations.
 type SubscriptionHandler interface {
-	// OnFind runs the "templateResource" subscription.
-	OnFind(ctx context.Context, req ...*OnFindRequest) (*runtime.Subscription, error)
+	// OnList runs the "templateResource" subscription.
+	OnList(ctx context.Context, req ...*OnListRequest) (*runtime.Subscription, error)
 	// OnAggregate runs the "templateResourceAggregate" subscription.
 	OnAggregate(ctx context.Context, req ...*OnAggregateRequest) (*runtime.Subscription, error)
 	// OnGet runs the "templateResourceById" subscription.

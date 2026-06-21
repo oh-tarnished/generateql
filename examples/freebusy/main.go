@@ -49,9 +49,9 @@ func run(ctx context.Context, cfg Config) error {
 	if err != nil {
 		return fmt.Errorf("failed to connect to GraphQL endpoint: %w", err)
 	}
-	l, err := svc.Query.Resource.Entity.Find(ctx)
+	l, err := svc.Query.Resource.Entity.List(ctx)
 	if err != nil {
-		return fmt.Errorf("failed to find resource entity: %w", err)
+		return fmt.Errorf("failed to list resource entities: %w", err)
 	}
 	slog.Info("Resource entity found", "entityCount", len(l))
 	for _, e := range l {
@@ -66,7 +66,7 @@ func run(ctx context.Context, cfg Config) error {
 	slog.Info("Starting demo", "id", id, "endpoint", cfg.Endpoint)
 
 	// ── SUBSCRIBE (live query filtered to this row) ──────────────────────────
-	sub, err := svc.Subscription.Organisation.Resource.OnFind(ctx, resourceql.OnFind().Where(resourceql.Id.Eq(id)))
+	sub, err := svc.Subscription.Organisation.Resource.OnList(ctx, resourceql.OnList().Where(resourceql.Id.Eq(id)))
 	if err != nil {
 		slog.Warn("Subscription skipped or unavailable", "error", err)
 	} else {
@@ -99,11 +99,20 @@ func run(ctx context.Context, cfg Config) error {
 	}
 	slog.Info("GET successful", "displayName", row.DisplayName, "memberCount", int64Of(row.MemberCount))
 
-	list, err := q.Find(ctx, resourceql.Find().Where(resourceql.Id.Eq(id)).Limit(10))
+	list, err := q.List(ctx, resourceql.List().Where(resourceql.Id.Eq(id)).Limit(10))
+	if err != nil {
+		return fmt.Errorf("list operation failed: %w", err)
+	}
+	slog.Info("LIST successful", "matchedCount", len(list))
+
+	// Find returns the first matching row (or nil), no slicing required.
+	first, err := q.Find(ctx, resourceql.List().Where(resourceql.Id.Eq(id)))
 	if err != nil {
 		return fmt.Errorf("find operation failed: %w", err)
 	}
-	slog.Info("FIND successful", "matchedCount", len(list))
+	if first != nil {
+		slog.Info("FIND successful", "displayName", first.DisplayName)
+	}
 
 	// ── QUERY: Aggregate (filtered via filter_input) ─────────────────────────
 	agg, err := q.Aggregate(ctx, resourceql.Aggregate().Where(resourceql.Id.Eq(id)))

@@ -10,8 +10,10 @@ import (
 
 // QueryHandler runs ResourceRateOverrides query operations.
 type QueryHandler interface {
-	// Find runs the "resourceRateOverrides" query.
-	Find(ctx context.Context, obj CreateInput, req ...*FindRequest) ([]schemaql.ResourceRateOverrides, error)
+	// List runs the "resourceRateOverrides" query.
+	List(ctx context.Context, req ...*ListRequest) ([]schemaql.ResourceRateOverrides, error)
+	// Find runs the "resourceRateOverrides" query and returns the first match, or nil if none.
+	Find(ctx context.Context, req ...*ListRequest) (*schemaql.ResourceRateOverrides, error)
 	// Aggregate runs the "resourceRateOverridesAggregate" query.
 	Aggregate(ctx context.Context, req ...*AggregateRequest) (*schemaql.ResourceRateOverridesAggExp, error)
 	// Get runs the "resourceRateOverridesById" query.
@@ -36,8 +38,8 @@ func NewMutation(gql *runtime.GraphQLClient) MutationHandler { return &mutationH
 
 // SubscriptionHandler runs ResourceRateOverrides subscription operations.
 type SubscriptionHandler interface {
-	// OnFind runs the "resourceRateOverrides" subscription.
-	OnFind(ctx context.Context, obj CreateInput, req ...*OnFindRequest) (*runtime.Subscription, error)
+	// OnList runs the "resourceRateOverrides" subscription.
+	OnList(ctx context.Context, req ...*OnListRequest) (*runtime.Subscription, error)
 	// OnAggregate runs the "resourceRateOverridesAggregate" subscription.
 	OnAggregate(ctx context.Context, req ...*OnAggregateRequest) (*runtime.Subscription, error)
 	// OnGet runs the "resourceRateOverridesById" subscription.

@@ -10,8 +10,10 @@ import (
 
 // QueryHandler runs ResourceOfferingsLink query operations.
 type QueryHandler interface {
-	// Find runs the "resourceOfferingsLink" query.
-	Find(ctx context.Context, obj CreateInput, req ...*FindRequest) ([]schemaql.ResourceOfferingsLink, error)
+	// List runs the "resourceOfferingsLink" query.
+	List(ctx context.Context, req ...*ListRequest) ([]schemaql.ResourceOfferingsLink, error)
+	// Find runs the "resourceOfferingsLink" query and returns the first match, or nil if none.
+	Find(ctx context.Context, req ...*ListRequest) (*schemaql.ResourceOfferingsLink, error)
 	// Aggregate runs the "resourceOfferingsLinkAggregate" query.
 	Aggregate(ctx context.Context, req ...*AggregateRequest) (*schemaql.ResourceOfferingsLinkAggExp, error)
 	// Get runs the "resourceOfferingsLinkById" query.
@@ -36,8 +38,8 @@ func NewMutation(gql *runtime.GraphQLClient) MutationHandler { return &mutationH
 
 // SubscriptionHandler runs ResourceOfferingsLink subscription operations.
 type SubscriptionHandler interface {
-	// OnFind runs the "resourceOfferingsLink" subscription.
-	OnFind(ctx context.Context, obj CreateInput, req ...*OnFindRequest) (*runtime.Subscription, error)
+	// OnList runs the "resourceOfferingsLink" subscription.
+	OnList(ctx context.Context, req ...*OnListRequest) (*runtime.Subscription, error)
 	// OnAggregate runs the "resourceOfferingsLinkAggregate" subscription.
 	OnAggregate(ctx context.Context, req ...*OnAggregateRequest) (*runtime.Subscription, error)
 	// OnGet runs the "resourceOfferingsLinkById" subscription.

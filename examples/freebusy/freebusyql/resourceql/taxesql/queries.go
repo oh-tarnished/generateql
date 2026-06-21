@@ -13,9 +13,9 @@ type queryHandler struct {
 	gql *runtime.GraphQLClient
 }
 
-func (h *queryHandler) Find(ctx context.Context, obj CreateInput, req ...*FindRequest) ([]schemaql.ResourceTaxes, error) {
+func (h *queryHandler) List(ctx context.Context, req ...*ListRequest) ([]schemaql.ResourceTaxes, error) {
 	var out []schemaql.ResourceTaxes
-	var r FindRequest
+	var r ListRequest
 	if len(req) > 0 && req[0] != nil {
 		r = *req[0]
 	}
@@ -26,12 +26,41 @@ func (h *queryHandler) Find(ctx context.Context, obj CreateInput, req ...*FindRe
 	if !graphql.IsOmitted(r.offset) {
 		args["offset"] = graphql.VarPtr(r.offset, "Int")
 	}
-	args["order_by"] = graphql.Var([]CreateInput{obj}, "[ResourceTaxesOrderByExp!]")
+	if !graphql.IsOmitted(r.orderBy) {
+		args["order_by"] = graphql.VarPtr(r.orderBy, "[ResourceTaxesOrderByExp!]")
+	}
 	if !graphql.IsOmitted(r.where) {
 		args["where"] = graphql.VarPtr(r.where, "ResourceTaxesBoolExp")
 	}
-	res := <-h.gql.QueryFields("resourceTaxes", &out, args)
+	res := <-h.gql.QueryFields(ctx, "resourceTaxes", &out, args)
 	return out, res.Error
+}
+
+func (h *queryHandler) Find(ctx context.Context, req ...*ListRequest) (*schemaql.ResourceTaxes, error) {
+	var out []schemaql.ResourceTaxes
+	var r ListRequest
+	if len(req) > 0 && req[0] != nil {
+		r = *req[0]
+	}
+	args := map[string]any{}
+	if !graphql.IsOmitted(r.offset) {
+		args["offset"] = graphql.VarPtr(r.offset, "Int")
+	}
+	if !graphql.IsOmitted(r.orderBy) {
+		args["order_by"] = graphql.VarPtr(r.orderBy, "[ResourceTaxesOrderByExp!]")
+	}
+	if !graphql.IsOmitted(r.where) {
+		args["where"] = graphql.VarPtr(r.where, "ResourceTaxesBoolExp")
+	}
+	args["limit"] = graphql.VarPtr(1, "Int")
+	res := <-h.gql.QueryFields(ctx, "resourceTaxes", &out, args)
+	if res.Error != nil {
+		return nil, res.Error
+	}
+	if len(out) == 0 {
+		return nil, nil
+	}
+	return &out[0], nil
 }
 
 func (h *queryHandler) Aggregate(ctx context.Context, req ...*AggregateRequest) (*schemaql.ResourceTaxesAggExp, error) {
@@ -48,13 +77,16 @@ func (h *queryHandler) Aggregate(ctx context.Context, req ...*AggregateRequest) 
 	if !graphql.IsOmitted(r.offset) {
 		filterInput["offset"] = r.offset
 	}
+	if !graphql.IsOmitted(r.orderBy) {
+		filterInput["order_by"] = r.orderBy
+	}
 	if !graphql.IsOmitted(r.where) {
 		filterInput["where"] = r.where
 	}
 	if len(filterInput) > 0 {
 		args["filter_input"] = graphql.VarPtr(filterInput, "ResourceTaxesFilterInput")
 	}
-	res := <-h.gql.QueryFields("resourceTaxesAggregate", &out, args)
+	res := <-h.gql.QueryFields(ctx, "resourceTaxesAggregate", &out, args)
 	return out, res.Error
 }
 
@@ -62,6 +94,6 @@ func (h *queryHandler) Get(ctx context.Context, id string) (*schemaql.ResourceTa
 	var out *schemaql.ResourceTaxes
 	args := map[string]any{}
 	args["id"] = graphql.Var(id, "String1")
-	res := <-h.gql.QueryFields("resourceTaxesById", &out, args)
+	res := <-h.gql.QueryFields(ctx, "resourceTaxesById", &out, args)
 	return out, res.Error
 }

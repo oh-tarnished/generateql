@@ -2,12 +2,35 @@
 
 **Turn a GraphQL endpoint into a typed, idiomatic Go SDK — like `protoc`, but for GraphQL.**
 
+[![Release](https://img.shields.io/github/v/release/oh-tarnished/generateql?sort=semver&logo=github)](https://github.com/oh-tarnished/generateql/releases)
+[![Go Reference](https://pkg.go.dev/badge/github.com/oh-tarnished/generateql.svg)](https://pkg.go.dev/github.com/oh-tarnished/generateql)
+[![Go Version](https://img.shields.io/github/go-mod/go-version/oh-tarnished/generateql?logo=go)](go.mod)
+[![CI](https://github.com/oh-tarnished/generateql/actions/workflows/test.yaml/badge.svg)](https://github.com/oh-tarnished/generateql/actions/workflows/test.yaml)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue)](LICENSE)
+
 GenerateQL introspects any GraphQL server with standard introspection (Hasura, Grafbase /
 Hasura DDN, Prisma-backed engines, …) and emits a self-contained Go **library**: typed models,
 a fluent **predicate DSL** for filters, single-object create/update inputs, and one method per
 query, mutation, and subscription — in clean per-domain packages on a small transport runtime.
 
 No hand-written query strings, no struct tags, no pointers in your call sites.
+
+
+## Contents
+
+- [Overview](#overview)
+- [Features](#features)
+- [How it works](#how-it-works)
+- [Install](#install)
+- [Quick start](#quick-start)
+- [Using the client](#using-the-client)
+- [Configuration](#configuration)
+- [CLI](#cli)
+- [The runtime](#the-runtime)
+- [Design notes](#design-notes)
+- [Repository layout](#repository-layout)
+- [License](#license)
+
 
 ```go
 svc, _ := freebusyql.Connect(u)                       // *url.URL in
@@ -16,32 +39,29 @@ ins, _ := svc.Mutation.Organisation.Resource.Create(ctx, resourceql.CreateInput{
     Id: id, DisplayName: "BoB the Builder", Name: "organisations/" + id, MemberCount: 2,
 })
 
-rows, _ := svc.Query.Organisation.Resource.Find(ctx, resourceql.Find().
+rows, _ := svc.Query.Organisation.Resource.List(ctx, resourceql.List().
     Where(resourceql.And(resourceql.Id.Eq(id), resourceql.MemberCount.Gt(1))).
     OrderBy(resourceql.DisplayName.Desc()).
     Limit(10))
 ```
 
-## Why
+## Overview
 
-Hand-written GraphQL strings and client code drift from the schema. GenerateQL makes the
-**schema the source of truth**:
+Hand-written GraphQL query strings and client code drift from the schema. GenerateQL is a small
+compiler that makes the **schema the single source of truth**: it runs the standard
+introspection query against any GraphQL server (Hasura, Hasura DDN / Grafbase, Prisma-backed
+engines, …), normalizes the result into a language-agnostic IR, and renders a self-contained Go
+library — the way `protoc` turns a `.proto` into generated code. Every row becomes a struct and
+every root field a method, so mistakes fail at compile time instead of in production.
 
-- **Typed end to end** — every row is a struct, every root field a method; mistakes fail at compile time.
-- **Natural call sites** — `svc.Query.Booking.Contacts.Find(ctx, …)` with native values and a predicate DSL — never raw `inputs.*` or pointers.
-- **Convention-agnostic** — CRUD/aggregate families and filterable columns are *derived from introspection*, not hardcoded to one engine.
-- **Reproducible** — deterministic, `gofmt`-clean output that ships with the exact `schema.json` it was built from.
-
-## What you get
-
-A protobuf-style **library folder** dropped into *your* module — GenerateQL never writes a
-`go.mod`; you own that:
+The output is a protobuf-style **library folder** dropped into *your* module — GenerateQL never
+writes a `go.mod`; you own that:
 
 ```text
 yourmodule/                     ← your go.mod + code
 └── freebusyql/                 ← GENERATED (named after the service)
     ├── service.go  field.go    package freebusyql → Connect, Service, Subscription, Int64
-    ├── schema.json             the introspection schema it was built from
+    │                           (+ schema.json when generated with --dump-schema)
     ├── organisationql/
     │   ├── organisationql.go   domain aggregator + model aliases
     │   ├── resourceql/         handlers · predicates · request builders · Create/UpdateInput · models
@@ -51,6 +71,17 @@ yourmodule/                     ← your go.mod + code
 
 Every generated package name carries a `ql` suffix (foldername == package == import segment),
 distinguishing generated code from yours — the convention `protoc-gen-go` uses with `pb`.
+
+## Features
+
+- **Typed end to end** — every row is a struct, every root field a method; mistakes fail at compile time.
+- **Natural call sites** — `svc.Query.Booking.Contacts.List(ctx, …)` with native values, never raw `inputs.*` or pointers.
+- **Predicate DSL** — fluent, typed filters (`Eq`/`In`/`Like`/…, `And`/`Or`/`Not`, relation filters, ordering); no `BoolExp` leaks out.
+- **Full CRUD surface** — `List` / `Get` / `Find` (first match) / `Aggregate`, `Create` / `Update` / `Delete`, plus `On*` live subscriptions — one method per root field.
+- **Context-aware** — `ctx` threads through to the transport for deadlines, cancellation, and tracing.
+- **Escape hatch** — `svc.Query.QueryRaw(ctx, query, vars)` and `svc.Mutation.ExecuteRaw(ctx, mutation, vars)` run arbitrary operations the typed API doesn't cover.
+- **Convention-agnostic** — CRUD/aggregate families and filterable columns are *derived from introspection*, not hardcoded to one engine.
+- **Reproducible** — deterministic, `gofmt`-clean output; pass `--dump-schema` to ship the exact `schema.json` it was built from.
 
 ## How it works
 
@@ -69,7 +100,7 @@ flowchart LR
     TM --> GEN
     SEL --> GEN
     PRED --> GEN
-    GEN -->|gofmt| OUT["typed library + schema.json"]
+    GEN -->|gofmt| OUT["typed library (+ schema.json with --dump-schema)"]
     IR --> OUT
 ```
 
@@ -90,23 +121,26 @@ flowchart TD
 
 Analysis passes (all engine-agnostic, derived from the AST):
 
-- **plan** — groups resources by *domain*, assigns `ql` package names, maps root fields to CRUD verbs (`list→Find`, `byId→Get`, `insertX→Create`, `updateXById→Update`, `deleteXById→Delete`, subscriptions→`On*`).
+- **plan** — groups resources by *domain*, assigns `ql` package names, maps root fields to CRUD verbs (`list→List` plus a first-match `Find`, `byId→Get`, `insertX→Create`, `updateXById→Update`, `deleteXById→Delete`, subscriptions→`On*`).
 - **typemap** — GraphQL scalars → Go; nullable inputs become native values tagged `json:",omitzero"` (presence without pointers, Go 1.24+).
 - **selection** — models as nested structs with relations inlined to `--max-depth`, cycle-safe via a per-branch visited set.
 - **predicates** — resolves each filterable column's `_eq` operand to a Go family and emits a typed field handle; relations become composable predicate functions. No `BoolExp` leaks out.
 
-The renderer emits per-resource packages, per-domain aggregators, the root `Service`, and a
-`schema.json` dump, then `gofmt`s everything. Generated code runs on the **runtime**
+The renderer emits per-resource packages, per-domain aggregators, the root `Service` (with
+`QueryRaw`/`ExecuteRaw` escape hatches), and — with `--dump-schema` — a `schema.json` dump,
+then `gofmt`s everything. Generated code runs on the **runtime**
 (`runtime/go`) — a transport-agnostic GraphQL / HTTP / WebSocket client behind a small facade.
 
 ## Install
 
-Requires **Go 1.24+** (the generated code uses `encoding/json`'s `omitzero`).
+Installing the CLI requires **Go 1.26+** (the module's `go.mod` `go` directive). The
+*generated* code only needs **Go 1.24+**, where `encoding/json` gained `omitzero`.
 
 ```bash
-brew install oh-tarnished/tap/generateql                              # Homebrew
-go install github.com/oh-tarnished/generateql/cmd/generateql@latest   # Go
-# or from source: go build -o generateql ./cmd/generateql
+go install github.com/oh-tarnished/generateql/cmd/generateql@latest   # Go toolchain
+# ...or build from a clone:
+git clone https://github.com/oh-tarnished/generateql
+cd generateql && go build -o generateql ./cmd/generateql
 ```
 
 ## Quick start
@@ -162,15 +196,19 @@ upd, _ := m.Update(ctx, id, resourceql.UpdateInput{DisplayName: "BoB (updated)"}
 del, _ := m.Delete(ctx, id)
 
 // Filter — predicate DSL (And/Or/Not, relations, ordering)
-rows, _ := q.Find(ctx, resourceql.Find().
+rows, _ := q.List(ctx, resourceql.List().
     Where(resourceql.And(resourceql.Id.Eq(id), resourceql.DisplayName.Like("Bob%"))).
     OrderBy(resourceql.DisplayName.Desc()).Limit(10))
-rows, _ = q.Find(ctx, resourceql.Find().Where(
+rows, _ = q.List(ctx, resourceql.List().Where(
     resourceql.OrganisationMembers(membersql.Email.Eq("a@b.com"))))   // filter across a relation
+one, _ := q.Find(ctx, resourceql.List().Where(resourceql.Id.Eq(id)))  // first match: *OrganisationResource or nil
 agg, _ := q.Aggregate(ctx, resourceql.Aggregate().Where(resourceql.Id.Eq(id)))
 
+// Escape hatch — run an arbitrary operation the typed API doesn't cover
+raw, _ := svc.Query.QueryRaw(ctx, `query { organisationResource { id } }`, nil)
+
 // Subscribe — graphql-transport-ws; pushes the result set on connect and on change
-sub, _ := svc.Subscription.Organisation.Resource.OnFind(ctx, resourceql.OnFind().Where(resourceql.Id.Eq(id)))
+sub, _ := svc.Subscription.Organisation.Resource.OnList(ctx, resourceql.OnList().Where(resourceql.Id.Eq(id)))
 defer sub.Stop()
 for res := range sub.Updates() {
     rows, _ := res.Response.(*[]resourceql.OrganisationResource)
@@ -197,6 +235,7 @@ override config, relative paths resolve against the working directory.
 | `out` / `--out` | `.` | Parent dir; library written to `<out>/<package>/` |
 | `package` / `--package` | derived | Root package name (last segment of `go-module`, `+ql` if missing) |
 | `max-depth` / `--max-depth` | `1` | Relation levels inlined into models (0 = scalars only) |
+| `dump-schema` / `--dump-schema` | `false` | Also write the introspection schema to `<package>/schema.json` |
 | `runtime-module` / `--runtime-module` | repo runtime | Import path of the runtime facade |
 | `scalars` / `--scalar` | — | Scalar override `GraphQLName=GoType` (repeatable) |
 | `admin-secret` / `--admin-secret` | — | Shortcut for the `x-hasura-admin-secret` header |

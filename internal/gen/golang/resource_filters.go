@@ -15,9 +15,20 @@ func (r *renderer) renderPredicates(rg *resGen) (body string, usesEnums bool) {
 	if base == "" {
 		return "", false
 	}
+	// Field handles and relation filters share package scope with the And/Or/Not combinators,
+	// the operation builders (List/Get/Find/Create/...) and CreateInput/UpdateInput, so a
+	// column named e.g. "list" must not shadow them. Seed the used-set with those reserved
+	// names; colliding handles get a deterministic numeric suffix.
+	used := map[string]bool{"And": true, "Or": true, "Not": true, "CreateInput": true, "UpdateInput": true}
+	for _, set := range [][]op{rg.queries, rg.mutations, rg.subs} {
+		for _, o := range set {
+			used[o.Name] = true
+		}
+	}
 	type fv struct{ name, expr string }
+	type rel struct{ name, field string }
 	var vars []fv
-	var relations []ir.Field
+	var relations []rel
 	for _, f := range sortedFields(r.schema.Inputs[base].Fields) {
 		if f.Name == "_and" || f.Name == "_or" || f.Name == "_not" {
 			continue
@@ -28,11 +39,11 @@ func (r *renderer) renderPredicates(rg *resGen) (body string, usesEnums bool) {
 			if enum {
 				usesEnums = true
 			}
-			vars = append(vars, fv{naming.Export(f.Name), expr})
+			vars = append(vars, fv{uniqueName(naming.Export(f.Name), used), expr})
 			continue
 		}
 		if r.isBoolExp(f.Type.Base) {
-			relations = append(relations, f)
+			relations = append(relations, rel{uniqueName(naming.Export(f.Name), used), f.Name})
 		}
 	}
 	if len(vars) == 0 && len(relations) == 0 {
@@ -46,8 +57,8 @@ func (r *renderer) renderPredicates(rg *resGen) (body string, usesEnums bool) {
 		}
 		b.WriteString(")\n\n")
 	}
-	for _, f := range relations {
-		fmt.Fprintf(&b, "// %s filters by the %s relation, taking a predicate from that resource.\nfunc %s(p graphql.Predicate) graphql.Predicate { return graphql.Relation(%q, p) }\n\n", naming.Export(f.Name), f.Name, naming.Export(f.Name), f.Name)
+	for _, rl := range relations {
+		fmt.Fprintf(&b, "// %s filters by the %s relation, taking a predicate from that resource.\nfunc %s(p graphql.Predicate) graphql.Predicate { return graphql.Relation(%q, p) }\n\n", rl.name, rl.field, rl.name, rl.field)
 	}
 	b.WriteString("// And matches rows satisfying every predicate.\nfunc And(p ...graphql.Predicate) graphql.Predicate { return graphql.And(p...) }\n\n")
 	b.WriteString("// Or matches rows satisfying any predicate.\nfunc Or(p ...graphql.Predicate) graphql.Predicate { return graphql.Or(p...) }\n\n")

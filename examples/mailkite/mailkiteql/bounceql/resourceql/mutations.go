@@ -24,7 +24,7 @@ func (h *mutationHandler) Delete(ctx context.Context, keyId string, req ...*Dele
 	if !graphql.IsOmitted(r.preCheck) {
 		args["preCheck"] = graphql.VarPtr(r.preCheck, "BounceResourceBoolExp")
 	}
-	res := <-h.gql.MutateFields("deleteBounceResourceById", &out, args)
+	res := <-h.gql.MutateFields(ctx, "deleteBounceResourceById", &out, args)
 	return out, res.Error
 }
 
@@ -39,7 +39,7 @@ func (h *mutationHandler) Create(ctx context.Context, obj CreateInput, req ...*C
 	if !graphql.IsOmitted(r.postCheck) {
 		args["postCheck"] = graphql.VarPtr(r.postCheck, "BounceResourceBoolExp")
 	}
-	res := <-h.gql.MutateFields("insertBounceResource", &out, args)
+	res := <-h.gql.MutateFields(ctx, "insertBounceResource", &out, args)
 	return out, res.Error
 }
 
@@ -58,6 +58,6 @@ func (h *mutationHandler) Update(ctx context.Context, keyId string, patch Update
 		args["preCheck"] = graphql.VarPtr(r.preCheck, "BounceResourceBoolExp")
 	}
 	args["updateColumns"] = graphql.Var(graphql.SetColumns(patch), "UpdateBounceResourceByIdUpdateColumnsInput")
-	res := <-h.gql.MutateFields("updateBounceResourceById", &out, args)
+	res := <-h.gql.MutateFields(ctx, "updateBounceResourceById", &out, args)
 	return out, res.Error
 }

@@ -10,8 +10,10 @@ import (
 
 // QueryHandler runs ScheduleBufferSettings query operations.
 type QueryHandler interface {
-	// Find runs the "scheduleBufferSettings" query.
-	Find(ctx context.Context, req ...*FindRequest) ([]schemaql.ScheduleBufferSettings, error)
+	// List runs the "scheduleBufferSettings" query.
+	List(ctx context.Context, req ...*ListRequest) ([]schemaql.ScheduleBufferSettings, error)
+	// Find runs the "scheduleBufferSettings" query and returns the first match, or nil if none.
+	Find(ctx context.Context, req ...*ListRequest) (*schemaql.ScheduleBufferSettings, error)
 	// Aggregate runs the "scheduleBufferSettingsAggregate" query.
 	Aggregate(ctx context.Context, req ...*AggregateRequest) (*schemaql.ScheduleBufferSettingsAggExp, error)
 	// Get runs the "scheduleBufferSettingsById" query.
@@ -36,8 +38,8 @@ func NewMutation(gql *runtime.GraphQLClient) MutationHandler { return &mutationH
 
 // SubscriptionHandler runs ScheduleBufferSettings subscription operations.
 type SubscriptionHandler interface {
-	// OnFind runs the "scheduleBufferSettings" subscription.
-	OnFind(ctx context.Context, req ...*OnFindRequest) (*runtime.Subscription, error)
+	// OnList runs the "scheduleBufferSettings" subscription.
+	OnList(ctx context.Context, req ...*OnListRequest) (*runtime.Subscription, error)
 	// OnAggregate runs the "scheduleBufferSettingsAggregate" subscription.
 	OnAggregate(ctx context.Context, req ...*OnAggregateRequest) (*runtime.Subscription, error)
 	// OnGet runs the "scheduleBufferSettingsById" subscription.

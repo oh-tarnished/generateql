@@ -13,9 +13,9 @@ type subscriptionHandler struct {
 	gql *runtime.GraphQLClient
 }
 
-func (h *subscriptionHandler) OnFind(ctx context.Context, obj CreateInput, req ...*OnFindRequest) (*runtime.Subscription, error) {
+func (h *subscriptionHandler) OnList(ctx context.Context, req ...*OnListRequest) (*runtime.Subscription, error) {
 	var out []schemaql.ResourceRateOverrides
-	var r OnFindRequest
+	var r OnListRequest
 	if len(req) > 0 && req[0] != nil {
 		r = *req[0]
 	}
@@ -26,7 +26,9 @@ func (h *subscriptionHandler) OnFind(ctx context.Context, obj CreateInput, req .
 	if !graphql.IsOmitted(r.offset) {
 		args["offset"] = graphql.VarPtr(r.offset, "Int")
 	}
-	args["order_by"] = graphql.Var([]CreateInput{obj}, "[ResourceRateOverridesOrderByExp!]")
+	if !graphql.IsOmitted(r.orderBy) {
+		args["order_by"] = graphql.VarPtr(r.orderBy, "[ResourceRateOverridesOrderByExp!]")
+	}
 	if !graphql.IsOmitted(r.where) {
 		args["where"] = graphql.VarPtr(r.where, "ResourceRateOverridesBoolExp")
 	}
@@ -46,6 +48,9 @@ func (h *subscriptionHandler) OnAggregate(ctx context.Context, req ...*OnAggrega
 	}
 	if !graphql.IsOmitted(r.offset) {
 		filterInput["offset"] = r.offset
+	}
+	if !graphql.IsOmitted(r.orderBy) {
+		filterInput["order_by"] = r.orderBy
 	}
 	if !graphql.IsOmitted(r.where) {
 		filterInput["where"] = r.where

@@ -23,6 +23,7 @@ type genConfig struct {
 	Headers     []string `yaml:"headers"`
 	AdminSecret string   `yaml:"admin-secret"`
 	Scalars     []string `yaml:"scalars"`
+	DumpSchema  *bool    `yaml:"dump-schema"`
 }
 
 // configNames are the config file names auto-detected in the working directory.
@@ -69,6 +70,9 @@ func applyConfig(cmd *cobra.Command) error {
 	str("admin-secret", cfg.AdminSecret, &flagGenSecret)
 	if cfg.MaxDepth != nil && !f.Changed("max-depth") {
 		flagMaxDepth = *cfg.MaxDepth
+	}
+	if cfg.DumpSchema != nil && !f.Changed("dump-schema") {
+		flagDumpSchema = *cfg.DumpSchema
 	}
 	if len(cfg.Headers) > 0 && !f.Changed("header") {
 		flagGenHeaders = cfg.Headers
