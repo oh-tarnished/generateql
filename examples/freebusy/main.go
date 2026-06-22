@@ -121,7 +121,7 @@ func run(ctx context.Context, cfg Config) error {
 	}
 	slog.Info("AGGREGATE successful", "matchedRows", int64(agg.Count))
 
-	upd, err := m.Update(ctx, id, resourceql.UpdateInput{DisplayName: "BoB (updated)"})
+	upd, err := m.Update(ctx, id, resourceql.UpdateInput{DisplayName: freebusyql.Value("BoB (updated)")})
 	if err != nil {
 		return fmt.Errorf("update operation failed: %w", err)
 	}

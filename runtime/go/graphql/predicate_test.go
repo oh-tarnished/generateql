@@ -84,3 +84,52 @@ func TestSetColumns(t *testing.T) {
 		t.Fatalf("empty patch: %s", got)
 	}
 }
+
+func TestKeysetAfter(t *testing.T) {
+	created := StringField{Col: "createTime"}
+	// Ascending order keys off _gt; descending off _lt.
+	if got := mustJSON(t, After(created.Asc(), "2026-01-01")); got != `{"createTime":{"_gt":"2026-01-01"}}` {
+		t.Fatalf("After asc: %s", got)
+	}
+	if got := mustJSON(t, After(created.Desc(), "2026-01-01")); got != `{"createTime":{"_lt":"2026-01-01"}}` {
+		t.Fatalf("After desc: %s", got)
+	}
+	// KeysetAfter sets the order and the cursor predicate on a fresh request.
+	r := (&ListRequest{}).KeysetAfter(created.Asc(), "2026-01-01")
+	if got := mustJSON(t, r.GetWhere()); got != `{"createTime":{"_gt":"2026-01-01"}}` {
+		t.Fatalf("KeysetAfter where: %s", got)
+	}
+	if got := mustJSON(t, r.GetOrderBy()); got != `[{"createTime":"Asc"}]` {
+		t.Fatalf("KeysetAfter order: %s", got)
+	}
+	// An existing Where is composed with the cursor via And.
+	r2 := (&ListRequest{}).Where(StringField{Col: "tenant"}.Eq("t1")).KeysetAfter(created.Asc(), "x")
+	want := `{"_and":[{"tenant":{"_eq":"t1"}},{"createTime":{"_gt":"x"}}]}`
+	if got := mustJSON(t, r2.GetWhere()); got != want {
+		t.Fatalf("KeysetAfter composed where:\n got %s\nwant %s", got, want)
+	}
+}
+
+func TestSetColumnsNullable(t *testing.T) {
+	type patch struct {
+		DisplayName Nullable[string] `json:"displayName"`
+		Description Nullable[string] `json:"description"`
+		Slug        Nullable[string] `json:"slug"`
+	}
+	// A value is set, an explicit null clears the column, and an unset field is omitted.
+	got := mustJSON(t, SetColumns(patch{
+		DisplayName: Value("Bob"),
+		Description: Null[string](),
+	}))
+	if got != `{"description":{"set":null},"displayName":{"set":"Bob"}}` {
+		t.Fatalf("nullable patch: %s", got)
+	}
+	// A value set to its zero value is still emitted (a plain omitzero field could not).
+	if got := mustJSON(t, SetColumns(patch{DisplayName: Value("")})); got != `{"displayName":{"set":""}}` {
+		t.Fatalf("zero-value set: %s", got)
+	}
+	// An all-unset patch produces no columns.
+	if got := mustJSON(t, SetColumns(patch{})); got != `{}` {
+		t.Fatalf("empty nullable patch: %s", got)
+	}
+}

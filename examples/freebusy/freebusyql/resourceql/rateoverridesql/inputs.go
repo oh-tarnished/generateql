@@ -2,6 +2,10 @@
 
 package rateoverridesql
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/graphql"
+)
+
 // CreateInput holds the settable fields for creating one ResourceRateOverrides row.
 type CreateInput struct {
 	DateRangeId string    `json:"dateRangeId,omitzero"`
@@ -13,9 +17,9 @@ type CreateInput struct {
 
 // UpdateInput holds the fields to change on a ResourceRateOverrides row; each set field becomes a column update.
 type UpdateInput struct {
-	DateRangeId string    `json:"dateRangeId,omitzero"`
-	Id          string    `json:"id,omitzero"`
-	OfferingId  string    `json:"offeringId,omitzero"`
-	PriceId     string    `json:"priceId,omitzero"`
-	Weekdays    []*string `json:"weekdays,omitzero"`
+	DateRangeId graphql.Nullable[string]    `json:"dateRangeId"`
+	Id          graphql.Nullable[string]    `json:"id"`
+	OfferingId  graphql.Nullable[string]    `json:"offeringId"`
+	PriceId     graphql.Nullable[string]    `json:"priceId"`
+	Weekdays    graphql.Nullable[[]*string] `json:"weekdays"`
 }

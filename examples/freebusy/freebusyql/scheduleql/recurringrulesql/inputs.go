@@ -2,6 +2,10 @@
 
 package recurringrulesql
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/graphql"
+)
+
 // CreateInput holds the settable fields for creating one ScheduleRecurringRules row.
 type CreateInput struct {
 	Closes     string `json:"closes,omitzero"`
@@ -13,9 +17,9 @@ type CreateInput struct {
 
 // UpdateInput holds the fields to change on a ScheduleRecurringRules row; each set field becomes a column update.
 type UpdateInput struct {
-	Closes     string `json:"closes,omitzero"`
-	Id         string `json:"id,omitzero"`
-	Opens      string `json:"opens,omitzero"`
-	Rrule      string `json:"rrule,omitzero"`
-	ScheduleId string `json:"scheduleId,omitzero"`
+	Closes     graphql.Nullable[string] `json:"closes"`
+	Id         graphql.Nullable[string] `json:"id"`
+	Opens      graphql.Nullable[string] `json:"opens"`
+	Rrule      graphql.Nullable[string] `json:"rrule"`
+	ScheduleId graphql.Nullable[string] `json:"scheduleId"`
 }

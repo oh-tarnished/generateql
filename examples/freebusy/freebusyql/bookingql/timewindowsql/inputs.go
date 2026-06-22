@@ -2,6 +2,10 @@
 
 package timewindowsql
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/graphql"
+)
+
 // CreateInput holds the settable fields for creating one BookingTimeWindows row.
 type CreateInput struct {
 	EndTime   string `json:"endTime"`
@@ -11,7 +15,7 @@ type CreateInput struct {
 
 // UpdateInput holds the fields to change on a BookingTimeWindows row; each set field becomes a column update.
 type UpdateInput struct {
-	EndTime   string `json:"endTime,omitzero"`
-	Id        string `json:"id,omitzero"`
-	StartTime string `json:"startTime,omitzero"`
+	EndTime   graphql.Nullable[string] `json:"endTime"`
+	Id        graphql.Nullable[string] `json:"id"`
+	StartTime graphql.Nullable[string] `json:"startTime"`
 }

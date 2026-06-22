@@ -21,11 +21,26 @@ func (h *mutationHandler) Delete(ctx context.Context, keyId string, req ...*Dele
 	}
 	args := map[string]any{}
 	args["keyId"] = graphql.Var(keyId, "String1")
-	if !graphql.IsOmitted(r.preCheck) {
-		args["preCheck"] = graphql.VarPtr(r.preCheck, "BookingTimeWindowsBoolExp")
+	if !graphql.IsOmitted(r.GetPreCheck()) {
+		args["preCheck"] = graphql.VarPtr(r.GetPreCheck(), "BookingTimeWindowsBoolExp")
 	}
 	res := <-h.gql.MutateFields(ctx, "deleteBookingTimeWindowsById", &out, args)
 	return out, res.Error
+}
+
+// DeleteOp returns Delete as a deferred mutation for a Tx batch; result is filled when the
+// batch commits. Queue it with svc.Mutation.Tx().Add(...) to commit several mutations atomically.
+func (h *mutationHandler) DeleteOp(keyId string, result *schemaql.DeleteBookingTimeWindowsByIdResponse, req ...*DeleteRequest) runtime.BatchOp {
+	var r DeleteRequest
+	if len(req) > 0 && req[0] != nil {
+		r = *req[0]
+	}
+	args := map[string]any{}
+	args["keyId"] = graphql.Var(keyId, "String1")
+	if !graphql.IsOmitted(r.GetPreCheck()) {
+		args["preCheck"] = graphql.VarPtr(r.GetPreCheck(), "BookingTimeWindowsBoolExp")
+	}
+	return runtime.BatchOp{Field: "deleteBookingTimeWindowsById", Args: args, Result: result}
 }
 
 func (h *mutationHandler) Create(ctx context.Context, obj CreateInput, req ...*CreateRequest) (schemaql.InsertBookingTimeWindowsResponse, error) {
@@ -36,11 +51,26 @@ func (h *mutationHandler) Create(ctx context.Context, obj CreateInput, req ...*C
 	}
 	args := map[string]any{}
 	args["objects"] = graphql.Var([]CreateInput{obj}, "[InsertBookingTimeWindowsObjectInput!]")
-	if !graphql.IsOmitted(r.postCheck) {
-		args["postCheck"] = graphql.VarPtr(r.postCheck, "BookingTimeWindowsBoolExp")
+	if !graphql.IsOmitted(r.GetPostCheck()) {
+		args["postCheck"] = graphql.VarPtr(r.GetPostCheck(), "BookingTimeWindowsBoolExp")
 	}
 	res := <-h.gql.MutateFields(ctx, "insertBookingTimeWindows", &out, args)
 	return out, res.Error
+}
+
+// CreateOp returns Create as a deferred mutation for a Tx batch; result is filled when the
+// batch commits. Queue it with svc.Mutation.Tx().Add(...) to commit several mutations atomically.
+func (h *mutationHandler) CreateOp(obj CreateInput, result *schemaql.InsertBookingTimeWindowsResponse, req ...*CreateRequest) runtime.BatchOp {
+	var r CreateRequest
+	if len(req) > 0 && req[0] != nil {
+		r = *req[0]
+	}
+	args := map[string]any{}
+	args["objects"] = graphql.Var([]CreateInput{obj}, "[InsertBookingTimeWindowsObjectInput!]")
+	if !graphql.IsOmitted(r.GetPostCheck()) {
+		args["postCheck"] = graphql.VarPtr(r.GetPostCheck(), "BookingTimeWindowsBoolExp")
+	}
+	return runtime.BatchOp{Field: "insertBookingTimeWindows", Args: args, Result: result}
 }
 
 func (h *mutationHandler) Update(ctx context.Context, keyId string, patch UpdateInput, req ...*UpdateRequest) (schemaql.UpdateBookingTimeWindowsByIdResponse, error) {
@@ -51,13 +81,45 @@ func (h *mutationHandler) Update(ctx context.Context, keyId string, patch Update
 	}
 	args := map[string]any{}
 	args["keyId"] = graphql.Var(keyId, "String1")
-	if !graphql.IsOmitted(r.postCheck) {
-		args["postCheck"] = graphql.VarPtr(r.postCheck, "BookingTimeWindowsBoolExp")
+	if !graphql.IsOmitted(r.GetPostCheck()) {
+		args["postCheck"] = graphql.VarPtr(r.GetPostCheck(), "BookingTimeWindowsBoolExp")
 	}
-	if !graphql.IsOmitted(r.preCheck) {
-		args["preCheck"] = graphql.VarPtr(r.preCheck, "BookingTimeWindowsBoolExp")
+	if !graphql.IsOmitted(r.GetPreCheck()) {
+		args["preCheck"] = graphql.VarPtr(r.GetPreCheck(), "BookingTimeWindowsBoolExp")
 	}
 	args["updateColumns"] = graphql.Var(graphql.SetColumns(patch), "UpdateBookingTimeWindowsByIdUpdateColumnsInput")
 	res := <-h.gql.MutateFields(ctx, "updateBookingTimeWindowsById", &out, args)
 	return out, res.Error
+}
+
+// UpdateIfMatch runs Update guarded by match, an optimistic-concurrency precondition
+// (e.g. Etag.Eq(prev)). It returns graphql.ErrConflict when no row matched the precondition.
+func (h *mutationHandler) UpdateIfMatch(ctx context.Context, keyId string, patch UpdateInput, match graphql.Predicate) (schemaql.UpdateBookingTimeWindowsByIdResponse, error) {
+	resp, err := h.Update(ctx, keyId, patch, Update().PreCheck(match))
+	if err != nil {
+		return resp, err
+	}
+	if resp.AffectedRows == 0 {
+		return resp, graphql.ErrConflict
+	}
+	return resp, nil
+}
+
+// UpdateOp returns Update as a deferred mutation for a Tx batch; result is filled when the
+// batch commits. Queue it with svc.Mutation.Tx().Add(...) to commit several mutations atomically.
+func (h *mutationHandler) UpdateOp(keyId string, patch UpdateInput, result *schemaql.UpdateBookingTimeWindowsByIdResponse, req ...*UpdateRequest) runtime.BatchOp {
+	var r UpdateRequest
+	if len(req) > 0 && req[0] != nil {
+		r = *req[0]
+	}
+	args := map[string]any{}
+	args["keyId"] = graphql.Var(keyId, "String1")
+	if !graphql.IsOmitted(r.GetPostCheck()) {
+		args["postCheck"] = graphql.VarPtr(r.GetPostCheck(), "BookingTimeWindowsBoolExp")
+	}
+	if !graphql.IsOmitted(r.GetPreCheck()) {
+		args["preCheck"] = graphql.VarPtr(r.GetPreCheck(), "BookingTimeWindowsBoolExp")
+	}
+	args["updateColumns"] = graphql.Var(graphql.SetColumns(patch), "UpdateBookingTimeWindowsByIdUpdateColumnsInput")
+	return runtime.BatchOp{Field: "updateBookingTimeWindowsById", Args: args, Result: result}
 }

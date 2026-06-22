@@ -2,6 +2,10 @@
 
 package applicableresourcesql
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/graphql"
+)
+
 // CreateInput holds the settable fields for creating one PromocodeApplicableResources row.
 type CreateInput struct {
 	Id          string `json:"id"`
@@ -11,7 +15,7 @@ type CreateInput struct {
 
 // UpdateInput holds the fields to change on a PromocodeApplicableResources row; each set field becomes a column update.
 type UpdateInput struct {
-	Id          string `json:"id,omitzero"`
-	PromoCodeId string `json:"promoCodeId,omitzero"`
-	ResourceId  string `json:"resourceId,omitzero"`
+	Id          graphql.Nullable[string] `json:"id"`
+	PromoCodeId graphql.Nullable[string] `json:"promoCodeId"`
+	ResourceId  graphql.Nullable[string] `json:"resourceId"`
 }

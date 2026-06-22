@@ -2,6 +2,10 @@
 
 package losdiscountsql
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/graphql"
+)
+
 // CreateInput holds the settable fields for creating one ResourceLosDiscounts row.
 type CreateInput struct {
 	AmountOffId string `json:"amountOffId,omitzero"`
@@ -13,9 +17,9 @@ type CreateInput struct {
 
 // UpdateInput holds the fields to change on a ResourceLosDiscounts row; each set field becomes a column update.
 type UpdateInput struct {
-	AmountOffId string `json:"amountOffId,omitzero"`
-	Id          string `json:"id,omitzero"`
-	MinNights   int32  `json:"minNights,omitzero"`
-	OfferingId  string `json:"offeringId,omitzero"`
-	PercentOff  int32  `json:"percentOff,omitzero"`
+	AmountOffId graphql.Nullable[string] `json:"amountOffId"`
+	Id          graphql.Nullable[string] `json:"id"`
+	MinNights   graphql.Nullable[int32]  `json:"minNights"`
+	OfferingId  graphql.Nullable[string] `json:"offeringId"`
+	PercentOff  graphql.Nullable[int32]  `json:"percentOff"`
 }

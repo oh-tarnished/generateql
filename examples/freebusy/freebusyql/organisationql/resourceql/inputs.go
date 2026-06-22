@@ -24,15 +24,15 @@ type CreateInput struct {
 
 // UpdateInput holds the fields to change on a OrganisationResource row; each set field becomes a column update.
 type UpdateInput struct {
-	BillingEmail string          `json:"billingEmail,omitzero"`
-	CreateTime   string          `json:"createTime,omitzero"`
-	DisplayName  string          `json:"displayName,omitzero"`
-	Etag         string          `json:"etag,omitzero"`
-	Id           string          `json:"id,omitzero"`
-	MemberCount  graphql.Int64   `json:"memberCount,omitzero"`
-	Name         string          `json:"name,omitzero"`
-	Settings     json.RawMessage `json:"settings,omitzero"`
-	Slug         string          `json:"slug,omitzero"`
-	State        string          `json:"state,omitzero"`
-	UpdateTime   string          `json:"updateTime,omitzero"`
+	BillingEmail graphql.Nullable[string]          `json:"billingEmail"`
+	CreateTime   graphql.Nullable[string]          `json:"createTime"`
+	DisplayName  graphql.Nullable[string]          `json:"displayName"`
+	Etag         graphql.Nullable[string]          `json:"etag"`
+	Id           graphql.Nullable[string]          `json:"id"`
+	MemberCount  graphql.Nullable[graphql.Int64]   `json:"memberCount"`
+	Name         graphql.Nullable[string]          `json:"name"`
+	Settings     graphql.Nullable[json.RawMessage] `json:"settings"`
+	Slug         graphql.Nullable[string]          `json:"slug"`
+	State        graphql.Nullable[string]          `json:"state"`
+	UpdateTime   graphql.Nullable[string]          `json:"updateTime"`
 }

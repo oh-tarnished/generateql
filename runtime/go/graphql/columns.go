@@ -36,10 +36,17 @@ func IsOmitted(v any) bool {
 	return !rv.IsValid() || rv.IsZero()
 }
 
+// columnValue is implemented by Nullable[T]. SetColumns uses it to decide presence by the
+// field's explicit three-state instruction (unset/null/value) rather than by IsZero, so a
+// field cleared to null or set to a zero value (e.g. "") is still emitted.
+type columnValue interface{ IsSet() bool }
+
 // SetColumns turns an update patch struct into a Hasura-style update-columns map: each
-// non-zero exported field becomes {jsonName: {"set": value}}. Field names come from the
-// json struct tag (falling back to the Go field name). Generated Update methods pass the
-// result as the update_columns variable, so callers write a plain native patch struct.
+// instructed exported field becomes {jsonName: {"set": value}}. A Nullable[T] field is
+// included when IsSet (a value, or an explicit null that marshals to JSON null); any other
+// field type is included when non-zero. Field names come from the json struct tag (falling
+// back to the Go field name). Generated Update methods pass the result as the update_columns
+// variable, so callers write a plain native patch struct.
 func SetColumns(patch any) map[string]any {
 	out := map[string]any{}
 	rv := reflect.ValueOf(patch)
@@ -59,7 +66,11 @@ func SetColumns(patch any) map[string]any {
 			continue
 		}
 		fv := rv.Field(i)
-		if fv.IsZero() {
+		if cv, ok := fv.Interface().(columnValue); ok {
+			if !cv.IsSet() {
+				continue
+			}
+		} else if fv.IsZero() {
 			continue
 		}
 		out[jsonName(f)] = map[string]any{"set": fv.Interface()}

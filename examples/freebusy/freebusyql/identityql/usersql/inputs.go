@@ -2,6 +2,10 @@
 
 package usersql
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/graphql"
+)
+
 // CreateInput holds the settable fields for creating one IdentityUsers row.
 type CreateInput struct {
 	AvatarUrl   string `json:"avatarUrl,omitzero"`
@@ -18,14 +22,14 @@ type CreateInput struct {
 
 // UpdateInput holds the fields to change on a IdentityUsers row; each set field becomes a column update.
 type UpdateInput struct {
-	AvatarUrl   string `json:"avatarUrl,omitzero"`
-	CreateTime  string `json:"createTime,omitzero"`
-	DisplayName string `json:"displayName,omitzero"`
-	Email       string `json:"email,omitzero"`
-	Etag        string `json:"etag,omitzero"`
-	Id          string `json:"id,omitzero"`
-	Locale      string `json:"locale,omitzero"`
-	Name        string `json:"name,omitzero"`
-	TimeZone    string `json:"timeZone,omitzero"`
-	UpdateTime  string `json:"updateTime,omitzero"`
+	AvatarUrl   graphql.Nullable[string] `json:"avatarUrl"`
+	CreateTime  graphql.Nullable[string] `json:"createTime"`
+	DisplayName graphql.Nullable[string] `json:"displayName"`
+	Email       graphql.Nullable[string] `json:"email"`
+	Etag        graphql.Nullable[string] `json:"etag"`
+	Id          graphql.Nullable[string] `json:"id"`
+	Locale      graphql.Nullable[string] `json:"locale"`
+	Name        graphql.Nullable[string] `json:"name"`
+	TimeZone    graphql.Nullable[string] `json:"timeZone"`
+	UpdateTime  graphql.Nullable[string] `json:"updateTime"`
 }

@@ -2,6 +2,10 @@
 
 package offeringsql
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/graphql"
+)
+
 // CreateInput holds the settable fields for creating one ResourceOfferings row.
 type CreateInput struct {
 	CreateTime  string `json:"createTime,omitzero"`
@@ -20,16 +24,16 @@ type CreateInput struct {
 
 // UpdateInput holds the fields to change on a ResourceOfferings row; each set field becomes a column update.
 type UpdateInput struct {
-	CreateTime  string `json:"createTime,omitzero"`
-	Description string `json:"description,omitzero"`
-	DisplayName string `json:"displayName,omitzero"`
-	Duration    string `json:"duration,omitzero"`
-	Etag        string `json:"etag,omitzero"`
-	Id          string `json:"id,omitzero"`
-	Name        string `json:"name,omitzero"`
-	PriceId     string `json:"priceId,omitzero"`
-	PricingUnit string `json:"pricingUnit,omitzero"`
-	ResourceId  string `json:"resourceId,omitzero"`
-	State       string `json:"state,omitzero"`
-	UpdateTime  string `json:"updateTime,omitzero"`
+	CreateTime  graphql.Nullable[string] `json:"createTime"`
+	Description graphql.Nullable[string] `json:"description"`
+	DisplayName graphql.Nullable[string] `json:"displayName"`
+	Duration    graphql.Nullable[string] `json:"duration"`
+	Etag        graphql.Nullable[string] `json:"etag"`
+	Id          graphql.Nullable[string] `json:"id"`
+	Name        graphql.Nullable[string] `json:"name"`
+	PriceId     graphql.Nullable[string] `json:"priceId"`
+	PricingUnit graphql.Nullable[string] `json:"pricingUnit"`
+	ResourceId  graphql.Nullable[string] `json:"resourceId"`
+	State       graphql.Nullable[string] `json:"state"`
+	UpdateTime  graphql.Nullable[string] `json:"updateTime"`
 }

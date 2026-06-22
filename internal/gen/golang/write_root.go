@@ -72,6 +72,9 @@ func (g *generator) writeRoot() error {
 		}
 		b.WriteString("}\n\n")
 		b.WriteString(rawMethod(spec))
+		if spec.field == "Mutation" {
+			fmt.Fprintf(&b, "%s", txMethod(spec.iface))
+		}
 	}
 
 	b.WriteString("// New connects to the endpoint described by opts and returns a Service.\n")
@@ -133,6 +136,18 @@ func (h %s) %s(ctx context.Context, %s string, variables map[string]any) (map[st
 }
 
 `, spec.rawMethod, spec.rawNoun, spec.rawPlural, spec.iface, spec.rawMethod, spec.rawNoun, spec.rawCall, spec.rawNoun)
+}
+
+// txMethod renders the Tx starter on the root mutation aggregator (iface), which holds the gql
+// client. Callers queue deferred mutations built with a resource's <Method>Op and Commit them as
+// one atomic GraphQL document.
+func txMethod(iface string) string {
+	return fmt.Sprintf(`// Tx starts a transactional batch: add deferred mutations built with a resource's <Method>Op
+// (e.g. svc.Mutation.Booking.Money.CreateOp(input, &out)), then Commit to run them as one atomic
+// GraphQL document — all commit together or none do.
+func (h %s) Tx() *runtime.Tx { return runtime.NewTx(h.gql) }
+
+`, iface)
 }
 
 // kindSpec describes one operation kind's aggregator naming. rawMethod/rawCall, when set,

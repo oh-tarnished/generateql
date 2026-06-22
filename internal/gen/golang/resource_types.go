@@ -153,8 +153,11 @@ func (r *renderer) renderInputStruct(name, doc string, fields []ir.Field, setOpe
 		goType := r.mapper.GoParamType(f.Type, qResource)
 		tag := f.Name
 		if setOperand {
-			goType = r.columnSetType(f.Type.Base)
-			tag += ",omitzero"
+			// Update columns are three-state (unset/null/value) so a masked Update can clear a
+			// column to null, not only the omit-or-set a plain omitzero field allows. SetColumns
+			// reads the Nullable's instruction directly, so the json tag carries the column name
+			// only (no omitzero).
+			goType = "graphql.Nullable[" + r.columnSetType(f.Type.Base) + "]"
 		} else if !f.Type.NonNull {
 			tag += ",omitzero"
 		}

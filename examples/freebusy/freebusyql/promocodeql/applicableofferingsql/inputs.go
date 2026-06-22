@@ -2,6 +2,10 @@
 
 package applicableofferingsql
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/graphql"
+)
+
 // CreateInput holds the settable fields for creating one PromocodeApplicableOfferings row.
 type CreateInput struct {
 	Id          string `json:"id"`
@@ -11,7 +15,7 @@ type CreateInput struct {
 
 // UpdateInput holds the fields to change on a PromocodeApplicableOfferings row; each set field becomes a column update.
 type UpdateInput struct {
-	Id          string `json:"id,omitzero"`
-	OfferingId  string `json:"offeringId,omitzero"`
-	PromoCodeId string `json:"promoCodeId,omitzero"`
+	Id          graphql.Nullable[string] `json:"id"`
+	OfferingId  graphql.Nullable[string] `json:"offeringId"`
+	PromoCodeId graphql.Nullable[string] `json:"promoCodeId"`
 }

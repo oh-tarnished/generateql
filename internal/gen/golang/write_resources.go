@@ -120,6 +120,7 @@ func (g *generator) writeHandlers(subdir string, rg *resGen) error {
 	g.ifaceBlock(&b, "QueryHandler", "Query", rg.res.Name, "NewQuery", "queryHandler", rg.queries)
 	g.ifaceBlock(&b, "MutationHandler", "Mutation", rg.res.Name, "NewMutation", "mutationHandler", rg.mutations)
 	g.ifaceBlock(&b, "SubscriptionHandler", "Subscription", rg.res.Name, "NewSubscription", "subscriptionHandler", rg.subs)
+	b.WriteString(g.r.genericAsserts(rg))
 	return g.writeFile(subdir, "handlers.go", rg.pkg, g.resImports(rg.domain, b.String()), b.String())
 }
 

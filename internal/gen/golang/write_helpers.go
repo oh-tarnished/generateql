@@ -19,6 +19,20 @@ type (
 	Bigdecimal = graphql.Bigdecimal
 )
 
+// Nullable is a three-state update-input value (unset / null / value); build one with
+// Value, Null, or Unset. Re-exported so writing a masked Update needs no extra import.
+type Nullable[T any] = graphql.Nullable[T]
+
+// Value sets an update column to v; Null clears it to SQL NULL; Unset (the zero Nullable)
+// leaves it unchanged.
+func Value[T any](v T) Nullable[T] { return graphql.Value(v) }
+func Null[T any]() Nullable[T]     { return graphql.Null[T]() }
+func Unset[T any]() Nullable[T]    { return graphql.Unset[T]() }
+
+// After builds a keyset (cursor) predicate selecting rows after the last one seen for an
+// ordering, for stable pagination; a request's KeysetAfter applies it together with the order.
+func After(term graphql.OrderTerm, last any) graphql.Predicate { return graphql.After(term, last) }
+
 // Ptr returns a pointer to v, for the rare API that still needs one.
 func Ptr[T any](v T) *T { return &v }
 `

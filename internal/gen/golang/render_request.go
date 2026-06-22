@@ -129,8 +129,55 @@ func optionalSpecs(specs []argSpec) []argSpec {
 	return out
 }
 
+// Optional-argument field-name sets the shared runtime request types cover. An operation whose
+// optional arguments fit one of these maps onto that shared type (so its generated <Method>Request
+// is a type alias and the handler satisfies the generic graphql.QueryHandler/MutationHandler).
+var (
+	listReqFields   = map[string]bool{"where": true, "orderBy": true, "limit": true, "offset": true}
+	createReqFields = map[string]bool{"postCheck": true}
+	updateReqFields = map[string]bool{"preCheck": true, "postCheck": true}
+	deleteReqFields = map[string]bool{"preCheck": true}
+)
+
+// sharedRequestType returns the runtime graphql request type an operation's optional arguments
+// map onto ("ListRequest"/"CreateRequest"/"UpdateRequest"/"DeleteRequest"), or "" when they do
+// not fit a shared shape (then a resource-local request type is generated instead). Matching is
+// by operation verb and a subset check, so an unconventional schema still generates compiling —
+// if non-generic — code.
+func sharedRequestType(o op, specs []argSpec) string {
+	names := map[string]bool{}
+	for _, s := range optionalSpecs(specs) {
+		names[s.goName] = true
+	}
+	fits := func(allowed map[string]bool) bool {
+		for n := range names {
+			if !allowed[n] {
+				return false
+			}
+		}
+		return true
+	}
+	switch {
+	case (o.Op.Kind == "query" || o.Op.Kind == "subscription") && fits(listReqFields):
+		return "ListRequest"
+	case o.Op.Kind == "mutation" && strings.HasPrefix(o.Op.Name, "insert") && fits(createReqFields):
+		return "CreateRequest"
+	case o.Op.Kind == "mutation" && strings.HasPrefix(o.Op.Name, "update") && fits(updateReqFields):
+		return "UpdateRequest"
+	case o.Op.Kind == "mutation" && strings.HasPrefix(o.Op.Name, "delete") && fits(deleteReqFields):
+		return "DeleteRequest"
+	}
+	return ""
+}
+
+// getterName is the accessor a handler calls to read an optional argument from its request
+// (e.g. "where" -> "GetWhere"), matching the Get* methods on the shared and local request types.
+func getterName(goName string) string { return "Get" + naming.Export(goName) }
+
 // requestType renders the chained <Method>Request builder for an operation's optional
-// arguments, or "" when it has none.
+// arguments, or "" when it has none. When the arguments fit a shared runtime type the request is
+// a type alias (so the handler satisfies the generic interfaces); otherwise a resource-local
+// struct with the same builder/accessor surface is generated.
 func (r *renderer) requestType(o op) string {
 	// A FindOne op shares the sibling List request type, so it declares none of its own.
 	if o.FindOne {
@@ -141,6 +188,11 @@ func (r *renderer) requestType(o op) string {
 		return ""
 	}
 	var b strings.Builder
+	if shared := sharedRequestType(o, r.classify(o)); shared != "" {
+		fmt.Fprintf(&b, "// %sRequest carries the optional arguments for %s.\ntype %sRequest = graphql.%s\n\n", o.Name, o.Name, o.Name, shared)
+		fmt.Fprintf(&b, "// %s starts a builder for the optional arguments of %s.\nfunc %s() *%sRequest { return &%sRequest{} }\n\n", o.Name, o.Name, o.Name, o.Name, o.Name)
+		return b.String()
+	}
 	fmt.Fprintf(&b, "// %sRequest carries the optional arguments for %s.\ntype %sRequest struct {\n", o.Name, o.Name, o.Name)
 	for _, s := range specs {
 		fmt.Fprintf(&b, "\t%s %s\n", s.goName, s.goType)
@@ -151,9 +203,10 @@ func (r *renderer) requestType(o op) string {
 		setter := naming.Export(s.argName)
 		if s.role == roleOrder {
 			fmt.Fprintf(&b, "// %s sets the result ordering.\nfunc (r *%sRequest) %s(v ...graphql.OrderTerm) *%sRequest { r.%s = v; return r }\n\n", setter, o.Name, setter, o.Name, s.goName)
-			continue
+		} else {
+			fmt.Fprintf(&b, "// %s sets the %s argument.\nfunc (r *%sRequest) %s(v %s) *%sRequest { r.%s = v; return r }\n\n", setter, s.argName, o.Name, setter, s.goType, o.Name, s.goName)
 		}
-		fmt.Fprintf(&b, "// %s sets the %s argument.\nfunc (r *%sRequest) %s(v %s) *%sRequest { r.%s = v; return r }\n\n", setter, s.argName, o.Name, setter, s.goType, o.Name, s.goName)
+		fmt.Fprintf(&b, "func (r *%sRequest) %s() %s { return r.%s }\n\n", o.Name, getterName(s.goName), s.goType, s.goName)
 	}
 	return b.String()
 }

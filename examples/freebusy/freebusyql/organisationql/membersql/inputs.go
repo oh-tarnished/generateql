@@ -2,6 +2,10 @@
 
 package membersql
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/graphql"
+)
+
 // CreateInput holds the settable fields for creating one OrganisationMembers row.
 type CreateInput struct {
 	CreateTime     string `json:"createTime,omitzero"`
@@ -20,16 +24,16 @@ type CreateInput struct {
 
 // UpdateInput holds the fields to change on a OrganisationMembers row; each set field becomes a column update.
 type UpdateInput struct {
-	CreateTime     string `json:"createTime,omitzero"`
-	DisplayName    string `json:"displayName,omitzero"`
-	Email          string `json:"email,omitzero"`
-	Etag           string `json:"etag,omitzero"`
-	Id             string `json:"id,omitzero"`
-	Inviter        string `json:"inviter,omitzero"`
-	Name           string `json:"name,omitzero"`
-	OrganisationId string `json:"organisationId,omitzero"`
-	Role           string `json:"role,omitzero"`
-	State          string `json:"state,omitzero"`
-	UpdateTime     string `json:"updateTime,omitzero"`
-	User           string `json:"user,omitzero"`
+	CreateTime     graphql.Nullable[string] `json:"createTime"`
+	DisplayName    graphql.Nullable[string] `json:"displayName"`
+	Email          graphql.Nullable[string] `json:"email"`
+	Etag           graphql.Nullable[string] `json:"etag"`
+	Id             graphql.Nullable[string] `json:"id"`
+	Inviter        graphql.Nullable[string] `json:"inviter"`
+	Name           graphql.Nullable[string] `json:"name"`
+	OrganisationId graphql.Nullable[string] `json:"organisationId"`
+	Role           graphql.Nullable[string] `json:"role"`
+	State          graphql.Nullable[string] `json:"state"`
+	UpdateTime     graphql.Nullable[string] `json:"updateTime"`
+	User           graphql.Nullable[string] `json:"user"`
 }

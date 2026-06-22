@@ -2,6 +2,10 @@
 
 package availabilityexceptionsql
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/graphql"
+)
+
 // CreateInput holds the settable fields for creating one ScheduleAvailabilityExceptions row.
 type CreateInput struct {
 	CreateTime  string `json:"createTime,omitzero"`
@@ -17,13 +21,13 @@ type CreateInput struct {
 
 // UpdateInput holds the fields to change on a ScheduleAvailabilityExceptions row; each set field becomes a column update.
 type UpdateInput struct {
-	CreateTime  string `json:"createTime,omitzero"`
-	DateRangeId string `json:"dateRangeId,omitzero"`
-	Id          string `json:"id,omitzero"`
-	Kind        string `json:"kind,omitzero"`
-	Name        string `json:"name,omitzero"`
-	Reason      string `json:"reason,omitzero"`
-	ResourceId  string `json:"resourceId,omitzero"`
-	SpanCase    string `json:"spanCase,omitzero"`
-	WindowId    string `json:"windowId,omitzero"`
+	CreateTime  graphql.Nullable[string] `json:"createTime"`
+	DateRangeId graphql.Nullable[string] `json:"dateRangeId"`
+	Id          graphql.Nullable[string] `json:"id"`
+	Kind        graphql.Nullable[string] `json:"kind"`
+	Name        graphql.Nullable[string] `json:"name"`
+	Reason      graphql.Nullable[string] `json:"reason"`
+	ResourceId  graphql.Nullable[string] `json:"resourceId"`
+	SpanCase    graphql.Nullable[string] `json:"spanCase"`
+	WindowId    graphql.Nullable[string] `json:"windowId"`
 }

@@ -2,6 +2,10 @@
 
 package offeringslinkql
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/graphql"
+)
+
 // CreateInput holds the settable fields for creating one ResourceOfferingsLink row.
 type CreateInput struct {
 	Id         string `json:"id"`
@@ -11,7 +15,7 @@ type CreateInput struct {
 
 // UpdateInput holds the fields to change on a ResourceOfferingsLink row; each set field becomes a column update.
 type UpdateInput struct {
-	Id         string `json:"id,omitzero"`
-	OfferingId string `json:"offeringId,omitzero"`
-	ResourceId string `json:"resourceId,omitzero"`
+	Id         graphql.Nullable[string] `json:"id"`
+	OfferingId graphql.Nullable[string] `json:"offeringId"`
+	ResourceId graphql.Nullable[string] `json:"resourceId"`
 }

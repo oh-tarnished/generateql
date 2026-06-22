@@ -2,6 +2,10 @@
 
 package stayconstraintsql
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/graphql"
+)
+
 // CreateInput holds the settable fields for creating one ScheduleStayConstraints row.
 type CreateInput struct {
 	AdvanceMaxDays   int32     `json:"advanceMaxDays,omitzero"`
@@ -15,11 +19,11 @@ type CreateInput struct {
 
 // UpdateInput holds the fields to change on a ScheduleStayConstraints row; each set field becomes a column update.
 type UpdateInput struct {
-	AdvanceMaxDays   int32     `json:"advanceMaxDays,omitzero"`
-	AdvanceMinDays   int32     `json:"advanceMinDays,omitzero"`
-	CheckinWeekdays  []*string `json:"checkinWeekdays,omitzero"`
-	CheckoutWeekdays []*string `json:"checkoutWeekdays,omitzero"`
-	Id               string    `json:"id,omitzero"`
-	MaxNights        int32     `json:"maxNights,omitzero"`
-	MinNights        int32     `json:"minNights,omitzero"`
+	AdvanceMaxDays   graphql.Nullable[int32]     `json:"advanceMaxDays"`
+	AdvanceMinDays   graphql.Nullable[int32]     `json:"advanceMinDays"`
+	CheckinWeekdays  graphql.Nullable[[]*string] `json:"checkinWeekdays"`
+	CheckoutWeekdays graphql.Nullable[[]*string] `json:"checkoutWeekdays"`
+	Id               graphql.Nullable[string]    `json:"id"`
+	MaxNights        graphql.Nullable[int32]     `json:"maxNights"`
+	MinNights        graphql.Nullable[int32]     `json:"minNights"`
 }
