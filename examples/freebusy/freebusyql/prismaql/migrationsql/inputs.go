@@ -2,6 +2,10 @@
 
 package migrationsql
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/graphql"
+)
+
 // CreateInput holds the settable fields for creating one PrismaMigrations row.
 type CreateInput struct {
 	AppliedStepsCount int32  `json:"appliedStepsCount,omitzero"`
@@ -16,12 +20,12 @@ type CreateInput struct {
 
 // UpdateInput holds the fields to change on a PrismaMigrations row; each set field becomes a column update.
 type UpdateInput struct {
-	AppliedStepsCount int32  `json:"appliedStepsCount,omitzero"`
-	Checksum          string `json:"checksum,omitzero"`
-	FinishedAt        string `json:"finishedAt,omitzero"`
-	Id                string `json:"id,omitzero"`
-	Logs              string `json:"logs,omitzero"`
-	MigrationName     string `json:"migrationName,omitzero"`
-	RolledBackAt      string `json:"rolledBackAt,omitzero"`
-	StartedAt         string `json:"startedAt,omitzero"`
+	AppliedStepsCount graphql.Nullable[int32]  `json:"appliedStepsCount"`
+	Checksum          graphql.Nullable[string] `json:"checksum"`
+	FinishedAt        graphql.Nullable[string] `json:"finishedAt"`
+	Id                graphql.Nullable[string] `json:"id"`
+	Logs              graphql.Nullable[string] `json:"logs"`
+	MigrationName     graphql.Nullable[string] `json:"migrationName"`
+	RolledBackAt      graphql.Nullable[string] `json:"rolledBackAt"`
+	StartedAt         graphql.Nullable[string] `json:"startedAt"`
 }

@@ -2,6 +2,10 @@
 
 package resourceql
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/graphql"
+)
+
 // CreateInput holds the settable fields for creating one ScheduleResource row.
 type CreateInput struct {
 	BuffersId            string `json:"buffersId,omitzero"`
@@ -14,10 +18,10 @@ type CreateInput struct {
 
 // UpdateInput holds the fields to change on a ScheduleResource row; each set field becomes a column update.
 type UpdateInput struct {
-	BuffersId            string `json:"buffersId,omitzero"`
-	CancellationPolicyId string `json:"cancellationPolicyId,omitzero"`
-	Etag                 string `json:"etag,omitzero"`
-	Id                   string `json:"id,omitzero"`
-	Name                 string `json:"name,omitzero"`
-	StayConstraintsId    string `json:"stayConstraintsId,omitzero"`
+	BuffersId            graphql.Nullable[string] `json:"buffersId"`
+	CancellationPolicyId graphql.Nullable[string] `json:"cancellationPolicyId"`
+	Etag                 graphql.Nullable[string] `json:"etag"`
+	Id                   graphql.Nullable[string] `json:"id"`
+	Name                 graphql.Nullable[string] `json:"name"`
+	StayConstraintsId    graphql.Nullable[string] `json:"stayConstraintsId"`
 }

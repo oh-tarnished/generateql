@@ -2,6 +2,10 @@
 
 package membershipsummariesql
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/graphql"
+)
+
 // CreateInput holds the settable fields for creating one IdentityMembershipSummaries row.
 type CreateInput struct {
 	Id             string `json:"id"`
@@ -13,9 +17,9 @@ type CreateInput struct {
 
 // UpdateInput holds the fields to change on a IdentityMembershipSummaries row; each set field becomes a column update.
 type UpdateInput struct {
-	Id             string `json:"id,omitzero"`
-	OrgDisplayName string `json:"orgDisplayName,omitzero"`
-	Organisation   string `json:"organisation,omitzero"`
-	Role           string `json:"role,omitzero"`
-	UserId         string `json:"userId,omitzero"`
+	Id             graphql.Nullable[string] `json:"id"`
+	OrgDisplayName graphql.Nullable[string] `json:"orgDisplayName"`
+	Organisation   graphql.Nullable[string] `json:"organisation"`
+	Role           graphql.Nullable[string] `json:"role"`
+	UserId         graphql.Nullable[string] `json:"userId"`
 }

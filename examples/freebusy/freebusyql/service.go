@@ -76,6 +76,11 @@ func (h MutationHandler) ExecuteRaw(ctx context.Context, mutation string, variab
 	return out, nil
 }
 
+// Tx starts a transactional batch: add deferred mutations built with a resource's <Method>Op
+// (e.g. svc.Mutation.Booking.Money.CreateOp(input, &out)), then Commit to run them as one atomic
+// GraphQL document — all commit together or none do.
+func (h MutationHandler) Tx() *runtime.Tx { return runtime.NewTx(h.gql) }
+
 // SubscriptionHandler groups every domain's subscription handlers.
 type SubscriptionHandler struct {
 	Booking      bookingql.SubscriptionHandler

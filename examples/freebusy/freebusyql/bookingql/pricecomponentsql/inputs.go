@@ -2,6 +2,10 @@
 
 package pricecomponentsql
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/graphql"
+)
+
 // CreateInput holds the settable fields for creating one BookingPriceComponents row.
 type CreateInput struct {
 	AmountId    string `json:"amountId,omitzero"`
@@ -14,10 +18,10 @@ type CreateInput struct {
 
 // UpdateInput holds the fields to change on a BookingPriceComponents row; each set field becomes a column update.
 type UpdateInput struct {
-	AmountId    string `json:"amountId,omitzero"`
-	BookingId   string `json:"bookingId,omitzero"`
-	Code        string `json:"code,omitzero"`
-	DisplayName string `json:"displayName,omitzero"`
-	Id          string `json:"id,omitzero"`
-	Type        string `json:"type,omitzero"`
+	AmountId    graphql.Nullable[string] `json:"amountId"`
+	BookingId   graphql.Nullable[string] `json:"bookingId"`
+	Code        graphql.Nullable[string] `json:"code"`
+	DisplayName graphql.Nullable[string] `json:"displayName"`
+	Id          graphql.Nullable[string] `json:"id"`
+	Type        graphql.Nullable[string] `json:"type"`
 }

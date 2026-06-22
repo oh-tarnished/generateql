@@ -4,6 +4,7 @@ package entityql
 
 import (
 	"encoding/json"
+	"github.com/oh-tarnished/generateql/runtime/go/graphql"
 )
 
 // CreateInput holds the settable fields for creating one ResourceEntity row.
@@ -26,18 +27,18 @@ type CreateInput struct {
 
 // UpdateInput holds the fields to change on a ResourceEntity row; each set field becomes a column update.
 type UpdateInput struct {
-	Attributes  json.RawMessage `json:"attributes,omitzero"`
-	BookingMode string          `json:"bookingMode,omitzero"`
-	Capacity    int32           `json:"capacity,omitzero"`
-	CreateTime  string          `json:"createTime,omitzero"`
-	Description string          `json:"description,omitzero"`
-	DisplayName string          `json:"displayName,omitzero"`
-	Etag        string          `json:"etag,omitzero"`
-	Id          string          `json:"id,omitzero"`
-	Name        string          `json:"name,omitzero"`
-	State       string          `json:"state,omitzero"`
-	Tags        []*string       `json:"tags,omitzero"`
-	TimeZone    string          `json:"timeZone,omitzero"`
-	Type        string          `json:"type,omitzero"`
-	UpdateTime  string          `json:"updateTime,omitzero"`
+	Attributes  graphql.Nullable[json.RawMessage] `json:"attributes"`
+	BookingMode graphql.Nullable[string]          `json:"bookingMode"`
+	Capacity    graphql.Nullable[int32]           `json:"capacity"`
+	CreateTime  graphql.Nullable[string]          `json:"createTime"`
+	Description graphql.Nullable[string]          `json:"description"`
+	DisplayName graphql.Nullable[string]          `json:"displayName"`
+	Etag        graphql.Nullable[string]          `json:"etag"`
+	Id          graphql.Nullable[string]          `json:"id"`
+	Name        graphql.Nullable[string]          `json:"name"`
+	State       graphql.Nullable[string]          `json:"state"`
+	Tags        graphql.Nullable[[]*string]       `json:"tags"`
+	TimeZone    graphql.Nullable[string]          `json:"timeZone"`
+	Type        graphql.Nullable[string]          `json:"type"`
+	UpdateTime  graphql.Nullable[string]          `json:"updateTime"`
 }

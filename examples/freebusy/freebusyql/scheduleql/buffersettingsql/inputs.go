@@ -2,6 +2,10 @@
 
 package buffersettingsql
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/graphql"
+)
+
 // CreateInput holds the settable fields for creating one ScheduleBufferSettings row.
 type CreateInput struct {
 	EndDelta   string `json:"endDelta,omitzero"`
@@ -14,10 +18,10 @@ type CreateInput struct {
 
 // UpdateInput holds the fields to change on a ScheduleBufferSettings row; each set field becomes a column update.
 type UpdateInput struct {
-	EndDelta   string `json:"endDelta,omitzero"`
-	Gap        string `json:"gap,omitzero"`
-	Id         string `json:"id,omitzero"`
-	MaxAdvance string `json:"maxAdvance,omitzero"`
-	MinNotice  string `json:"minNotice,omitzero"`
-	StartDelta string `json:"startDelta,omitzero"`
+	EndDelta   graphql.Nullable[string] `json:"endDelta"`
+	Gap        graphql.Nullable[string] `json:"gap"`
+	Id         graphql.Nullable[string] `json:"id"`
+	MaxAdvance graphql.Nullable[string] `json:"maxAdvance"`
+	MinNotice  graphql.Nullable[string] `json:"minNotice"`
+	StartDelta graphql.Nullable[string] `json:"startDelta"`
 }

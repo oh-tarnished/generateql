@@ -2,6 +2,10 @@
 
 package daterangesql
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/graphql"
+)
+
 // CreateInput holds the settable fields for creating one ScheduleDateRanges row.
 type CreateInput struct {
 	EndDate   string `json:"endDate"`
@@ -11,7 +15,7 @@ type CreateInput struct {
 
 // UpdateInput holds the fields to change on a ScheduleDateRanges row; each set field becomes a column update.
 type UpdateInput struct {
-	EndDate   string `json:"endDate,omitzero"`
-	Id        string `json:"id,omitzero"`
-	StartDate string `json:"startDate,omitzero"`
+	EndDate   graphql.Nullable[string] `json:"endDate"`
+	Id        graphql.Nullable[string] `json:"id"`
+	StartDate graphql.Nullable[string] `json:"startDate"`
 }

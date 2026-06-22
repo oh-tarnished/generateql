@@ -2,6 +2,10 @@
 
 package taxesql
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/graphql"
+)
+
 // CreateInput holds the settable fields for creating one ResourceTaxes row.
 type CreateInput struct {
 	Code        string  `json:"code"`
@@ -13,9 +17,9 @@ type CreateInput struct {
 
 // UpdateInput holds the fields to change on a ResourceTaxes row; each set field becomes a column update.
 type UpdateInput struct {
-	Code        string  `json:"code,omitzero"`
-	DisplayName string  `json:"displayName,omitzero"`
-	Id          string  `json:"id,omitzero"`
-	OfferingId  string  `json:"offeringId,omitzero"`
-	Percent     float64 `json:"percent,omitzero"`
+	Code        graphql.Nullable[string]  `json:"code"`
+	DisplayName graphql.Nullable[string]  `json:"displayName"`
+	Id          graphql.Nullable[string]  `json:"id"`
+	OfferingId  graphql.Nullable[string]  `json:"offeringId"`
+	Percent     graphql.Nullable[float64] `json:"percent"`
 }

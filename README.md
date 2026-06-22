@@ -78,6 +78,11 @@ distinguishing generated code from yours — the convention `protoc-gen-go` uses
 - **Natural call sites** — `svc.Query.Booking.Contacts.List(ctx, …)` with native values, never raw `inputs.*` or pointers.
 - **Predicate DSL** — fluent, typed filters (`Eq`/`In`/`Like`/…, `And`/`Or`/`Not`, relation filters, ordering); no `BoolExp` leaks out.
 - **Full CRUD surface** — `List` / `Get` / `Find` (first match) / `Aggregate`, `Create` / `Update` / `Delete`, plus `On*` live subscriptions — one method per root field.
+- **Three-state updates** — `UpdateInput` fields are `Nullable[T]`: leave unset (unchanged), `Null[T]()` (clear to SQL NULL), or `Value(v)` (set, even to a zero value).
+- **Generic handler interfaces** — every handler satisfies `graphql.QueryHandler[M]` / `graphql.MutationHandler[…]` (compile-time asserted), so one generic adapter can drive CRUD for every entity.
+- **Atomic multi-table writes** — `svc.Mutation.Tx()` batches several mutations into one document the engine commits in a single transaction; no orphan-row risk.
+- **Optimistic concurrency** — `UpdateIfMatch(ctx, id, patch, predicate)` returns a typed `graphql.ErrConflict` when no row matched the precondition.
+- **Stable pagination** — keyset/cursor paging (`List().KeysetAfter(col.Asc(), last)`) alongside `Limit`/`Offset`.
 - **Context-aware** — `ctx` threads through to the transport for deadlines, cancellation, and tracing.
 - **Escape hatch** — `svc.Query.QueryRaw(ctx, query, vars)` and `svc.Mutation.ExecuteRaw(ctx, mutation, vars)` run arbitrary operations the typed API doesn't cover.
 - **Convention-agnostic** — CRUD/aggregate families and filterable columns are *derived from introspection*, not hardcoded to one engine.
@@ -216,10 +221,39 @@ for res := range sub.Updates() {
 }
 ```
 
+### Beyond basic CRUD
+
+```go
+// Three-state updates — UpdateInput fields are Nullable[T]
+m.Update(ctx, id, resourceql.UpdateInput{
+    DisplayName: freebusyql.Value("BoB (updated)"),  // set (even to a zero value)
+    BillingEmail: freebusyql.Null[string](),         // clear the column to SQL NULL
+    // a field left unset is omitted — the column is unchanged
+})
+
+// Optimistic concurrency — etag-guarded update; typed conflict when no row matched
+_, err := m.UpdateIfMatch(ctx, id, patch, resourceql.Etag.Eq(prevEtag))
+if errors.Is(err, graphql.ErrConflict) { /* re-read and retry */ }
+
+// Atomic multi-table write — one transaction, all-or-nothing
+var promo  pschemaql.InsertPromocodeResourceResponse
+var amount bschemaql.InsertBookingMoneyResponse
+tx := svc.Mutation.Tx()
+tx.Add(svc.Mutation.Promocode.Resource.CreateOp(promoInput, &promo))
+tx.Add(svc.Mutation.Booking.Money.CreateOp(amountInput, &amount))
+if err := tx.Commit(ctx); err != nil { /* nothing was written */ }
+
+// Keyset (cursor) pagination — stable under concurrent inserts
+page, _ := q.List(ctx, resourceql.List().KeysetAfter(resourceql.Id.Asc(), lastID).Limit(50))
+
+// Generic adapter — one engine drives every entity (compile-time asserted)
+var _ graphql.QueryHandler[schemaql.OrganisationResource] = svc.Query.Organisation.Resource
+```
+
 Operators: `Eq` / `Neq` / `In` / `IsNull` on all; `Gt` / `Gte` / `Lt` / `Lte` on strings &
-numbers; `Like` / `ILike` / `Regex` on strings; `Asc()` / `Desc()` to order. Optional input
-fields use `omitzero` — an unset field is omitted (a deliberate zero/empty is treated as unset;
-filters keep full fidelity through the DSL).
+numbers; `Like` / `ILike` / `Regex` on strings; `Asc()` / `Desc()` to order. `CreateInput`
+optional fields use `omitzero` (an unset/zero field is omitted); `UpdateInput` fields are
+`Nullable[T]`, so a masked update distinguishes unset from a deliberate clear-to-null.
 
 ## Configuration
 

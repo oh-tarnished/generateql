@@ -4,6 +4,7 @@ package resourceql
 
 import (
 	"encoding/json"
+	"github.com/oh-tarnished/generateql/runtime/go/graphql"
 )
 
 // CreateInput holds the settable fields for creating one BookingResource row.
@@ -38,30 +39,30 @@ type CreateInput struct {
 
 // UpdateInput holds the fields to change on a BookingResource row; each set field becomes a column update.
 type UpdateInput struct {
-	AssignedUnit   string          `json:"assignedUnit,omitzero"`
-	Attributes     json.RawMessage `json:"attributes,omitzero"`
-	CancelReason   string          `json:"cancelReason,omitzero"`
-	CancelTime     string          `json:"cancelTime,omitzero"`
-	ConfirmTime    string          `json:"confirmTime,omitzero"`
-	ContactId      string          `json:"contactId,omitzero"`
-	CreateTime     string          `json:"createTime,omitzero"`
-	Customer       string          `json:"customer,omitzero"`
-	DiscountId     string          `json:"discountId,omitzero"`
-	Etag           string          `json:"etag,omitzero"`
-	HoldExpireTime string          `json:"holdExpireTime,omitzero"`
-	HoldTtl        string          `json:"holdTtl,omitzero"`
-	Id             string          `json:"id,omitzero"`
-	Name           string          `json:"name,omitzero"`
-	Notes          string          `json:"notes,omitzero"`
-	Offering       string          `json:"offering,omitzero"`
-	PriceId        string          `json:"priceId,omitzero"`
-	PromoCode      string          `json:"promoCode,omitzero"`
-	RefundAmountId string          `json:"refundAmountId,omitzero"`
-	RefundPercent  int32           `json:"refundPercent,omitzero"`
-	Resource       string          `json:"resource,omitzero"`
-	State          string          `json:"state,omitzero"`
-	TotalId        string          `json:"totalId,omitzero"`
-	Units          int32           `json:"units,omitzero"`
-	UpdateTime     string          `json:"updateTime,omitzero"`
-	WindowId       string          `json:"windowId,omitzero"`
+	AssignedUnit   graphql.Nullable[string]          `json:"assignedUnit"`
+	Attributes     graphql.Nullable[json.RawMessage] `json:"attributes"`
+	CancelReason   graphql.Nullable[string]          `json:"cancelReason"`
+	CancelTime     graphql.Nullable[string]          `json:"cancelTime"`
+	ConfirmTime    graphql.Nullable[string]          `json:"confirmTime"`
+	ContactId      graphql.Nullable[string]          `json:"contactId"`
+	CreateTime     graphql.Nullable[string]          `json:"createTime"`
+	Customer       graphql.Nullable[string]          `json:"customer"`
+	DiscountId     graphql.Nullable[string]          `json:"discountId"`
+	Etag           graphql.Nullable[string]          `json:"etag"`
+	HoldExpireTime graphql.Nullable[string]          `json:"holdExpireTime"`
+	HoldTtl        graphql.Nullable[string]          `json:"holdTtl"`
+	Id             graphql.Nullable[string]          `json:"id"`
+	Name           graphql.Nullable[string]          `json:"name"`
+	Notes          graphql.Nullable[string]          `json:"notes"`
+	Offering       graphql.Nullable[string]          `json:"offering"`
+	PriceId        graphql.Nullable[string]          `json:"priceId"`
+	PromoCode      graphql.Nullable[string]          `json:"promoCode"`
+	RefundAmountId graphql.Nullable[string]          `json:"refundAmountId"`
+	RefundPercent  graphql.Nullable[int32]           `json:"refundPercent"`
+	Resource       graphql.Nullable[string]          `json:"resource"`
+	State          graphql.Nullable[string]          `json:"state"`
+	TotalId        graphql.Nullable[string]          `json:"totalId"`
+	Units          graphql.Nullable[int32]           `json:"units"`
+	UpdateTime     graphql.Nullable[string]          `json:"updateTime"`
+	WindowId       graphql.Nullable[string]          `json:"windowId"`
 }

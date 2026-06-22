@@ -5,6 +5,7 @@ package pricecomponentsql
 import (
 	"context"
 	"github.com/oh-tarnished/generateql/examples/freebusy/freebusyql/bookingql/schemaql"
+	"github.com/oh-tarnished/generateql/runtime/go/graphql"
 	"github.com/oh-tarnished/generateql/runtime/go/runtime"
 )
 
@@ -27,10 +28,19 @@ func NewQuery(gql *runtime.GraphQLClient) QueryHandler { return &queryHandler{gq
 type MutationHandler interface {
 	// Delete runs the "deleteBookingPriceComponentsById" mutation.
 	Delete(ctx context.Context, keyId string, req ...*DeleteRequest) (schemaql.DeleteBookingPriceComponentsByIdResponse, error)
+	// DeleteOp returns Delete as a deferred mutation for atomic batching via a Tx.
+	DeleteOp(keyId string, result *schemaql.DeleteBookingPriceComponentsByIdResponse, req ...*DeleteRequest) runtime.BatchOp
 	// Create runs the "insertBookingPriceComponents" mutation.
 	Create(ctx context.Context, obj CreateInput, req ...*CreateRequest) (schemaql.InsertBookingPriceComponentsResponse, error)
+	// CreateOp returns Create as a deferred mutation for atomic batching via a Tx.
+	CreateOp(obj CreateInput, result *schemaql.InsertBookingPriceComponentsResponse, req ...*CreateRequest) runtime.BatchOp
 	// Update runs the "updateBookingPriceComponentsById" mutation.
 	Update(ctx context.Context, keyId string, patch UpdateInput, req ...*UpdateRequest) (schemaql.UpdateBookingPriceComponentsByIdResponse, error)
+	// UpdateIfMatch runs Update guarded by an optimistic-concurrency precondition (e.g.
+	// Etag.Eq(prev)), returning graphql.ErrConflict when no row matched.
+	UpdateIfMatch(ctx context.Context, keyId string, patch UpdateInput, match graphql.Predicate) (schemaql.UpdateBookingPriceComponentsByIdResponse, error)
+	// UpdateOp returns Update as a deferred mutation for atomic batching via a Tx.
+	UpdateOp(keyId string, patch UpdateInput, result *schemaql.UpdateBookingPriceComponentsByIdResponse, req ...*UpdateRequest) runtime.BatchOp
 }
 
 // NewMutation returns a MutationHandler bound to gql.
@@ -50,3 +60,9 @@ type SubscriptionHandler interface {
 func NewSubscription(gql *runtime.GraphQLClient) SubscriptionHandler {
 	return &subscriptionHandler{gql: gql}
 }
+
+// Compile-time proof the query handler satisfies the generic graphql.QueryHandler.
+var _ graphql.QueryHandler[schemaql.BookingPriceComponents] = (*queryHandler)(nil)
+
+// Compile-time proof the mutation handler satisfies the generic graphql.MutationHandler.
+var _ graphql.MutationHandler[CreateInput, UpdateInput, schemaql.InsertBookingPriceComponentsResponse, schemaql.UpdateBookingPriceComponentsByIdResponse, schemaql.DeleteBookingPriceComponentsByIdResponse] = (*mutationHandler)(nil)

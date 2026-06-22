@@ -7,133 +7,43 @@ import (
 )
 
 // ListRequest carries the optional arguments for List.
-type ListRequest struct {
-	limit   int
-	offset  int
-	orderBy []graphql.OrderTerm
-	where   graphql.Predicate
-}
+type ListRequest = graphql.ListRequest
 
 // List starts a builder for the optional arguments of List.
 func List() *ListRequest { return &ListRequest{} }
 
-// Limit sets the limit argument.
-func (r *ListRequest) Limit(v int) *ListRequest { r.limit = v; return r }
-
-// Offset sets the offset argument.
-func (r *ListRequest) Offset(v int) *ListRequest { r.offset = v; return r }
-
-// OrderBy sets the result ordering.
-func (r *ListRequest) OrderBy(v ...graphql.OrderTerm) *ListRequest { r.orderBy = v; return r }
-
-// Where sets the where argument.
-func (r *ListRequest) Where(v graphql.Predicate) *ListRequest { r.where = v; return r }
-
 // AggregateRequest carries the optional arguments for Aggregate.
-type AggregateRequest struct {
-	limit   int
-	offset  int
-	orderBy []graphql.OrderTerm
-	where   graphql.Predicate
-}
+type AggregateRequest = graphql.ListRequest
 
 // Aggregate starts a builder for the optional arguments of Aggregate.
 func Aggregate() *AggregateRequest { return &AggregateRequest{} }
 
-// Limit sets the limit argument.
-func (r *AggregateRequest) Limit(v int) *AggregateRequest { r.limit = v; return r }
-
-// Offset sets the offset argument.
-func (r *AggregateRequest) Offset(v int) *AggregateRequest { r.offset = v; return r }
-
-// OrderBy sets the result ordering.
-func (r *AggregateRequest) OrderBy(v ...graphql.OrderTerm) *AggregateRequest { r.orderBy = v; return r }
-
-// Where sets the where argument.
-func (r *AggregateRequest) Where(v graphql.Predicate) *AggregateRequest { r.where = v; return r }
-
 // DeleteRequest carries the optional arguments for Delete.
-type DeleteRequest struct {
-	preCheck graphql.Predicate
-}
+type DeleteRequest = graphql.DeleteRequest
 
 // Delete starts a builder for the optional arguments of Delete.
 func Delete() *DeleteRequest { return &DeleteRequest{} }
 
-// PreCheck sets the preCheck argument.
-func (r *DeleteRequest) PreCheck(v graphql.Predicate) *DeleteRequest { r.preCheck = v; return r }
-
 // CreateRequest carries the optional arguments for Create.
-type CreateRequest struct {
-	postCheck graphql.Predicate
-}
+type CreateRequest = graphql.CreateRequest
 
 // Create starts a builder for the optional arguments of Create.
 func Create() *CreateRequest { return &CreateRequest{} }
 
-// PostCheck sets the postCheck argument.
-func (r *CreateRequest) PostCheck(v graphql.Predicate) *CreateRequest { r.postCheck = v; return r }
-
 // UpdateRequest carries the optional arguments for Update.
-type UpdateRequest struct {
-	postCheck graphql.Predicate
-	preCheck  graphql.Predicate
-}
+type UpdateRequest = graphql.UpdateRequest
 
 // Update starts a builder for the optional arguments of Update.
 func Update() *UpdateRequest { return &UpdateRequest{} }
 
-// PostCheck sets the postCheck argument.
-func (r *UpdateRequest) PostCheck(v graphql.Predicate) *UpdateRequest { r.postCheck = v; return r }
-
-// PreCheck sets the preCheck argument.
-func (r *UpdateRequest) PreCheck(v graphql.Predicate) *UpdateRequest { r.preCheck = v; return r }
-
 // OnListRequest carries the optional arguments for OnList.
-type OnListRequest struct {
-	limit   int
-	offset  int
-	orderBy []graphql.OrderTerm
-	where   graphql.Predicate
-}
+type OnListRequest = graphql.ListRequest
 
 // OnList starts a builder for the optional arguments of OnList.
 func OnList() *OnListRequest { return &OnListRequest{} }
 
-// Limit sets the limit argument.
-func (r *OnListRequest) Limit(v int) *OnListRequest { r.limit = v; return r }
-
-// Offset sets the offset argument.
-func (r *OnListRequest) Offset(v int) *OnListRequest { r.offset = v; return r }
-
-// OrderBy sets the result ordering.
-func (r *OnListRequest) OrderBy(v ...graphql.OrderTerm) *OnListRequest { r.orderBy = v; return r }
-
-// Where sets the where argument.
-func (r *OnListRequest) Where(v graphql.Predicate) *OnListRequest { r.where = v; return r }
-
 // OnAggregateRequest carries the optional arguments for OnAggregate.
-type OnAggregateRequest struct {
-	limit   int
-	offset  int
-	orderBy []graphql.OrderTerm
-	where   graphql.Predicate
-}
+type OnAggregateRequest = graphql.ListRequest
 
 // OnAggregate starts a builder for the optional arguments of OnAggregate.
 func OnAggregate() *OnAggregateRequest { return &OnAggregateRequest{} }
-
-// Limit sets the limit argument.
-func (r *OnAggregateRequest) Limit(v int) *OnAggregateRequest { r.limit = v; return r }
-
-// Offset sets the offset argument.
-func (r *OnAggregateRequest) Offset(v int) *OnAggregateRequest { r.offset = v; return r }
-
-// OrderBy sets the result ordering.
-func (r *OnAggregateRequest) OrderBy(v ...graphql.OrderTerm) *OnAggregateRequest {
-	r.orderBy = v
-	return r
-}
-
-// Where sets the where argument.
-func (r *OnAggregateRequest) Where(v graphql.Predicate) *OnAggregateRequest { r.where = v; return r }

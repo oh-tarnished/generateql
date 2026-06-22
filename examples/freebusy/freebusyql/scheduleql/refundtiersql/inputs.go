@@ -2,6 +2,10 @@
 
 package refundtiersql
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/graphql"
+)
+
 // CreateInput holds the settable fields for creating one ScheduleRefundTiers row.
 type CreateInput struct {
 	CancellationPolicyId string `json:"cancellationPolicyId"`
@@ -12,8 +16,8 @@ type CreateInput struct {
 
 // UpdateInput holds the fields to change on a ScheduleRefundTiers row; each set field becomes a column update.
 type UpdateInput struct {
-	CancellationPolicyId string `json:"cancellationPolicyId,omitzero"`
-	Cutoff               string `json:"cutoff,omitzero"`
-	Id                   string `json:"id,omitzero"`
-	RefundPercent        int32  `json:"refundPercent,omitzero"`
+	CancellationPolicyId graphql.Nullable[string] `json:"cancellationPolicyId"`
+	Cutoff               graphql.Nullable[string] `json:"cutoff"`
+	Id                   graphql.Nullable[string] `json:"id"`
+	RefundPercent        graphql.Nullable[int32]  `json:"refundPercent"`
 }

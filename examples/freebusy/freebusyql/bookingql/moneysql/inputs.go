@@ -16,8 +16,8 @@ type CreateInput struct {
 
 // UpdateInput holds the fields to change on a BookingMoneys row; each set field becomes a column update.
 type UpdateInput struct {
-	CurrencyCode string        `json:"currencyCode,omitzero"`
-	Id           string        `json:"id,omitzero"`
-	Nanos        int32         `json:"nanos,omitzero"`
-	Units        graphql.Int64 `json:"units,omitzero"`
+	CurrencyCode graphql.Nullable[string]        `json:"currencyCode"`
+	Id           graphql.Nullable[string]        `json:"id"`
+	Nanos        graphql.Nullable[int32]         `json:"nanos"`
+	Units        graphql.Nullable[graphql.Int64] `json:"units"`
 }

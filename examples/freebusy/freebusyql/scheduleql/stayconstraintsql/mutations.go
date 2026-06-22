@@ -21,11 +21,26 @@ func (h *mutationHandler) Delete(ctx context.Context, keyId string, req ...*Dele
 	}
 	args := map[string]any{}
 	args["keyId"] = graphql.Var(keyId, "String1")
-	if !graphql.IsOmitted(r.preCheck) {
-		args["preCheck"] = graphql.VarPtr(r.preCheck, "ScheduleStayConstraintsBoolExp")
+	if !graphql.IsOmitted(r.GetPreCheck()) {
+		args["preCheck"] = graphql.VarPtr(r.GetPreCheck(), "ScheduleStayConstraintsBoolExp")
 	}
 	res := <-h.gql.MutateFields(ctx, "deleteScheduleStayConstraintsById", &out, args)
 	return out, res.Error
+}
+
+// DeleteOp returns Delete as a deferred mutation for a Tx batch; result is filled when the
+// batch commits. Queue it with svc.Mutation.Tx().Add(...) to commit several mutations atomically.
+func (h *mutationHandler) DeleteOp(keyId string, result *schemaql.DeleteScheduleStayConstraintsByIdResponse, req ...*DeleteRequest) runtime.BatchOp {
+	var r DeleteRequest
+	if len(req) > 0 && req[0] != nil {
+		r = *req[0]
+	}
+	args := map[string]any{}
+	args["keyId"] = graphql.Var(keyId, "String1")
+	if !graphql.IsOmitted(r.GetPreCheck()) {
+		args["preCheck"] = graphql.VarPtr(r.GetPreCheck(), "ScheduleStayConstraintsBoolExp")
+	}
+	return runtime.BatchOp{Field: "deleteScheduleStayConstraintsById", Args: args, Result: result}
 }
 
 func (h *mutationHandler) Create(ctx context.Context, obj CreateInput, req ...*CreateRequest) (schemaql.InsertScheduleStayConstraintsResponse, error) {
@@ -36,11 +51,26 @@ func (h *mutationHandler) Create(ctx context.Context, obj CreateInput, req ...*C
 	}
 	args := map[string]any{}
 	args["objects"] = graphql.Var([]CreateInput{obj}, "[InsertScheduleStayConstraintsObjectInput!]")
-	if !graphql.IsOmitted(r.postCheck) {
-		args["postCheck"] = graphql.VarPtr(r.postCheck, "ScheduleStayConstraintsBoolExp")
+	if !graphql.IsOmitted(r.GetPostCheck()) {
+		args["postCheck"] = graphql.VarPtr(r.GetPostCheck(), "ScheduleStayConstraintsBoolExp")
 	}
 	res := <-h.gql.MutateFields(ctx, "insertScheduleStayConstraints", &out, args)
 	return out, res.Error
+}
+
+// CreateOp returns Create as a deferred mutation for a Tx batch; result is filled when the
+// batch commits. Queue it with svc.Mutation.Tx().Add(...) to commit several mutations atomically.
+func (h *mutationHandler) CreateOp(obj CreateInput, result *schemaql.InsertScheduleStayConstraintsResponse, req ...*CreateRequest) runtime.BatchOp {
+	var r CreateRequest
+	if len(req) > 0 && req[0] != nil {
+		r = *req[0]
+	}
+	args := map[string]any{}
+	args["objects"] = graphql.Var([]CreateInput{obj}, "[InsertScheduleStayConstraintsObjectInput!]")
+	if !graphql.IsOmitted(r.GetPostCheck()) {
+		args["postCheck"] = graphql.VarPtr(r.GetPostCheck(), "ScheduleStayConstraintsBoolExp")
+	}
+	return runtime.BatchOp{Field: "insertScheduleStayConstraints", Args: args, Result: result}
 }
 
 func (h *mutationHandler) Update(ctx context.Context, keyId string, patch UpdateInput, req ...*UpdateRequest) (schemaql.UpdateScheduleStayConstraintsByIdResponse, error) {
@@ -51,13 +81,45 @@ func (h *mutationHandler) Update(ctx context.Context, keyId string, patch Update
 	}
 	args := map[string]any{}
 	args["keyId"] = graphql.Var(keyId, "String1")
-	if !graphql.IsOmitted(r.postCheck) {
-		args["postCheck"] = graphql.VarPtr(r.postCheck, "ScheduleStayConstraintsBoolExp")
+	if !graphql.IsOmitted(r.GetPostCheck()) {
+		args["postCheck"] = graphql.VarPtr(r.GetPostCheck(), "ScheduleStayConstraintsBoolExp")
 	}
-	if !graphql.IsOmitted(r.preCheck) {
-		args["preCheck"] = graphql.VarPtr(r.preCheck, "ScheduleStayConstraintsBoolExp")
+	if !graphql.IsOmitted(r.GetPreCheck()) {
+		args["preCheck"] = graphql.VarPtr(r.GetPreCheck(), "ScheduleStayConstraintsBoolExp")
 	}
 	args["updateColumns"] = graphql.Var(graphql.SetColumns(patch), "UpdateScheduleStayConstraintsByIdUpdateColumnsInput")
 	res := <-h.gql.MutateFields(ctx, "updateScheduleStayConstraintsById", &out, args)
 	return out, res.Error
+}
+
+// UpdateIfMatch runs Update guarded by match, an optimistic-concurrency precondition
+// (e.g. Etag.Eq(prev)). It returns graphql.ErrConflict when no row matched the precondition.
+func (h *mutationHandler) UpdateIfMatch(ctx context.Context, keyId string, patch UpdateInput, match graphql.Predicate) (schemaql.UpdateScheduleStayConstraintsByIdResponse, error) {
+	resp, err := h.Update(ctx, keyId, patch, Update().PreCheck(match))
+	if err != nil {
+		return resp, err
+	}
+	if resp.AffectedRows == 0 {
+		return resp, graphql.ErrConflict
+	}
+	return resp, nil
+}
+
+// UpdateOp returns Update as a deferred mutation for a Tx batch; result is filled when the
+// batch commits. Queue it with svc.Mutation.Tx().Add(...) to commit several mutations atomically.
+func (h *mutationHandler) UpdateOp(keyId string, patch UpdateInput, result *schemaql.UpdateScheduleStayConstraintsByIdResponse, req ...*UpdateRequest) runtime.BatchOp {
+	var r UpdateRequest
+	if len(req) > 0 && req[0] != nil {
+		r = *req[0]
+	}
+	args := map[string]any{}
+	args["keyId"] = graphql.Var(keyId, "String1")
+	if !graphql.IsOmitted(r.GetPostCheck()) {
+		args["postCheck"] = graphql.VarPtr(r.GetPostCheck(), "ScheduleStayConstraintsBoolExp")
+	}
+	if !graphql.IsOmitted(r.GetPreCheck()) {
+		args["preCheck"] = graphql.VarPtr(r.GetPreCheck(), "ScheduleStayConstraintsBoolExp")
+	}
+	args["updateColumns"] = graphql.Var(graphql.SetColumns(patch), "UpdateScheduleStayConstraintsByIdUpdateColumnsInput")
+	return runtime.BatchOp{Field: "updateScheduleStayConstraintsById", Args: args, Result: result}
 }

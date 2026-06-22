@@ -5,6 +5,7 @@ package offeringslinkql
 import (
 	"context"
 	"github.com/oh-tarnished/generateql/examples/freebusy/freebusyql/resourceql/schemaql"
+	"github.com/oh-tarnished/generateql/runtime/go/graphql"
 	"github.com/oh-tarnished/generateql/runtime/go/runtime"
 )
 
@@ -27,10 +28,19 @@ func NewQuery(gql *runtime.GraphQLClient) QueryHandler { return &queryHandler{gq
 type MutationHandler interface {
 	// Delete runs the "deleteResourceOfferingsLinkById" mutation.
 	Delete(ctx context.Context, keyId string, req ...*DeleteRequest) (schemaql.DeleteResourceOfferingsLinkByIdResponse, error)
+	// DeleteOp returns Delete as a deferred mutation for atomic batching via a Tx.
+	DeleteOp(keyId string, result *schemaql.DeleteResourceOfferingsLinkByIdResponse, req ...*DeleteRequest) runtime.BatchOp
 	// Create runs the "insertResourceOfferingsLink" mutation.
 	Create(ctx context.Context, obj CreateInput, req ...*CreateRequest) (schemaql.InsertResourceOfferingsLinkResponse, error)
+	// CreateOp returns Create as a deferred mutation for atomic batching via a Tx.
+	CreateOp(obj CreateInput, result *schemaql.InsertResourceOfferingsLinkResponse, req ...*CreateRequest) runtime.BatchOp
 	// Update runs the "updateResourceOfferingsLinkById" mutation.
 	Update(ctx context.Context, keyId string, patch UpdateInput, req ...*UpdateRequest) (schemaql.UpdateResourceOfferingsLinkByIdResponse, error)
+	// UpdateIfMatch runs Update guarded by an optimistic-concurrency precondition (e.g.
+	// Etag.Eq(prev)), returning graphql.ErrConflict when no row matched.
+	UpdateIfMatch(ctx context.Context, keyId string, patch UpdateInput, match graphql.Predicate) (schemaql.UpdateResourceOfferingsLinkByIdResponse, error)
+	// UpdateOp returns Update as a deferred mutation for atomic batching via a Tx.
+	UpdateOp(keyId string, patch UpdateInput, result *schemaql.UpdateResourceOfferingsLinkByIdResponse, req ...*UpdateRequest) runtime.BatchOp
 }
 
 // NewMutation returns a MutationHandler bound to gql.
@@ -50,3 +60,9 @@ type SubscriptionHandler interface {
 func NewSubscription(gql *runtime.GraphQLClient) SubscriptionHandler {
 	return &subscriptionHandler{gql: gql}
 }
+
+// Compile-time proof the query handler satisfies the generic graphql.QueryHandler.
+var _ graphql.QueryHandler[schemaql.ResourceOfferingsLink] = (*queryHandler)(nil)
+
+// Compile-time proof the mutation handler satisfies the generic graphql.MutationHandler.
+var _ graphql.MutationHandler[CreateInput, UpdateInput, schemaql.InsertResourceOfferingsLinkResponse, schemaql.UpdateResourceOfferingsLinkByIdResponse, schemaql.DeleteResourceOfferingsLinkByIdResponse] = (*mutationHandler)(nil)

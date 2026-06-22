@@ -21,11 +21,26 @@ func (h *mutationHandler) Delete(ctx context.Context, keyId string, req ...*Dele
 	}
 	args := map[string]any{}
 	args["keyId"] = graphql.Var(keyId, "String1")
-	if !graphql.IsOmitted(r.preCheck) {
-		args["preCheck"] = graphql.VarPtr(r.preCheck, "IdentityUsersBoolExp")
+	if !graphql.IsOmitted(r.GetPreCheck()) {
+		args["preCheck"] = graphql.VarPtr(r.GetPreCheck(), "IdentityUsersBoolExp")
 	}
 	res := <-h.gql.MutateFields(ctx, "deleteIdentityUsersById", &out, args)
 	return out, res.Error
+}
+
+// DeleteOp returns Delete as a deferred mutation for a Tx batch; result is filled when the
+// batch commits. Queue it with svc.Mutation.Tx().Add(...) to commit several mutations atomically.
+func (h *mutationHandler) DeleteOp(keyId string, result *schemaql.DeleteIdentityUsersByIdResponse, req ...*DeleteRequest) runtime.BatchOp {
+	var r DeleteRequest
+	if len(req) > 0 && req[0] != nil {
+		r = *req[0]
+	}
+	args := map[string]any{}
+	args["keyId"] = graphql.Var(keyId, "String1")
+	if !graphql.IsOmitted(r.GetPreCheck()) {
+		args["preCheck"] = graphql.VarPtr(r.GetPreCheck(), "IdentityUsersBoolExp")
+	}
+	return runtime.BatchOp{Field: "deleteIdentityUsersById", Args: args, Result: result}
 }
 
 func (h *mutationHandler) Create(ctx context.Context, obj CreateInput, req ...*CreateRequest) (schemaql.InsertIdentityUsersResponse, error) {
@@ -36,11 +51,26 @@ func (h *mutationHandler) Create(ctx context.Context, obj CreateInput, req ...*C
 	}
 	args := map[string]any{}
 	args["objects"] = graphql.Var([]CreateInput{obj}, "[InsertIdentityUsersObjectInput!]")
-	if !graphql.IsOmitted(r.postCheck) {
-		args["postCheck"] = graphql.VarPtr(r.postCheck, "IdentityUsersBoolExp")
+	if !graphql.IsOmitted(r.GetPostCheck()) {
+		args["postCheck"] = graphql.VarPtr(r.GetPostCheck(), "IdentityUsersBoolExp")
 	}
 	res := <-h.gql.MutateFields(ctx, "insertIdentityUsers", &out, args)
 	return out, res.Error
+}
+
+// CreateOp returns Create as a deferred mutation for a Tx batch; result is filled when the
+// batch commits. Queue it with svc.Mutation.Tx().Add(...) to commit several mutations atomically.
+func (h *mutationHandler) CreateOp(obj CreateInput, result *schemaql.InsertIdentityUsersResponse, req ...*CreateRequest) runtime.BatchOp {
+	var r CreateRequest
+	if len(req) > 0 && req[0] != nil {
+		r = *req[0]
+	}
+	args := map[string]any{}
+	args["objects"] = graphql.Var([]CreateInput{obj}, "[InsertIdentityUsersObjectInput!]")
+	if !graphql.IsOmitted(r.GetPostCheck()) {
+		args["postCheck"] = graphql.VarPtr(r.GetPostCheck(), "IdentityUsersBoolExp")
+	}
+	return runtime.BatchOp{Field: "insertIdentityUsers", Args: args, Result: result}
 }
 
 func (h *mutationHandler) Update(ctx context.Context, keyId string, patch UpdateInput, req ...*UpdateRequest) (schemaql.UpdateIdentityUsersByIdResponse, error) {
@@ -51,13 +81,45 @@ func (h *mutationHandler) Update(ctx context.Context, keyId string, patch Update
 	}
 	args := map[string]any{}
 	args["keyId"] = graphql.Var(keyId, "String1")
-	if !graphql.IsOmitted(r.postCheck) {
-		args["postCheck"] = graphql.VarPtr(r.postCheck, "IdentityUsersBoolExp")
+	if !graphql.IsOmitted(r.GetPostCheck()) {
+		args["postCheck"] = graphql.VarPtr(r.GetPostCheck(), "IdentityUsersBoolExp")
 	}
-	if !graphql.IsOmitted(r.preCheck) {
-		args["preCheck"] = graphql.VarPtr(r.preCheck, "IdentityUsersBoolExp")
+	if !graphql.IsOmitted(r.GetPreCheck()) {
+		args["preCheck"] = graphql.VarPtr(r.GetPreCheck(), "IdentityUsersBoolExp")
 	}
 	args["updateColumns"] = graphql.Var(graphql.SetColumns(patch), "UpdateIdentityUsersByIdUpdateColumnsInput")
 	res := <-h.gql.MutateFields(ctx, "updateIdentityUsersById", &out, args)
 	return out, res.Error
+}
+
+// UpdateIfMatch runs Update guarded by match, an optimistic-concurrency precondition
+// (e.g. Etag.Eq(prev)). It returns graphql.ErrConflict when no row matched the precondition.
+func (h *mutationHandler) UpdateIfMatch(ctx context.Context, keyId string, patch UpdateInput, match graphql.Predicate) (schemaql.UpdateIdentityUsersByIdResponse, error) {
+	resp, err := h.Update(ctx, keyId, patch, Update().PreCheck(match))
+	if err != nil {
+		return resp, err
+	}
+	if resp.AffectedRows == 0 {
+		return resp, graphql.ErrConflict
+	}
+	return resp, nil
+}
+
+// UpdateOp returns Update as a deferred mutation for a Tx batch; result is filled when the
+// batch commits. Queue it with svc.Mutation.Tx().Add(...) to commit several mutations atomically.
+func (h *mutationHandler) UpdateOp(keyId string, patch UpdateInput, result *schemaql.UpdateIdentityUsersByIdResponse, req ...*UpdateRequest) runtime.BatchOp {
+	var r UpdateRequest
+	if len(req) > 0 && req[0] != nil {
+		r = *req[0]
+	}
+	args := map[string]any{}
+	args["keyId"] = graphql.Var(keyId, "String1")
+	if !graphql.IsOmitted(r.GetPostCheck()) {
+		args["postCheck"] = graphql.VarPtr(r.GetPostCheck(), "IdentityUsersBoolExp")
+	}
+	if !graphql.IsOmitted(r.GetPreCheck()) {
+		args["preCheck"] = graphql.VarPtr(r.GetPreCheck(), "IdentityUsersBoolExp")
+	}
+	args["updateColumns"] = graphql.Var(graphql.SetColumns(patch), "UpdateIdentityUsersByIdUpdateColumnsInput")
+	return runtime.BatchOp{Field: "updateIdentityUsersById", Args: args, Result: result}
 }

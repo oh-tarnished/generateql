@@ -17,6 +17,12 @@ func (r *renderer) iface(name, doc string, ops []op) string {
 			continue
 		}
 		fmt.Fprintf(&b, "\t// %s runs the %q %s.\n\t%s\n", o.Name, o.Op.Name, o.Op.Kind, r.signature(o))
+		if sig := r.updateIfMatchSig(o); sig != "" {
+			fmt.Fprintf(&b, "\t// %sIfMatch runs %s guarded by an optimistic-concurrency precondition (e.g.\n\t// Etag.Eq(prev)), returning graphql.ErrConflict when no row matched.\n\t%s\n", o.Name, o.Name, sig)
+		}
+		if sig := r.opSig(o); sig != "" {
+			fmt.Fprintf(&b, "\t// %sOp returns %s as a deferred mutation for atomic batching via a Tx.\n\t%s\n", o.Name, o.Name, sig)
+		}
 	}
 	b.WriteString("}\n")
 	return b.String()
@@ -29,6 +35,14 @@ func (r *renderer) handler(recv string, ops []op) string {
 	for _, o := range ops {
 		b.WriteString(r.method(recv, o))
 		b.WriteByte('\n')
+		if extra := r.updateIfMatchMethod(recv, o); extra != "" {
+			b.WriteString(extra)
+			b.WriteByte('\n')
+		}
+		if extra := r.opMethod(recv, o); extra != "" {
+			b.WriteString(extra)
+			b.WriteByte('\n')
+		}
 	}
 	return b.String()
 }
@@ -165,7 +179,10 @@ func (r *renderer) argsBlock(o op) string {
 		case roleUpdate:
 			fmt.Fprintf(&b, "\targs[%q] = graphql.Var(graphql.SetColumns(%s), %q)\n", s.argName, s.goName, s.gqlType)
 		default: // rolePredicate, roleOrder, roleInt
-			fmt.Fprintf(&b, "\tif !graphql.IsOmitted(r.%s) {\n\t\targs[%q] = graphql.VarPtr(r.%s, %q)\n\t}\n", s.goName, s.argName, s.goName, s.gqlType)
+			// Optional arguments live on a shared request type in another package, so read them
+			// through the Get* accessor rather than the unexported field.
+			g := getterName(s.goName)
+			fmt.Fprintf(&b, "\tif !graphql.IsOmitted(r.%s()) {\n\t\targs[%q] = graphql.VarPtr(r.%s(), %q)\n\t}\n", g, s.argName, g, s.gqlType)
 		}
 	}
 	b.WriteString(r.nestedArgs(specs))
@@ -188,7 +205,8 @@ func (r *renderer) nestedArgs(specs []argSpec) string {
 			if c.parent != p.parent {
 				continue
 			}
-			fmt.Fprintf(&b, "\tif !graphql.IsOmitted(r.%s) {\n\t\t%s[%q] = r.%s\n\t}\n", c.goName, local, c.argName, c.goName)
+			g := getterName(c.goName)
+			fmt.Fprintf(&b, "\tif !graphql.IsOmitted(r.%s()) {\n\t\t%s[%q] = r.%s()\n\t}\n", g, local, c.argName, g)
 		}
 		fmt.Fprintf(&b, "\tif len(%s) > 0 {\n\t\targs[%q] = graphql.VarPtr(%s, %q)\n\t}\n", local, p.parent, local, p.parentType)
 	}

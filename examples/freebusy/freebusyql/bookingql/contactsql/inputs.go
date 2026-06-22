@@ -2,6 +2,10 @@
 
 package contactsql
 
+import (
+	"github.com/oh-tarnished/generateql/runtime/go/graphql"
+)
+
 // CreateInput holds the settable fields for creating one BookingContacts row.
 type CreateInput struct {
 	DisplayName string `json:"displayName,omitzero"`
@@ -12,8 +16,8 @@ type CreateInput struct {
 
 // UpdateInput holds the fields to change on a BookingContacts row; each set field becomes a column update.
 type UpdateInput struct {
-	DisplayName string `json:"displayName,omitzero"`
-	Email       string `json:"email,omitzero"`
-	Id          string `json:"id,omitzero"`
-	PhoneNumber string `json:"phoneNumber,omitzero"`
+	DisplayName graphql.Nullable[string] `json:"displayName"`
+	Email       graphql.Nullable[string] `json:"email"`
+	Id          graphql.Nullable[string] `json:"id"`
+	PhoneNumber graphql.Nullable[string] `json:"phoneNumber"`
 }

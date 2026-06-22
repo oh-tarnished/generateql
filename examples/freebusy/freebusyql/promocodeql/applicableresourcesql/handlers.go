@@ -5,6 +5,7 @@ package applicableresourcesql
 import (
 	"context"
 	"github.com/oh-tarnished/generateql/examples/freebusy/freebusyql/promocodeql/schemaql"
+	"github.com/oh-tarnished/generateql/runtime/go/graphql"
 	"github.com/oh-tarnished/generateql/runtime/go/runtime"
 )
 
@@ -27,10 +28,19 @@ func NewQuery(gql *runtime.GraphQLClient) QueryHandler { return &queryHandler{gq
 type MutationHandler interface {
 	// Delete runs the "deletePromocodeApplicableResourcesById" mutation.
 	Delete(ctx context.Context, keyId string, req ...*DeleteRequest) (schemaql.DeletePromocodeApplicableResourcesByIdResponse, error)
+	// DeleteOp returns Delete as a deferred mutation for atomic batching via a Tx.
+	DeleteOp(keyId string, result *schemaql.DeletePromocodeApplicableResourcesByIdResponse, req ...*DeleteRequest) runtime.BatchOp
 	// Create runs the "insertPromocodeApplicableResources" mutation.
 	Create(ctx context.Context, obj CreateInput, req ...*CreateRequest) (schemaql.InsertPromocodeApplicableResourcesResponse, error)
+	// CreateOp returns Create as a deferred mutation for atomic batching via a Tx.
+	CreateOp(obj CreateInput, result *schemaql.InsertPromocodeApplicableResourcesResponse, req ...*CreateRequest) runtime.BatchOp
 	// Update runs the "updatePromocodeApplicableResourcesById" mutation.
 	Update(ctx context.Context, keyId string, patch UpdateInput, req ...*UpdateRequest) (schemaql.UpdatePromocodeApplicableResourcesByIdResponse, error)
+	// UpdateIfMatch runs Update guarded by an optimistic-concurrency precondition (e.g.
+	// Etag.Eq(prev)), returning graphql.ErrConflict when no row matched.
+	UpdateIfMatch(ctx context.Context, keyId string, patch UpdateInput, match graphql.Predicate) (schemaql.UpdatePromocodeApplicableResourcesByIdResponse, error)
+	// UpdateOp returns Update as a deferred mutation for atomic batching via a Tx.
+	UpdateOp(keyId string, patch UpdateInput, result *schemaql.UpdatePromocodeApplicableResourcesByIdResponse, req ...*UpdateRequest) runtime.BatchOp
 }
 
 // NewMutation returns a MutationHandler bound to gql.
@@ -50,3 +60,9 @@ type SubscriptionHandler interface {
 func NewSubscription(gql *runtime.GraphQLClient) SubscriptionHandler {
 	return &subscriptionHandler{gql: gql}
 }
+
+// Compile-time proof the query handler satisfies the generic graphql.QueryHandler.
+var _ graphql.QueryHandler[schemaql.PromocodeApplicableResources] = (*queryHandler)(nil)
+
+// Compile-time proof the mutation handler satisfies the generic graphql.MutationHandler.
+var _ graphql.MutationHandler[CreateInput, UpdateInput, schemaql.InsertPromocodeApplicableResourcesResponse, schemaql.UpdatePromocodeApplicableResourcesByIdResponse, schemaql.DeletePromocodeApplicableResourcesByIdResponse] = (*mutationHandler)(nil)

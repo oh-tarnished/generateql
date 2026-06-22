@@ -20,17 +20,17 @@ func (h *subscriptionHandler) OnList(ctx context.Context, req ...*OnListRequest)
 		r = *req[0]
 	}
 	args := map[string]any{}
-	if !graphql.IsOmitted(r.limit) {
-		args["limit"] = graphql.VarPtr(r.limit, "Int")
+	if !graphql.IsOmitted(r.GetLimit()) {
+		args["limit"] = graphql.VarPtr(r.GetLimit(), "Int")
 	}
-	if !graphql.IsOmitted(r.offset) {
-		args["offset"] = graphql.VarPtr(r.offset, "Int")
+	if !graphql.IsOmitted(r.GetOffset()) {
+		args["offset"] = graphql.VarPtr(r.GetOffset(), "Int")
 	}
-	if !graphql.IsOmitted(r.orderBy) {
-		args["order_by"] = graphql.VarPtr(r.orderBy, "[ScheduleStayConstraintsOrderByExp!]")
+	if !graphql.IsOmitted(r.GetOrderBy()) {
+		args["order_by"] = graphql.VarPtr(r.GetOrderBy(), "[ScheduleStayConstraintsOrderByExp!]")
 	}
-	if !graphql.IsOmitted(r.where) {
-		args["where"] = graphql.VarPtr(r.where, "ScheduleStayConstraintsBoolExp")
+	if !graphql.IsOmitted(r.GetWhere()) {
+		args["where"] = graphql.VarPtr(r.GetWhere(), "ScheduleStayConstraintsBoolExp")
 	}
 	return h.gql.SubscribeFields(ctx, "scheduleStayConstraints", &out, args)
 }
@@ -43,17 +43,17 @@ func (h *subscriptionHandler) OnAggregate(ctx context.Context, req ...*OnAggrega
 	}
 	args := map[string]any{}
 	filterInput := map[string]any{}
-	if !graphql.IsOmitted(r.limit) {
-		filterInput["limit"] = r.limit
+	if !graphql.IsOmitted(r.GetLimit()) {
+		filterInput["limit"] = r.GetLimit()
 	}
-	if !graphql.IsOmitted(r.offset) {
-		filterInput["offset"] = r.offset
+	if !graphql.IsOmitted(r.GetOffset()) {
+		filterInput["offset"] = r.GetOffset()
 	}
-	if !graphql.IsOmitted(r.orderBy) {
-		filterInput["order_by"] = r.orderBy
+	if !graphql.IsOmitted(r.GetOrderBy()) {
+		filterInput["order_by"] = r.GetOrderBy()
 	}
-	if !graphql.IsOmitted(r.where) {
-		filterInput["where"] = r.where
+	if !graphql.IsOmitted(r.GetWhere()) {
+		filterInput["where"] = r.GetWhere()
 	}
 	if len(filterInput) > 0 {
 		args["filter_input"] = graphql.VarPtr(filterInput, "ScheduleStayConstraintsFilterInput")

@@ -5,6 +5,7 @@ package losdiscountsql
 import (
 	"context"
 	"github.com/oh-tarnished/generateql/examples/freebusy/freebusyql/resourceql/schemaql"
+	"github.com/oh-tarnished/generateql/runtime/go/graphql"
 	"github.com/oh-tarnished/generateql/runtime/go/runtime"
 )
 
@@ -27,10 +28,19 @@ func NewQuery(gql *runtime.GraphQLClient) QueryHandler { return &queryHandler{gq
 type MutationHandler interface {
 	// Delete runs the "deleteResourceLosDiscountsById" mutation.
 	Delete(ctx context.Context, keyId string, req ...*DeleteRequest) (schemaql.DeleteResourceLosDiscountsByIdResponse, error)
+	// DeleteOp returns Delete as a deferred mutation for atomic batching via a Tx.
+	DeleteOp(keyId string, result *schemaql.DeleteResourceLosDiscountsByIdResponse, req ...*DeleteRequest) runtime.BatchOp
 	// Create runs the "insertResourceLosDiscounts" mutation.
 	Create(ctx context.Context, obj CreateInput, req ...*CreateRequest) (schemaql.InsertResourceLosDiscountsResponse, error)
+	// CreateOp returns Create as a deferred mutation for atomic batching via a Tx.
+	CreateOp(obj CreateInput, result *schemaql.InsertResourceLosDiscountsResponse, req ...*CreateRequest) runtime.BatchOp
 	// Update runs the "updateResourceLosDiscountsById" mutation.
 	Update(ctx context.Context, keyId string, patch UpdateInput, req ...*UpdateRequest) (schemaql.UpdateResourceLosDiscountsByIdResponse, error)
+	// UpdateIfMatch runs Update guarded by an optimistic-concurrency precondition (e.g.
+	// Etag.Eq(prev)), returning graphql.ErrConflict when no row matched.
+	UpdateIfMatch(ctx context.Context, keyId string, patch UpdateInput, match graphql.Predicate) (schemaql.UpdateResourceLosDiscountsByIdResponse, error)
+	// UpdateOp returns Update as a deferred mutation for atomic batching via a Tx.
+	UpdateOp(keyId string, patch UpdateInput, result *schemaql.UpdateResourceLosDiscountsByIdResponse, req ...*UpdateRequest) runtime.BatchOp
 }
 
 // NewMutation returns a MutationHandler bound to gql.
@@ -50,3 +60,9 @@ type SubscriptionHandler interface {
 func NewSubscription(gql *runtime.GraphQLClient) SubscriptionHandler {
 	return &subscriptionHandler{gql: gql}
 }
+
+// Compile-time proof the query handler satisfies the generic graphql.QueryHandler.
+var _ graphql.QueryHandler[schemaql.ResourceLosDiscounts] = (*queryHandler)(nil)
+
+// Compile-time proof the mutation handler satisfies the generic graphql.MutationHandler.
+var _ graphql.MutationHandler[CreateInput, UpdateInput, schemaql.InsertResourceLosDiscountsResponse, schemaql.UpdateResourceLosDiscountsByIdResponse, schemaql.DeleteResourceLosDiscountsByIdResponse] = (*mutationHandler)(nil)
