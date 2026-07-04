@@ -55,6 +55,14 @@ func (r *Renderer) body(obj *ir.Object, depth int, visited map[string]bool) stri
 // is skipped (a relation beyond max depth or on a cyclic path).
 func (r *Renderer) field(f ir.Field, depth int, visited map[string]bool) (string, bool) {
 	tag := fmt.Sprintf("`graphql:%q`", f.Name)
+	// A JSON scalar column decodes to an opaque json.RawMessage. Tag it `scalar`
+	// so the graphql client copies the raw JSON into the field instead of
+	// recursing into the object to match sub-keys against struct fields — which
+	// fails for a nullable (*json.RawMessage) field, since only a non-pointer
+	// json.RawMessage is auto-detected (hasura/go-graphql-client jsonutil).
+	if r.mapper.UsesJSON(f.Type.Base) {
+		tag = fmt.Sprintf("`graphql:%q scalar:\"true\"`", f.Name)
+	}
 	goName := naming.Export(f.Name)
 
 	if r.schema.IsScalarOrEnum(f.Type.Base) || r.isUnknownLeaf(f.Type.Base) {
