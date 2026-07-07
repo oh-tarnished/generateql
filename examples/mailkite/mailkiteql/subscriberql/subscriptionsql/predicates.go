@@ -3,7 +3,7 @@
 package subscriptionsql
 
 import (
-	"github.com/oh-tarnished/generateql/runtime/go/graphql"
+	"github.com/the-protobuf-project/runtime-go/network/graphql"
 )
 
 // Filter fields for SubscriberSubscriptions. Build predicates like CreateTime.Eq(v) and combine

@@ -4,7 +4,7 @@ package schemaql
 
 import (
 	"encoding/json"
-	"github.com/oh-tarnished/generateql/runtime/go/graphql"
+	"github.com/the-protobuf-project/runtime-go/network/graphql"
 )
 
 // BookingPriceComponents is the BookingPriceComponents model.

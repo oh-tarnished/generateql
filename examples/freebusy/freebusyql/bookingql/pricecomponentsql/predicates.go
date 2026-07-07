@@ -3,7 +3,7 @@
 package pricecomponentsql
 
 import (
-	"github.com/oh-tarnished/generateql/runtime/go/graphql"
+	"github.com/the-protobuf-project/runtime-go/network/graphql"
 )
 
 // Filter fields for BookingPriceComponents. Build predicates like AmountId.Eq(v) and combine

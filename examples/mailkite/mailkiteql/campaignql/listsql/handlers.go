@@ -5,7 +5,7 @@ package listsql
 import (
 	"context"
 	"github.com/oh-tarnished/generateql/examples/mailkite/mailkiteql/campaignql/schemaql"
-	"github.com/oh-tarnished/generateql/runtime/go/runtime"
+	"github.com/the-protobuf-project/runtime-go/network/runtime"
 )
 
 // QueryHandler runs CampaignLists query operations.

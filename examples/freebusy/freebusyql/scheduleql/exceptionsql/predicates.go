@@ -3,7 +3,7 @@
 package exceptionsql
 
 import (
-	"github.com/oh-tarnished/generateql/runtime/go/graphql"
+	"github.com/the-protobuf-project/runtime-go/network/graphql"
 )
 
 // Filter fields for ScheduleExceptions. Build predicates like AvailabilityExceptionId.Eq(v) and combine

@@ -3,7 +3,7 @@
 package offeringsql
 
 import (
-	"github.com/oh-tarnished/generateql/runtime/go/graphql"
+	"github.com/the-protobuf-project/runtime-go/network/graphql"
 )
 
 // CreateInput holds the settable fields for creating one ResourceOfferings row.

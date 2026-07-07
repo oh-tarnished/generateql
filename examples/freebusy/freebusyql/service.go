@@ -12,7 +12,7 @@ import (
 	"github.com/oh-tarnished/generateql/examples/freebusy/freebusyql/promocodeql"
 	"github.com/oh-tarnished/generateql/examples/freebusy/freebusyql/resourceql"
 	"github.com/oh-tarnished/generateql/examples/freebusy/freebusyql/scheduleql"
-	"github.com/oh-tarnished/generateql/runtime/go/runtime"
+	"github.com/the-protobuf-project/runtime-go/network/runtime"
 	"net/url"
 )
 

@@ -3,7 +3,7 @@
 package buffersettingsql
 
 import (
-	"github.com/oh-tarnished/generateql/runtime/go/graphql"
+	"github.com/the-protobuf-project/runtime-go/network/graphql"
 )
 
 // Filter fields for ScheduleBufferSettings. Build predicates like EndDelta.Eq(v) and combine

@@ -12,7 +12,7 @@ import (
 	"github.com/oh-tarnished/generateql/examples/mailkite/mailkiteql/prismaql"
 	"github.com/oh-tarnished/generateql/examples/mailkite/mailkiteql/subscriberql"
 	"github.com/oh-tarnished/generateql/examples/mailkite/mailkiteql/templateql"
-	"github.com/oh-tarnished/generateql/runtime/go/runtime"
+	"github.com/the-protobuf-project/runtime-go/network/runtime"
 	"net/url"
 )
 

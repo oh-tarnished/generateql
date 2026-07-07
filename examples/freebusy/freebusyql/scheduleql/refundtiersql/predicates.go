@@ -3,7 +3,7 @@
 package refundtiersql
 
 import (
-	"github.com/oh-tarnished/generateql/runtime/go/graphql"
+	"github.com/the-protobuf-project/runtime-go/network/graphql"
 )
 
 // Filter fields for ScheduleRefundTiers. Build predicates like CancellationPolicyId.Eq(v) and combine

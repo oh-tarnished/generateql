@@ -3,7 +3,7 @@
 package usersql
 
 import (
-	"github.com/oh-tarnished/generateql/runtime/go/graphql"
+	"github.com/the-protobuf-project/runtime-go/network/graphql"
 )
 
 // Filter fields for IdentityUsers. Build predicates like AvatarUrl.Eq(v) and combine

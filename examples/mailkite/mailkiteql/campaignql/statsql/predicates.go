@@ -3,7 +3,7 @@
 package statsql
 
 import (
-	"github.com/oh-tarnished/generateql/runtime/go/graphql"
+	"github.com/the-protobuf-project/runtime-go/network/graphql"
 )
 
 // Filter fields for CampaignStats. Build predicates like Bounces.Eq(v) and combine

@@ -16,8 +16,9 @@ import (
 )
 
 // defaultRuntimeModule is the import path of the Go runtime facade that generated
-// clients depend on.
-const defaultRuntimeModule = "github.com/oh-tarnished/generateql/runtime/go/runtime"
+// clients depend on. It lives in the shared runtime-go repo (network module);
+// the sibling predicate DSL package is derived from it as path.Dir + "/graphql".
+const defaultRuntimeModule = "github.com/the-protobuf-project/runtime-go/network/runtime"
 
 var generateCmd = &cobra.Command{
 	Use:   "generate",

@@ -3,7 +3,7 @@
 package resourceql
 
 import (
-	"github.com/oh-tarnished/generateql/runtime/go/graphql"
+	"github.com/the-protobuf-project/runtime-go/network/graphql"
 )
 
 // Filter fields for OrganisationResource. Build predicates like BillingEmail.Eq(v) and combine

@@ -6,7 +6,7 @@ import (
 	"github.com/oh-tarnished/generateql/examples/freebusy/freebusyql/organisationql/membersql"
 	"github.com/oh-tarnished/generateql/examples/freebusy/freebusyql/organisationql/resourceql"
 	"github.com/oh-tarnished/generateql/examples/freebusy/freebusyql/organisationql/schemaql"
-	"github.com/oh-tarnished/generateql/runtime/go/runtime"
+	"github.com/the-protobuf-project/runtime-go/network/runtime"
 )
 
 // Model type aliases for this domain, re-exported from its schema package.

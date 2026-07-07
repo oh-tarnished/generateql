@@ -3,7 +3,7 @@
 package offeringslinkql
 
 import (
-	"github.com/oh-tarnished/generateql/runtime/go/graphql"
+	"github.com/the-protobuf-project/runtime-go/network/graphql"
 )
 
 // Filter fields for ResourceOfferingsLink. Build predicates like Id.Eq(v) and combine

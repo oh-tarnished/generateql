@@ -5,7 +5,7 @@ package mediaql
 import (
 	"github.com/oh-tarnished/generateql/examples/mailkite/mailkiteql/mediaql/resourceql"
 	"github.com/oh-tarnished/generateql/examples/mailkite/mailkiteql/mediaql/schemaql"
-	"github.com/oh-tarnished/generateql/runtime/go/runtime"
+	"github.com/the-protobuf-project/runtime-go/network/runtime"
 )
 
 // Model type aliases for this domain, re-exported from its schema package.

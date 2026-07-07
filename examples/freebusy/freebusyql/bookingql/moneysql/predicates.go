@@ -3,7 +3,7 @@
 package moneysql
 
 import (
-	"github.com/oh-tarnished/generateql/runtime/go/graphql"
+	"github.com/the-protobuf-project/runtime-go/network/graphql"
 )
 
 // Filter fields for BookingMoneys. Build predicates like CurrencyCode.Eq(v) and combine

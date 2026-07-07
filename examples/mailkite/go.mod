@@ -2,7 +2,7 @@ module github.com/oh-tarnished/generateql/examples/mailkite
 
 go 1.26.4
 
-require github.com/oh-tarnished/generateql v0.0.0
+require github.com/the-protobuf-project/runtime-go/network v0.0.0-20260707151848-75a55c595654
 
 require (
 	github.com/coder/websocket v1.8.14 // indirect

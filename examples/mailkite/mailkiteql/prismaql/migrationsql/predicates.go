@@ -3,7 +3,7 @@
 package migrationsql
 
 import (
-	"github.com/oh-tarnished/generateql/runtime/go/graphql"
+	"github.com/the-protobuf-project/runtime-go/network/graphql"
 )
 
 // Filter fields for PrismaMigrations. Build predicates like AppliedStepsCount.Eq(v) and combine
