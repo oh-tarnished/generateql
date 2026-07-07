@@ -39,12 +39,68 @@ func groupResources(s *Schema) []*Resource {
 		add(resourceOf(s, op), op)
 	}
 
+	rehomed := rehomeProcedures(byName)
+
 	sort.Strings(order)
 	resources := make([]*Resource, 0, len(order))
 	for _, name := range order {
+		if rehomed[name] {
+			continue
+		}
 		resources = append(resources, byName[name])
 	}
 	return resources
+}
+
+// rehomeProcedures folds procedure-style mutation families into the table family
+// their name addresses. A native mutation (e.g. delete_identity_guests_by_booking_id)
+// returns its own projection rows, so resourceOf buckets it under the projection
+// type ("DeleteIdentityGuestsByBookingId") rather than the table it acts on
+// ("IdentityGuests") — which would generate a bogus one-op resource package. Any
+// family that consists only of mutations and is named <Verb><TableFamily><Rest>
+// has its ops moved onto that table family (the longest-named match wins), where
+// the method-name derivation then yields e.g. Guests.DeleteByBookingId. Returns
+// the set of family names that were emptied and must be dropped.
+func rehomeProcedures(byName map[string]*Resource) map[string]bool {
+	verbs := []string{"Insert", "Update", "Delete", "Upsert"}
+	names := make([]string, 0, len(byName))
+	for name := range byName {
+		names = append(names, name)
+	}
+	sort.Strings(names) // deterministic re-homing (and method) order
+
+	rehomed := map[string]bool{}
+	for _, name := range names {
+		r := byName[name]
+		if len(r.Mutations) == 0 || len(r.Queries) > 0 || len(r.Subscriptions) > 0 {
+			continue
+		}
+		base := ""
+		for _, v := range verbs {
+			if strings.HasPrefix(name, v) && len(name) > len(v) {
+				base = name[len(v):]
+				break
+			}
+		}
+		if base == "" {
+			continue
+		}
+		target := ""
+		for _, tname := range names {
+			if tname == name || len(byName[tname].Queries) == 0 {
+				continue // only real table families (they carry query roots) qualify
+			}
+			if strings.HasPrefix(base, tname) && len(tname) > len(target) {
+				target = tname
+			}
+		}
+		if target == "" {
+			continue
+		}
+		byName[target].Mutations = append(byName[target].Mutations, r.Mutations...)
+		rehomed[name] = true
+	}
+	return rehomed
 }
 
 // resourceOf determines the row-object name an operation belongs to. It unwraps the
