@@ -49,15 +49,6 @@ func run(ctx context.Context, cfg Config) error {
 	if err != nil {
 		return fmt.Errorf("failed to connect to GraphQL endpoint: %w", err)
 	}
-	l, err := svc.Query.Resource.Entity.List(ctx)
-	if err != nil {
-		return fmt.Errorf("failed to list resource entities: %w", err)
-	}
-	slog.Info("Resource entity found", "entityCount", len(l))
-	for _, e := range l {
-		slog.Info("Resource entity", "id", e.Id, "name", e.Name)
-	}
-
 	// Setup client aliases for brevity
 	q := svc.Query.Organisation.Resource
 	m := svc.Mutation.Organisation.Resource

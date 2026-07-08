@@ -14,33 +14,9 @@ var (
 	Etag                 = graphql.StringField{Col: "etag"}
 	Id                   = graphql.StringField{Col: "id"}
 	Name                 = graphql.StringField{Col: "name"}
+	PropertyId           = graphql.StringField{Col: "propertyId"}
 	StayConstraintsId    = graphql.StringField{Col: "stayConstraintsId"}
 )
-
-// ScheduleBufferSetting filters by the scheduleBufferSetting relation, taking a predicate from that resource.
-func ScheduleBufferSetting(p graphql.Predicate) graphql.Predicate {
-	return graphql.Relation("scheduleBufferSetting", p)
-}
-
-// ScheduleCancellationPolicy filters by the scheduleCancellationPolicy relation, taking a predicate from that resource.
-func ScheduleCancellationPolicy(p graphql.Predicate) graphql.Predicate {
-	return graphql.Relation("scheduleCancellationPolicy", p)
-}
-
-// ScheduleExceptions filters by the scheduleExceptions relation, taking a predicate from that resource.
-func ScheduleExceptions(p graphql.Predicate) graphql.Predicate {
-	return graphql.Relation("scheduleExceptions", p)
-}
-
-// ScheduleRecurringRules filters by the scheduleRecurringRules relation, taking a predicate from that resource.
-func ScheduleRecurringRules(p graphql.Predicate) graphql.Predicate {
-	return graphql.Relation("scheduleRecurringRules", p)
-}
-
-// ScheduleStayConstraint filters by the scheduleStayConstraint relation, taking a predicate from that resource.
-func ScheduleStayConstraint(p graphql.Predicate) graphql.Predicate {
-	return graphql.Relation("scheduleStayConstraint", p)
-}
 
 // And matches rows satisfying every predicate.
 func And(p ...graphql.Predicate) graphql.Predicate { return graphql.And(p...) }

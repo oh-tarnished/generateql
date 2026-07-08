@@ -12,16 +12,6 @@ var (
 	Id = graphql.StringField{Col: "id"}
 )
 
-// ScheduleRefundTiers filters by the scheduleRefundTiers relation, taking a predicate from that resource.
-func ScheduleRefundTiers(p graphql.Predicate) graphql.Predicate {
-	return graphql.Relation("scheduleRefundTiers", p)
-}
-
-// ScheduleResources filters by the scheduleResources relation, taking a predicate from that resource.
-func ScheduleResources(p graphql.Predicate) graphql.Predicate {
-	return graphql.Relation("scheduleResources", p)
-}
-
 // And matches rows satisfying every predicate.
 func And(p ...graphql.Predicate) graphql.Predicate { return graphql.And(p...) }
 

@@ -23,19 +23,6 @@ var (
 	User           = graphql.StringField{Col: "user"}
 )
 
-// IdentityUser filters by the identityUser relation, taking a predicate from that resource.
-func IdentityUser(p graphql.Predicate) graphql.Predicate { return graphql.Relation("identityUser", p) }
-
-// IdentityUserByUser filters by the identityUserByUser relation, taking a predicate from that resource.
-func IdentityUserByUser(p graphql.Predicate) graphql.Predicate {
-	return graphql.Relation("identityUserByUser", p)
-}
-
-// OrganisationResource filters by the organisationResource relation, taking a predicate from that resource.
-func OrganisationResource(p graphql.Predicate) graphql.Predicate {
-	return graphql.Relation("organisationResource", p)
-}
-
 // And matches rows satisfying every predicate.
 func And(p ...graphql.Predicate) graphql.Predicate { return graphql.And(p...) }
 

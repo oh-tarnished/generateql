@@ -17,11 +17,6 @@ var (
 	StartDelta = graphql.StringField{Col: "startDelta"}
 )
 
-// ScheduleResources filters by the scheduleResources relation, taking a predicate from that resource.
-func ScheduleResources(p graphql.Predicate) graphql.Predicate {
-	return graphql.Relation("scheduleResources", p)
-}
-
 // And matches rows satisfying every predicate.
 func And(p ...graphql.Predicate) graphql.Predicate { return graphql.And(p...) }
 

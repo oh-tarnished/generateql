@@ -14,31 +14,12 @@ var (
 	Id          = graphql.StringField{Col: "id"}
 	Kind        = graphql.StringField{Col: "kind"}
 	Name        = graphql.StringField{Col: "name"}
+	PropertyId  = graphql.StringField{Col: "propertyId"}
 	Reason      = graphql.StringField{Col: "reason"}
-	ResourceId  = graphql.StringField{Col: "resourceId"}
 	SpanCase    = graphql.StringField{Col: "spanCase"}
+	UnitId      = graphql.StringField{Col: "unitId"}
 	WindowId    = graphql.StringField{Col: "windowId"}
 )
-
-// BookingTimeWindow filters by the bookingTimeWindow relation, taking a predicate from that resource.
-func BookingTimeWindow(p graphql.Predicate) graphql.Predicate {
-	return graphql.Relation("bookingTimeWindow", p)
-}
-
-// ResourceEntity filters by the resourceEntity relation, taking a predicate from that resource.
-func ResourceEntity(p graphql.Predicate) graphql.Predicate {
-	return graphql.Relation("resourceEntity", p)
-}
-
-// ScheduleDateRange filters by the scheduleDateRange relation, taking a predicate from that resource.
-func ScheduleDateRange(p graphql.Predicate) graphql.Predicate {
-	return graphql.Relation("scheduleDateRange", p)
-}
-
-// ScheduleExceptions filters by the scheduleExceptions relation, taking a predicate from that resource.
-func ScheduleExceptions(p graphql.Predicate) graphql.Predicate {
-	return graphql.Relation("scheduleExceptions", p)
-}
 
 // And matches rows satisfying every predicate.
 func And(p ...graphql.Predicate) graphql.Predicate { return graphql.And(p...) }

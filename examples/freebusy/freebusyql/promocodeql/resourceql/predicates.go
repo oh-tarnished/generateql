@@ -6,52 +6,25 @@ import (
 	"github.com/the-protobuf-project/runtime-go/network/graphql"
 )
 
-// Filter fields for PromocodeResource. Build predicates like AmountOffId.Eq(v) and combine
+// Filter fields for PromocodeResource. Build predicates like Code.Eq(v) and combine
 // them with And/Or/Not.
 var (
-	AmountOffId      = graphql.StringField{Col: "amountOffId"}
-	Code             = graphql.StringField{Col: "code"}
-	CreateTime       = graphql.StringField{Col: "createTime"}
-	Description      = graphql.StringField{Col: "description"}
-	Disabled         = graphql.BoolField{Col: "disabled"}
-	DiscountType     = graphql.StringField{Col: "discountType"}
-	DisplayName      = graphql.StringField{Col: "displayName"}
-	Etag             = graphql.StringField{Col: "etag"}
-	Id               = graphql.StringField{Col: "id"}
-	MaxRedemptions   = graphql.Int64Field{Col: "maxRedemptions"}
-	MinSubtotalId    = graphql.StringField{Col: "minSubtotalId"}
-	Name             = graphql.StringField{Col: "name"}
-	PerCustomerLimit = graphql.Int64Field{Col: "perCustomerLimit"}
-	PercentOff       = graphql.Int64Field{Col: "percentOff"}
-	RedeemEndTime    = graphql.StringField{Col: "redeemEndTime"}
-	RedeemStartTime  = graphql.StringField{Col: "redeemStartTime"}
-	RedemptionCount  = graphql.Int64Field{Col: "redemptionCount"}
-	State            = graphql.StringField{Col: "state"}
-	UpdateTime       = graphql.StringField{Col: "updateTime"}
+	Code            = graphql.StringField{Col: "code"}
+	CreateTime      = graphql.StringField{Col: "createTime"}
+	Description     = graphql.StringField{Col: "description"}
+	Disabled        = graphql.BoolField{Col: "disabled"}
+	DiscountId      = graphql.StringField{Col: "discountId"}
+	DisplayName     = graphql.StringField{Col: "displayName"}
+	Etag            = graphql.StringField{Col: "etag"}
+	Id              = graphql.StringField{Col: "id"}
+	LimitsId        = graphql.StringField{Col: "limitsId"}
+	Name            = graphql.StringField{Col: "name"}
+	RedemptionCount = graphql.Int64Field{Col: "redemptionCount"}
+	ScopeId         = graphql.StringField{Col: "scopeId"}
+	State           = graphql.StringField{Col: "state"}
+	UpdateTime      = graphql.StringField{Col: "updateTime"}
+	WindowId        = graphql.StringField{Col: "windowId"}
 )
-
-// BookingMoney filters by the bookingMoney relation, taking a predicate from that resource.
-func BookingMoney(p graphql.Predicate) graphql.Predicate { return graphql.Relation("bookingMoney", p) }
-
-// BookingMoneyByMinSubtotalId filters by the bookingMoneyByMinSubtotalId relation, taking a predicate from that resource.
-func BookingMoneyByMinSubtotalId(p graphql.Predicate) graphql.Predicate {
-	return graphql.Relation("bookingMoneyByMinSubtotalId", p)
-}
-
-// BookingResources filters by the bookingResources relation, taking a predicate from that resource.
-func BookingResources(p graphql.Predicate) graphql.Predicate {
-	return graphql.Relation("bookingResources", p)
-}
-
-// PromocodeApplicableOfferings filters by the promocodeApplicableOfferings relation, taking a predicate from that resource.
-func PromocodeApplicableOfferings(p graphql.Predicate) graphql.Predicate {
-	return graphql.Relation("promocodeApplicableOfferings", p)
-}
-
-// PromocodeApplicableResources filters by the promocodeApplicableResources relation, taking a predicate from that resource.
-func PromocodeApplicableResources(p graphql.Predicate) graphql.Predicate {
-	return graphql.Relation("promocodeApplicableResources", p)
-}
 
 // And matches rows satisfying every predicate.
 func And(p ...graphql.Predicate) graphql.Predicate { return graphql.And(p...) }

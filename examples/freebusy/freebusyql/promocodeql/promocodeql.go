@@ -3,74 +3,134 @@
 package promocodeql
 
 import (
-	"github.com/oh-tarnished/generateql/examples/freebusy/freebusyql/promocodeql/applicableofferingsql"
-	"github.com/oh-tarnished/generateql/examples/freebusy/freebusyql/promocodeql/applicableresourcesql"
+	"github.com/oh-tarnished/generateql/examples/freebusy/freebusyql/promocodeql/discountsql"
+	"github.com/oh-tarnished/generateql/examples/freebusy/freebusyql/promocodeql/redemptionsql"
+	"github.com/oh-tarnished/generateql/examples/freebusy/freebusyql/promocodeql/redemptionwindowsql"
 	"github.com/oh-tarnished/generateql/examples/freebusy/freebusyql/promocodeql/resourceql"
 	"github.com/oh-tarnished/generateql/examples/freebusy/freebusyql/promocodeql/schemaql"
+	"github.com/oh-tarnished/generateql/examples/freebusy/freebusyql/promocodeql/scopeapplicablepropertiesql"
+	"github.com/oh-tarnished/generateql/examples/freebusy/freebusyql/promocodeql/scopeapplicableunitsql"
+	"github.com/oh-tarnished/generateql/examples/freebusy/freebusyql/promocodeql/scopesql"
+	"github.com/oh-tarnished/generateql/examples/freebusy/freebusyql/promocodeql/usagelimitsql"
 	"github.com/the-protobuf-project/runtime-go/network/runtime"
 )
 
 // Model type aliases for this domain, re-exported from its schema package.
-type DeletePromocodeApplicableOfferingsByIdResponse = schemaql.DeletePromocodeApplicableOfferingsByIdResponse
-type DeletePromocodeApplicableResourcesByIdResponse = schemaql.DeletePromocodeApplicableResourcesByIdResponse
+type DeletePromocodeDiscountsByIdResponse = schemaql.DeletePromocodeDiscountsByIdResponse
+type InsertPromocodeDiscountsResponse = schemaql.InsertPromocodeDiscountsResponse
+type PromocodeDiscounts = schemaql.PromocodeDiscounts
+type PromocodeDiscountsAggExp = schemaql.PromocodeDiscountsAggExp
+type UpdatePromocodeDiscountsByIdResponse = schemaql.UpdatePromocodeDiscountsByIdResponse
+type DeletePromocodeRedemptionWindowsByIdResponse = schemaql.DeletePromocodeRedemptionWindowsByIdResponse
+type InsertPromocodeRedemptionWindowsResponse = schemaql.InsertPromocodeRedemptionWindowsResponse
+type PromocodeRedemptionWindows = schemaql.PromocodeRedemptionWindows
+type PromocodeRedemptionWindowsAggExp = schemaql.PromocodeRedemptionWindowsAggExp
+type UpdatePromocodeRedemptionWindowsByIdResponse = schemaql.UpdatePromocodeRedemptionWindowsByIdResponse
+type DeletePromocodeRedemptionsByIdResponse = schemaql.DeletePromocodeRedemptionsByIdResponse
+type InsertPromocodeRedemptionsResponse = schemaql.InsertPromocodeRedemptionsResponse
+type PromocodeRedemptions = schemaql.PromocodeRedemptions
+type PromocodeRedemptionsAggExp = schemaql.PromocodeRedemptionsAggExp
+type UpdatePromocodeRedemptionsByIdResponse = schemaql.UpdatePromocodeRedemptionsByIdResponse
 type DeletePromocodeResourceByIdResponse = schemaql.DeletePromocodeResourceByIdResponse
-type InsertPromocodeApplicableOfferingsResponse = schemaql.InsertPromocodeApplicableOfferingsResponse
-type InsertPromocodeApplicableResourcesResponse = schemaql.InsertPromocodeApplicableResourcesResponse
 type InsertPromocodeResourceResponse = schemaql.InsertPromocodeResourceResponse
-type PromocodeApplicableOfferings = schemaql.PromocodeApplicableOfferings
-type PromocodeApplicableOfferingsAggExp = schemaql.PromocodeApplicableOfferingsAggExp
-type PromocodeApplicableResources = schemaql.PromocodeApplicableResources
-type PromocodeApplicableResourcesAggExp = schemaql.PromocodeApplicableResourcesAggExp
 type PromocodeResource = schemaql.PromocodeResource
 type PromocodeResourceAggExp = schemaql.PromocodeResourceAggExp
-type UpdatePromocodeApplicableOfferingsByIdResponse = schemaql.UpdatePromocodeApplicableOfferingsByIdResponse
-type UpdatePromocodeApplicableResourcesByIdResponse = schemaql.UpdatePromocodeApplicableResourcesByIdResponse
 type UpdatePromocodeResourceByIdResponse = schemaql.UpdatePromocodeResourceByIdResponse
+type DeletePromocodeScopeApplicablePropertiesByIdResponse = schemaql.DeletePromocodeScopeApplicablePropertiesByIdResponse
+type InsertPromocodeScopeApplicablePropertiesResponse = schemaql.InsertPromocodeScopeApplicablePropertiesResponse
+type PromocodeScopeApplicableProperties = schemaql.PromocodeScopeApplicableProperties
+type PromocodeScopeApplicablePropertiesAggExp = schemaql.PromocodeScopeApplicablePropertiesAggExp
+type UpdatePromocodeScopeApplicablePropertiesByIdResponse = schemaql.UpdatePromocodeScopeApplicablePropertiesByIdResponse
+type DeletePromocodeScopeApplicableUnitsByIdResponse = schemaql.DeletePromocodeScopeApplicableUnitsByIdResponse
+type InsertPromocodeScopeApplicableUnitsResponse = schemaql.InsertPromocodeScopeApplicableUnitsResponse
+type PromocodeScopeApplicableUnits = schemaql.PromocodeScopeApplicableUnits
+type PromocodeScopeApplicableUnitsAggExp = schemaql.PromocodeScopeApplicableUnitsAggExp
+type UpdatePromocodeScopeApplicableUnitsByIdResponse = schemaql.UpdatePromocodeScopeApplicableUnitsByIdResponse
+type DeletePromocodeScopesByIdResponse = schemaql.DeletePromocodeScopesByIdResponse
+type InsertPromocodeScopesResponse = schemaql.InsertPromocodeScopesResponse
+type PromocodeScopes = schemaql.PromocodeScopes
+type PromocodeScopesAggExp = schemaql.PromocodeScopesAggExp
+type UpdatePromocodeScopesByIdResponse = schemaql.UpdatePromocodeScopesByIdResponse
+type DeletePromocodeUsageLimitsByIdResponse = schemaql.DeletePromocodeUsageLimitsByIdResponse
+type InsertPromocodeUsageLimitsResponse = schemaql.InsertPromocodeUsageLimitsResponse
+type PromocodeUsageLimits = schemaql.PromocodeUsageLimits
+type PromocodeUsageLimitsAggExp = schemaql.PromocodeUsageLimitsAggExp
+type UpdatePromocodeUsageLimitsByIdResponse = schemaql.UpdatePromocodeUsageLimitsByIdResponse
 
 // QueryHandler aggregates query handlers for the promocodeql domain.
 type QueryHandler struct {
-	ApplicableOfferings applicableofferingsql.QueryHandler
-	ApplicableResources applicableresourcesql.QueryHandler
-	Resource            resourceql.QueryHandler
+	Discounts                 discountsql.QueryHandler
+	RedemptionWindows         redemptionwindowsql.QueryHandler
+	Redemptions               redemptionsql.QueryHandler
+	Resource                  resourceql.QueryHandler
+	ScopeApplicableProperties scopeapplicablepropertiesql.QueryHandler
+	ScopeApplicableUnits      scopeapplicableunitsql.QueryHandler
+	Scopes                    scopesql.QueryHandler
+	UsageLimits               usagelimitsql.QueryHandler
 }
 
 // NewQuery wires every query handler in the domain.
 func NewQuery(gql *runtime.GraphQLClient) QueryHandler {
 	return QueryHandler{
-		ApplicableOfferings: applicableofferingsql.NewQuery(gql),
-		ApplicableResources: applicableresourcesql.NewQuery(gql),
-		Resource:            resourceql.NewQuery(gql),
+		Discounts:                 discountsql.NewQuery(gql),
+		RedemptionWindows:         redemptionwindowsql.NewQuery(gql),
+		Redemptions:               redemptionsql.NewQuery(gql),
+		Resource:                  resourceql.NewQuery(gql),
+		ScopeApplicableProperties: scopeapplicablepropertiesql.NewQuery(gql),
+		ScopeApplicableUnits:      scopeapplicableunitsql.NewQuery(gql),
+		Scopes:                    scopesql.NewQuery(gql),
+		UsageLimits:               usagelimitsql.NewQuery(gql),
 	}
 }
 
 // MutationHandler aggregates mutation handlers for the promocodeql domain.
 type MutationHandler struct {
-	ApplicableOfferings applicableofferingsql.MutationHandler
-	ApplicableResources applicableresourcesql.MutationHandler
-	Resource            resourceql.MutationHandler
+	Discounts                 discountsql.MutationHandler
+	RedemptionWindows         redemptionwindowsql.MutationHandler
+	Redemptions               redemptionsql.MutationHandler
+	Resource                  resourceql.MutationHandler
+	ScopeApplicableProperties scopeapplicablepropertiesql.MutationHandler
+	ScopeApplicableUnits      scopeapplicableunitsql.MutationHandler
+	Scopes                    scopesql.MutationHandler
+	UsageLimits               usagelimitsql.MutationHandler
 }
 
 // NewMutation wires every mutation handler in the domain.
 func NewMutation(gql *runtime.GraphQLClient) MutationHandler {
 	return MutationHandler{
-		ApplicableOfferings: applicableofferingsql.NewMutation(gql),
-		ApplicableResources: applicableresourcesql.NewMutation(gql),
-		Resource:            resourceql.NewMutation(gql),
+		Discounts:                 discountsql.NewMutation(gql),
+		RedemptionWindows:         redemptionwindowsql.NewMutation(gql),
+		Redemptions:               redemptionsql.NewMutation(gql),
+		Resource:                  resourceql.NewMutation(gql),
+		ScopeApplicableProperties: scopeapplicablepropertiesql.NewMutation(gql),
+		ScopeApplicableUnits:      scopeapplicableunitsql.NewMutation(gql),
+		Scopes:                    scopesql.NewMutation(gql),
+		UsageLimits:               usagelimitsql.NewMutation(gql),
 	}
 }
 
 // SubscriptionHandler aggregates subscription handlers for the promocodeql domain.
 type SubscriptionHandler struct {
-	ApplicableOfferings applicableofferingsql.SubscriptionHandler
-	ApplicableResources applicableresourcesql.SubscriptionHandler
-	Resource            resourceql.SubscriptionHandler
+	Discounts                 discountsql.SubscriptionHandler
+	RedemptionWindows         redemptionwindowsql.SubscriptionHandler
+	Redemptions               redemptionsql.SubscriptionHandler
+	Resource                  resourceql.SubscriptionHandler
+	ScopeApplicableProperties scopeapplicablepropertiesql.SubscriptionHandler
+	ScopeApplicableUnits      scopeapplicableunitsql.SubscriptionHandler
+	Scopes                    scopesql.SubscriptionHandler
+	UsageLimits               usagelimitsql.SubscriptionHandler
 }
 
 // NewSubscription wires every subscription handler in the domain.
 func NewSubscription(gql *runtime.GraphQLClient) SubscriptionHandler {
 	return SubscriptionHandler{
-		ApplicableOfferings: applicableofferingsql.NewSubscription(gql),
-		ApplicableResources: applicableresourcesql.NewSubscription(gql),
-		Resource:            resourceql.NewSubscription(gql),
+		Discounts:                 discountsql.NewSubscription(gql),
+		RedemptionWindows:         redemptionwindowsql.NewSubscription(gql),
+		Redemptions:               redemptionsql.NewSubscription(gql),
+		Resource:                  resourceql.NewSubscription(gql),
+		ScopeApplicableProperties: scopeapplicablepropertiesql.NewSubscription(gql),
+		ScopeApplicableUnits:      scopeapplicableunitsql.NewSubscription(gql),
+		Scopes:                    scopesql.NewSubscription(gql),
+		UsageLimits:               usagelimitsql.NewSubscription(gql),
 	}
 }

@@ -9,20 +9,11 @@ import (
 // Filter fields for ScheduleExceptions. Build predicates like AvailabilityExceptionId.Eq(v) and combine
 // them with And/Or/Not.
 var (
-	AvailabilityExceptionId = graphql.StringField{Col: "availabilityExceptionId"}
-	Id                      = graphql.StringField{Col: "id"}
-	ScheduleId              = graphql.StringField{Col: "scheduleId"}
+	AvailabilityExceptionId   = graphql.StringField{Col: "availabilityExceptionId"}
+	AvailabilityExceptionName = graphql.StringField{Col: "availabilityExceptionName"}
+	Id                        = graphql.StringField{Col: "id"}
+	ScheduleId                = graphql.StringField{Col: "scheduleId"}
 )
-
-// ScheduleAvailabilityException filters by the scheduleAvailabilityException relation, taking a predicate from that resource.
-func ScheduleAvailabilityException(p graphql.Predicate) graphql.Predicate {
-	return graphql.Relation("scheduleAvailabilityException", p)
-}
-
-// ScheduleResource filters by the scheduleResource relation, taking a predicate from that resource.
-func ScheduleResource(p graphql.Predicate) graphql.Predicate {
-	return graphql.Relation("scheduleResource", p)
-}
 
 // And matches rows satisfying every predicate.
 func And(p ...graphql.Predicate) graphql.Predicate { return graphql.And(p...) }

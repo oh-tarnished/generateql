@@ -13,6 +13,7 @@ type CreateInput struct {
 	Etag                 string `json:"etag,omitzero"`
 	Id                   string `json:"id"`
 	Name                 string `json:"name"`
+	PropertyId           string `json:"propertyId"`
 	StayConstraintsId    string `json:"stayConstraintsId,omitzero"`
 }
 
@@ -23,5 +24,6 @@ type UpdateInput struct {
 	Etag                 graphql.Nullable[string] `json:"etag"`
 	Id                   graphql.Nullable[string] `json:"id"`
 	Name                 graphql.Nullable[string] `json:"name"`
+	PropertyId           graphql.Nullable[string] `json:"propertyId"`
 	StayConstraintsId    graphql.Nullable[string] `json:"stayConstraintsId"`
 }

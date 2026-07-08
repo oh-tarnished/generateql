@@ -21,26 +21,6 @@ var (
 	UpdateTime  = graphql.StringField{Col: "updateTime"}
 )
 
-// BookingResources filters by the bookingResources relation, taking a predicate from that resource.
-func BookingResources(p graphql.Predicate) graphql.Predicate {
-	return graphql.Relation("bookingResources", p)
-}
-
-// IdentityMembershipSummaries filters by the identityMembershipSummaries relation, taking a predicate from that resource.
-func IdentityMembershipSummaries(p graphql.Predicate) graphql.Predicate {
-	return graphql.Relation("identityMembershipSummaries", p)
-}
-
-// OrganisationMembers filters by the organisationMembers relation, taking a predicate from that resource.
-func OrganisationMembers(p graphql.Predicate) graphql.Predicate {
-	return graphql.Relation("organisationMembers", p)
-}
-
-// OrganisationMembersByUser filters by the organisationMembersByUser relation, taking a predicate from that resource.
-func OrganisationMembersByUser(p graphql.Predicate) graphql.Predicate {
-	return graphql.Relation("organisationMembersByUser", p)
-}
-
 // And matches rows satisfying every predicate.
 func And(p ...graphql.Predicate) graphql.Predicate { return graphql.And(p...) }
 

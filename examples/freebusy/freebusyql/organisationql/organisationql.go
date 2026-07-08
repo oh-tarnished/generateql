@@ -11,14 +11,14 @@ import (
 
 // Model type aliases for this domain, re-exported from its schema package.
 type DeleteOrganisationMembersByIdResponse = schemaql.DeleteOrganisationMembersByIdResponse
-type DeleteOrganisationResourceByIdResponse = schemaql.DeleteOrganisationResourceByIdResponse
 type InsertOrganisationMembersResponse = schemaql.InsertOrganisationMembersResponse
-type InsertOrganisationResourceResponse = schemaql.InsertOrganisationResourceResponse
 type OrganisationMembers = schemaql.OrganisationMembers
 type OrganisationMembersAggExp = schemaql.OrganisationMembersAggExp
+type UpdateOrganisationMembersByIdResponse = schemaql.UpdateOrganisationMembersByIdResponse
+type DeleteOrganisationResourceByIdResponse = schemaql.DeleteOrganisationResourceByIdResponse
+type InsertOrganisationResourceResponse = schemaql.InsertOrganisationResourceResponse
 type OrganisationResource = schemaql.OrganisationResource
 type OrganisationResourceAggExp = schemaql.OrganisationResourceAggExp
-type UpdateOrganisationMembersByIdResponse = schemaql.UpdateOrganisationMembersByIdResponse
 type UpdateOrganisationResourceByIdResponse = schemaql.UpdateOrganisationResourceByIdResponse
 
 // QueryHandler aggregates query handlers for the organisationql domain.

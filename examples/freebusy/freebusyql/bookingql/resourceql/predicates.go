@@ -24,69 +24,18 @@ var (
 	Id             = graphql.StringField{Col: "id"}
 	Name           = graphql.StringField{Col: "name"}
 	Notes          = graphql.StringField{Col: "notes"}
-	Offering       = graphql.StringField{Col: "offering"}
+	OccupancyId    = graphql.StringField{Col: "occupancyId"}
 	PriceId        = graphql.StringField{Col: "priceId"}
 	PromoCode      = graphql.StringField{Col: "promoCode"}
 	RefundAmountId = graphql.StringField{Col: "refundAmountId"}
 	RefundPercent  = graphql.Int64Field{Col: "refundPercent"}
-	Resource       = graphql.StringField{Col: "resource"}
 	State          = graphql.StringField{Col: "state"}
 	TotalId        = graphql.StringField{Col: "totalId"}
+	Unit           = graphql.StringField{Col: "unit"}
 	Units          = graphql.Int64Field{Col: "units"}
 	UpdateTime     = graphql.StringField{Col: "updateTime"}
 	WindowId       = graphql.StringField{Col: "windowId"}
 )
-
-// BookingContact filters by the bookingContact relation, taking a predicate from that resource.
-func BookingContact(p graphql.Predicate) graphql.Predicate {
-	return graphql.Relation("bookingContact", p)
-}
-
-// BookingMoney filters by the bookingMoney relation, taking a predicate from that resource.
-func BookingMoney(p graphql.Predicate) graphql.Predicate { return graphql.Relation("bookingMoney", p) }
-
-// BookingMoneyByPriceId filters by the bookingMoneyByPriceId relation, taking a predicate from that resource.
-func BookingMoneyByPriceId(p graphql.Predicate) graphql.Predicate {
-	return graphql.Relation("bookingMoneyByPriceId", p)
-}
-
-// BookingMoneyByRefundAmountId filters by the bookingMoneyByRefundAmountId relation, taking a predicate from that resource.
-func BookingMoneyByRefundAmountId(p graphql.Predicate) graphql.Predicate {
-	return graphql.Relation("bookingMoneyByRefundAmountId", p)
-}
-
-// BookingMoneyByTotalId filters by the bookingMoneyByTotalId relation, taking a predicate from that resource.
-func BookingMoneyByTotalId(p graphql.Predicate) graphql.Predicate {
-	return graphql.Relation("bookingMoneyByTotalId", p)
-}
-
-// BookingPriceComponents filters by the bookingPriceComponents relation, taking a predicate from that resource.
-func BookingPriceComponents(p graphql.Predicate) graphql.Predicate {
-	return graphql.Relation("bookingPriceComponents", p)
-}
-
-// BookingTimeWindow filters by the bookingTimeWindow relation, taking a predicate from that resource.
-func BookingTimeWindow(p graphql.Predicate) graphql.Predicate {
-	return graphql.Relation("bookingTimeWindow", p)
-}
-
-// IdentityUser filters by the identityUser relation, taking a predicate from that resource.
-func IdentityUser(p graphql.Predicate) graphql.Predicate { return graphql.Relation("identityUser", p) }
-
-// PromocodeResource filters by the promocodeResource relation, taking a predicate from that resource.
-func PromocodeResource(p graphql.Predicate) graphql.Predicate {
-	return graphql.Relation("promocodeResource", p)
-}
-
-// ResourceEntity filters by the resourceEntity relation, taking a predicate from that resource.
-func ResourceEntity(p graphql.Predicate) graphql.Predicate {
-	return graphql.Relation("resourceEntity", p)
-}
-
-// ResourceOffering filters by the resourceOffering relation, taking a predicate from that resource.
-func ResourceOffering(p graphql.Predicate) graphql.Predicate {
-	return graphql.Relation("resourceOffering", p)
-}
 
 // And matches rows satisfying every predicate.
 func And(p ...graphql.Predicate) graphql.Predicate { return graphql.And(p...) }

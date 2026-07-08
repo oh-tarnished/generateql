@@ -13,9 +13,10 @@ type CreateInput struct {
 	Id          string `json:"id"`
 	Kind        string `json:"kind,omitzero"`
 	Name        string `json:"name"`
+	PropertyId  string `json:"propertyId"`
 	Reason      string `json:"reason,omitzero"`
-	ResourceId  string `json:"resourceId"`
 	SpanCase    string `json:"spanCase,omitzero"`
+	UnitId      string `json:"unitId"`
 	WindowId    string `json:"windowId,omitzero"`
 }
 
@@ -26,8 +27,9 @@ type UpdateInput struct {
 	Id          graphql.Nullable[string] `json:"id"`
 	Kind        graphql.Nullable[string] `json:"kind"`
 	Name        graphql.Nullable[string] `json:"name"`
+	PropertyId  graphql.Nullable[string] `json:"propertyId"`
 	Reason      graphql.Nullable[string] `json:"reason"`
-	ResourceId  graphql.Nullable[string] `json:"resourceId"`
 	SpanCase    graphql.Nullable[string] `json:"spanCase"`
+	UnitId      graphql.Nullable[string] `json:"unitId"`
 	WindowId    graphql.Nullable[string] `json:"windowId"`
 }

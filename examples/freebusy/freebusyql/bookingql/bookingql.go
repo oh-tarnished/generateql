@@ -3,98 +3,62 @@
 package bookingql
 
 import (
-	"github.com/oh-tarnished/generateql/examples/freebusy/freebusyql/bookingql/contactsql"
-	"github.com/oh-tarnished/generateql/examples/freebusy/freebusyql/bookingql/moneysql"
-	"github.com/oh-tarnished/generateql/examples/freebusy/freebusyql/bookingql/pricecomponentsql"
+	"github.com/oh-tarnished/generateql/examples/freebusy/freebusyql/bookingql/occupanciesql"
 	"github.com/oh-tarnished/generateql/examples/freebusy/freebusyql/bookingql/resourceql"
 	"github.com/oh-tarnished/generateql/examples/freebusy/freebusyql/bookingql/schemaql"
-	"github.com/oh-tarnished/generateql/examples/freebusy/freebusyql/bookingql/timewindowsql"
 	"github.com/the-protobuf-project/runtime-go/network/runtime"
 )
 
 // Model type aliases for this domain, re-exported from its schema package.
-type BookingContacts = schemaql.BookingContacts
-type BookingContactsAggExp = schemaql.BookingContactsAggExp
-type BookingMoneys = schemaql.BookingMoneys
-type BookingMoneysAggExp = schemaql.BookingMoneysAggExp
-type BookingPriceComponents = schemaql.BookingPriceComponents
-type BookingPriceComponentsAggExp = schemaql.BookingPriceComponentsAggExp
+type BookingOccupancies = schemaql.BookingOccupancies
+type BookingOccupanciesAggExp = schemaql.BookingOccupanciesAggExp
+type DeleteBookingOccupanciesByIdResponse = schemaql.DeleteBookingOccupanciesByIdResponse
+type InsertBookingOccupanciesResponse = schemaql.InsertBookingOccupanciesResponse
+type UpdateBookingOccupanciesByIdResponse = schemaql.UpdateBookingOccupanciesByIdResponse
 type BookingResource = schemaql.BookingResource
 type BookingResourceAggExp = schemaql.BookingResourceAggExp
-type BookingTimeWindows = schemaql.BookingTimeWindows
-type BookingTimeWindowsAggExp = schemaql.BookingTimeWindowsAggExp
-type DeleteBookingContactsByIdResponse = schemaql.DeleteBookingContactsByIdResponse
-type DeleteBookingMoneysByIdResponse = schemaql.DeleteBookingMoneysByIdResponse
-type DeleteBookingPriceComponentsByIdResponse = schemaql.DeleteBookingPriceComponentsByIdResponse
 type DeleteBookingResourceByIdResponse = schemaql.DeleteBookingResourceByIdResponse
-type DeleteBookingTimeWindowsByIdResponse = schemaql.DeleteBookingTimeWindowsByIdResponse
-type InsertBookingContactsResponse = schemaql.InsertBookingContactsResponse
-type InsertBookingMoneysResponse = schemaql.InsertBookingMoneysResponse
-type InsertBookingPriceComponentsResponse = schemaql.InsertBookingPriceComponentsResponse
 type InsertBookingResourceResponse = schemaql.InsertBookingResourceResponse
-type InsertBookingTimeWindowsResponse = schemaql.InsertBookingTimeWindowsResponse
-type UpdateBookingContactsByIdResponse = schemaql.UpdateBookingContactsByIdResponse
-type UpdateBookingMoneysByIdResponse = schemaql.UpdateBookingMoneysByIdResponse
-type UpdateBookingPriceComponentsByIdResponse = schemaql.UpdateBookingPriceComponentsByIdResponse
 type UpdateBookingResourceByIdResponse = schemaql.UpdateBookingResourceByIdResponse
-type UpdateBookingTimeWindowsByIdResponse = schemaql.UpdateBookingTimeWindowsByIdResponse
 
 // QueryHandler aggregates query handlers for the bookingql domain.
 type QueryHandler struct {
-	Contacts        contactsql.QueryHandler
-	Moneys          moneysql.QueryHandler
-	PriceComponents pricecomponentsql.QueryHandler
-	Resource        resourceql.QueryHandler
-	TimeWindows     timewindowsql.QueryHandler
+	Occupancies occupanciesql.QueryHandler
+	Resource    resourceql.QueryHandler
 }
 
 // NewQuery wires every query handler in the domain.
 func NewQuery(gql *runtime.GraphQLClient) QueryHandler {
 	return QueryHandler{
-		Contacts:        contactsql.NewQuery(gql),
-		Moneys:          moneysql.NewQuery(gql),
-		PriceComponents: pricecomponentsql.NewQuery(gql),
-		Resource:        resourceql.NewQuery(gql),
-		TimeWindows:     timewindowsql.NewQuery(gql),
+		Occupancies: occupanciesql.NewQuery(gql),
+		Resource:    resourceql.NewQuery(gql),
 	}
 }
 
 // MutationHandler aggregates mutation handlers for the bookingql domain.
 type MutationHandler struct {
-	Contacts        contactsql.MutationHandler
-	Moneys          moneysql.MutationHandler
-	PriceComponents pricecomponentsql.MutationHandler
-	Resource        resourceql.MutationHandler
-	TimeWindows     timewindowsql.MutationHandler
+	Occupancies occupanciesql.MutationHandler
+	Resource    resourceql.MutationHandler
 }
 
 // NewMutation wires every mutation handler in the domain.
 func NewMutation(gql *runtime.GraphQLClient) MutationHandler {
 	return MutationHandler{
-		Contacts:        contactsql.NewMutation(gql),
-		Moneys:          moneysql.NewMutation(gql),
-		PriceComponents: pricecomponentsql.NewMutation(gql),
-		Resource:        resourceql.NewMutation(gql),
-		TimeWindows:     timewindowsql.NewMutation(gql),
+		Occupancies: occupanciesql.NewMutation(gql),
+		Resource:    resourceql.NewMutation(gql),
 	}
 }
 
 // SubscriptionHandler aggregates subscription handlers for the bookingql domain.
 type SubscriptionHandler struct {
-	Contacts        contactsql.SubscriptionHandler
-	Moneys          moneysql.SubscriptionHandler
-	PriceComponents pricecomponentsql.SubscriptionHandler
-	Resource        resourceql.SubscriptionHandler
-	TimeWindows     timewindowsql.SubscriptionHandler
+	Occupancies occupanciesql.SubscriptionHandler
+	Resource    resourceql.SubscriptionHandler
 }
 
 // NewSubscription wires every subscription handler in the domain.
 func NewSubscription(gql *runtime.GraphQLClient) SubscriptionHandler {
 	return SubscriptionHandler{
-		Contacts:        contactsql.NewSubscription(gql),
-		Moneys:          moneysql.NewSubscription(gql),
-		PriceComponents: pricecomponentsql.NewSubscription(gql),
-		Resource:        resourceql.NewSubscription(gql),
-		TimeWindows:     timewindowsql.NewSubscription(gql),
+		Occupancies: occupanciesql.NewSubscription(gql),
+		Resource:    resourceql.NewSubscription(gql),
 	}
 }

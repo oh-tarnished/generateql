@@ -24,14 +24,14 @@ type CreateInput struct {
 	Id             string          `json:"id"`
 	Name           string          `json:"name"`
 	Notes          string          `json:"notes,omitzero"`
-	Offering       string          `json:"offering,omitzero"`
+	OccupancyId    string          `json:"occupancyId,omitzero"`
 	PriceId        string          `json:"priceId,omitzero"`
 	PromoCode      string          `json:"promoCode,omitzero"`
 	RefundAmountId string          `json:"refundAmountId,omitzero"`
 	RefundPercent  int32           `json:"refundPercent,omitzero"`
-	Resource       string          `json:"resource"`
 	State          string          `json:"state,omitzero"`
 	TotalId        string          `json:"totalId,omitzero"`
+	Unit           string          `json:"unit"`
 	Units          int32           `json:"units,omitzero"`
 	UpdateTime     string          `json:"updateTime"`
 	WindowId       string          `json:"windowId"`
@@ -54,14 +54,14 @@ type UpdateInput struct {
 	Id             graphql.Nullable[string]          `json:"id"`
 	Name           graphql.Nullable[string]          `json:"name"`
 	Notes          graphql.Nullable[string]          `json:"notes"`
-	Offering       graphql.Nullable[string]          `json:"offering"`
+	OccupancyId    graphql.Nullable[string]          `json:"occupancyId"`
 	PriceId        graphql.Nullable[string]          `json:"priceId"`
 	PromoCode      graphql.Nullable[string]          `json:"promoCode"`
 	RefundAmountId graphql.Nullable[string]          `json:"refundAmountId"`
 	RefundPercent  graphql.Nullable[int32]           `json:"refundPercent"`
-	Resource       graphql.Nullable[string]          `json:"resource"`
 	State          graphql.Nullable[string]          `json:"state"`
 	TotalId        graphql.Nullable[string]          `json:"totalId"`
+	Unit           graphql.Nullable[string]          `json:"unit"`
 	Units          graphql.Nullable[int32]           `json:"units"`
 	UpdateTime     graphql.Nullable[string]          `json:"updateTime"`
 	WindowId       graphql.Nullable[string]          `json:"windowId"`

@@ -8,14 +8,16 @@ import (
 
 // CreateInput holds the settable fields for creating one ScheduleExceptions row.
 type CreateInput struct {
-	AvailabilityExceptionId string `json:"availabilityExceptionId"`
-	Id                      string `json:"id"`
-	ScheduleId              string `json:"scheduleId"`
+	AvailabilityExceptionId   string `json:"availabilityExceptionId"`
+	AvailabilityExceptionName string `json:"availabilityExceptionName"`
+	Id                        string `json:"id"`
+	ScheduleId                string `json:"scheduleId"`
 }
 
 // UpdateInput holds the fields to change on a ScheduleExceptions row; each set field becomes a column update.
 type UpdateInput struct {
-	AvailabilityExceptionId graphql.Nullable[string] `json:"availabilityExceptionId"`
-	Id                      graphql.Nullable[string] `json:"id"`
-	ScheduleId              graphql.Nullable[string] `json:"scheduleId"`
+	AvailabilityExceptionId   graphql.Nullable[string] `json:"availabilityExceptionId"`
+	AvailabilityExceptionName graphql.Nullable[string] `json:"availabilityExceptionName"`
+	Id                        graphql.Nullable[string] `json:"id"`
+	ScheduleId                graphql.Nullable[string] `json:"scheduleId"`
 }

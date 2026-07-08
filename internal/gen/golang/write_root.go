@@ -20,11 +20,13 @@ func (g *generator) writeDomains() error {
 func (g *generator) writeDomain(dg *domainGen) error {
 	var b strings.Builder
 	imports := map[string]bool{g.opts.RuntimeModule: true}
-	if objs := g.domSchema[dg.name]; len(objs) > 0 {
+	if groups := g.domSchema[dg.name]; len(groups) > 0 {
 		imports[g.schemaModule(dg.name)] = true
 		b.WriteString("// Model type aliases for this domain, re-exported from its schema package.\n")
-		for _, obj := range objs {
-			fmt.Fprintf(&b, "type %s = schemaql.%s\n", obj.Name, obj.Name)
+		for _, grp := range groups {
+			for _, obj := range grp.objects {
+				fmt.Fprintf(&b, "type %s = schemaql.%s\n", obj.Name, obj.Name)
+			}
 		}
 		b.WriteByte('\n')
 	}

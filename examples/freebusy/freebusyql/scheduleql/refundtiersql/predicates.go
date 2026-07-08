@@ -15,11 +15,6 @@ var (
 	RefundPercent        = graphql.Int64Field{Col: "refundPercent"}
 )
 
-// ScheduleCancellationPolicy filters by the scheduleCancellationPolicy relation, taking a predicate from that resource.
-func ScheduleCancellationPolicy(p graphql.Predicate) graphql.Predicate {
-	return graphql.Relation("scheduleCancellationPolicy", p)
-}
-
 // And matches rows satisfying every predicate.
 func And(p ...graphql.Predicate) graphql.Predicate { return graphql.And(p...) }
 

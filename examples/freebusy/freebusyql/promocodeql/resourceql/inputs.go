@@ -8,46 +8,38 @@ import (
 
 // CreateInput holds the settable fields for creating one PromocodeResource row.
 type CreateInput struct {
-	AmountOffId      string        `json:"amountOffId,omitzero"`
-	Code             string        `json:"code"`
-	CreateTime       string        `json:"createTime,omitzero"`
-	Description      string        `json:"description,omitzero"`
-	Disabled         bool          `json:"disabled,omitzero"`
-	DiscountType     string        `json:"discountType,omitzero"`
-	DisplayName      string        `json:"displayName,omitzero"`
-	Etag             string        `json:"etag,omitzero"`
-	Id               string        `json:"id"`
-	MaxRedemptions   graphql.Int64 `json:"maxRedemptions,omitzero"`
-	MinSubtotalId    string        `json:"minSubtotalId,omitzero"`
-	Name             string        `json:"name"`
-	PerCustomerLimit int32         `json:"perCustomerLimit,omitzero"`
-	PercentOff       int32         `json:"percentOff,omitzero"`
-	RedeemEndTime    string        `json:"redeemEndTime,omitzero"`
-	RedeemStartTime  string        `json:"redeemStartTime,omitzero"`
-	RedemptionCount  graphql.Int64 `json:"redemptionCount,omitzero"`
-	State            string        `json:"state,omitzero"`
-	UpdateTime       string        `json:"updateTime"`
+	Code            string        `json:"code"`
+	CreateTime      string        `json:"createTime,omitzero"`
+	Description     string        `json:"description,omitzero"`
+	Disabled        bool          `json:"disabled,omitzero"`
+	DiscountId      string        `json:"discountId"`
+	DisplayName     string        `json:"displayName,omitzero"`
+	Etag            string        `json:"etag,omitzero"`
+	Id              string        `json:"id"`
+	LimitsId        string        `json:"limitsId,omitzero"`
+	Name            string        `json:"name"`
+	RedemptionCount graphql.Int64 `json:"redemptionCount,omitzero"`
+	ScopeId         string        `json:"scopeId,omitzero"`
+	State           string        `json:"state,omitzero"`
+	UpdateTime      string        `json:"updateTime"`
+	WindowId        string        `json:"windowId,omitzero"`
 }
 
 // UpdateInput holds the fields to change on a PromocodeResource row; each set field becomes a column update.
 type UpdateInput struct {
-	AmountOffId      graphql.Nullable[string]        `json:"amountOffId"`
-	Code             graphql.Nullable[string]        `json:"code"`
-	CreateTime       graphql.Nullable[string]        `json:"createTime"`
-	Description      graphql.Nullable[string]        `json:"description"`
-	Disabled         graphql.Nullable[bool]          `json:"disabled"`
-	DiscountType     graphql.Nullable[string]        `json:"discountType"`
-	DisplayName      graphql.Nullable[string]        `json:"displayName"`
-	Etag             graphql.Nullable[string]        `json:"etag"`
-	Id               graphql.Nullable[string]        `json:"id"`
-	MaxRedemptions   graphql.Nullable[graphql.Int64] `json:"maxRedemptions"`
-	MinSubtotalId    graphql.Nullable[string]        `json:"minSubtotalId"`
-	Name             graphql.Nullable[string]        `json:"name"`
-	PerCustomerLimit graphql.Nullable[int32]         `json:"perCustomerLimit"`
-	PercentOff       graphql.Nullable[int32]         `json:"percentOff"`
-	RedeemEndTime    graphql.Nullable[string]        `json:"redeemEndTime"`
-	RedeemStartTime  graphql.Nullable[string]        `json:"redeemStartTime"`
-	RedemptionCount  graphql.Nullable[graphql.Int64] `json:"redemptionCount"`
-	State            graphql.Nullable[string]        `json:"state"`
-	UpdateTime       graphql.Nullable[string]        `json:"updateTime"`
+	Code            graphql.Nullable[string]        `json:"code"`
+	CreateTime      graphql.Nullable[string]        `json:"createTime"`
+	Description     graphql.Nullable[string]        `json:"description"`
+	Disabled        graphql.Nullable[bool]          `json:"disabled"`
+	DiscountId      graphql.Nullable[string]        `json:"discountId"`
+	DisplayName     graphql.Nullable[string]        `json:"displayName"`
+	Etag            graphql.Nullable[string]        `json:"etag"`
+	Id              graphql.Nullable[string]        `json:"id"`
+	LimitsId        graphql.Nullable[string]        `json:"limitsId"`
+	Name            graphql.Nullable[string]        `json:"name"`
+	RedemptionCount graphql.Nullable[graphql.Int64] `json:"redemptionCount"`
+	ScopeId         graphql.Nullable[string]        `json:"scopeId"`
+	State           graphql.Nullable[string]        `json:"state"`
+	UpdateTime      graphql.Nullable[string]        `json:"updateTime"`
+	WindowId        graphql.Nullable[string]        `json:"windowId"`
 }

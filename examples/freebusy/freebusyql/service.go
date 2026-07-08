@@ -6,12 +6,15 @@ import (
 	"context"
 	"fmt"
 	"github.com/oh-tarnished/generateql/examples/freebusy/freebusyql/bookingql"
+	"github.com/oh-tarnished/generateql/examples/freebusy/freebusyql/channelql"
+	"github.com/oh-tarnished/generateql/examples/freebusy/freebusyql/commonql"
 	"github.com/oh-tarnished/generateql/examples/freebusy/freebusyql/identityql"
 	"github.com/oh-tarnished/generateql/examples/freebusy/freebusyql/organisationql"
 	"github.com/oh-tarnished/generateql/examples/freebusy/freebusyql/prismaql"
 	"github.com/oh-tarnished/generateql/examples/freebusy/freebusyql/promocodeql"
-	"github.com/oh-tarnished/generateql/examples/freebusy/freebusyql/resourceql"
+	"github.com/oh-tarnished/generateql/examples/freebusy/freebusyql/propertyql"
 	"github.com/oh-tarnished/generateql/examples/freebusy/freebusyql/scheduleql"
+	"github.com/oh-tarnished/generateql/examples/freebusy/freebusyql/sharedql"
 	"github.com/the-protobuf-project/runtime-go/network/runtime"
 	"net/url"
 )
@@ -28,12 +31,15 @@ type Service struct {
 type QueryHandler struct {
 	gql          *runtime.GraphQLClient
 	Booking      bookingql.QueryHandler
+	Channel      channelql.QueryHandler
+	Common       commonql.QueryHandler
 	Identity     identityql.QueryHandler
 	Organisation organisationql.QueryHandler
 	Prisma       prismaql.QueryHandler
 	Promocode    promocodeql.QueryHandler
-	Resource     resourceql.QueryHandler
+	Property     propertyql.QueryHandler
 	Schedule     scheduleql.QueryHandler
+	Shared       sharedql.QueryHandler
 }
 
 // QueryRaw runs an arbitrary GraphQL query string with optional variables and returns the decoded
@@ -54,12 +60,15 @@ func (h QueryHandler) QueryRaw(ctx context.Context, query string, variables map[
 type MutationHandler struct {
 	gql          *runtime.GraphQLClient
 	Booking      bookingql.MutationHandler
+	Channel      channelql.MutationHandler
+	Common       commonql.MutationHandler
 	Identity     identityql.MutationHandler
 	Organisation organisationql.MutationHandler
 	Prisma       prismaql.MutationHandler
 	Promocode    promocodeql.MutationHandler
-	Resource     resourceql.MutationHandler
+	Property     propertyql.MutationHandler
 	Schedule     scheduleql.MutationHandler
+	Shared       sharedql.MutationHandler
 }
 
 // ExecuteRaw runs an arbitrary GraphQL mutation string with optional variables and returns the decoded
@@ -84,12 +93,15 @@ func (h MutationHandler) Tx() *runtime.Tx { return runtime.NewTx(h.gql) }
 // SubscriptionHandler groups every domain's subscription handlers.
 type SubscriptionHandler struct {
 	Booking      bookingql.SubscriptionHandler
+	Channel      channelql.SubscriptionHandler
+	Common       commonql.SubscriptionHandler
 	Identity     identityql.SubscriptionHandler
 	Organisation organisationql.SubscriptionHandler
 	Prisma       prismaql.SubscriptionHandler
 	Promocode    promocodeql.SubscriptionHandler
-	Resource     resourceql.SubscriptionHandler
+	Property     propertyql.SubscriptionHandler
 	Schedule     scheduleql.SubscriptionHandler
+	Shared       sharedql.SubscriptionHandler
 }
 
 // New connects to the endpoint described by opts and returns a Service.
@@ -109,31 +121,40 @@ func New(opts runtime.ConnectionOptions) (*Service, error) {
 		Query: QueryHandler{
 			gql:          gql,
 			Booking:      bookingql.NewQuery(gql),
+			Channel:      channelql.NewQuery(gql),
+			Common:       commonql.NewQuery(gql),
 			Identity:     identityql.NewQuery(gql),
 			Organisation: organisationql.NewQuery(gql),
 			Prisma:       prismaql.NewQuery(gql),
 			Promocode:    promocodeql.NewQuery(gql),
-			Resource:     resourceql.NewQuery(gql),
+			Property:     propertyql.NewQuery(gql),
 			Schedule:     scheduleql.NewQuery(gql),
+			Shared:       sharedql.NewQuery(gql),
 		},
 		Mutation: MutationHandler{
 			gql:          gql,
 			Booking:      bookingql.NewMutation(gql),
+			Channel:      channelql.NewMutation(gql),
+			Common:       commonql.NewMutation(gql),
 			Identity:     identityql.NewMutation(gql),
 			Organisation: organisationql.NewMutation(gql),
 			Prisma:       prismaql.NewMutation(gql),
 			Promocode:    promocodeql.NewMutation(gql),
-			Resource:     resourceql.NewMutation(gql),
+			Property:     propertyql.NewMutation(gql),
 			Schedule:     scheduleql.NewMutation(gql),
+			Shared:       sharedql.NewMutation(gql),
 		},
 		Subscription: SubscriptionHandler{
 			Booking:      bookingql.NewSubscription(gql),
+			Channel:      channelql.NewSubscription(gql),
+			Common:       commonql.NewSubscription(gql),
 			Identity:     identityql.NewSubscription(gql),
 			Organisation: organisationql.NewSubscription(gql),
 			Prisma:       prismaql.NewSubscription(gql),
 			Promocode:    promocodeql.NewSubscription(gql),
-			Resource:     resourceql.NewSubscription(gql),
+			Property:     propertyql.NewSubscription(gql),
 			Schedule:     scheduleql.NewSubscription(gql),
+			Shared:       sharedql.NewSubscription(gql),
 		},
 	}, nil
 }

@@ -9,17 +9,14 @@ import (
 // Filter fields for ScheduleStayConstraints. Build predicates like AdvanceMaxDays.Eq(v) and combine
 // them with And/Or/Not.
 var (
-	AdvanceMaxDays = graphql.Int64Field{Col: "advanceMaxDays"}
-	AdvanceMinDays = graphql.Int64Field{Col: "advanceMinDays"}
-	Id             = graphql.StringField{Col: "id"}
-	MaxNights      = graphql.Int64Field{Col: "maxNights"}
-	MinNights      = graphql.Int64Field{Col: "minNights"}
+	AdvanceMaxDays   = graphql.Int64Field{Col: "advanceMaxDays"}
+	AdvanceMinDays   = graphql.Int64Field{Col: "advanceMinDays"}
+	CheckinWeekdays  = graphql.StringField{Col: "checkinWeekdays"}
+	CheckoutWeekdays = graphql.StringField{Col: "checkoutWeekdays"}
+	Id               = graphql.StringField{Col: "id"}
+	MaxNights        = graphql.Int64Field{Col: "maxNights"}
+	MinNights        = graphql.Int64Field{Col: "minNights"}
 )
-
-// ScheduleResources filters by the scheduleResources relation, taking a predicate from that resource.
-func ScheduleResources(p graphql.Predicate) graphql.Predicate {
-	return graphql.Relation("scheduleResources", p)
-}
 
 // And matches rows satisfying every predicate.
 func And(p ...graphql.Predicate) graphql.Predicate { return graphql.And(p...) }
